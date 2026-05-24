@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "programmes": "Programmes",
+    "equipe": "Notre équipe",
+    "historique": "Historique",
+    "resultats": "Résultats",
+    "challenge": "Challenge",
+    "actualites": "Actualités",
+    "contact": "Contact",
+    "inscription": "S'inscrire"
+  },
+  "home": {
+    "hero_title": "Club de Judo Boucherville",
+    "hero_subtitle": "Fondé en 1970 · Club reconnu AAA · 245 membres",
+    "hero_cta_primary": "Découvrir nos programmes",
+    "hero_cta_secondary": "S'inscrire",
+    "stats_years": "ans d'histoire",
+    "stats_members": "membres actifs",
+    "stats_gold": "médailles d'or provinciales",
+    "stats_level": "Judo Québec",
+    "programmes_title": "Nos programmes",
+    "programmes_filter_all": "Tous",
+    "programmes_filter_children": "Enfants",
+    "programmes_filter_adults": "Adultes",
+    "programmes_filter_martial": "Arts martiaux",
+    "club_title": "Notre club",
+    "team_title": "Notre équipe",
+    "achievements_title": "Nos réalisations",
+    "challenge_title": "Challenge Judo Boucherville",
+    "news_title": "Actualités",
+    "cta_title": "Prêt à commencer?",
+    "cta_subtitle": "Rejoins le premier club de judo du Québec.",
+    "cta_button": "S'inscrire maintenant"
+  },
+  "footer": {
+    "address": "490 chemin du Lac, Boucherville (Québec) J4B 6X3",
+    "phone": "(450) 655-1888",
+    "email": "info@judoboucherville.com",
+    "rights": "Tous droits réservés",
+    "quick_links": "Liens rapides",
+    "schedules": "Horaires",
+    "follow_us": "Suivez-nous"
+  },
+  "programme": {
+    "schedule": "Horaires",
+    "location": "Lieu",
+    "instructor": "Instructeur(s)",
+    "register": "S'inscrire à ce cours",
+    "similar": "Programmes similaires"
+  },
+  "inscription": {
+    "title": "Inscription",
+    "step1": "Choisir votre programme",
+    "step2": "Vos informations",
+    "step3": "Paiement",
+    "form_link": "Formulaire d'inscription en ligne",
+    "acces_loisirs": "Programme Accès-Loisirs disponible"
+  },
+  "contact": {
+    "title": "Nous contacter",
+    "name": "Nom",
+    "email": "Courriel",
+    "message": "Message",
+    "send": "Envoyer",
+    "success": "Message envoyé!",
+    "error": "Erreur, veuillez réessayer."
+  },
+  "challenge": {
+    "title": "Challenge Judo Boucherville",
+    "edition": "27e édition",
+    "date": "11 avril 2026",
+    "countdown_days": "jours",
+    "countdown_hours": "heures",
+    "countdown_minutes": "minutes",
+    "countdown_seconds": "secondes",
+    "categories": "Catégories",
+    "prizes": "Prix",
+    "contact_director": "Directeur du tournoi",
+    "register": "Inscription au tournoi"
+  },
+  "results": {
+    "title": "Résultats de compétition",
+    "filter_season": "Saison",
+    "filter_competition": "Compétition",
+    "gold": "Or",
+    "silver": "Argent",
+    "bronze": "Bronze"
+  },
+  "history": {
+    "title": "Historique du club",
+    "founded": "Fondé en 1970",
+    "presidents": "Présidents du club",
+    "founder": "Fondateur"
+  }
+}
