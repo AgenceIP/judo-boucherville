@@ -26,6 +26,16 @@ export const metadata: Metadata = {
     default: 'Club de Judo Boucherville',
   },
   description: 'Club de Judo Boucherville — Fondé en 1970, Club reconnu AAA par Judo Québec. Judo, Aiki Ju-Jitsu, Jiu-Jitsu Brésilien à Boucherville, QC.',
+  openGraph: {
+    type: 'website',
+    locale: 'fr_CA',
+    alternateLocale: 'en_CA',
+    siteName: 'Club de Judo Boucherville',
+    images: [{ url: '/images/og-default.jpg', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 }
 
 type Props = {
