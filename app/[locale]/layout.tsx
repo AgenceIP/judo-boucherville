@@ -6,6 +6,7 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import Providers from '@/components/providers/Providers'
+import Navigation from '@/components/layout/Navigation'
 import '@/styles/globals.css'
 
 const inter = Inter({
@@ -45,7 +46,8 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            {children}
+            <Navigation />
+            <main>{children}</main>
           </Providers>
         </NextIntlClientProvider>
       </body>
