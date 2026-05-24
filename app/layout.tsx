@@ -1,4 +1,8 @@
-// app/layout.tsx - minimal root layout, real layout is in app/[locale]/layout.tsx
+// app/layout.tsx - root layout shell, locale layout in app/[locale]/layout.tsx owns html/body
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <html>
+      <body>{children}</body>
+    </html>
+  )
 }
