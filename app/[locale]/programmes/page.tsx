@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: 'Programmes',
 }
 
+export const revalidate = 3600
+
 const categoryLabels = {
   enfants: 'Jeunes',
   adultes: 'Adultes',

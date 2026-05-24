@@ -3,6 +3,8 @@ import { getAllInstructeurs } from '@/sanity/queries/instructeurs'
 import PageHero from '@/components/shared/PageHero'
 import InstructorCard from '@/components/ui/InstructorCard'
 
+export const revalidate = 3600
+
 export default async function EquipePage() {
   const locale = await getLocale()
   const instructeurs = await getAllInstructeurs()

@@ -6,6 +6,8 @@ import ResultatsClient from '@/components/pages/ResultatsClient'
 
 export const metadata: Metadata = { title: 'Résultats' }
 
+export const revalidate = 3600
+
 export default async function ResultatsPage() {
   const locale = await getLocale()
   const [resultats, saisons] = await Promise.all([getAllResultats(), getSaisons()])

@@ -9,6 +9,8 @@ import type { PortableTextBlock } from '@portabletext/react'
 
 export const metadata: Metadata = { title: 'Challenge Judo Boucherville' }
 
+export const revalidate = 3600
+
 const fallbackTournoi = {
   edition: '27e édition',
   date: '2026-04-11T08:00:00-04:00',
