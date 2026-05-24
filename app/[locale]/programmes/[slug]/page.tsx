@@ -5,11 +5,15 @@ import ProgrammeTemplate from '@/components/pages/ProgrammeTemplate'
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateStaticParams() {
-  const programmes = await getAllProgrammes()
-  const locales = ['fr', 'en']
-  return locales.flatMap(locale =>
-    programmes.map(p => ({ locale, slug: p.slug.current }))
-  )
+  try {
+    const programmes = await getAllProgrammes()
+    const locales = ['fr', 'en']
+    return locales.flatMap(locale =>
+      programmes.map(p => ({ locale, slug: p.slug.current }))
+    )
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: Props) {

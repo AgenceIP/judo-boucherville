@@ -1,4 +1,4 @@
-import { PortableText as SanityPortableText } from '@portabletext/react'
+import { PortableText as SanityPortableText, type PortableTextBlock } from '@portabletext/react'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanityImage'
 
@@ -53,5 +53,5 @@ const components = {
 }
 
 export default function PortableText({ value }: Props) {
-  return <SanityPortableText value={value} components={components} />
+  return <SanityPortableText value={value as PortableTextBlock[]} components={components} />
 }

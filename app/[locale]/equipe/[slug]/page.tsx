@@ -5,10 +5,14 @@ import InstructeurTemplate from '@/components/pages/InstructeurTemplate'
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateStaticParams() {
-  const instructeurs = await getAllInstructeurs()
-  return ['fr', 'en'].flatMap(locale =>
-    instructeurs.map(i => ({ locale, slug: i.slug.current }))
-  )
+  try {
+    const instructeurs = await getAllInstructeurs()
+    return ['fr', 'en'].flatMap(locale =>
+      instructeurs.map(i => ({ locale, slug: i.slug.current }))
+    )
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: Props) {
