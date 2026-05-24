@@ -1,3 +1,4 @@
+'use client'
 import CountdownTimer from '@/components/ui/CountdownTimer'
 import Button from '@/components/ui/Button'
 import { useTranslations, useLocale } from 'next-intl'

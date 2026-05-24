@@ -1,13 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useTranslations, useLocale } from 'next-intl'
+import { getTranslations, getLocale } from 'next-intl/server'
 import { getLatestActualites, type Actualite } from '@/sanity/queries/actualites'
 import { formatDate } from '@/lib/utils'
 import { urlFor } from '@/lib/sanityImage'
 
 export default async function NewsSection() {
-  const t = useTranslations('home')
-  const locale = useLocale()
+  const [t, locale] = await Promise.all([getTranslations('home'), getLocale()])
   const news = await getLatestActualites(3)
 
   if (!news.length) return null

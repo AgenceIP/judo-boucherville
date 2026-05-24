@@ -1,3 +1,4 @@
+'use client'
 import { useTranslations, useLocale } from 'next-intl'
 import InstructorCard from '@/components/ui/InstructorCard'
 import Button from '@/components/ui/Button'

@@ -109,7 +109,7 @@ export default function Navigation() {
                 href={`/${locale}${link.href}`}
                 className={cn(
                   'text-sm transition-colors',
-                  pathname.includes(link.href) ? 'text-accent-blue' : 'text-muted hover:text-foreground'
+                  pathname.startsWith(`/${locale}${link.href}`) ? 'text-accent-blue' : 'text-muted hover:text-foreground'
                 )}
               >
                 {t(link.key)}
@@ -120,7 +120,7 @@ export default function Navigation() {
           {/* Right side: locale + CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <Link
-              href={pathname.replace(`/${locale}`, locale === 'fr' ? '/en' : '/fr')}
+              href={`/${locale === 'fr' ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`}
               className="text-sm text-muted hover:text-foreground transition-colors"
             >
               {locale === 'fr' ? 'EN' : 'FR'}

@@ -1,3 +1,4 @@
+'use client'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import { useTranslations } from 'next-intl'
 

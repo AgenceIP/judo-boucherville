@@ -17,9 +17,10 @@ function getTimeLeft(targetDate: string): TimeLeft {
 
 export default function CountdownTimer({ targetDate }: { targetDate: string }) {
   const t = useTranslations('challenge')
-  const [time, setTime] = useState(getTimeLeft(targetDate))
+  const [time, setTime] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   useEffect(() => {
+    setTime(getTimeLeft(targetDate))
     const id = setInterval(() => setTime(getTimeLeft(targetDate)), 1000)
     return () => clearInterval(id)
   }, [targetDate])

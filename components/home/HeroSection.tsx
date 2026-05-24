@@ -12,16 +12,15 @@ export default function HeroSection() {
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
 
+  const titleWords = t('hero_title').split(' ')
+
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.3 })
 
-    if (titleRef.current) {
-      const words = titleRef.current.innerText.split(' ')
-      titleRef.current.innerHTML = words
-        .map(w => `<span class="inline-block overflow-hidden"><span class="inline-block translate-y-full">${w}</span></span>`)
-        .join(' ')
-      const spans = titleRef.current.querySelectorAll('span > span')
-      tl.to(spans, { y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' })
+    const wordSpans = titleRef.current?.querySelectorAll('.hero-word')
+    if (wordSpans?.length) {
+      gsap.set(wordSpans, { y: '100%' })
+      tl.to(wordSpans, { y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' })
     }
 
     tl.fromTo(
@@ -70,7 +69,12 @@ export default function HeroSection() {
           ref={titleRef}
           className="font-heading text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-foreground leading-none tracking-wider mb-6"
         >
-          {t('hero_title')}
+          {titleWords.map((word, i) => (
+            <span key={i} className="inline-block overflow-hidden">
+              <span className="hero-word inline-block">{word}</span>
+              {i < titleWords.length - 1 && ' '}
+            </span>
+          ))}
         </h1>
 
         <p
