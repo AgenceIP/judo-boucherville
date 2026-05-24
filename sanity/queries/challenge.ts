@@ -7,9 +7,9 @@ export type Tournoi = {
   lieu: string
   categories: string[]
   prix: { categorie: string; montant: string }[]
-  description: unknown[]
-  descriptionEn: unknown[]
-  inscriptionUrl: string
+  description: unknown[] | null
+  descriptionEn: unknown[] | null
+  inscriptionUrl: string | null
 }
 
 export async function getNextTournoi(): Promise<Tournoi | null> {

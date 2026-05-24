@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLocale } from 'next-intl'
 import PageHero from '@/components/shared/PageHero'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -20,9 +21,12 @@ const timelineEvents = [
 
 export default function HistoriquePage() {
   const timelineRef = useRef<HTMLDivElement>(null)
+  const locale = useLocale()
 
   useGSAP(() => {
-    gsap.from('.history-item', {
+    const items = timelineRef.current?.querySelectorAll('.history-item')
+    if (!items?.length) return
+    gsap.from(items, {
       opacity: 0,
       x: (i: number) => i % 2 === 0 ? -50 : 50,
       duration: 0.7,
@@ -106,8 +110,9 @@ export default function HistoriquePage() {
             Présidents du club
           </h2>
           <p className="text-muted text-center">
-            La liste complète des présidents est gérée dans le CMS Sanity.
-            Ajoutez les présidents via le Studio à /studio.
+            {locale === 'fr'
+              ? "La liste des présidents sera disponible prochainement."
+              : "The list of presidents will be available soon."}
           </p>
         </div>
       </section>

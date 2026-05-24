@@ -5,6 +5,7 @@ import PortableText from '@/components/shared/PortableText'
 import Button from '@/components/ui/Button'
 import { urlFor } from '@/lib/sanityImage'
 import type { Programme } from '@/sanity/queries/programmes'
+import type { PortableTextBlock } from '@portabletext/react'
 
 const categoryTagColors = {
   enfants: 'text-green-400',
@@ -17,6 +18,13 @@ type Props = { programme: Programme; locale: string }
 export default function ProgrammeTemplate({ programme, locale }: Props) {
   const title = locale === 'fr' ? programme.titre : (programme.titreEn || programme.titre)
   const description = locale === 'fr' ? programme.description : (programme.descriptionEn || programme.description)
+
+  const labels = {
+    horaires: locale === 'fr' ? 'Horaires' : 'Schedule',
+    tarif: locale === 'fr' ? 'Tarif' : 'Fee',
+    instructeurs: locale === 'fr' ? 'Instructeur(s)' : 'Instructor(s)',
+    sInscrire: locale === 'fr' ? "S'inscrire à ce cours" : 'Register for this class',
+  }
 
   return (
     <>
@@ -41,14 +49,14 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
                 />
               </div>
             )}
-            {description && <PortableText value={description as unknown[]} />}
+            {description && <PortableText value={description as PortableTextBlock[]} />}
           </div>
 
           {/* Sidebar */}
           <aside className="space-y-6">
             {programme.horaires && programme.horaires.length > 0 && (
               <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
-                <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">Horaires</h3>
+                <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">{labels.horaires}</h3>
                 <div className="space-y-3">
                   {programme.horaires.map((h, i) => (
                     <div key={i} className="text-sm">
@@ -63,14 +71,14 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
 
             {programme.tarif && (
               <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
-                <h3 className="font-heading text-lg text-foreground tracking-wide mb-2">Tarif</h3>
+                <h3 className="font-heading text-lg text-foreground tracking-wide mb-2">{labels.tarif}</h3>
                 <p className="text-accent-blue text-xl font-semibold">{programme.tarif}</p>
               </div>
             )}
 
             {programme.instructeurs && programme.instructeurs.length > 0 && (
               <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
-                <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">Instructeur(s)</h3>
+                <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">{labels.instructeurs}</h3>
                 <div className="space-y-3">
                   {programme.instructeurs.map(instr => (
                     <Link
@@ -79,7 +87,7 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
                       className="flex items-center gap-3 group"
                     >
                       <div className="w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue font-heading text-sm">
-                        {instr.nom.split(' ').map((n: string) => n[0]).join('')}
+                        {instr.nom.split(' ').map((n: string) => n[0] ?? '').join('')}
                       </div>
                       <div>
                         <p className="text-sm text-foreground group-hover:text-accent-blue transition-colors">{instr.nom}</p>
@@ -92,7 +100,7 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
             )}
 
             <Button href={`/${locale}/inscription`} className="w-full">
-              S&apos;inscrire à ce cours
+              {labels.sInscrire}
             </Button>
           </aside>
         </div>

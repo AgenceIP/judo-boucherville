@@ -2,7 +2,7 @@ import { PortableText as SanityPortableText, type PortableTextBlock } from '@por
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanityImage'
 
-type Props = { value: unknown[] }
+type Props = { value: PortableTextBlock[] }
 
 const components = {
   types: {
@@ -36,11 +36,20 @@ const components = {
     strong: ({ children }: { children?: React.ReactNode }) => (
       <strong className="text-foreground font-semibold">{children}</strong>
     ),
-    link: ({ children, value }: { children?: React.ReactNode; value?: { href: string } }) => (
-      <a href={value?.href} className="text-accent-blue hover:text-accent-glow underline" target="_blank" rel="noopener noreferrer">
-        {children}
-      </a>
-    ),
+    link: ({ children, value }: { children?: React.ReactNode; value?: { href: string } }) => {
+      const href = value?.href
+      if (!href) return <>{children}</>
+      const isExternal = href.startsWith('http://') || href.startsWith('https://')
+      return (
+        <a
+          href={href}
+          className="text-accent-blue hover:text-accent-glow underline"
+          {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {children}
+        </a>
+      )
+    },
   },
   list: {
     bullet: ({ children }: { children?: React.ReactNode }) => (
@@ -53,5 +62,5 @@ const components = {
 }
 
 export default function PortableText({ value }: Props) {
-  return <SanityPortableText value={value as PortableTextBlock[]} components={components} />
+  return <SanityPortableText value={value} components={components} />
 }

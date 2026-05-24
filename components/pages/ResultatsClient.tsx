@@ -42,8 +42,9 @@ export default function ResultatsClient({ resultats, saisons, locale }: Props) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-wrap gap-4 mb-8">
         <div>
-          <label className="text-xs text-muted uppercase tracking-wider block mb-2">Saison</label>
+          <label htmlFor="filter-saison" className="text-xs text-muted uppercase tracking-wider block mb-2">Saison</label>
           <select
+            id="filter-saison"
             value={activeSaison}
             onChange={e => { setActiveSaison(e.target.value); setActiveCompetition('all') }}
             className="bg-bg-surface border border-white/10 text-foreground text-sm rounded-lg px-3 py-2 focus:border-accent-blue outline-none"
@@ -53,8 +54,9 @@ export default function ResultatsClient({ resultats, saisons, locale }: Props) {
           </select>
         </div>
         <div>
-          <label className="text-xs text-muted uppercase tracking-wider block mb-2">Compétition</label>
+          <label htmlFor="filter-competition" className="text-xs text-muted uppercase tracking-wider block mb-2">Compétition</label>
           <select
+            id="filter-competition"
             value={activeCompetition}
             onChange={e => setActiveCompetition(e.target.value)}
             className="bg-bg-surface border border-white/10 text-foreground text-sm rounded-lg px-3 py-2 focus:border-accent-blue outline-none"
@@ -79,12 +81,15 @@ export default function ResultatsClient({ resultats, saisons, locale }: Props) {
         <p className="text-muted text-center py-12">Aucun résultat trouvé.</p>
       ) : (
         <div className="space-y-3">
-          {filtered.map(r => (
+          {filtered.map(r => {
+            const config = medalConfig[r.medaille as keyof typeof medalConfig]
+            if (!config) return null
+            return (
             <div
               key={r._id}
-              className={cn('flex items-center gap-4 p-4 rounded-xl border', medalConfig[r.medaille].className)}
+              className={cn('flex items-center gap-4 p-4 rounded-xl border', config.className)}
             >
-              <span className="text-2xl shrink-0">{medalConfig[r.medaille].emoji}</span>
+              <span className="text-2xl shrink-0">{config.emoji}</span>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-foreground truncate">{r.athlete}</p>
                 <p className="text-sm text-muted">{r.competition} · {r.categorie}</p>
@@ -94,7 +99,8 @@ export default function ResultatsClient({ resultats, saisons, locale }: Props) {
                 {r.date && <p className="text-xs text-muted">{formatDate(r.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}</p>}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>

@@ -5,11 +5,18 @@ import PortableText from '@/components/shared/PortableText'
 import Button from '@/components/ui/Button'
 import { urlFor } from '@/lib/sanityImage'
 import type { Instructeur } from '@/sanity/queries/instructeurs'
+import type { PortableTextBlock } from '@portabletext/react'
 
 type Props = { instructeur: Instructeur; locale: string }
 
 export default function InstructeurTemplate({ instructeur, locale }: Props) {
   const bio = locale === 'fr' ? instructeur.bio : (instructeur.bioEn || instructeur.bio)
+
+  const labels = {
+    disciplines: locale === 'fr' ? 'Disciplines' : 'Disciplines',
+    realisations: locale === 'fr' ? 'Réalisations' : 'Achievements',
+    retour: locale === 'fr' ? "← Retour à l'équipe" : '← Back to team',
+  }
 
   return (
     <>
@@ -35,7 +42,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
               ) : (
                 <div className="w-full h-full bg-accent-blue/10 flex items-center justify-center">
                   <span className="font-heading text-8xl text-accent-blue/30">
-                    {instructeur.nom.split(' ').map(n => n[0]).join('')}
+                    {instructeur.nom.split(' ').map(n => n[0] ?? '').join('')}
                   </span>
                 </div>
               )}
@@ -43,7 +50,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
 
             {instructeur.disciplines && instructeur.disciplines.length > 0 && (
               <div className="mb-6">
-                <h3 className="text-xs text-muted uppercase tracking-widest mb-3">Disciplines</h3>
+                <h3 className="text-xs text-muted uppercase tracking-widest mb-3">{labels.disciplines}</h3>
                 <div className="flex flex-wrap gap-2">
                   {instructeur.disciplines.map(d => (
                     <span key={d} className="px-3 py-1 bg-accent-blue/10 border border-accent-blue/20 rounded-full text-xs text-accent-blue">
@@ -56,7 +63,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
 
             {instructeur.competitions && instructeur.competitions.length > 0 && (
               <div className="mb-6">
-                <h3 className="text-xs text-muted uppercase tracking-widest mb-3">Réalisations</h3>
+                <h3 className="text-xs text-muted uppercase tracking-widest mb-3">{labels.realisations}</h3>
                 <ul className="space-y-2">
                   {instructeur.competitions.map((c, i) => (
                     <li key={i} className="text-sm text-foreground flex gap-2">
@@ -68,13 +75,13 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
             )}
 
             <Button href={`/${locale}/equipe`} variant="outline" className="w-full">
-              ← Retour à l&apos;équipe
+              {labels.retour}
             </Button>
           </div>
 
           {/* Bio */}
           <div className="md:col-span-2">
-            {bio && <PortableText value={bio as unknown[]} />}
+            {bio && <PortableText value={bio as PortableTextBlock[]} />}
           </div>
         </div>
       </div>
