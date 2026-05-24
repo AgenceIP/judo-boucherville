@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Bootstrap a Next.js 15 project with Tailwind CSS v4, GSAP, Framer Motion, Sanity v3, and next-intl, ready for page development.
+**Goal:** Bootstrap a Next.js 16 project with Tailwind CSS v4, GSAP, Framer Motion, Sanity v3, and next-intl v4, ready for page development.
 
 **Architecture:** Monorepo with Next.js App Router, locale-prefixed routes (`/fr`, `/en`), Sanity Studio embedded at `/studio`, and a shared design system via CSS custom properties.
 
-**Tech Stack:** Next.js 15, TypeScript, Tailwind CSS v4, GSAP 3, Framer Motion 11, Sanity v3, next-intl 3, Vitest, React Testing Library
+**Tech Stack:** Next.js 16, TypeScript, Tailwind CSS v4, GSAP 3, Framer Motion 12, Sanity v3, next-intl v4, Vitest, React Testing Library
 
 ---
 
@@ -369,6 +369,9 @@ describe('routing', () => {
   it('defaults to fr', () => {
     expect(routing.defaultLocale).toBe('fr')
   })
+  it('has exactly 2 locales', () => {
+    expect(routing.locales).toHaveLength(2)
+  })
 })
 ```
 
@@ -384,22 +387,10 @@ Expected: FAIL.
 ```ts
 import { defineRouting } from 'next-intl/routing'
 
+// next-intl v4: pathnames removed from defineRouting, all locales use same URL paths
 export const routing = defineRouting({
   locales: ['fr', 'en'],
   defaultLocale: 'fr',
-  pathnames: {
-    '/': '/',
-    '/historique': { fr: '/historique', en: '/history' },
-    '/equipe': { fr: '/equipe', en: '/team' },
-    '/equipe/[slug]': { fr: '/equipe/[slug]', en: '/team/[slug]' },
-    '/programmes': { fr: '/programmes', en: '/programs' },
-    '/programmes/[slug]': { fr: '/programmes/[slug]', en: '/programs/[slug]' },
-    '/inscription': { fr: '/inscription', en: '/registration' },
-    '/resultats': { fr: '/resultats', en: '/results' },
-    '/challenge': '/challenge',
-    '/actualites': { fr: '/actualites', en: '/news' },
-    '/contact': '/contact',
-  },
 })
 
 export type Locale = (typeof routing.locales)[number]
