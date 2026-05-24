@@ -1,14 +1,16 @@
 import { MetadataRoute } from 'next'
 import { getAllProgrammes } from '@/sanity/queries/programmes'
 import { getAllInstructeurs } from '@/sanity/queries/instructeurs'
+import { getAllActualites } from '@/sanity/queries/actualites'
 
 const BASE_URL = 'https://www.judoboucherville.com'
 const locales = ['fr', 'en']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [programmes, instructeurs] = await Promise.all([
+  const [programmes, instructeurs, actualites] = await Promise.all([
     getAllProgrammes().catch(() => []),
     getAllInstructeurs().catch(() => []),
+    getAllActualites().catch(() => []),
   ])
 
   const staticRoutes = ['', '/historique', '/equipe', '/programmes', '/inscription', '/resultats', '/challenge', '/actualites', '/contact']
@@ -40,5 +42,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   )
 
-  return [...staticEntries, ...programmeEntries, ...instructeurEntries]
+  const actualiteEntries = locales.flatMap(locale =>
+    actualites.map(a => ({
+      url: `${BASE_URL}/${locale}/actualites/${a.slug.current}`,
+      lastModified: new Date(a.date),
+      changeFrequency: 'never' as const,
+      priority: 0.5,
+    }))
+  )
+
+  return [...staticEntries, ...programmeEntries, ...instructeurEntries, ...actualiteEntries]
 }

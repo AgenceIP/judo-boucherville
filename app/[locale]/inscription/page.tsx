@@ -3,7 +3,12 @@ import { getLocale } from 'next-intl/server'
 import PageHero from '@/components/shared/PageHero'
 import Button from '@/components/ui/Button'
 
-export const metadata: Metadata = { title: 'Inscription' }
+type Props = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  return { title: locale === 'fr' ? 'Inscription' : 'Registration' }
+}
 
 const steps = [
   { num: '01', title: 'Choisissez votre programme', desc: 'Parcourez nos programmes et sélectionnez celui qui vous convient.' },

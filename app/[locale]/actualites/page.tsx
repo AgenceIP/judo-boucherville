@@ -12,7 +12,12 @@ export const revalidate = 3600
 
 export default async function ActualitesPage() {
   const locale = await getLocale()
-  const news = await getAllActualites()
+  let news: Actualite[] = []
+  try {
+    news = await getAllActualites()
+  } catch {
+    // Sanity unreachable — show empty state
+  }
 
   return (
     <>

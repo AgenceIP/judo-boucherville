@@ -29,7 +29,7 @@ export default function ContactForm() {
   if (status === 'success') {
     return (
       <div className="text-center py-12">
-        <span className="text-4xl block mb-4">✓</span>
+        <span className="text-4xl block mb-4" aria-hidden="true">✓</span>
         <h3 className="font-heading text-2xl text-foreground mb-2">Message envoyé!</h3>
         <p className="text-muted">Nous vous répondrons dans les plus brefs délais.</p>
         <Button onClick={() => setStatus('idle')} variant="outline" className="mt-6">Envoyer un autre message</Button>
@@ -41,17 +41,17 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
         <label htmlFor="contact-nom" className="text-xs text-muted uppercase tracking-wider block mb-2">Nom *</label>
-        <input id="contact-nom" name="nom" type="text" required className={inputClasses} placeholder="Votre nom" />
+        <input id="contact-nom" name="nom" type="text" required autoComplete="name" className={inputClasses} placeholder="Votre nom" />
       </div>
       <div>
         <label htmlFor="contact-email" className="text-xs text-muted uppercase tracking-wider block mb-2">Courriel *</label>
-        <input id="contact-email" name="email" type="email" required className={inputClasses} placeholder="votre@email.com" />
+        <input id="contact-email" name="email" type="email" required autoComplete="email" className={inputClasses} placeholder="votre@email.com" />
       </div>
       <div>
         <label htmlFor="contact-message" className="text-xs text-muted uppercase tracking-wider block mb-2">Message *</label>
-        <textarea id="contact-message" name="message" required rows={5} className={cn(inputClasses, 'resize-none')} placeholder="Votre message..." />
+        <textarea id="contact-message" name="message" required rows={5} autoComplete="off" className={cn(inputClasses, 'resize-none')} placeholder="Votre message..." />
       </div>
-      {status === 'error' && <p className="text-red-400 text-sm">{errorMsg}</p>}
+      {status === 'error' && <p role="alert" aria-live="assertive" className="text-red-400 text-sm">{errorMsg}</p>}
       <Button type="submit" disabled={pending} className="w-full">
         {pending ? 'Envoi en cours...' : 'Envoyer le message'}
       </Button>

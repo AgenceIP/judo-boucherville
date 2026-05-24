@@ -1,16 +1,17 @@
 import { client } from '../client'
+import type { PortableTextBlock } from '@portabletext/react'
 
 export type Actualite = {
   _id: string
   titre: string
-  titreEn: string
+  titreEn?: string
   slug: { current: string }
   date: string
-  image: { asset: { _ref: string } }
-  extrait: string
-  extraitEn: string
-  contenu: unknown[]
-  contenuEn: unknown[]
+  image?: { asset: { _ref: string } }
+  extrait?: string
+  extraitEn?: string
+  contenu?: PortableTextBlock[]
+  contenuEn?: PortableTextBlock[]
 }
 
 export async function getLatestActualites(count: number = 3): Promise<Actualite[]> {

@@ -4,7 +4,12 @@ import PageHero from '@/components/shared/PageHero'
 import ContactForm from '@/components/pages/ContactForm'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 
-export const metadata: Metadata = { title: 'Contact' }
+type Props = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  return { title: locale === 'fr' ? 'Contact' : 'Contact' }
+}
 
 export default async function ContactPage() {
   const locale = await getLocale()

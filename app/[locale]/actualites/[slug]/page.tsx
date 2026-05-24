@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { Metadata } from 'next'
-import { type PortableTextBlock } from '@portabletext/react'
+import { cache } from 'react'
 import { client } from '@/sanity/client'
 import PageHero from '@/components/shared/PageHero'
 import PortableText from '@/components/shared/PortableText'
@@ -14,14 +14,14 @@ export const revalidate = 3600
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
-async function getActualiteBySlug(slug: string): Promise<Actualite | null> {
+const getActualiteBySlug = cache(async (slug: string): Promise<Actualite | null> => {
   return client.fetch(
     `*[_type == "actualite" && slug.current == $slug][0] {
       _id, titre, titreEn, slug, date, image, extrait, extraitEn, contenu, contenuEn
     }`,
     { slug }
   )
-}
+})
 
 export async function generateStaticParams() {
   try {
@@ -59,7 +59,7 @@ export default async function ActualiteDetailPage({ params }: Props) {
             <Image src={urlFor(item.image).width(800).height(500).url()} alt={title} fill className="object-cover" />
           </div>
         )}
-        {content && <PortableText value={content as PortableTextBlock[]} />}
+        {content && <PortableText value={content} />}
         <div className="mt-12 pt-8 border-t border-white/5">
           <Button href={`/${locale}/actualites`} variant="outline">
             {locale === 'fr' ? '← Toutes les actualités' : '← All news'}
