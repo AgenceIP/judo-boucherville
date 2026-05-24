@@ -15,7 +15,7 @@ export type Actualite = {
 
 export async function getLatestActualites(count: number = 3): Promise<Actualite[]> {
   return client.fetch(
-    `*[_type == "actualite"] | order(date desc)[0...$count] {
+    `*[_type == "actualite"] | order(date desc)[0..$count] {
       _id, titre, titreEn, slug, date, image, extrait, extraitEn
     }`,
     { count: count - 1 }

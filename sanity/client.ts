@@ -8,10 +8,8 @@ export const client = createClient({
   useCdn: true,
 })
 
-export const previewClient = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn: false,
-  token: process.env.SANITY_API_READ_TOKEN,
-})
+export function getPreviewClient() {
+  const token = process.env.SANITY_API_READ_TOKEN
+  if (!token) throw new Error('Missing env var: SANITY_API_READ_TOKEN')
+  return createClient({ projectId, dataset, apiVersion, useCdn: false, token })
+}
