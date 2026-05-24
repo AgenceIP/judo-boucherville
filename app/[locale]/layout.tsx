@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import Providers from '@/components/providers/Providers'
 import Navigation from '@/components/layout/Navigation'
+import Footer from '@/components/layout/Footer'
 import '@/styles/globals.css'
 
 const inter = Inter({
@@ -48,6 +49,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Providers>
             <Navigation />
             <main>{children}</main>
+            <Footer />
           </Providers>
         </NextIntlClientProvider>
       </body>
