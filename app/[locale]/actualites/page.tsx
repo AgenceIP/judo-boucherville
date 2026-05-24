@@ -7,8 +7,14 @@ import PageHero from '@/components/shared/PageHero'
 import { urlFor } from '@/lib/sanityImage'
 import { formatDate } from '@/lib/utils'
 
-export const metadata: Metadata = { title: 'Actualités' }
 export const revalidate = 3600
+
+type Props = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  return { title: locale === 'fr' ? 'Actualités' : 'News' }
+}
 
 export default async function ActualitesPage() {
   const locale = await getLocale()
