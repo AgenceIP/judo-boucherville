@@ -6,6 +6,7 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import Providers from '@/components/providers/Providers'
+import PageTransition from '@/components/providers/PageTransition'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import '@/styles/globals.css'
@@ -58,7 +59,9 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <Navigation />
-            <main>{children}</main>
+            <main>
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
           </Providers>
         </NextIntlClientProvider>

@@ -7,7 +7,12 @@ import { urlFor } from '@/lib/sanityImage'
 
 export default async function NewsSection() {
   const [t, locale] = await Promise.all([getTranslations('home'), getLocale()])
-  const news = await getLatestActualites(3)
+  let news: Actualite[] = []
+  try {
+    news = await getLatestActualites(3)
+  } catch {
+    return null
+  }
 
   if (!news.length) return null
 
