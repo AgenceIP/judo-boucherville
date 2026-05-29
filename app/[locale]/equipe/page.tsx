@@ -24,7 +24,7 @@ export default async function EquipePage() {
           : 'Accredited instructors dedicated to your progression.'}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+      <div className="reveal-hidden revealed max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
         {Object.entries(grouped).map(([key, group]) => {
           const uniqueGroup = group.filter(i => !seen.has(i.id))
           uniqueGroup.forEach(i => seen.add(i.id))

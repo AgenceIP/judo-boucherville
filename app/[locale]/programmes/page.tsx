@@ -31,7 +31,7 @@ export default async function ProgrammesPage() {
           : 'Judo, Aiki Ju-Jitsu, Brazilian Jiu-Jitsu — for all ages and levels.'}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+      <div className="reveal-hidden revealed max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
         {(Object.keys(grouped) as Array<keyof typeof grouped>).map(cat => (
           grouped[cat].length > 0 && (
             <div key={cat}>
