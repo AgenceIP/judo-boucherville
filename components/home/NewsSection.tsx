@@ -10,7 +10,7 @@ export default async function NewsSection() {
   if (!news.length) return null
 
   return (
-    <section className="py-28 md:py-36 bg-white/[0.025]">
+    <section className="py-28 md:py-36 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="mb-14">
           <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-4">Actualités</p>

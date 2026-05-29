@@ -9,7 +9,7 @@ export default function CtaSection() {
   const ref = useReveal<HTMLElement>()
 
   return (
-    <section ref={ref} className="py-32 md:py-44 bg-black/60 relative overflow-hidden">
+    <section ref={ref} className="py-32 md:py-44 bg-transparent relative overflow-hidden">
       {/* Amplified noise */}
       <div
         className="absolute inset-0 pointer-events-none"

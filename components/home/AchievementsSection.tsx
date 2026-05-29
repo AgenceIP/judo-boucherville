@@ -47,7 +47,7 @@ export default function AchievementsSection() {
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="py-28 md:py-36 bg-black/20 border-y border-gold/[0.12]">
+    <section ref={sectionRef} className="py-28 md:py-36 bg-transparent border-y border-gold/[0.12]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div ref={titleRef} className="mb-16">

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prototype — Judo Boucherville</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0A0A0A;--surface:#141414;--gold:#C9A227;--glow:#E8B830;--white:#FAFAFA;--muted:#777}
+html{scroll-behavior:auto}
+body{background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-x:hidden}
+
+/* Noise */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:99999;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Switcher */
+.switcher{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9000;display:flex;gap:3px;background:rgba(0,0,0,.85);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:4px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.tab{padding:8px 28px;border-radius:100px;border:none;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:.05em;transition:all .25s;background:transparent;color:var(--muted)}
+.tab.on{background:var(--gold);color:#000}
+
+/* Progress bar (B only) */
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:8999;width:0;transition:width .05s linear;display:none}
+
+/* ===== CONCEPT A ===== */
+#A{display:block}
+.a-hero{position:relative;height:100vh;overflow:hidden}
+.a-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.a-hero .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.2) 0%,rgba(0,0,0,.55) 50%,#0A0A0A 100%)}
+.a-copy{position:absolute;bottom:9%;left:0;right:0;text-align:center;padding:0 24px}
+.a-eyebrow{font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;opacity:0;transform:translateY(12px);transition:opacity .7s,transform .7s}
+.a-title{font-size:clamp(70px,13vw,170px);font-weight:900;text-transform:uppercase;line-height:.88;letter-spacing:-.02em;opacity:0;transform:translateY(40px);transition:opacity .9s .15s,transform .9s .15s cubic-bezier(.16,1,.3,1)}
+.a-title span{color:var(--gold)}
+.a-sub{font-size:clamp(12px,1.5vw,15px);color:var(--muted);letter-spacing:.35em;text-transform:uppercase;margin-top:20px;opacity:0;transform:translateY(10px);transition:opacity .6s .45s,transform .6s .45s}
+.a-scroll{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:36px;opacity:0;transition:opacity .6s .7s;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted)}
+.a-scroll span{width:44px;height:1px;background:var(--gold);display:block}
+
+/* A sections */
+.a-section{padding:120px 40px;display:flex;align-items:center;justify-content:center}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:860px;width:100%}
+.stat{text-align:center;padding:0 40px;border-right:1px solid rgba(255,255,255,.06)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:clamp(64px,8vw,100px);font-weight:900;color:var(--gold);line-height:1;font-variant-numeric:tabular-nums}
+.stat-l{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.reveal{opacity:0;transform:translateY(50px)}
+
+/* ===== CONCEPT B ===== */
+#B{display:none}
+.b-pin-wrap{position:relative;height:450vh}
+.b-sticky{position:sticky;top:0;height:100vh;overflow:hidden}
+.b-sticky video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.b-veil{position:absolute;inset:0;background:linear-gradient(160deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 100%)}
+.b-chapters{position:absolute;inset:0}
+.b-ch{position:absolute;inset:0;padding:56px 64px;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;transition:opacity .5s}
+.b-ch.on{opacity:1}
+.b-ch-num{font-size:10px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.b-ch-title{font-size:clamp(52px,9vw,120px);font-weight:900;text-transform:uppercase;line-height:.88;margin-bottom:18px}
+.b-ch-desc{font-size:16px;color:var(--muted);max-width:480px;line-height:1.65}
+.b-dots{position:absolute;right:36px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px}
+.b-dot{width:3px;height:8px;background:#2a2a2a;border-radius:2px;transition:all .4s}
+.b-dot.on{background:var(--gold);height:22px}
+.b-cta-wrap{text-align:center;padding:20px 64px 40px}
+.b-cta{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:16px 36px;border-radius:100px;border:none;cursor:pointer;opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+
+/* After B */
+.b-after{padding:130px 40px;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.b-after-inner{text-align:center;max-width:720px}
+.b-after-inner .eyebrow{font-size:10px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;transform:translateY(20px)}
+.b-after-inner h2{font-size:clamp(48px,8vw,100px);font-weight:900;text-transform:uppercase;line-height:.9;margin-bottom:36px;opacity:0;transform:translateY(30px)}
+.b-after-inner p{font-size:18px;color:var(--muted);line-height:1.8;opacity:0;transform:translateY(20px)}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<div class="switcher">
+  <button class="tab on" onclick="go('A')">A — Vidéo fond</button>
+  <button class="tab" onclick="go('B')">B — Scrub vidéo</button>
+</div>
+
+<!-- ===== CONCEPT A ===== -->
+<div id="A">
+
+  <section class="a-hero" id="aHero">
+    <video autoplay muted loop playsinline preload="auto"
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_3BOWvQvkPqx2IFKdB7xqDtdHvZM/hf_20260529_055019_4590f42a-8e96-4af3-a5df-6439b26ed65b.mp4">
+    </video>
+    <div class="veil"></div>
+    <div class="a-copy">
+      <p class="a-eyebrow" id="aEye">Fondé en 1970 &nbsp;·&nbsp; Club AAA &nbsp;·&nbsp; Boucherville, QC</p>
+      <h1 class="a-title" id="aTitle">JUDO<br><span>BOUCHERVILLE</span></h1>
+      <p class="a-sub" id="aSub">Excellence &nbsp;·&nbsp; Discipline &nbsp;·&nbsp; Tradition</p>
+      <div class="a-scroll" id="aScroll"><span></span>Défiler<span></span></div>
+    </div>
+  </section>
+
+  <section class="a-section" style="background:var(--bg)">
+    <div class="stats-row">
+      <div class="stat reveal" id="s1"><div class="stat-n" id="sn1">0</div><div class="stat-l">Années d'excellence</div></div>
+      <div class="stat reveal" id="s2"><div class="stat-n" id="sn2">0</div><div class="stat-l">Membres actifs</div></div>
+      <div class="stat reveal" id="s3"><div class="stat-n" id="sn3">0</div><div class="stat-l">Disciplines</div></div>
+    </div>
+  </section>
+
+  <section class="a-section reveal" id="aAbout" style="background:#070707;flex-direction:column;text-align:center;gap:24px">
+    <p style="font-size:10px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold)">Notre club</p>
+    <h2 style="font-size:clamp(42px,7vw,88px);font-weight:900;text-transform:uppercase;line-height:.9">L'art du judo,<br>maîtrisé depuis 1970</h2>
+    <p style="font-size:18px;color:var(--muted);max-width:580px;line-height:1.8;margin:0 auto">Le Club de Judo Boucherville forme des champions depuis 55 ans. Experts en judo compétition, Aiki Ju-Jitsu, BJJ et plus encore.</p>
+  </section>
+
+</div>
+
+<!-- ===== CONCEPT B ===== -->
+<div id="B">
+
+  <div class="b-pin-wrap" id="bWrap">
+    <div class="b-sticky">
+      <video id="bVid" muted playsinline preload="auto"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_3BOWvQvkPqx2IFKdB7xqDtdHvZM/hf_20260529_055019_4590f42a-8e96-4af3-a5df-6439b26ed65b.mp4">
+      </video>
+      <div class="b-veil"></div>
+      <div class="b-chapters">
+
+        <div class="b-ch on" id="bc1">
+          <p class="b-ch-num">01 / 03 &nbsp;&nbsp; L'excellence</p>
+          <h2 class="b-ch-title">JUDO<br>BOUCHERVILLE</h2>
+          <p class="b-ch-desc">55 ans de tradition martiale. La technique parfaite naît de la répétition.</p>
+          <div style="margin-top:24px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)">↓ Défiler pour continuer</div>
+        </div>
+
+        <div class="b-ch" id="bc2">
+          <p class="b-ch-num">02 / 03 &nbsp;&nbsp; La maîtrise</p>
+          <h2 class="b-ch-title">LA PRISE<br>PARFAITE</h2>
+          <p class="b-ch-desc">Chaque projection, le fruit de milliers d'heures d'entraînement sous la direction de champions 7e dan.</p>
+        </div>
+
+        <div class="b-ch" id="bc3">
+          <p class="b-ch-num">03 / 03 &nbsp;&nbsp; Ta place</p>
+          <h2 class="b-ch-title">REJOINS<br>LE CLUB</h2>
+          <p class="b-ch-desc">Débutant ou compétiteur. Enfant ou adulte. Le judo de Boucherville t'attend.</p>
+          <div class="b-cta-wrap" style="padding:24px 0 0">
+            <button class="b-cta" id="bBtn">S'inscrire →</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="b-dots">
+        <div class="b-dot on" id="bd1"></div>
+        <div class="b-dot" id="bd2"></div>
+        <div class="b-dot" id="bd3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-after">
+    <div class="b-after-inner">
+      <p class="eyebrow" id="baEye">Découvrir le club</p>
+      <h2 id="baTitle">400 MEMBRES.<br>6 DISCIPLINES.</h2>
+      <p id="baDesc">Judo &nbsp;·&nbsp; Aiki Ju-Jitsu &nbsp;·&nbsp; BJJ &nbsp;·&nbsp; Sport-études &nbsp;·&nbsp; Compétition &nbsp;·&nbsp; Kata</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── state ──
+let cur = 'A', aInit = false, bInit = false;
+
+function go(c) {
+  cur = c;
+  document.getElementById('A').style.display = c==='A'?'block':'none';
+  document.getElementById('B').style.display = c==='B'?'block':'none';
+  document.getElementById('prog').style.display = c==='B'?'block':'none';
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',(i===0&&c==='A')||(i===1&&c==='B')));
+  window.scrollTo({top:0,behavior:'instant'});
+  if(c==='A'&&!aInit){setTimeout(initA,80);aInit=true;}
+  if(c==='B'&&!bInit){setTimeout(initB,80);bInit=true;}
+}
+
+// ── CONCEPT A ──
+function initA(){
+  // entrance
+  setTimeout(()=>{
+    const e=document.getElementById('aEye');
+    e.style.opacity='1';e.style.transform='translateY(0)';
+  },200);
+  setTimeout(()=>{
+    const t=document.getElementById('aTitle');
+    t.style.opacity='1';t.style.transform='translateY(0)';
+  },350);
+  setTimeout(()=>{
+    document.getElementById('aSub').style.opacity='1';
+    document.getElementById('aSub').style.transform='translateY(0)';
+  },600);
+  setTimeout(()=>{
+    document.getElementById('aScroll').style.opacity='1';
+  },850);
+
+  // scroll reveals
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.style.transition='opacity .9s, transform .9s';
+        en.target.style.opacity='1';
+        en.target.style.transform='translateY(0)';
+        // counters
+        en.target.querySelectorAll('.stat-n').forEach(el=>{
+          const targets={sn1:55,sn2:400,sn3:6};
+          const t=targets[el.id]; if(!t)return;
+          let v=0;const step=()=>{
+            v+=Math.ceil(t/60);if(v>=t){el.textContent=t;return;}
+            el.textContent=v;requestAnimationFrame(step);
+          };step();
+        });
+      }
+    });
+  },{threshold:.2});
+  document.querySelectorAll('#A .reveal').forEach(el=>io.observe(el));
+}
+
+// ── CONCEPT B ──
+function initB(){
+  const vid=document.getElementById('bVid');
+  vid.load();
+  vid.addEventListener('loadedmetadata',()=>{vid.pause();vid.currentTime=0;});
+
+  let lastCh=-1;
+
+  function onScroll(){
+    if(cur!=='B')return;
+    const wrap=document.getElementById('bWrap');
+    const wTop=wrap.getBoundingClientRect().top+window.scrollY;
+    const scrollable=wrap.offsetHeight-window.innerHeight;
+    const p=Math.max(0,Math.min(1,(window.scrollY-wTop)/scrollable));
+
+    // progress bar
+    document.getElementById('prog').style.width=(p*100)+'%';
+
+    // scrub
+    if(vid.readyState>=2&&vid.duration){
+      vid.currentTime=p*vid.duration;
+    }
+
+    // chapters
+    const ch=p<.33?0:p<.66?1:2;
+    if(ch!==lastCh){
+      [1,2,3].forEach(i=>{
+        document.getElementById('bc'+i).classList.toggle('on',i===ch+1);
+        const dot=document.getElementById('bd'+i);
+        dot.classList.toggle('on',i===ch+1);
+      });
+      if(ch===2){
+        const btn=document.getElementById('bBtn');
+        setTimeout(()=>{btn.style.opacity='1';btn.style.transform='translateY(0)';},400);
+      }
+      lastCh=ch;
+    }
+
+    // after-pin reveals
+    if(p>.95){
+      ['baEye','baTitle','baDesc'].forEach((id,i)=>{
+        setTimeout(()=>{
+          const el=document.getElementById(id);
+          el.style.transition='opacity .8s, transform .8s';
+          el.style.opacity='1';el.style.transform='translateY(0)';
+        },i*150);
+      });
+    }
+  }
+
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+}
+
+// boot
+document.getElementById('B').style.display='none';
+document.getElementById('prog').style.display='none';
+window.addEventListener('load',()=>{setTimeout(()=>{initA();aInit=true;},100);});
+</script>
+</body>
+</html>
