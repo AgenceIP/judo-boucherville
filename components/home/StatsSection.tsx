@@ -32,7 +32,7 @@ export default function StatsSection() {
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="bg-bg-base">
+    <section ref={sectionRef} className="bg-transparent">
       {stats.map((stat, i) => (
         <div
           key={i}

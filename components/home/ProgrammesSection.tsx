@@ -28,7 +28,7 @@ export default function ProgrammesSection() {
   const filtered = active === 'all' ? programmesData : programmesData.filter(p => p.categorie === active)
 
   return (
-    <section className="py-28 md:py-36 bg-[#070707]">
+    <section className="py-28 md:py-36 bg-black/30">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div ref={titleRef} className="mb-16">

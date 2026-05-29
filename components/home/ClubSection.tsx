@@ -48,7 +48,7 @@ export default function ClubSection() {
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="py-28 md:py-36 bg-bg-surface overflow-hidden">
+    <section ref={sectionRef} className="py-28 md:py-36 bg-white/[0.025] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
 

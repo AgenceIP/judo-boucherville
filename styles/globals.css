@@ -19,7 +19,7 @@
 }
 
 body {
-  background-color: var(--color-bg-base);
+  background-color: transparent;
   color: var(--color-foreground);
   font-family: var(--font-body);
 }

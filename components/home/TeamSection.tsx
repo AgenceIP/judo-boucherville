@@ -18,7 +18,7 @@ export default function TeamSection() {
   const gridRef = useReveal<HTMLDivElement>()
 
   return (
-    <section className="py-28 md:py-36 bg-bg-base">
+    <section className="py-28 md:py-36 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div ref={titleRef} className="mb-14">
