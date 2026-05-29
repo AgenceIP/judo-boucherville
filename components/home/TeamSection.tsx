@@ -1,7 +1,8 @@
 'use client'
 import { useTranslations, useLocale } from 'next-intl'
 import InstructorCard from '@/components/ui/InstructorCard'
-import Button from '@/components/ui/Button'
+import Link from 'next/link'
+import { useReveal } from '@/hooks/useReveal'
 
 const instructors = [
   { nom: 'Fayçal Bousbiat', grade: '7e dan', role: 'Directeur technique', disciplines: ['judo', 'kata'], slug: 'faycal-bousbiat' },
@@ -13,24 +14,33 @@ const instructors = [
 export default function TeamSection() {
   const t = useTranslations('home')
   const locale = useLocale()
+  const titleRef = useReveal<HTMLDivElement>()
+  const gridRef = useReveal<HTMLDivElement>()
 
   return (
-    <section className="py-24 bg-bg-base">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl text-foreground tracking-wider">
+    <section className="py-28 md:py-36 bg-bg-base">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+
+        <div ref={titleRef} className="mb-14">
+          <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-4">Corps enseignant</p>
+          <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-white leading-[.9] tracking-tight">
             {t('team_title')}
           </h2>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+        <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-12 reveal-stagger">
           {instructors.map(i => (
             <InstructorCard key={i.slug} {...i} />
           ))}
         </div>
+
         <div className="text-center">
-          <Button href={`/${locale}/equipe`} variant="outline">
+          <Link
+            href={`/${locale}/equipe`}
+            className="inline-flex font-heading tracking-widest uppercase text-[13px] border border-white/20 text-muted px-8 py-3 hover:border-gold hover:text-gold transition-all duration-200"
+          >
             Voir toute l&apos;équipe
-          </Button>
+          </Link>
         </div>
       </div>
     </section>
