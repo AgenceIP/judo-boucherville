@@ -18,6 +18,10 @@
   --noise-opacity: 0.025;
 }
 
+html {
+  background-color: #0A0A0A;
+}
+
 body {
   background-color: transparent;
   color: var(--color-foreground);
