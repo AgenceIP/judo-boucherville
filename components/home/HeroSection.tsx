@@ -3,8 +3,6 @@ import { useRef, useEffect, useCallback } from 'react'
 import { useLocale } from 'next-intl'
 
 const VIDEO_SRC = '/videos/hero.mp4'
-// Scrub the full video over this many viewports of scroll
-const SCRUB_VIEWPORTS = 3
 
 export default function HeroSection() {
   const locale = useLocale()
@@ -17,7 +15,8 @@ export default function HeroSection() {
   const onScroll = useCallback(() => {
     const vid = videoRef.current
     if (!vid || vid.readyState < 2 || !vid.duration) return
-    const progress = Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * SCRUB_VIEWPORTS)))
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+    const progress = Math.max(0, Math.min(1, window.scrollY / maxScroll))
     vid.currentTime = progress * vid.duration
   }, [])
 
@@ -42,7 +41,7 @@ export default function HeroSection() {
         </video>
       </div>
       {/* Dark overlay — keeps text readable across all sections */}
-      <div className="fixed inset-0 -z-10 bg-[#0A0A0A]/72" />
+      <div className="fixed inset-0 -z-10 bg-[#0A0A0A]/50" />
 
       {/* Hero content */}
       <section className="relative h-screen flex flex-col justify-end pb-20 px-8 md:px-16 lg:px-20">
