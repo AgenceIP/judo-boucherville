@@ -35,13 +35,13 @@ export default function HeroSection() {
           playsInline
           preload="auto"
           className="h-full w-full object-cover"
-          style={{ opacity: 0.4 }}
+          style={{ opacity: 1 }}
         >
           <source src={VIDEO_SRC} type="video/mp4" />
         </video>
       </div>
       {/* Dark overlay — keeps text readable across all sections */}
-      <div className="fixed inset-0 -z-10 bg-[#0A0A0A]/50" />
+      <div className="fixed inset-0 -z-10 bg-[#0A0A0A]/10" />
 
       {/* Hero content */}
       <section className="relative h-screen flex flex-col justify-end pb-20 px-8 md:px-16 lg:px-20">
