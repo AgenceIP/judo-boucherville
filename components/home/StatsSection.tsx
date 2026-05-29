@@ -3,14 +3,15 @@ import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import AnimatedCounter from '@/components/ui/AnimatedCounter'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const stats = [
-  { value: '174', label: "Médailles d'or", desc: 'Championnats provinciaux, nationaux et internationaux' },
-  { value: '2', label: 'Olympiens', desc: 'Athlètes des Jeux olympiques formés au club' },
-  { value: '55+', label: "Années d'excellence", desc: 'De tradition et de discipline depuis 1970' },
-  { value: '245', label: 'Membres', desc: 'Judokas actifs au club en 2026' },
+  { value: 174, suffix: '', label: 'Médailles aux championnats provinciaux & nationaux', desc: '2002–2024' },
+  { value: 55,  suffix: '+', label: "Années d'excellence", desc: 'Fondé en 1970 par Marcel Bourelly' },
+  { value: 2,   suffix: '', label: 'Olympiens formés au club', desc: 'Jeux olympiques' },
+  { value: 245, suffix: '', label: 'Membres actifs en 2026', desc: 'Judokas, ceintures noires et compétiteurs' },
 ]
 
 export default function StatsSection() {
@@ -19,35 +20,41 @@ export default function StatsSection() {
   useGSAP(() => {
     gsap.from('.stat-row', {
       opacity: 0,
-      x: -30,
-      stagger: 0.12,
-      duration: 0.7,
+      x: -24,
+      stagger: 0.1,
+      duration: 0.8,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: 'top 75%',
+        start: 'top 80%',
       },
     })
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="bg-bg-light">
+    <section ref={sectionRef} className="bg-bg-base">
       {stats.map((stat, i) => (
-        <div key={i} className="stat-row border-t border-black/10">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 py-7 md:py-9 flex items-center">
-            <span className="font-heading text-[clamp(64px,8vw,148px)] text-black leading-none shrink-0 w-[110px] sm:w-[180px] md:w-[240px] lg:w-[290px] text-right pr-8 md:pr-12 tabular-nums">
-              {stat.value}
+        <div
+          key={i}
+          className="stat-row border-t border-white/[0.06] group hover:border-gold/30 transition-colors duration-300"
+        >
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 py-8 md:py-10 flex items-center gap-8 md:gap-12">
+            <span
+              className="font-heading text-gold leading-none shrink-0 tabular-nums"
+              style={{ fontSize: 'clamp(64px, 8vw, 130px)', width: 'clamp(120px, 18vw, 280px)', textAlign: 'right' }}
+            >
+              <AnimatedCounter end={stat.value} suffix={stat.suffix} />
             </span>
-            <div className="flex-1 border-l border-black/12 pl-8 md:pl-12">
-              <p className="font-heading text-xl sm:text-2xl md:text-3xl text-black uppercase tracking-wider leading-tight">
+            <div className="border-l border-white/[0.08] pl-8 md:pl-12 group-hover:border-gold/20 transition-colors duration-300">
+              <p className="font-heading text-xl sm:text-2xl md:text-3xl text-white uppercase tracking-wider leading-tight">
                 {stat.label}
               </p>
-              <p className="text-black/45 text-sm mt-1">{stat.desc}</p>
+              <p className="text-muted text-sm mt-1.5">{stat.desc}</p>
             </div>
           </div>
         </div>
       ))}
-      <div className="border-t border-black/10" />
+      <div className="border-t border-white/[0.06]" />
     </section>
   )
 }
