@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -55,13 +56,16 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-20">
 
           {/* Logo */}
-          <Link href={`/${locale}`} className="group flex items-center gap-2">
-            <span className="font-heading text-2xl text-white tracking-[.15em]">
-              JUDO
-            </span>
-            <span className="w-[1px] h-5 bg-gold/60 group-hover:bg-gold transition-colors" />
-            <span className="font-heading text-2xl text-gold tracking-[.15em]">
-              BOUCHERVILLE
+          <Link href={`/${locale}`} className="group flex items-center gap-3">
+            <Image
+              src="/images/scraped/Challenge_cjb.jpg"
+              alt="Club de Judo Boucherville"
+              width={44}
+              height={44}
+              className="rounded-full"
+            />
+            <span className="font-heading text-xl text-white tracking-[.12em] group-hover:text-gold transition-colors">
+              JUDO BOUCHERVILLE
             </span>
           </Link>
 
