@@ -2,12 +2,9 @@ import { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getAllActualites, type Actualite } from '@/sanity/queries/actualites'
+import { getAllActualites } from '@/data/actualites'
 import PageHero from '@/components/shared/PageHero'
-import { urlFor } from '@/lib/sanityImage'
 import { formatDate } from '@/lib/utils'
-
-export const revalidate = 3600
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -18,12 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ActualitesPage() {
   const locale = await getLocale()
-  let news: Actualite[] = []
-  try {
-    news = await getAllActualites()
-  } catch {
-    // Sanity unreachable — show empty state
-  }
+  const news = getAllActualites()
 
   return (
     <>
@@ -36,16 +28,16 @@ export default async function ActualitesPage() {
           <p className="text-muted text-center py-12">Aucune actualité pour l&apos;instant.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {news.map((item: Actualite) => (
+            {news.map(item => (
               <Link
-                key={item._id}
-                href={`/${locale}/actualites/${item.slug.current}`}
+                key={item.id}
+                href={`/${locale}/actualites/${item.slug}`}
                 className="group block bg-bg-surface border border-white/5 rounded-2xl overflow-hidden hover:border-accent-blue/30 transition-colors"
               >
                 <div className="relative h-52 overflow-hidden">
-                  {item.image ? (
+                  {item.imageSrc ? (
                     <Image
-                      src={urlFor(item.image).width(600).height(400).url()}
+                      src={item.imageSrc}
                       alt={locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"

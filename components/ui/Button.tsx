@@ -13,8 +13,8 @@ type ButtonProps = {
 }
 
 const variants = {
-  primary: 'bg-accent-blue text-white hover:bg-accent-glow animate-glow-pulse',
-  outline: 'border border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-white',
+  primary: 'bg-foreground text-bg-base hover:bg-accent-blue hover:text-black',
+  outline: 'border border-foreground/50 text-foreground hover:border-foreground hover:bg-foreground hover:text-bg-base',
   ghost: 'text-foreground hover:text-accent-blue',
 }
 
@@ -29,7 +29,7 @@ export default function Button({
   href, className, onClick, type = 'button', disabled,
 }: ButtonProps) {
   const classes = cn(
-    'inline-flex items-center justify-center rounded-lg font-body font-semibold transition-all duration-200 cursor-pointer',
+    'inline-flex items-center justify-center font-heading tracking-widest uppercase transition-all duration-200 cursor-pointer',
     variants[variant],
     sizes[size],
     disabled && 'opacity-50 cursor-not-allowed',

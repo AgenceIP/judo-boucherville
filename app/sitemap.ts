@@ -1,17 +1,15 @@
 import { MetadataRoute } from 'next'
-import { getAllProgrammes } from '@/sanity/queries/programmes'
-import { getAllInstructeurs } from '@/sanity/queries/instructeurs'
-import { getAllActualites } from '@/sanity/queries/actualites'
+import { getAllProgrammes } from '@/data/programmes'
+import { getAllInstructeurs } from '@/data/instructeurs'
+import { getAllActualites } from '@/data/actualites'
 
 const BASE_URL = 'https://www.judoboucherville.com'
 const locales = ['fr', 'en']
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [programmes, instructeurs, actualites] = await Promise.all([
-    getAllProgrammes().catch(() => []),
-    getAllInstructeurs().catch(() => []),
-    getAllActualites().catch(() => []),
-  ])
+export default function sitemap(): MetadataRoute.Sitemap {
+  const programmes = getAllProgrammes()
+  const instructeurs = getAllInstructeurs()
+  const actualites = getAllActualites()
 
   const staticRoutes = ['', '/historique', '/equipe', '/programmes', '/inscription', '/resultats', '/challenge', '/actualites', '/contact']
 
@@ -26,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const programmeEntries = locales.flatMap(locale =>
     programmes.map(p => ({
-      url: `${BASE_URL}/${locale}/programmes/${p.slug.current}`,
+      url: `${BASE_URL}/${locale}/programmes/${p.slug}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
@@ -35,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const instructeurEntries = locales.flatMap(locale =>
     instructeurs.map(i => ({
-      url: `${BASE_URL}/${locale}/equipe/${i.slug.current}`,
+      url: `${BASE_URL}/${locale}/equipe/${i.slug}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.5,
@@ -44,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const actualiteEntries = locales.flatMap(locale =>
     actualites.map(a => ({
-      url: `${BASE_URL}/${locale}/actualites/${a.slug.current}`,
+      url: `${BASE_URL}/${locale}/actualites/${a.slug}`,
       lastModified: new Date(a.date),
       changeFrequency: 'never' as const,
       priority: 0.5,

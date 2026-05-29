@@ -31,8 +31,8 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="lg:col-span-1">
-            <span className="font-heading text-2xl tracking-wider">
-              JUDO<span className="text-accent-blue">BOUCHERVILLE</span>
+            <span className="font-heading text-2xl tracking-widest text-white">
+              JUDO<span className="text-accent-blue">·</span>BOUCHERVILLE
             </span>
             <p className="text-muted text-sm mt-4 leading-relaxed">
               Club de Judo Boucherville Inc.<br />

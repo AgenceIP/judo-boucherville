@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -73,12 +74,15 @@ export default function ClubSection() {
             </div>
           </div>
 
-          {/* Right: image with parallax */}
-          <div className="relative h-[500px] rounded-2xl overflow-hidden">
+          {/* Right: dojo photo with parallax */}
+          <div className="relative h-[500px] overflow-hidden">
             <div ref={imageRef} className="absolute inset-0 scale-110">
-              <div className="w-full h-full bg-gradient-to-br from-bg-surface to-accent-blue/20 flex items-center justify-center">
-                <span className="font-heading text-8xl text-accent-blue/20">DOJO</span>
-              </div>
+              <Image
+                src="/images/scraped/Autre_dojo.jpg"
+                alt="Dojo Marcel Bourelly — Club de Judo Boucherville"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
 

@@ -1,11 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import PageHero from '@/components/shared/PageHero'
-import PortableText from '@/components/shared/PortableText'
+import RichText from '@/components/shared/PortableText'
 import Button from '@/components/ui/Button'
-import { urlFor } from '@/lib/sanityImage'
-import type { Programme } from '@/sanity/queries/programmes'
-import type { PortableTextBlock } from '@portabletext/react'
+import type { Programme } from '@/data/programmes'
 
 const categoryTagColors = {
   enfants: 'text-green-400',
@@ -39,22 +36,12 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
 
           {/* Main content */}
           <div className="lg:col-span-2">
-            {programme.image && (
-              <div className="relative h-64 rounded-2xl overflow-hidden mb-8">
-                <Image
-                  src={urlFor(programme.image).width(800).height(400).url()}
-                  alt={title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-            {description && <PortableText value={description as PortableTextBlock[]} />}
+            <RichText value={description} />
           </div>
 
           {/* Sidebar */}
           <aside className="space-y-6">
-            {programme.horaires && programme.horaires.length > 0 && (
+            {programme.horaires.length > 0 && (
               <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
                 <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">{labels.horaires}</h3>
                 <div className="space-y-3">
@@ -76,14 +63,14 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
               </div>
             )}
 
-            {programme.instructeurs && programme.instructeurs.length > 0 && (
+            {programme.instructeurs.length > 0 && (
               <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
                 <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">{labels.instructeurs}</h3>
                 <div className="space-y-3">
                   {programme.instructeurs.map(instr => (
                     <Link
-                      key={instr.slug.current}
-                      href={`/${locale}/equipe/${instr.slug.current}`}
+                      key={instr.slug}
+                      href={`/${locale}/equipe/${instr.slug}`}
                       className="flex items-center gap-3 group"
                     >
                       <div className="w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue font-heading text-sm">

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useMemo } from 'react'
 import { cn, formatDate } from '@/lib/utils'
-import type { Resultat } from '@/sanity/queries/resultats'
+import type { Resultat } from '@/data/resultats'
 
 type Props = {
   resultats: Resultat[]
@@ -78,27 +78,26 @@ export default function ResultatsClient({ resultats, saisons, locale }: Props) {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-muted text-center py-12">Aucun résultat trouvé.</p>
+        <p className="text-muted text-center py-12">Aucun résultat pour le moment.</p>
       ) : (
         <div className="space-y-3">
           {filtered.map(r => {
-            const config = medalConfig[r.medaille as keyof typeof medalConfig]
-            if (!config) return null
+            const config = medalConfig[r.medaille]
             return (
-            <div
-              key={r._id}
-              className={cn('flex items-center gap-4 p-4 rounded-xl border', config.className)}
-            >
-              <span className="text-2xl shrink-0">{config.emoji}</span>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-foreground truncate">{r.athlete}</p>
-                <p className="text-sm text-muted">{r.competition} · {r.categorie}</p>
+              <div
+                key={r.id}
+                className={cn('flex items-center gap-4 p-4 rounded-xl border', config.className)}
+              >
+                <span className="text-2xl shrink-0">{config.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-foreground truncate">{r.athlete}</p>
+                  <p className="text-sm text-muted">{r.competition} · {r.categorie}</p>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="text-xs text-muted">{r.saison}</p>
+                  {r.date && <p className="text-xs text-muted">{formatDate(r.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}</p>}
+                </div>
               </div>
-              <div className="text-right shrink-0">
-                <p className="text-xs text-muted">{r.saison}</p>
-                {r.date && <p className="text-xs text-muted">{formatDate(r.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}</p>}
-              </div>
-            </div>
             )
           })}
         </div>

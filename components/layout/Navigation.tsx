@@ -51,15 +51,15 @@ export default function Navigation() {
   return (
     <header className={cn(
       'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-      scrolled ? 'bg-bg-base/95 backdrop-blur-md border-b border-white/5 shadow-lg' : 'bg-transparent'
+      scrolled ? 'bg-black/95 backdrop-blur-md border-b border-white/8' : 'bg-transparent'
     )}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Logo */}
           <Link href={`/${locale}`} className="flex items-center gap-3">
-            <span className="font-heading text-2xl text-foreground tracking-wider">
-              JUDO<span className="text-accent-blue">BOUCHERVILLE</span>
+            <span className="font-heading text-xl md:text-2xl text-white tracking-widest">
+              JUDO<span className="text-accent-blue">·</span>BOUCHERVILLE
             </span>
           </Link>
 
@@ -82,7 +82,7 @@ export default function Navigation() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-bg-surface border border-white/10 rounded-xl shadow-2xl p-6 grid grid-cols-3 gap-4"
+                    className="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-black border border-white/10 shadow-2xl p-6 grid grid-cols-3 gap-4"
                   >
                     {categories.map(cat => (
                       <div key={cat}>
@@ -148,7 +148,7 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-bg-surface border-t border-white/10 overflow-hidden"
+            className="lg:hidden bg-black border-t border-white/10 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-4">
               {programmes.map((prog, i) => (

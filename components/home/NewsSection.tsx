@@ -1,18 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations, getLocale } from 'next-intl/server'
-import { getLatestActualites, type Actualite } from '@/sanity/queries/actualites'
+import { getLatestActualites } from '@/data/actualites'
 import { formatDate } from '@/lib/utils'
-import { urlFor } from '@/lib/sanityImage'
 
 export default async function NewsSection() {
   const [t, locale] = await Promise.all([getTranslations('home'), getLocale()])
-  let news: Actualite[] = []
-  try {
-    news = await getLatestActualites(3)
-  } catch {
-    return null
-  }
+  const news = getLatestActualites(3)
 
   if (!news.length) return null
 
@@ -25,16 +19,16 @@ export default async function NewsSection() {
           </h2>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
-          {news.map((item: Actualite) => (
+          {news.map(item => (
             <Link
-              key={item._id}
-              href={`/${locale}/actualites/${item.slug.current}`}
+              key={item.id}
+              href={`/${locale}/actualites/${item.slug}`}
               className="group block bg-bg-surface border border-white/5 rounded-2xl overflow-hidden hover:border-accent-blue/30 transition-colors"
             >
               <div className="relative h-48 overflow-hidden">
-                {item.image ? (
+                {item.imageSrc ? (
                   <Image
-                    src={urlFor(item.image).width(600).height(400).url()}
+                    src={item.imageSrc}
                     alt={locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"

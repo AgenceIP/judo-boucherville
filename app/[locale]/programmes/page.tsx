@@ -1,14 +1,10 @@
 import { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
-import { getAllProgrammes } from '@/sanity/queries/programmes'
+import { getAllProgrammes } from '@/data/programmes'
 import PageHero from '@/components/shared/PageHero'
 import ProgrammeCard from '@/components/ui/ProgrammeCard'
 
-export const metadata: Metadata = {
-  title: 'Programmes',
-}
-
-export const revalidate = 3600
+export const metadata: Metadata = { title: 'Programmes' }
 
 const categoryLabels = {
   enfants: 'Jeunes',
@@ -16,24 +12,9 @@ const categoryLabels = {
   'arts-martiaux': 'Arts martiaux',
 }
 
-const fallbackIcons: Record<string, string> = {
-  'judo-competition': '🏆',
-  'judo-enfants': '👶',
-  'judo-adultes': '💪',
-  'parents-enfants': '👨‍👧',
-  'sport-etudes': '📚',
-  'judo-aines': '🧘',
-  'aiki-jujitsu': '⚡',
-  'jiu-jitsu-bresilien': '🌀',
-  'autodéfense': '🛡️',
-  'kata': '🎯',
-  'camp-de-jour': '☀️',
-  'judo-scolaire': '🏫',
-}
-
 export default async function ProgrammesPage() {
   const locale = await getLocale()
-  const programmes = await getAllProgrammes()
+  const programmes = getAllProgrammes()
 
   const grouped = {
     enfants: programmes.filter(p => p.categorie === 'enfants'),
@@ -60,13 +41,13 @@ export default async function ProgrammesPage() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {grouped[cat].map(prog => (
                   <ProgrammeCard
-                    key={prog._id}
+                    key={prog.id}
                     titre={locale === 'fr' ? prog.titre : (prog.titreEn || prog.titre)}
-                    description=""
-                    horaire={prog.horaires?.[0] ? `${prog.horaires[0].jours} ${prog.horaires[0].heures}` : ''}
-                    slug={prog.slug.current}
+                    description={locale === 'fr' ? prog.description : (prog.descriptionEn || prog.description)}
+                    horaire={prog.horaires[0] ? `${prog.horaires[0].jours} ${prog.horaires[0].heures}` : ''}
+                    slug={prog.slug}
                     categorie={prog.categorie}
-                    icon={fallbackIcons[prog.slug.current] || '🥋'}
+                    icon={prog.icon}
                   />
                 ))}
               </div>

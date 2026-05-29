@@ -1,29 +1,25 @@
 import { notFound } from 'next/navigation'
-import { getAllInstructeurs, getInstructeurBySlug } from '@/sanity/queries/instructeurs'
+import { getAllInstructeurs, getInstructeurBySlug } from '@/data/instructeurs'
 import InstructeurTemplate from '@/components/pages/InstructeurTemplate'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
-export async function generateStaticParams() {
-  try {
-    const instructeurs = await getAllInstructeurs()
-    return ['fr', 'en'].flatMap(locale =>
-      instructeurs.map(i => ({ locale, slug: i.slug.current }))
-    )
-  } catch {
-    return []
-  }
+export function generateStaticParams() {
+  const instructeurs = getAllInstructeurs()
+  return ['fr', 'en'].flatMap(locale =>
+    instructeurs.map(i => ({ locale, slug: i.slug }))
+  )
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  const instructeur = await getInstructeurBySlug(slug)
+  const instructeur = getInstructeurBySlug(slug)
   return instructeur ? { title: instructeur.nom } : {}
 }
 
 export default async function InstructeurPage({ params }: Props) {
   const { slug, locale } = await params
-  const instructeur = await getInstructeurBySlug(slug)
+  const instructeur = getInstructeurBySlug(slug)
   if (!instructeur) notFound()
   return <InstructeurTemplate instructeur={instructeur} locale={locale} />
 }

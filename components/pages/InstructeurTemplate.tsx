@@ -1,11 +1,8 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import PageHero from '@/components/shared/PageHero'
-import PortableText from '@/components/shared/PortableText'
+import RichText from '@/components/shared/PortableText'
 import Button from '@/components/ui/Button'
-import { urlFor } from '@/lib/sanityImage'
-import type { Instructeur } from '@/sanity/queries/instructeurs'
-import type { PortableTextBlock } from '@portabletext/react'
+import type { Instructeur } from '@/data/instructeurs'
 
 type Props = { instructeur: Instructeur; locale: string }
 
@@ -13,7 +10,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
   const bio = locale === 'fr' ? instructeur.bio : (instructeur.bioEn || instructeur.bio)
 
   const labels = {
-    disciplines: locale === 'fr' ? 'Disciplines' : 'Disciplines',
+    disciplines: 'Disciplines',
     realisations: locale === 'fr' ? 'Réalisations' : 'Achievements',
     retour: locale === 'fr' ? "← Retour à l'équipe" : '← Back to team',
   }
@@ -32,9 +29,9 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
           {/* Photo + details */}
           <div className="md:col-span-1">
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mb-6">
-              {instructeur.photo ? (
+              {instructeur.photoSrc ? (
                 <Image
-                  src={urlFor(instructeur.photo).width(500).height(700).url()}
+                  src={instructeur.photoSrc}
                   alt={instructeur.nom}
                   fill
                   className="object-cover"
@@ -48,7 +45,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
               )}
             </div>
 
-            {instructeur.disciplines && instructeur.disciplines.length > 0 && (
+            {instructeur.disciplines.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-xs text-muted uppercase tracking-widest mb-3">{labels.disciplines}</h3>
                 <div className="flex flex-wrap gap-2">
@@ -61,7 +58,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
               </div>
             )}
 
-            {instructeur.competitions && instructeur.competitions.length > 0 && (
+            {instructeur.competitions.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-xs text-muted uppercase tracking-widest mb-3">{labels.realisations}</h3>
                 <ul className="space-y-2">
@@ -81,7 +78,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
 
           {/* Bio */}
           <div className="md:col-span-2">
-            {bio && <PortableText value={bio as PortableTextBlock[]} />}
+            <RichText value={bio} />
           </div>
         </div>
       </div>

@@ -7,15 +7,14 @@ export default function CtaSection() {
   const locale = useLocale()
 
   return (
-    <section className="py-32 bg-gradient-to-br from-accent-blue/20 to-bg-base relative overflow-hidden">
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-accent-blue blur-3xl" />
-      </div>
-      <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
-        <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl text-foreground tracking-wider mb-4">
+    <section className="py-24 md:py-32 bg-black">
+      <div className="text-center max-w-5xl mx-auto px-6">
+        <h2 className="font-heading text-[13vw] sm:text-[10vw] md:text-[8vw] text-white leading-none tracking-tight mb-6">
           {t('cta_title')}
         </h2>
-        <p className="text-muted text-lg mb-10">{t('cta_subtitle')}</p>
+        <p className="text-muted text-base md:text-lg mb-10 max-w-xl mx-auto">
+          {t('cta_subtitle')}
+        </p>
         <Button href={`/${locale}/inscription`} size="lg">
           {t('cta_button')}
         </Button>

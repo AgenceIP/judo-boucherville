@@ -1,34 +1,53 @@
 'use client'
-import AnimatedCounter from '@/components/ui/AnimatedCounter'
-import { useTranslations } from 'next-intl'
+import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const stats = [
-  { end: 55, suffix: '+', labelKey: 'stats_years' },
-  { end: 245, suffix: '', labelKey: 'stats_members' },
-  { end: 37, suffix: '', labelKey: 'stats_gold' },
-  { end: 0, suffix: 'AAA', prefix: '', labelKey: 'stats_level', isText: true },
+  { value: '174', label: "Médailles d'or", desc: 'Championnats provinciaux, nationaux et internationaux' },
+  { value: '2', label: 'Olympiens', desc: 'Athlètes des Jeux olympiques formés au club' },
+  { value: '55+', label: "Années d'excellence", desc: 'De tradition et de discipline depuis 1970' },
+  { value: '245', label: 'Membres', desc: 'Judokas actifs au club en 2026' },
 ]
 
 export default function StatsSection() {
-  const t = useTranslations('home')
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useGSAP(() => {
+    gsap.from('.stat-row', {
+      opacity: 0,
+      x: -30,
+      stagger: 0.12,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 75%',
+      },
+    })
+  }, { scope: sectionRef })
 
   return (
-    <section className="py-20 bg-bg-surface border-y border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat) => (
-            <div key={stat.labelKey} className="text-center">
-              <div className="font-heading text-5xl md:text-6xl lg:text-7xl text-accent-blue">
-                {stat.isText
-                  ? <span>{stat.suffix}</span>
-                  : <AnimatedCounter end={stat.end} suffix={stat.suffix} prefix={stat.prefix} />
-                }
-              </div>
-              <p className="text-muted text-sm md:text-base mt-2">{t(stat.labelKey)}</p>
+    <section ref={sectionRef} className="bg-bg-light">
+      {stats.map((stat, i) => (
+        <div key={i} className="stat-row border-t border-black/10">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 py-7 md:py-9 flex items-center">
+            <span className="font-heading text-[clamp(64px,8vw,148px)] text-black leading-none shrink-0 w-[110px] sm:w-[180px] md:w-[240px] lg:w-[290px] text-right pr-8 md:pr-12 tabular-nums">
+              {stat.value}
+            </span>
+            <div className="flex-1 border-l border-black/12 pl-8 md:pl-12">
+              <p className="font-heading text-xl sm:text-2xl md:text-3xl text-black uppercase tracking-wider leading-tight">
+                {stat.label}
+              </p>
+              <p className="text-black/45 text-sm mt-1">{stat.desc}</p>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      ))}
+      <div className="border-t border-black/10" />
     </section>
   )
 }

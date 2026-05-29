@@ -1,16 +1,15 @@
 import { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
-import { getAllResultats, getSaisons } from '@/sanity/queries/resultats'
+import { getAllResultats, getSaisons } from '@/data/resultats'
 import PageHero from '@/components/shared/PageHero'
 import ResultatsClient from '@/components/pages/ResultatsClient'
 
 export const metadata: Metadata = { title: 'Résultats' }
 
-export const revalidate = 3600
-
 export default async function ResultatsPage() {
   const locale = await getLocale()
-  const [resultats, saisons] = await Promise.all([getAllResultats(), getSaisons()])
+  const resultats = getAllResultats()
+  const saisons = getSaisons()
 
   return (
     <>

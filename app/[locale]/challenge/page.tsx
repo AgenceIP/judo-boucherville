@@ -1,17 +1,13 @@
 import { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
-import { getNextTournoi } from '@/sanity/queries/challenge'
 import PageHero from '@/components/shared/PageHero'
-import PortableText from '@/components/shared/PortableText'
+import RichText from '@/components/shared/PortableText'
 import CountdownTimer from '@/components/ui/CountdownTimer'
 import Button from '@/components/ui/Button'
-import type { PortableTextBlock } from '@portabletext/react'
 
 export const metadata: Metadata = { title: 'Challenge Judo Boucherville' }
 
-export const revalidate = 3600
-
-const fallbackTournoi = {
+const tournoi = {
   edition: '27e édition',
   date: '2026-04-11T08:00:00-04:00',
   lieu: 'Dojo Marcel Bourelly, Complexe aquatique Laurie-Ève Cormier, 490 chemin du Lac, Boucherville',
@@ -21,22 +17,20 @@ const fallbackTournoi = {
     { categorie: 'Masters (Ne-Waza)', montant: '800 $' },
     { categorie: 'Seniors', montant: '1 200 $' },
   ],
-  description: null,
-  descriptionEn: null,
-  inscriptionUrl: null,
+  description: undefined as string | undefined,
+  descriptionEn: undefined as string | undefined,
+  inscriptionUrl: undefined as string | undefined,
 }
 
 export default async function ChallengePage() {
   const locale = await getLocale()
-  const tournoi = (await getNextTournoi()) || fallbackTournoi
-
   const description = locale === 'fr' ? tournoi.description : (tournoi.descriptionEn || tournoi.description)
 
   return (
     <>
       <PageHero
         title="Challenge Judo Boucherville"
-        subtitle={tournoi.edition ? `${tournoi.edition} · Tournoi invitation par équipes` : 'Tournoi invitation par équipes'}
+        subtitle={`${tournoi.edition} · Tournoi invitation par équipes`}
         tag="Tournoi international"
       />
 
@@ -61,7 +55,7 @@ export default async function ChallengePage() {
           <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
             <h3 className="font-heading text-xl text-foreground tracking-wide mb-3">🏷️ Catégories</h3>
             <div className="flex flex-wrap gap-2">
-              {tournoi.categories.map((cat) => (
+              {tournoi.categories.map(cat => (
                 <span key={cat} className="px-3 py-1 bg-accent-blue/10 border border-accent-blue/20 rounded-full text-sm text-accent-blue">
                   {cat}
                 </span>
@@ -72,7 +66,7 @@ export default async function ChallengePage() {
           <div className="bg-bg-surface border border-white/5 rounded-2xl p-6 md:col-span-2">
             <h3 className="font-heading text-xl text-foreground tracking-wide mb-4">🏆 Prix</h3>
             <div className="grid sm:grid-cols-3 gap-4">
-              {tournoi.prix.map((p) => (
+              {tournoi.prix.map(p => (
                 <div key={p.categorie} className="text-center border border-gold/20 rounded-xl p-4">
                   <p className="font-heading text-2xl text-gold">{p.montant}</p>
                   <p className="text-muted text-sm mt-1">{p.categorie}</p>
@@ -83,7 +77,7 @@ export default async function ChallengePage() {
           </div>
         </div>
 
-        {description && <PortableText value={description as PortableTextBlock[]} />}
+        {description && <RichText value={description} />}
 
         <div className="bg-bg-surface border border-white/5 rounded-2xl p-6 mt-8">
           <h3 className="font-heading text-xl text-foreground tracking-wide mb-3">Contact</h3>

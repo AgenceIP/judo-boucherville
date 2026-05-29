@@ -1,24 +1,19 @@
 import { notFound } from 'next/navigation'
-import { getAllProgrammes, getProgrammeBySlug } from '@/sanity/queries/programmes'
+import { getAllProgrammes, getProgrammeBySlug } from '@/data/programmes'
 import ProgrammeTemplate from '@/components/pages/ProgrammeTemplate'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
-export async function generateStaticParams() {
-  try {
-    const programmes = await getAllProgrammes()
-    const locales = ['fr', 'en']
-    return locales.flatMap(locale =>
-      programmes.map(p => ({ locale, slug: p.slug.current }))
-    )
-  } catch {
-    return []
-  }
+export function generateStaticParams() {
+  const programmes = getAllProgrammes()
+  return ['fr', 'en'].flatMap(locale =>
+    programmes.map(p => ({ locale, slug: p.slug }))
+  )
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug, locale } = await params
-  const programme = await getProgrammeBySlug(slug)
+  const programme = getProgrammeBySlug(slug)
   if (!programme) return {}
   return {
     title: locale === 'fr' ? programme.titre : (programme.titreEn || programme.titre),
@@ -27,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProgrammePage({ params }: Props) {
   const { slug, locale } = await params
-  const programme = await getProgrammeBySlug(slug)
+  const programme = getProgrammeBySlug(slug)
   if (!programme) notFound()
   return <ProgrammeTemplate programme={programme} locale={locale} />
 }

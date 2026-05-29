@@ -2,106 +2,85 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useTranslations, useLocale } from 'next-intl'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
-import { ChevronDown } from 'lucide-react'
 
 export default function HeroSection() {
   const t = useTranslations('home')
   const locale = useLocale()
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const ctaRef = useRef<HTMLDivElement>(null)
-
-  const titleWords = t('hero_title').split(' ')
+  const leftRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 0.3 })
+    const lines = leftRef.current?.querySelectorAll('.hero-line')
+    if (!lines?.length) return
 
-    const wordSpans = titleRef.current?.querySelectorAll('.hero-word')
-    if (wordSpans?.length) {
-      gsap.set(wordSpans, { y: '100%' })
-      tl.to(wordSpans, { y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' })
-    }
-
-    tl.fromTo(
-      subtitleRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-      '-=0.3'
-    )
-    tl.fromTo(
-      ctaRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-      '-=0.2'
-    )
+    const tl = gsap.timeline({ delay: 0.15 })
+    gsap.set(lines, { yPercent: 105 })
+    tl.to(lines, { yPercent: 0, duration: 1, stagger: 0.12, ease: 'power4.out' })
+    tl.fromTo('.hero-sub', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.4')
+    tl.fromTo('.hero-cta', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.3')
   }, [])
 
-  const scrollToNext = () => {
-    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
-  }
-
   return (
-    <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Video background */}
-      <video
-        className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="/images/hero-fallback.jpg"
+    <section className="flex h-screen min-h-[640px]">
+      {/* Left: editorial black panel */}
+      <div
+        ref={leftRef}
+        className="relative flex flex-col justify-end w-full lg:w-[45%] bg-black p-8 md:p-12 lg:p-16 pb-14 lg:pb-20"
       >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+        {/* Mobile: photo fills behind text */}
+        <div className="absolute inset-0 lg:hidden">
+          <Image
+            src="/images/scraped/Challenge_carou7.jpg"
+            alt="Compétition de judo"
+            fill
+            className="object-cover object-[center_30%]"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/75" />
+        </div>
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-bg-base via-bg-base/60 to-bg-base/40" />
-      <div className="absolute inset-0 bg-gradient-to-r from-bg-base/50 to-transparent" />
+        <div className="relative z-10">
+          {/* Giant title — overflow-hidden clips the GSAP slide-up */}
+          <div className="overflow-hidden">
+            <h1 className="hero-line font-heading text-[22vw] lg:text-[15vw] text-white leading-[0.85] tracking-tight">
+              JUDO
+            </h1>
+          </div>
+          <div className="overflow-hidden -mt-1">
+            <h1 className="hero-line font-heading text-[8.5vw] lg:text-[5.5vw] text-white leading-none tracking-tight">
+              BOUCHERVILLE
+            </h1>
+          </div>
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        <p className="font-heading text-accent-blue text-sm md:text-base tracking-[0.4em] uppercase mb-4">
-          Fondé en 1970 · Club AAA · Judo Québec
-        </p>
+          <div className="hero-sub mt-6 mb-8 opacity-0">
+            <div className="w-12 h-[2px] bg-accent-blue mb-4" />
+            <p className="text-muted text-xs uppercase tracking-[0.35em]">
+              Fondé en 1970&nbsp;·&nbsp;Club AAA&nbsp;·&nbsp;Boucherville, QC
+            </p>
+          </div>
 
-        <h1
-          ref={titleRef}
-          className="font-heading text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-foreground leading-none tracking-wider mb-6"
-        >
-          {titleWords.map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden">
-              <span className="hero-word inline-block">{word}</span>
-              {i < titleWords.length - 1 && ' '}
-            </span>
-          ))}
-        </h1>
-
-        <p
-          ref={subtitleRef}
-          className="text-muted text-lg md:text-xl mb-10 max-w-2xl mx-auto opacity-0"
-        >
-          {t('hero_subtitle')}
-        </p>
-
-        <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 justify-center opacity-0">
-          <Button href={`/${locale}/programmes`} size="lg">
-            {t('hero_cta_primary')}
-          </Button>
-          <Button href={`/${locale}/inscription`} variant="outline" size="lg">
-            {t('hero_cta_secondary')}
-          </Button>
+          <div className="hero-cta flex flex-col sm:flex-row gap-3 opacity-0">
+            <Button href={`/${locale}/programmes`} size="lg">
+              {t('hero_cta_primary')}
+            </Button>
+            <Button href={`/${locale}/inscription`} variant="outline" size="lg">
+              {t('hero_cta_secondary')}
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <button
-        onClick={scrollToNext}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted hover:text-accent-blue transition-colors animate-bounce"
-        aria-label="Scroll"
-      >
-        <ChevronDown size={32} />
-      </button>
+      {/* Right: action photo — desktop only */}
+      <div className="hidden lg:block lg:flex-1 relative">
+        <Image
+          src="/images/scraped/Challenge_carou7.jpg"
+          alt="Compétition de judo — Club de Judo Boucherville"
+          fill
+          className="object-cover object-[center_30%]"
+          priority
+        />
+      </div>
     </section>
   )
 }

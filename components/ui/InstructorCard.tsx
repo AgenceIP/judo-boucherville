@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
-import { urlFor } from '@/lib/sanityImage'
 
 type Props = {
   nom: string
@@ -12,10 +11,10 @@ type Props = {
   role?: string
   disciplines: string[]
   slug: string
-  photo?: { asset: { _ref: string } }
+  photoSrc?: string
 }
 
-export default function InstructorCard({ nom, grade, role, disciplines, slug, photo }: Props) {
+export default function InstructorCard({ nom, grade, role, disciplines, slug, photoSrc }: Props) {
   const [flipped, setFlipped] = useState(false)
   const locale = useLocale()
 
@@ -32,9 +31,9 @@ export default function InstructorCard({ nom, grade, role, disciplines, slug, ph
       >
         {/* Front */}
         <div className="absolute inset-0 backface-hidden bg-bg-surface border border-white/5 rounded-2xl overflow-hidden">
-          {photo ? (
+          {photoSrc ? (
             <Image
-              src={urlFor(photo).width(400).height(300).url()}
+              src={photoSrc}
               alt={nom}
               fill
               className="object-cover"

@@ -32,7 +32,13 @@
       "Bash(npm list *)",
       "Bash(npx vitest *)",
       "Bash(node -e \"const lr = require\\('lucide-react'\\); const keys = Object.keys\\(lr\\).filter\\(k => k.toLowerCase\\(\\).includes\\('social'\\) || k.toLowerCase\\(\\).includes\\('share'\\) || k.toLowerCase\\(\\).includes\\('link'\\)\\); console.log\\(keys.slice\\(0,20\\)\\)\")",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl *)",
+      "Read(//tmp/**)",
+      "Bash(node \"C:\\\\Users\\\\Yousif Ibrahim\\\\.claude\\\\plugins\\\\cache\\\\claude-plugins-official\\\\superpowers\\\\5.0.7\\\\skills\\\\brainstorming\\\\scripts\\\\server.cjs\" --project-dir \"C:\\\\Users\\\\Yousif Ibrahim\\\\Documents\\\\GitHub Repositories\\\\Judo Boucherville\")",
+      "Read(//c/tmp/brainstorm/content/**)",
+      "Read(//c/tmp/brainstorm/state/**)"
     ]
   }
 }
