@@ -52,7 +52,7 @@ export default function ChallengeSection() {
           href={`/${locale}/challenge`}
           className="inline-flex font-heading tracking-widest uppercase text-lg bg-gold text-black px-10 py-4 hover:bg-accent-glow transition-colors"
         >
-          En savoir plus
+          {t('learn_more')}
         </Link>
       </div>
     </section>

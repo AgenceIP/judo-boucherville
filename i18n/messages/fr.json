@@ -14,6 +14,9 @@
     "hero_subtitle": "Fondé en 1970 · Club reconnu AAA · 245 membres",
     "hero_cta_primary": "Découvrir nos programmes",
     "hero_cta_secondary": "S'inscrire",
+    "hero_scroll_hint": "Défiler",
+    "hero_cta_register": "S'inscrire",
+    "hero_cta_programmes": "Programmes",
     "stats_years": "ans d'histoire",
     "stats_members": "membres actifs",
     "stats_gold": "médailles d'or provinciales",
@@ -30,7 +33,8 @@
     "news_title": "Actualités",
     "cta_title": "Prêt à commencer?",
     "cta_subtitle": "Rejoins le premier club de judo du Québec.",
-    "cta_button": "S'inscrire maintenant"
+    "cta_button": "S'inscrire maintenant",
+    "team_cta": "Voir toute l'équipe"
   },
   "footer": {
     "address": "490 chemin du Lac, Boucherville (Québec) J4B 6X3",
@@ -76,7 +80,8 @@
     "categories": "Catégories",
     "prizes": "Prix",
     "contact_director": "Directeur du tournoi",
-    "register": "Inscription au tournoi"
+    "register": "Inscription au tournoi",
+    "learn_more": "En savoir plus"
   },
   "results": {
     "title": "Résultats de compétition",

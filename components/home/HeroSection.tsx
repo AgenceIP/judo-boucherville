@@ -1,6 +1,6 @@
 'use client'
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 const VIDEO_SRC = '/videos/hero.mp4'
@@ -37,6 +37,7 @@ const chapters = [
 
 export default function HeroSection() {
   const locale = useLocale()
+  const t = useTranslations('home')
   const wrapperRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [progress, setProgress] = useState(0)
@@ -122,13 +123,13 @@ export default function HeroSection() {
                 href={`/${locale}/inscription`}
                 className="font-heading tracking-widest uppercase bg-gold text-black px-8 py-4 text-lg hover:bg-accent-glow transition-colors"
               >
-                S&apos;inscrire
+                {t('hero_cta_register')}
               </Link>
               <Link
                 href={`/${locale}/programmes`}
                 className="font-heading tracking-widest uppercase border border-white/40 text-white px-8 py-4 text-lg hover:border-gold hover:text-gold transition-colors"
               >
-                Programmes
+                {t('hero_cta_programmes')}
               </Link>
             </div>
           )}
@@ -152,7 +153,7 @@ export default function HeroSection() {
         {chapter === 0 && (
           <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in">
             <div className="w-[1px] h-8 bg-gold/40" />
-            <p className="text-muted text-[9px] tracking-[.4em] uppercase">Défiler</p>
+            <p className="text-muted text-[9px] tracking-[.4em] uppercase">{t('hero_scroll_hint')}</p>
           </div>
         )}
       </div>

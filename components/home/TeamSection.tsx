@@ -28,7 +28,7 @@ export default function TeamSection() {
           </h2>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-12 reveal-stagger">
+        <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
           {instructors.map(i => (
             <InstructorCard key={i.slug} {...i} />
           ))}
@@ -39,7 +39,7 @@ export default function TeamSection() {
             href={`/${locale}/equipe`}
             className="inline-flex font-heading tracking-widest uppercase text-[13px] border border-white/20 text-muted px-8 py-3 hover:border-gold hover:text-gold transition-all duration-200"
           >
-            Voir toute l&apos;équipe
+            {t('team_cta')}
           </Link>
         </div>
       </div>

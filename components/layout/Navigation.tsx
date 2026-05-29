@@ -8,15 +8,15 @@ import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const programmes = [
-  { href: '/programmes/judo-competition', labelFr: 'Judo compétition', category: 'Judo' },
-  { href: '/programmes/judo-enfants', labelFr: 'Judo enfants', category: 'Judo' },
-  { href: '/programmes/judo-adultes', labelFr: 'Judo adultes', category: 'Judo' },
-  { href: '/programmes/parents-enfants', labelFr: 'Parents/enfants', category: 'Judo' },
-  { href: '/programmes/sport-etudes', labelFr: 'Sport-études', category: 'Judo' },
-  { href: '/programmes/judo-aines', labelFr: 'Judo aînés', category: 'Judo' },
-  { href: '/programmes/aiki-jujitsu', labelFr: 'Aiki Ju-Jitsu', category: 'Arts martiaux' },
-  { href: '/programmes/jiu-jitsu-bresilien', labelFr: 'Jiu-Jitsu Brésilien', category: 'Arts martiaux' },
-  { href: '/programmes/camp-de-jour', labelFr: 'Camp de jour', category: 'Autres' },
+  { href: '/programmes/judo-competition', labelFr: 'Judo compétition', labelEn: 'Competition Judo', category: 'Judo' },
+  { href: '/programmes/judo-enfants', labelFr: 'Judo enfants', labelEn: "Children's Judo", category: 'Judo' },
+  { href: '/programmes/judo-adultes', labelFr: 'Judo adultes', labelEn: 'Adult Judo', category: 'Judo' },
+  { href: '/programmes/parents-enfants', labelFr: 'Parents/enfants', labelEn: 'Parents & Children', category: 'Judo' },
+  { href: '/programmes/sport-etudes', labelFr: 'Sport-études', labelEn: 'Sports-Studies', category: 'Judo' },
+  { href: '/programmes/judo-aines', labelFr: 'Judo aînés', labelEn: 'Seniors Judo', category: 'Judo' },
+  { href: '/programmes/aiki-jujitsu', labelFr: 'Aiki Ju-Jitsu', labelEn: 'Aiki Ju-Jitsu', category: 'Arts martiaux' },
+  { href: '/programmes/jiu-jitsu-bresilien', labelFr: 'Jiu-Jitsu Brésilien', labelEn: 'Brazilian Jiu-Jitsu', category: 'Arts martiaux' },
+  { href: '/programmes/camp-de-jour', labelFr: 'Camp de jour', labelEn: 'Day Camp', category: 'Autres' },
 ]
 
 const navLinks = [
@@ -95,7 +95,7 @@ export default function Navigation() {
                             href={`/${locale}${prog.href}`}
                             className="block text-[12px] text-muted hover:text-white py-1.5 transition-colors"
                           >
-                            {prog.labelFr}
+                            {locale === 'fr' ? prog.labelFr : prog.labelEn}
                           </Link>
                         ))}
                       </div>
@@ -171,7 +171,7 @@ export default function Navigation() {
                     className="block text-sm text-muted hover:text-white py-2 transition-colors"
                     onClick={() => setMobileOpen(false)}
                   >
-                    {prog.labelFr}
+                    {locale === 'fr' ? prog.labelFr : prog.labelEn}
                   </Link>
                 </motion.div>
               ))}

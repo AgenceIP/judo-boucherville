@@ -20,7 +20,8 @@ export default function PageHero({ title, subtitle, tag, tagColor = 'text-gold' 
   useGSAP(() => {
     // Entrance animation
     const tl = gsap.timeline({ delay: 0.1 })
-    tl.from(contentRef.current!.children, {
+    if (!contentRef.current) return
+    tl.from(contentRef.current.children, {
       opacity: 0,
       y: 24,
       stagger: 0.1,
