@@ -1,22 +1,38 @@
 'use client'
+import { useRef, useEffect, useCallback } from 'react'
 import { useLocale } from 'next-intl'
 
 const VIDEO_SRC = '/videos/hero.mp4'
+// Scrub the full video over this many viewports of scroll
+const SCRUB_VIEWPORTS = 3
 
 export default function HeroSection() {
   const locale = useLocale()
+  const videoRef = useRef<HTMLVideoElement>(null)
+
   const desc = locale === 'en'
     ? '55 years of martial tradition. Perfect technique is born from repetition.'
     : '55 ans de tradition martiale. La technique parfaite naît de la répétition.'
 
+  const onScroll = useCallback(() => {
+    const vid = videoRef.current
+    if (!vid || vid.readyState < 2 || !vid.duration) return
+    const progress = Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * SCRUB_VIEWPORTS)))
+    vid.currentTime = progress * vid.duration
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [onScroll])
+
   return (
     <>
-      {/* Fixed video — persists behind all homepage sections as you scroll */}
+      {/* Fixed video — scrubbed by scroll, persists behind all homepage sections */}
       <div className="fixed inset-0 -z-20 overflow-hidden">
         <video
-          autoPlay
+          ref={videoRef}
           muted
-          loop
           playsInline
           preload="auto"
           className="h-full w-full object-cover"
