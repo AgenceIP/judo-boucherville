@@ -124,6 +124,30 @@ export const programmes: Programme[] = [
     horaires: [{ jours: 'Été', heures: 'Variable', lieu: 'Dojo principal' }],
     instructeurs: [],
   },
+  {
+    id: '10',
+    titre: 'Parascolaire',
+    titreEn: 'After-School Judo',
+    slug: 'parascolaire',
+    categorie: 'enfants',
+    icon: '🏫',
+    description: "Programme parascolaire en partenariat avec les écoles de Boucherville, à la 38e saison depuis 1988. Initiation au judo directement à l'école pour les élèves du primaire.",
+    descriptionEn: 'After-school judo program in partnership with Boucherville schools, in its 38th season since 1988. Judo introduction directly at school for elementary students.',
+    horaires: [{ jours: 'Variable selon école', heures: 'Après les cours', lieu: 'Écoles partenaires de Boucherville' }],
+    instructeurs: [],
+  },
+  {
+    id: '11',
+    titre: 'Auto-défense pour femmes',
+    titreEn: 'Self-Defence for Women',
+    slug: 'autodefense-femmes',
+    categorie: 'adultes',
+    icon: '🛡️',
+    description: "Cours d'auto-défense spécialement conçu pour les femmes. Techniques pratiques basées sur le judo et les arts martiaux pour développer confiance et autonomie.",
+    descriptionEn: 'Self-defence course specially designed for women. Practical techniques based on judo and martial arts to build confidence and independence.',
+    horaires: [{ jours: 'À confirmer', heures: 'À confirmer', lieu: 'Dojo principal' }],
+    instructeurs: [],
+  },
 ]
 
 export function getAllProgrammes(): Programme[] {

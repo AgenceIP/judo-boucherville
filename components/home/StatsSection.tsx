@@ -36,16 +36,16 @@ export default function StatsSection() {
       {stats.map((stat, i) => (
         <div
           key={i}
-          className="stat-row border-t border-white/[0.06] group hover:border-gold/30 transition-colors duration-300"
+          className="stat-row border-t border-white/[0.06] group hover:border-royal/30 transition-colors duration-300"
         >
           <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 py-8 md:py-10 flex items-center gap-8 md:gap-12">
             <span
-              className="font-heading text-gold leading-none shrink-0 tabular-nums"
+              className="font-heading text-royal leading-none shrink-0 tabular-nums"
               style={{ fontSize: 'clamp(64px, 8vw, 130px)', width: 'clamp(120px, 18vw, 280px)', textAlign: 'right' }}
             >
               <AnimatedCounter end={stat.value} suffix={stat.suffix} />
             </span>
-            <div className="border-l border-white/[0.08] pl-8 md:pl-12 group-hover:border-gold/20 transition-colors duration-300">
+            <div className="border-l border-white/[0.08] pl-8 md:pl-12 group-hover:border-royal/20 transition-colors duration-300">
               <p className="font-heading text-xl sm:text-2xl md:text-3xl text-white uppercase tracking-wider leading-tight">
                 {stat.label}
               </p>

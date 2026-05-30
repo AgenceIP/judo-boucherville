@@ -53,7 +53,7 @@ export default function HeroSection() {
           style={{ fontSize: 'clamp(68px, 12vw, 148px)' }}
         >
           JUDO<br />
-          <span className="text-gold">BOUCHERVILLE</span>
+          <span className="text-royal">BOUCHERVILLE</span>
         </h1>
         <p className="text-[#999] text-base md:text-lg max-w-lg leading-relaxed animate-fade-in">
           {desc}

@@ -55,7 +55,7 @@ export default function ClubSection() {
           {/* Left */}
           <div>
             <div ref={titleRef} className="mb-10">
-              <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-4">Notre histoire</p>
+              <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-4">Notre histoire</p>
               <h2 className="font-heading text-[clamp(48px,7vw,90px)] text-white leading-[.9] tracking-tight">
                 {t('club_title')}
               </h2>
@@ -69,8 +69,8 @@ export default function ClubSection() {
             <div className="relative pl-8 border-l border-white/[0.08]">
               {timeline.map(item => (
                 <div key={item.year} className="timeline-item mb-8 last:mb-0 relative">
-                  <div className="absolute -left-[37px] w-3 h-3 rounded-full bg-gold border-2 border-bg-surface" />
-                  <span className="font-heading text-gold text-2xl">{item.year}</span>
+                  <div className="absolute -left-[37px] w-3 h-3 rounded-full bg-royal border-2 border-bg-surface" />
+                  <span className="font-heading text-royal text-2xl">{item.year}</span>
                   <p className="font-semibold text-white text-sm mt-0.5">{item.label}</p>
                   <p className="text-muted text-sm mt-1 leading-relaxed">{item.desc}</p>
                 </div>

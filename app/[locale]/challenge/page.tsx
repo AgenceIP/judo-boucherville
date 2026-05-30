@@ -67,8 +67,8 @@ export default async function ChallengePage() {
             <h3 className="font-heading text-xl text-foreground tracking-wide mb-4">🏆 Prix</h3>
             <div className="grid sm:grid-cols-3 gap-4">
               {tournoi.prix.map(p => (
-                <div key={p.categorie} className="text-center border border-gold/20 rounded-xl p-4">
-                  <p className="font-heading text-2xl text-gold">{p.montant}</p>
+                <div key={p.categorie} className="text-center border border-royal/20 rounded-xl p-4">
+                  <p className="font-heading text-2xl text-royal">{p.montant}</p>
                   <p className="text-muted text-sm mt-1">{p.categorie}</p>
                 </div>
               ))}

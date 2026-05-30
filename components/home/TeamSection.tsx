@@ -22,7 +22,7 @@ export default function TeamSection() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div ref={titleRef} className="mb-14">
-          <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-4">Corps enseignant</p>
+          <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-4">Corps enseignant</p>
           <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-white leading-[.9] tracking-tight">
             {t('team_title')}
           </h2>
@@ -37,7 +37,7 @@ export default function TeamSection() {
         <div className="text-center">
           <Link
             href={`/${locale}/equipe`}
-            className="inline-flex font-heading tracking-widest uppercase text-[13px] border border-white/20 text-muted px-8 py-3 hover:border-gold hover:text-gold transition-all duration-200"
+            className="inline-flex font-heading tracking-widest uppercase text-[13px] border border-white/20 text-muted px-8 py-3 hover:border-royal hover:text-royal transition-all duration-200"
           >
             {t('team_cta')}
           </Link>

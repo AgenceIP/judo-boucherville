@@ -15,14 +15,21 @@ const programmes = [
   { href: '/programmes/parents-enfants', labelFr: 'Parents/enfants', labelEn: 'Parents & Children', category: 'Judo' },
   { href: '/programmes/sport-etudes', labelFr: 'Sport-études', labelEn: 'Sports-Studies', category: 'Judo' },
   { href: '/programmes/judo-aines', labelFr: 'Judo aînés', labelEn: 'Seniors Judo', category: 'Judo' },
+  { href: '/programmes/parascolaire', labelFr: 'Parascolaire', labelEn: 'After-School', category: 'Judo' },
+  { href: '/programmes/autodefense-femmes', labelFr: 'Auto-défense femmes', labelEn: 'Women Self-Defence', category: 'Judo' },
   { href: '/programmes/aiki-jujitsu', labelFr: 'Aiki Ju-Jitsu', labelEn: 'Aiki Ju-Jitsu', category: 'Arts martiaux' },
   { href: '/programmes/jiu-jitsu-bresilien', labelFr: 'Jiu-Jitsu Brésilien', labelEn: 'Brazilian Jiu-Jitsu', category: 'Arts martiaux' },
   { href: '/programmes/camp-de-jour', labelFr: 'Camp de jour', labelEn: 'Day Camp', category: 'Autres' },
 ]
 
+const clubLinks = [
+  { href: '/historique', labelFr: 'Historique', labelEn: 'History' },
+  { href: '/conseil', labelFr: "Conseil d'administration", labelEn: 'Board of Directors' },
+  { href: '/ceintures-noires', labelFr: 'Ceintures noires', labelEn: 'Black Belts' },
+  { href: '/equipe', labelFr: 'Professeurs & équipe', labelEn: 'Coaches & Team' },
+]
+
 const navLinks = [
-  { href: '/equipe', key: 'equipe' },
-  { href: '/historique', key: 'historique' },
   { href: '/resultats', key: 'resultats' },
   { href: '/challenge', key: 'challenge' },
   { href: '/actualites', key: 'actualites' },
@@ -36,6 +43,7 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [programmesOpen, setProgrammesOpen] = useState(false)
+  const [clubOpen, setClubOpen] = useState(false)
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 60)
@@ -58,13 +66,13 @@ export default function Navigation() {
           {/* Logo */}
           <Link href={`/${locale}`} className="group flex items-center gap-3">
             <Image
-              src="/images/scraped/Challenge_cjb.jpg"
+              src="/images/logo-cjb-improved.png"
               alt="Club de Judo Boucherville"
               width={44}
               height={44}
               className="rounded-full"
             />
-            <span className="font-heading text-xl text-white tracking-[.12em] group-hover:text-gold transition-colors">
+            <span className="font-heading text-xl text-white tracking-[.12em] group-hover:text-royal transition-colors">
               JUDO BOUCHERVILLE
             </span>
           </Link>
@@ -88,11 +96,11 @@ export default function Navigation() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 6 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[560px] bg-black/95 backdrop-blur-xl border border-white/10 p-6 grid grid-cols-3 gap-6"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[600px] bg-black/95 backdrop-blur-xl border border-white/10 p-6 grid grid-cols-3 gap-6"
                   >
                     {categories.map(cat => (
                       <div key={cat}>
-                        <p className="text-[10px] text-gold/70 font-semibold uppercase tracking-[.2em] mb-3">{cat}</p>
+                        <p className="text-[10px] text-royal/70 font-semibold uppercase tracking-[.2em] mb-3">{cat}</p>
                         {programmes.filter(p => p.category === cat).map(prog => (
                           <Link
                             key={prog.href}
@@ -109,6 +117,39 @@ export default function Navigation() {
               </AnimatePresence>
             </div>
 
+            <div
+              className="relative"
+              onMouseEnter={() => setClubOpen(true)}
+              onMouseLeave={() => setClubOpen(false)}
+            >
+              <button className="text-[11px] text-muted hover:text-white transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1">
+                {t('club')}
+                <span className="opacity-60 text-[9px]">▾</span>
+              </button>
+
+              <AnimatePresence>
+                {clubOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-56 bg-black/95 backdrop-blur-xl border border-white/10 p-4"
+                  >
+                    {clubLinks.map(link => (
+                      <Link
+                        key={link.href}
+                        href={`/${locale}${link.href}`}
+                        className="block text-[12px] text-muted hover:text-white py-1.5 transition-colors"
+                      >
+                        {locale === 'fr' ? link.labelFr : link.labelEn}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {navLinks.map(link => (
               <Link
                 key={link.href}
@@ -116,7 +157,7 @@ export default function Navigation() {
                 className={cn(
                   'text-[11px] tracking-[.12em] uppercase font-medium transition-colors',
                   pathname.startsWith(`/${locale}${link.href}`)
-                    ? 'text-gold'
+                    ? 'text-royal'
                     : 'text-muted hover:text-white'
                 )}
               >
@@ -135,7 +176,7 @@ export default function Navigation() {
             </Link>
             <Link
               href={`/${locale}/inscription`}
-              className="text-[11px] font-bold tracking-[.1em] uppercase bg-gold text-black px-5 py-2.5 hover:bg-accent-glow transition-colors"
+              className="text-[11px] font-bold tracking-[.1em] uppercase bg-royal text-white px-5 py-2.5 hover:bg-accent-glow transition-colors"
             >
               {t('inscription')}
             </Link>
@@ -180,7 +221,8 @@ export default function Navigation() {
                 </motion.div>
               ))}
               <div className="pt-5 border-t border-white/[0.06] space-y-1">
-                {navLinks.map((link, i) => (
+                <p className="text-[10px] text-royal/70 font-semibold uppercase tracking-[.2em] pt-1 pb-1">{t('club')}</p>
+                {clubLinks.map((link, i) => (
                   <motion.div
                     key={link.href}
                     initial={{ opacity: 0, x: -12 }}
@@ -189,7 +231,24 @@ export default function Navigation() {
                   >
                     <Link
                       href={`/${locale}${link.href}`}
-                      className="block text-sm text-foreground hover:text-gold py-2 transition-colors"
+                      className="block text-sm text-muted hover:text-white py-1.5 transition-colors"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {locale === 'fr' ? link.labelFr : link.labelEn}
+                    </Link>
+                  </motion.div>
+                ))}
+                <div className="pt-3 border-t border-white/[0.04]" />
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: (programmes.length + clubLinks.length + i) * 0.03 }}
+                  >
+                    <Link
+                      href={`/${locale}${link.href}`}
+                      className="block text-sm text-foreground hover:text-royal py-2 transition-colors"
                       onClick={() => setMobileOpen(false)}
                     >
                       {t(link.key)}
@@ -199,7 +258,7 @@ export default function Navigation() {
                 <div className="pt-4">
                   <Link
                     href={`/${locale}/inscription`}
-                    className="block text-center text-sm font-bold tracking-widest uppercase bg-gold text-black px-6 py-3 mt-2"
+                    className="block text-center text-sm font-bold tracking-widest uppercase bg-royal text-white px-6 py-3 mt-2"
                   >
                     {t('inscription')}
                   </Link>

@@ -7,7 +7,7 @@ import type { Programme } from '@/data/programmes'
 const categoryTagColors = {
   enfants: 'text-green-400',
   adultes: 'text-accent-blue',
-  'arts-martiaux': 'text-gold',
+  'arts-martiaux': 'text-royal',
 }
 
 type Props = { programme: Programme; locale: string }

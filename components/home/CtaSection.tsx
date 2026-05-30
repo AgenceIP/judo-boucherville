@@ -18,11 +18,11 @@ export default function CtaSection() {
       {/* Gold radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(201,162,39,0.07) 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(65,105,225,0.07) 0%, transparent 70%)' }}
       />
 
       <div className="relative text-center max-w-5xl mx-auto px-6">
-        <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-8">Rejoindre le club</p>
+        <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-8">Rejoindre le club</p>
         <h2
           className="font-heading text-white leading-[.88] tracking-tight mb-8 text-balance"
           style={{ fontSize: 'clamp(64px, 12vw, 160px)' }}
@@ -35,13 +35,13 @@ export default function CtaSection() {
         <div className="flex flex-wrap gap-4 justify-center">
           <Link
             href={`/${locale}/inscription`}
-            className="font-heading tracking-widest uppercase text-lg bg-gold text-black px-10 py-4 hover:bg-accent-glow transition-colors"
+            className="font-heading tracking-widest uppercase text-lg bg-royal text-white px-10 py-4 hover:bg-accent-glow transition-colors"
           >
             {t('cta_button')}
           </Link>
           <Link
             href={`/${locale}/contact`}
-            className="font-heading tracking-widest uppercase text-lg border border-white/20 text-white px-10 py-4 hover:border-gold hover:text-gold transition-colors"
+            className="font-heading tracking-widest uppercase text-lg border border-white/20 text-white px-10 py-4 hover:border-royal hover:text-royal transition-colors"
           >
             Nous contacter
           </Link>

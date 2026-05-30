@@ -64,7 +64,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
                 <ul className="space-y-2">
                   {instructeur.competitions.map((c, i) => (
                     <li key={i} className="text-sm text-foreground flex gap-2">
-                      <span className="text-gold">🏅</span> {c}
+                      <span className="text-royal">🏅</span> {c}
                     </li>
                   ))}
                 </ul>

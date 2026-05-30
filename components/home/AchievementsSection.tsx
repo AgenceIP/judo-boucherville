@@ -47,12 +47,12 @@ export default function AchievementsSection() {
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="py-28 md:py-36 bg-transparent border-y border-gold/[0.12]">
+    <section ref={sectionRef} className="py-28 md:py-36 bg-transparent border-y border-royal/[0.12]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div ref={titleRef} className="mb-16">
-          <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-4">Palmarès</p>
-          <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-gold leading-[.9] tracking-tight">
+          <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-4">Palmarès</p>
+          <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-royal leading-[.9] tracking-tight">
             {t('achievements_title')}
           </h2>
           <p className="text-muted mt-4 text-sm tracking-wider">2002–2024 · Championnats provinciaux et nationaux</p>
@@ -62,7 +62,7 @@ export default function AchievementsSection() {
           {achievements.map(a => (
             <div key={a.label} className="achievement-item text-center">
               <span className="text-4xl block mb-3">{a.emoji}</span>
-              <div className="font-heading text-gold" style={{ fontSize: 'clamp(48px, 6vw, 80px)', lineHeight: 1 }}>
+              <div className="font-heading text-royal" style={{ fontSize: 'clamp(48px, 6vw, 80px)', lineHeight: 1 }}>
                 <AnimatedCounter end={a.value} />
               </div>
               <p className="text-muted text-xs mt-3 leading-relaxed max-w-[140px] mx-auto">{a.label}</p>
@@ -72,8 +72,8 @@ export default function AchievementsSection() {
 
         <div className="grid md:grid-cols-3 gap-4">
           {highlights.map(item => (
-            <div key={item.title} className="highlight-item border border-gold/[0.12] bg-gold/[0.03] p-6">
-              <h3 className="font-heading text-base text-gold mb-2 tracking-wider">{item.title}</h3>
+            <div key={item.title} className="highlight-item border border-royal/[0.12] bg-royal/[0.03] p-6">
+              <h3 className="font-heading text-base text-royal mb-2 tracking-wider">{item.title}</h3>
               <p className="text-muted text-sm leading-relaxed">{item.desc}</p>
             </div>
           ))}

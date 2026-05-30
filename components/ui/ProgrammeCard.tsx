@@ -16,7 +16,7 @@ type Props = {
 const categoryColors = {
   'enfants': 'text-green-400',
   'adultes': 'text-accent-blue',
-  'arts-martiaux': 'text-gold',
+  'arts-martiaux': 'text-royal',
 }
 
 export default function ProgrammeCard({ titre, description, horaire, slug, categorie, icon }: Props) {

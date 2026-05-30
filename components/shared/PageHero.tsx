@@ -13,7 +13,7 @@ type Props = {
   tagColor?: string
 }
 
-export default function PageHero({ title, subtitle, tag, tagColor = 'text-gold' }: Props) {
+export default function PageHero({ title, subtitle, tag, tagColor = 'text-royal' }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 

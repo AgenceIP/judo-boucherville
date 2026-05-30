@@ -18,11 +18,11 @@ export default function ChallengeSection() {
       {/* Subtle gold glow bg */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 100%, rgba(201,162,39,0.06) 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 100%, rgba(65,105,225,0.06) 0%, transparent 70%)' }}
       />
 
       <div className="relative max-w-4xl mx-auto px-6 lg:px-12 text-center">
-        <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-5">
+        <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-5">
           {t('edition')}
         </p>
         <h2 className="font-heading text-white leading-[.88] tracking-tight mb-4"
@@ -41,7 +41,7 @@ export default function ChallengeSection() {
           {['U14', 'U16', 'U18', 'U21-Senior', 'Veteran-Ne Waza'].map(cat => (
             <span
               key={cat}
-              className="px-4 py-1.5 border border-gold/20 text-[11px] text-muted tracking-[.15em] uppercase hover:border-gold/50 hover:text-gold transition-colors"
+              className="px-4 py-1.5 border border-royal/20 text-[11px] text-muted tracking-[.15em] uppercase hover:border-royal/50 hover:text-royal transition-colors"
             >
               {cat}
             </span>
@@ -50,7 +50,7 @@ export default function ChallengeSection() {
 
         <Link
           href={`/${locale}/challenge`}
-          className="inline-flex font-heading tracking-widest uppercase text-lg bg-gold text-black px-10 py-4 hover:bg-accent-glow transition-colors"
+          className="inline-flex font-heading tracking-widest uppercase text-lg bg-royal text-white px-10 py-4 hover:bg-accent-glow transition-colors"
         >
           {t('learn_more')}
         </Link>

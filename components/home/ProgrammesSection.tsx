@@ -32,7 +32,7 @@ export default function ProgrammesSection() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div ref={titleRef} className="mb-16">
-          <p className="text-gold text-[11px] tracking-[.4em] uppercase mb-4">Disciplines</p>
+          <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-4">Disciplines</p>
           <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-white leading-[.9] tracking-tight">
             {t('programmes_title')}
           </h2>
@@ -47,8 +47,8 @@ export default function ProgrammesSection() {
               className={cn(
                 'px-5 py-2 text-[11px] tracking-[.15em] uppercase font-medium transition-all duration-200',
                 active === f
-                  ? 'bg-gold text-black'
-                  : 'border border-white/10 text-muted hover:border-gold/40 hover:text-gold'
+                  ? 'bg-royal text-white'
+                  : 'border border-white/10 text-muted hover:border-royal/40 hover:text-royal'
               )}
             >
               {f === 'all' ? t('programmes_filter_all')
