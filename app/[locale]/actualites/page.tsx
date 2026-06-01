@@ -25,42 +25,42 @@ export default async function ActualitesPage() {
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {news.length === 0 ? (
-          <p className="text-muted text-center py-12">Aucune actualité pour l&apos;instant.</p>
+          <p className="text-muted py-12">Aucune actualité pour l&apos;instant.</p>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div>
             {news.map(item => (
               <Link
                 key={item.id}
                 href={`/${locale}/actualites/${item.slug}`}
-                className="group block bg-bg-surface border border-white/5 rounded-2xl overflow-hidden hover:border-accent-blue/30 transition-colors"
+                className="group flex gap-6 border-t border-white/[0.06] py-6 hover:border-royal/30 transition-colors duration-300 items-start"
               >
-                <div className="relative h-52 overflow-hidden">
-                  {item.imageSrc ? (
+                {item.imageSrc && (
+                  <div className="relative w-32 h-24 shrink-0 overflow-hidden bg-white/[0.02] hidden sm:block">
                     <Image
                       src={item.imageSrc}
                       alt={locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover"
                     />
-                  ) : (
-                    <div className="w-full h-full bg-accent-blue/5 flex items-center justify-center">
-                      <span className="font-heading text-5xl text-accent-blue/20">JB</span>
-                    </div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <p className="text-muted text-xs mb-2">{formatDate(item.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}</p>
-                  <h3 className="font-heading text-lg text-foreground group-hover:text-accent-blue transition-colors leading-tight">
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-muted text-[10px] tracking-[.25em] uppercase mb-2">
+                    {formatDate(item.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}
+                  </p>
+                  <h3 className="font-heading text-xl text-white group-hover:text-royal transition-colors leading-tight mb-2">
                     {locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
                   </h3>
                   {(item.extrait || item.extraitEn) && (
-                    <p className="text-muted text-sm mt-2 line-clamp-3">
+                    <p className="text-muted text-sm line-clamp-2 leading-relaxed">
                       {locale === 'fr' ? item.extrait : (item.extraitEn || item.extrait)}
                     </p>
                   )}
                 </div>
+                <span className="shrink-0 text-muted group-hover:text-royal group-hover:translate-x-1 transition-all duration-200 mt-1 hidden sm:block">→</span>
               </Link>
             ))}
+            <div className="border-t border-white/[0.06]" />
           </div>
         )}
       </div>

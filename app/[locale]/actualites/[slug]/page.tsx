@@ -33,14 +33,16 @@ export default async function ActualiteDetailPage({ params }: Props) {
     <>
       <PageHero title={title} />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <p className="text-muted text-sm mb-8">{formatDate(item.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}</p>
+        <p className="text-muted text-sm mb-8 tracking-wide">
+          {formatDate(item.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}
+        </p>
         {item.imageSrc && (
-          <div className="relative h-72 rounded-2xl overflow-hidden mb-10">
+          <div className="relative h-72 overflow-hidden mb-10">
             <Image src={item.imageSrc} alt={title} fill className="object-cover" />
           </div>
         )}
         <RichText value={content} />
-        <div className="mt-12 pt-8 border-t border-white/5">
+        <div className="mt-12 pt-8 border-t border-white/[0.06]">
           <Button href={`/${locale}/actualites`} variant="outline">
             {locale === 'fr' ? '← Toutes les actualités' : '← All news'}
           </Button>

@@ -4,12 +4,6 @@ import RichText from '@/components/shared/PortableText'
 import Button from '@/components/ui/Button'
 import type { Programme } from '@/data/programmes'
 
-const categoryTagColors = {
-  enfants: 'text-green-400',
-  adultes: 'text-accent-blue',
-  'arts-martiaux': 'text-royal',
-}
-
 type Props = { programme: Programme; locale: string }
 
 export default function ProgrammeTemplate({ programme, locale }: Props) {
@@ -25,14 +19,10 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
 
   return (
     <>
-      <PageHero
-        title={title}
-        tag={programme.categorie.replace('-', ' ')}
-        tagColor={categoryTagColors[programme.categorie]}
-      />
+      <PageHero title={title} tag={programme.categorie.replace('-', ' ')} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid lg:grid-cols-3 gap-12">
+        <div className="grid lg:grid-cols-3 gap-16">
 
           {/* Main content */}
           <div className="lg:col-span-2">
@@ -40,15 +30,15 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
           </div>
 
           {/* Sidebar */}
-          <aside className="space-y-6">
+          <aside className="border-t border-white/[0.06]">
             {programme.horaires.length > 0 && (
-              <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
-                <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">{labels.horaires}</h3>
+              <div className="py-6 border-b border-white/[0.06]">
+                <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-4">{labels.horaires}</h3>
                 <div className="space-y-3">
                   {programme.horaires.map((h, i) => (
                     <div key={i} className="text-sm">
-                      <span className="text-accent-blue font-medium">{h.jours}</span>
-                      <span className="text-foreground ml-2">{h.heures}</span>
+                      <span className="text-white font-medium">{h.jours}</span>
+                      <span className="text-muted ml-2">{h.heures}</span>
                       {h.lieu && <p className="text-muted text-xs mt-0.5">{h.lieu}</p>}
                     </div>
                   ))}
@@ -57,15 +47,15 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
             )}
 
             {programme.tarif && (
-              <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
-                <h3 className="font-heading text-lg text-foreground tracking-wide mb-2">{labels.tarif}</h3>
-                <p className="text-accent-blue text-xl font-semibold">{programme.tarif}</p>
+              <div className="py-6 border-b border-white/[0.06]">
+                <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-2">{labels.tarif}</h3>
+                <p className="font-heading text-xl text-white">{programme.tarif}</p>
               </div>
             )}
 
             {programme.instructeurs.length > 0 && (
-              <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
-                <h3 className="font-heading text-lg text-foreground tracking-wide mb-4">{labels.instructeurs}</h3>
+              <div className="py-6 border-b border-white/[0.06]">
+                <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-4">{labels.instructeurs}</h3>
                 <div className="space-y-3">
                   {programme.instructeurs.map(instr => (
                     <Link
@@ -73,11 +63,13 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
                       href={`/${locale}/equipe/${instr.slug}`}
                       className="flex items-center gap-3 group"
                     >
-                      <div className="w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue font-heading text-sm">
-                        {instr.nom.split(' ').map((n: string) => n[0] ?? '').join('')}
+                      <div className="w-8 h-8 bg-white/[0.04] border border-white/[0.06] flex items-center justify-center shrink-0">
+                        <span className="font-heading text-xs text-muted">
+                          {instr.nom.split(' ').map((n: string) => n[0] ?? '').join('')}
+                        </span>
                       </div>
                       <div>
-                        <p className="text-sm text-foreground group-hover:text-accent-blue transition-colors">{instr.nom}</p>
+                        <p className="text-sm text-white group-hover:text-royal transition-colors">{instr.nom}</p>
                         <p className="text-xs text-muted">{instr.grade}</p>
                       </div>
                     </Link>
@@ -86,9 +78,11 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
               </div>
             )}
 
-            <Button href={`/${locale}/inscription`} className="w-full">
-              {labels.sInscrire}
-            </Button>
+            <div className="pt-6">
+              <Button href={`/${locale}/inscription`} className="w-full">
+                {labels.sInscrire}
+              </Button>
+            </div>
           </aside>
         </div>
       </div>

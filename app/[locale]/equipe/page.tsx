@@ -24,13 +24,13 @@ export default async function EquipePage() {
           : 'Accredited instructors dedicated to your progression.'}
       />
 
-      <div className="reveal-hidden revealed max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
         {Object.entries(grouped).map(([key, group]) => {
           const uniqueGroup = group.filter(i => !seen.has(i.id))
           uniqueGroup.forEach(i => seen.add(i.id))
           return uniqueGroup.length > 0 && (
             <div key={key}>
-              <h2 className="font-heading text-2xl text-muted tracking-widest uppercase mb-8 border-b border-white/5 pb-4">
+              <h2 className="font-heading text-[10px] text-muted tracking-[.3em] uppercase mb-0 border-b border-white/[0.06] pb-4">
                 {key === 'judo' ? 'Judo' : key === 'aiki-jujitsu' ? 'Aiki Ju-Jitsu' : 'Jiu-Jitsu Brésilien'}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

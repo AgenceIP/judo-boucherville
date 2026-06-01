@@ -17,63 +17,61 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
 
   return (
     <>
-      <PageHero
-        title={instructeur.nom}
-        subtitle={instructeur.role}
-        tag={instructeur.grade}
-      />
+      <PageHero title={instructeur.nom} subtitle={instructeur.role} tag={instructeur.grade} />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid md:grid-cols-3 gap-16">
 
           {/* Photo + details */}
           <div className="md:col-span-1">
-            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mb-6">
+            <div className="relative aspect-[3/4] overflow-hidden mb-8 bg-white/[0.03]">
               {instructeur.photoSrc ? (
                 <Image
                   src={instructeur.photoSrc}
                   alt={instructeur.nom}
                   fill
-                  className="object-cover"
+                  className="object-cover object-top grayscale"
                 />
               ) : (
-                <div className="w-full h-full bg-accent-blue/10 flex items-center justify-center">
-                  <span className="font-heading text-8xl text-accent-blue/30">
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="font-heading text-[80px] leading-none text-white/[0.04] select-none">
                     {instructeur.nom.split(' ').map(n => n[0] ?? '').join('')}
                   </span>
                 </div>
               )}
             </div>
 
-            {instructeur.disciplines.length > 0 && (
-              <div className="mb-6">
-                <h3 className="text-xs text-muted uppercase tracking-widest mb-3">{labels.disciplines}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {instructeur.disciplines.map(d => (
-                    <span key={d} className="px-3 py-1 bg-accent-blue/10 border border-accent-blue/20 rounded-full text-xs text-accent-blue">
-                      {d}
-                    </span>
-                  ))}
+            <div className="border-t border-white/[0.06]">
+              {instructeur.disciplines.length > 0 && (
+                <div className="py-5 border-b border-white/[0.06]">
+                  <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{labels.disciplines}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {instructeur.disciplines.map(d => (
+                      <span key={d} className="text-xs text-muted border border-white/[0.08] px-2 py-1">
+                        {d}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {instructeur.competitions.length > 0 && (
-              <div className="mb-6">
-                <h3 className="text-xs text-muted uppercase tracking-widest mb-3">{labels.realisations}</h3>
-                <ul className="space-y-2">
-                  {instructeur.competitions.map((c, i) => (
-                    <li key={i} className="text-sm text-foreground flex gap-2">
-                      <span className="text-royal">🏅</span> {c}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              {instructeur.competitions.length > 0 && (
+                <div className="py-5 border-b border-white/[0.06]">
+                  <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{labels.realisations}</h3>
+                  <ul className="space-y-2">
+                    {instructeur.competitions.map((c, i) => (
+                      <li key={i} className="text-sm text-muted leading-relaxed">{c}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-            <Button href={`/${locale}/equipe`} variant="outline" className="w-full">
-              {labels.retour}
-            </Button>
+              <div className="pt-5">
+                <Button href={`/${locale}/equipe`} variant="outline" className="w-full">
+                  {labels.retour}
+                </Button>
+              </div>
+            </div>
           </div>
 
           {/* Bio */}
