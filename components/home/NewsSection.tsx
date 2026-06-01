@@ -9,52 +9,90 @@ export default async function NewsSection() {
   const news = getLatestActualites(3)
   if (!news.length) return null
 
+  const [featured, ...rest] = news
+
   return (
     <section className="py-28 md:py-36 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="mb-14">
-          <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-4">Actualités</p>
+
+        <div className="flex items-end justify-between mb-12 gap-6">
           <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-white leading-[.9] tracking-tight">
             {t('news_title')}
           </h2>
+          <Link
+            href={`/${locale}/actualites`}
+            className="text-[11px] tracking-[.25em] uppercase text-muted hover:text-white transition-colors pb-2 shrink-0"
+          >
+            Toutes les actualités →
+          </Link>
         </div>
-        <div className="grid md:grid-cols-3 gap-5">
-          {news.map(item => (
-            <Link
-              key={item.id}
-              href={`/${locale}/actualites/${item.slug}`}
-              className="group block border border-white/[0.06] hover:border-royal/30 transition-colors duration-300"
-            >
-              <div className="relative h-52 overflow-hidden bg-white/[0.02]">
-                {item.imageSrc ? (
-                  <Image
-                    src={item.imageSrc}
-                    alt={locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="font-heading text-5xl text-royal/10">JB</span>
+
+        <div className="grid lg:grid-cols-2 gap-px bg-white/[0.04]">
+          {/* Featured article */}
+          <Link
+            href={`/${locale}/actualites/${featured.slug}`}
+            className="group bg-bg-surface block"
+          >
+            <div className="relative h-72 lg:h-96 overflow-hidden bg-white/[0.02]">
+              {featured.imageSrc ? (
+                <Image
+                  src={featured.imageSrc}
+                  alt={locale === 'fr' ? featured.titre : (featured.titreEn || featured.titre)}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="font-heading text-6xl text-royal/10">JB</span>
+                </div>
+              )}
+            </div>
+            <div className="p-6 lg:p-8">
+              <p className="text-muted text-[10px] tracking-[.3em] uppercase mb-3">
+                {formatDate(featured.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}
+              </p>
+              <h3 className="font-heading text-2xl lg:text-3xl text-white group-hover:text-royal transition-colors leading-tight">
+                {locale === 'fr' ? featured.titre : (featured.titreEn || featured.titre)}
+              </h3>
+              {(featured.extrait || featured.extraitEn) && (
+                <p className="text-muted text-sm mt-3 line-clamp-2 leading-relaxed">
+                  {locale === 'fr' ? featured.extrait : (featured.extraitEn || featured.extrait)}
+                </p>
+              )}
+            </div>
+          </Link>
+
+          {/* Secondary articles */}
+          <div className="flex flex-col gap-px bg-white/[0.04]">
+            {rest.map(item => (
+              <Link
+                key={item.id}
+                href={`/${locale}/actualites/${item.slug}`}
+                className="group flex gap-5 bg-bg-surface p-6 lg:p-8 flex-1 items-start"
+              >
+                {item.imageSrc && (
+                  <div className="relative w-24 h-20 shrink-0 overflow-hidden bg-white/[0.02]">
+                    <Image
+                      src={item.imageSrc}
+                      alt={locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                 )}
-              </div>
-              <div className="p-6">
-                <p className="text-muted text-[10px] tracking-[.3em] uppercase mb-3">
-                  {formatDate(item.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}
-                </p>
-                <h3 className="font-heading text-xl text-white group-hover:text-royal transition-colors leading-tight">
-                  {locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
-                </h3>
-                {(item.extrait || item.extraitEn) && (
-                  <p className="text-muted text-sm mt-3 line-clamp-2 leading-relaxed">
-                    {locale === 'fr' ? item.extrait : (item.extraitEn || item.extrait)}
+                <div className="min-w-0">
+                  <p className="text-muted text-[10px] tracking-[.3em] uppercase mb-2">
+                    {formatDate(item.date, locale === 'fr' ? 'fr-CA' : 'en-CA')}
                   </p>
-                )}
-              </div>
-            </Link>
-          ))}
+                  <h3 className="font-heading text-lg text-white group-hover:text-royal transition-colors leading-tight line-clamp-2">
+                    {locale === 'fr' ? item.titre : (item.titreEn || item.titre)}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
+
       </div>
     </section>
   )

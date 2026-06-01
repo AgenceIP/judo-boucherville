@@ -12,48 +12,49 @@ export default function ChallengeSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-28 md:py-36 relative overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #0a0500 0%, #0d0d0d 50%, #080808 100%)' }}
+      className="py-28 md:py-36 bg-transparent border-t border-white/[0.06]"
     >
-      {/* Subtle gold glow bg */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 100%, rgba(65,105,225,0.06) 0%, transparent 70%)' }}
-      />
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-      <div className="relative max-w-4xl mx-auto px-6 lg:px-12 text-center">
-        <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-5">
-          {t('edition')}
-        </p>
-        <h2 className="font-heading text-white leading-[.88] tracking-tight mb-4"
-          style={{ fontSize: 'clamp(56px, 10vw, 120px)' }}>
-          {t('title')}
-        </h2>
-        <p className="text-muted text-sm tracking-wider mb-12">
-          Dojo Marcel Bourelly &nbsp;·&nbsp; {t('date')}
-        </p>
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-        <div className="mb-12">
-          <CountdownTimer targetDate="2026-04-11T08:00:00-04:00" />
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-2 mb-14">
-          {['U14', 'U16', 'U18', 'U21-Senior', 'Veteran-Ne Waza'].map(cat => (
-            <span
-              key={cat}
-              className="px-4 py-1.5 border border-royal/20 text-[11px] text-muted tracking-[.15em] uppercase hover:border-royal/50 hover:text-royal transition-colors"
+          {/* Left */}
+          <div>
+            <h2
+              className="font-heading text-white leading-[.88] tracking-tight mb-6"
+              style={{ fontSize: 'clamp(52px, 8vw, 110px)' }}
             >
-              {cat}
-            </span>
-          ))}
-        </div>
+              {t('title')}
+            </h2>
+            <p className="text-muted text-base mb-2">{t('edition')}</p>
+            <p className="text-muted text-base mb-10">
+              Dojo Marcel Bourelly &nbsp;·&nbsp; {t('date')}
+            </p>
+            <div className="flex flex-wrap gap-2 mb-12">
+              {['U14', 'U16', 'U18', 'U21-Senior', 'Veteran / Ne Waza'].map(cat => (
+                <span
+                  key={cat}
+                  className="px-3 py-1 border border-white/10 text-[11px] text-muted tracking-[.15em] uppercase"
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+            <Link
+              href={`/${locale}/challenge`}
+              className="inline-flex font-heading tracking-widest uppercase text-sm border border-white/20 text-white px-8 py-4 hover:border-royal hover:text-royal transition-colors"
+            >
+              {t('learn_more')}
+            </Link>
+          </div>
 
-        <Link
-          href={`/${locale}/challenge`}
-          className="inline-flex font-heading tracking-widest uppercase text-lg bg-royal text-white px-10 py-4 hover:bg-accent-glow transition-colors"
-        >
-          {t('learn_more')}
-        </Link>
+          {/* Right — countdown */}
+          <div className="lg:pt-4">
+            <p className="text-muted text-[11px] tracking-[.3em] uppercase mb-6">Compte à rebours</p>
+            <CountdownTimer targetDate="2026-04-11T08:00:00-04:00" />
+          </div>
+
+        </div>
       </div>
     </section>
   )
