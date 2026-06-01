@@ -55,15 +55,14 @@ export default function ClubSection() {
           {/* Left */}
           <div>
             <div ref={titleRef} className="mb-10">
-              <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-4">Notre histoire</p>
               <h2 className="font-heading text-[clamp(48px,7vw,90px)] text-white leading-[.9] tracking-tight">
                 {t('club_title')}
               </h2>
             </div>
             <p className="text-muted leading-relaxed mb-12 text-base max-w-lg">
-              Le Club de Judo Boucherville, fondé en 1970 par Marcel Bourelly, est aujourd&apos;hui le
-              premier club de judo au Québec. Reconnu AAA par Judo Québec, il a formé plus de
-              50 ceintures noires et des dizaines de champions provinciaux et nationaux.
+              Fondé en 1970 par Marcel Bourelly, le Club de Judo Boucherville est aujourd&apos;hui le
+              premier club de judo au Québec. Reconnu AAA par Judo Québec, avec 126 ceintures noires
+              et des générations de champions provinciaux et nationaux.
             </p>
 
             <div className="relative pl-8 border-l border-white/[0.08]">

@@ -9,42 +9,34 @@ export default function CtaSection() {
   const ref = useReveal<HTMLElement>()
 
   return (
-    <section ref={ref} className="py-32 md:py-44 bg-transparent relative overflow-hidden">
-      {/* Amplified noise */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ opacity: 0.06, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
-      />
-      {/* Gold radial glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(65,105,225,0.07) 0%, transparent 70%)' }}
-      />
-
-      <div className="relative text-center max-w-5xl mx-auto px-6">
-        <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-8">Rejoindre le club</p>
-        <h2
-          className="font-heading text-white leading-[.88] tracking-tight mb-8 text-balance"
-          style={{ fontSize: 'clamp(64px, 12vw, 160px)' }}
-        >
-          {t('cta_title')}
-        </h2>
-        <p className="text-muted text-lg mb-12 max-w-xl mx-auto leading-relaxed">
-          {t('cta_subtitle')}
-        </p>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <Link
-            href={`/${locale}/inscription`}
-            className="font-heading tracking-widest uppercase text-lg bg-royal text-white px-10 py-4 hover:bg-accent-glow transition-colors"
+    <section ref={ref} className="py-32 md:py-48 bg-transparent border-t border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="grid lg:grid-cols-2 gap-16 items-end">
+          <h2
+            className="font-heading text-white leading-[.88] tracking-tight"
+            style={{ fontSize: 'clamp(64px, 10vw, 140px)' }}
           >
-            {t('cta_button')}
-          </Link>
-          <Link
-            href={`/${locale}/contact`}
-            className="font-heading tracking-widest uppercase text-lg border border-white/20 text-white px-10 py-4 hover:border-royal hover:text-royal transition-colors"
-          >
-            Nous contacter
-          </Link>
+            {t('cta_title')}
+          </h2>
+          <div className="lg:pb-4">
+            <p className="text-muted text-lg mb-10 leading-relaxed max-w-md">
+              {t('cta_subtitle')}
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href={`/${locale}/inscription`}
+                className="font-heading tracking-widest uppercase text-sm bg-royal text-white px-8 py-4 hover:bg-accent-glow transition-colors"
+              >
+                {t('cta_button')}
+              </Link>
+              <Link
+                href={`/${locale}/contact`}
+                className="font-heading tracking-widest uppercase text-sm border border-white/20 text-white px-8 py-4 hover:border-white/50 transition-colors"
+              >
+                Nous contacter
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>

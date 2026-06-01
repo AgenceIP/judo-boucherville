@@ -9,16 +9,15 @@ import { useReveal } from '@/hooks/useReveal'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const achievements = [
-  { label: 'Or — provinciaux U15-U16', value: 37, emoji: '🥇' },
-  { label: 'Argent — provinciaux U15-U16', value: 23, emoji: '🥈' },
-  { label: 'Bronze — provinciaux U15-U16', value: 24, emoji: '🥉' },
-  { label: 'Médailles — canadiens 2023', value: 16, emoji: '🏅' },
+const medals = [
+  { value: 84, label: "Médailles d'or", sub: 'Provinciaux & Nationaux 2002–2025' },
+  { value: 51, label: "Médailles d'argent", sub: 'Provinciaux & Nationaux 2002–2025' },
+  { value: 39, label: 'Médailles de bronze', sub: 'Provinciaux & Nationaux 2002–2025' },
 ]
 
 const highlights = [
   { title: 'Championnats du monde Kata', desc: 'Jérôme Lajoie & Jacob St-Jean — 8e place à Cancún 2018' },
-  { title: 'Premier club sport-études au Canada', desc: "Programme sport-études à l'École secondaire De Mortagne" },
+  { title: 'Premier sport-études judo au Canada', desc: "Programme en partenariat avec l'École secondaire De Mortagne depuis 1995" },
   { title: 'Temple de la renommée', desc: 'Marcel Bourelly intronisé au Temple de la renommée de Judo Québec' },
 ]
 
@@ -28,52 +27,54 @@ export default function AchievementsSection() {
   const titleRef = useReveal<HTMLDivElement>()
 
   useGSAP(() => {
-    gsap.from('.achievement-item', {
+    gsap.from('.medal-row', {
       opacity: 0,
-      y: 24,
+      x: -20,
       stagger: 0.1,
       duration: 0.7,
       ease: 'power3.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
-    })
-    gsap.from('.highlight-item', {
-      opacity: 0,
-      y: 20,
-      stagger: 0.08,
-      duration: 0.6,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: '.highlight-item', start: 'top 85%' },
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
     })
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="py-28 md:py-36 bg-transparent border-y border-royal/[0.12]">
+    <section ref={sectionRef} className="py-28 md:py-36 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div ref={titleRef} className="mb-16">
-          <p className="text-royal text-[11px] tracking-[.4em] uppercase mb-4">Palmarès</p>
           <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-royal leading-[.9] tracking-tight">
             {t('achievements_title')}
           </h2>
-          <p className="text-muted mt-4 text-sm tracking-wider">2002–2024 · Championnats provinciaux et nationaux</p>
+          <p className="text-muted mt-4 text-sm tracking-wider">2002–2025 · Championnats provinciaux et nationaux</p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {achievements.map(a => (
-            <div key={a.label} className="achievement-item text-center">
-              <span className="text-4xl block mb-3">{a.emoji}</span>
-              <div className="font-heading text-royal" style={{ fontSize: 'clamp(48px, 6vw, 80px)', lineHeight: 1 }}>
-                <AnimatedCounter end={a.value} />
+        <div className="mb-20">
+          {medals.map(m => (
+            <div
+              key={m.label}
+              className="medal-row border-t border-white/[0.06] group hover:border-royal/30 transition-colors duration-300"
+            >
+              <div className="py-7 flex items-center gap-8 md:gap-16">
+                <span
+                  className="font-heading text-royal leading-none shrink-0 tabular-nums"
+                  style={{ fontSize: 'clamp(52px, 6vw, 96px)', width: 'clamp(80px, 12vw, 180px)', textAlign: 'right' }}
+                >
+                  <AnimatedCounter end={m.value} />
+                </span>
+                <div className="border-l border-white/[0.08] pl-8 group-hover:border-royal/20 transition-colors duration-300">
+                  <p className="font-heading text-xl md:text-2xl text-white tracking-wider">{m.label}</p>
+                  <p className="text-muted text-sm mt-1">{m.sub}</p>
+                </div>
               </div>
-              <p className="text-muted text-xs mt-3 leading-relaxed max-w-[140px] mx-auto">{a.label}</p>
             </div>
           ))}
+          <div className="border-t border-white/[0.06]" />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-px bg-white/[0.04]">
           {highlights.map(item => (
-            <div key={item.title} className="highlight-item border border-royal/[0.12] bg-royal/[0.03] p-6">
-              <h3 className="font-heading text-base text-royal mb-2 tracking-wider">{item.title}</h3>
+            <div key={item.title} className="bg-bg-surface p-8">
+              <h3 className="font-heading text-base text-white mb-3 tracking-wider leading-snug">{item.title}</h3>
               <p className="text-muted text-sm leading-relaxed">{item.desc}</p>
             </div>
           ))}

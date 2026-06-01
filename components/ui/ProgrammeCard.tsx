@@ -1,8 +1,6 @@
 'use client'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
-import { cn } from '@/lib/utils'
 
 type Props = {
   titre: string
@@ -10,43 +8,40 @@ type Props = {
   horaire: string
   slug: string
   categorie: 'enfants' | 'adultes' | 'arts-martiaux'
-  icon: string
+  icon?: string
 }
 
-const categoryColors = {
-  'enfants': 'text-green-400',
-  'adultes': 'text-accent-blue',
-  'arts-martiaux': 'text-royal',
+const categoryLabel: Record<string, string> = {
+  enfants: 'Enfants',
+  adultes: 'Adultes',
+  'arts-martiaux': 'Arts martiaux',
 }
 
-export default function ProgrammeCard({ titre, description, horaire, slug, categorie, icon }: Props) {
+export default function ProgrammeCard({ titre, description, horaire, slug, categorie }: Props) {
   const locale = useLocale()
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02, y: -4 }}
-      transition={{ duration: 0.2 }}
-      className="group relative bg-bg-surface border border-white/5 rounded-2xl p-6 overflow-hidden cursor-pointer"
+    <Link
+      href={`/${locale}/programmes/${slug}`}
+      className="group flex items-center gap-6 border-t border-white/[0.06] py-5 hover:border-royal/30 transition-colors duration-300"
     >
-      {/* Glow on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-accent-blue/10 to-transparent pointer-events-none" />
-
-      <div className="relative z-10">
-        <span className="text-3xl mb-4 block">{icon}</span>
-        <span className={cn('text-xs font-semibold uppercase tracking-wider', categoryColors[categorie])}>
-          {categorie.replace('-', ' ')}
-        </span>
-        <h3 className="font-heading text-xl text-foreground mt-2 mb-3 tracking-wide">{titre}</h3>
-        <p className="text-muted text-sm leading-relaxed line-clamp-2 mb-4">{description}</p>
-        <p className="text-xs text-accent-blue font-medium">{horaire}</p>
-
-        <Link
-          href={`/${locale}/programmes/${slug}`}
-          className="mt-4 inline-flex items-center text-sm text-accent-blue hover:gap-2 transition-all group/link"
-        >
-          En savoir plus <span className="ml-1 group-hover/link:ml-2 transition-all">→</span>
-        </Link>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-baseline gap-4">
+          <h3 className="font-heading text-xl text-white tracking-wide group-hover:text-royal transition-colors duration-200">
+            {titre}
+          </h3>
+          <span className="text-[10px] text-muted tracking-[.2em] uppercase shrink-0">
+            {categoryLabel[categorie]}
+          </span>
+        </div>
+        <p className="text-muted text-sm mt-1 leading-relaxed line-clamp-1">{description}</p>
       </div>
-    </motion.div>
+      <div className="shrink-0 text-right hidden sm:block">
+        <p className="text-sm text-muted tabular-nums">{horaire}</p>
+      </div>
+      <span className="shrink-0 text-muted group-hover:text-royal group-hover:translate-x-1 transition-all duration-200 text-lg">
+        →
+      </span>
+    </Link>
   )
 }
