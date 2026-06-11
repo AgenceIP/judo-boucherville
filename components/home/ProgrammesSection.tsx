@@ -2,7 +2,9 @@
 import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import ProgrammeCard from '@/components/ui/ProgrammeCard'
+import RevealText from '@/components/ui/RevealText'
 import { cn } from '@/lib/utils'
 import { useReveal } from '@/hooks/useReveal'
 
@@ -23,7 +25,7 @@ export default function ProgrammesSection() {
   const t = useTranslations('home')
   const locale = useLocale()
   const [active, setActive] = useState<typeof filters[number]>('all')
-  const titleRef = useReveal<HTMLDivElement>()
+  const filtersRef = useReveal<HTMLDivElement>()
 
   const filtered = active === 'all' ? programmesData : programmesData.filter(p => p.categorie === active)
 
@@ -31,45 +33,67 @@ export default function ProgrammesSection() {
     <section className="py-28 md:py-36 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        <div ref={titleRef} className="flex items-end justify-between mb-12 gap-6 flex-wrap">
-          <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-white leading-[.9] tracking-tight">
+        <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
+          <RevealText
+            as="h2"
+            className="font-heading text-[clamp(48px,8vw,100px)] text-white leading-[.9] tracking-tight"
+          >
             {t('programmes_title')}
-          </h2>
+          </RevealText>
 
-          <div className="flex gap-2 flex-wrap">
+          <div ref={filtersRef} className="flex gap-2 flex-wrap">
             {filters.map(f => (
               <button
                 key={f}
                 onClick={() => setActive(f)}
                 className={cn(
-                  'px-4 py-1.5 text-[10px] tracking-[.2em] uppercase font-medium transition-colors duration-200',
-                  active === f
-                    ? 'bg-royal text-white'
-                    : 'border border-white/10 text-muted hover:text-white hover:border-white/30'
+                  'relative px-4 py-1.5 text-[10px] tracking-[.2em] uppercase font-medium transition-colors duration-300',
+                  active === f ? 'text-white' : 'text-muted hover:text-white'
                 )}
               >
-                {f === 'all' ? t('programmes_filter_all')
-                  : f === 'enfants' ? t('programmes_filter_children')
-                  : f === 'adultes' ? t('programmes_filter_adults')
-                  : t('programmes_filter_martial')}
+                {active === f && (
+                  <motion.span
+                    layoutId="programme-filter"
+                    className="absolute inset-0 bg-royal"
+                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                  />
+                )}
+                <span className={cn('relative z-10', active !== f && 'border border-transparent')}>
+                  {f === 'all' ? t('programmes_filter_all')
+                    : f === 'enfants' ? t('programmes_filter_children')
+                    : f === 'adultes' ? t('programmes_filter_adults')
+                    : t('programmes_filter_martial')}
+                </span>
               </button>
             ))}
           </div>
         </div>
 
-        <div>
-          {filtered.map(prog => (
-            <ProgrammeCard key={prog.slug} {...prog} />
-          ))}
+        <motion.div layout>
+          <AnimatePresence mode="popLayout" initial={false}>
+            {filtered.map(prog => (
+              <motion.div
+                key={prog.slug}
+                layout
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <ProgrammeCard {...prog} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
           <div className="border-t border-white/[0.06]" />
-        </div>
+        </motion.div>
 
         <div className="mt-10">
           <Link
             href={`/${locale}/programmes`}
-            className="text-[11px] tracking-[.25em] uppercase text-muted hover:text-white transition-colors"
+            className="group text-[11px] tracking-[.25em] uppercase text-muted hover:text-white transition-colors"
           >
-            Voir tous les programmes →
+            Voir tous les programmes{' '}
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
           </Link>
         </div>
       </div>

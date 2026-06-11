@@ -5,7 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import { useReveal } from '@/hooks/useReveal'
+import RevealText from '@/components/ui/RevealText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,10 +20,27 @@ const timeline = [
 export default function ClubSection() {
   const t = useTranslations('home')
   const sectionRef = useRef<HTMLElement>(null)
+  const imageWrapRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
-  const titleRef = useReveal<HTMLDivElement>()
+  const timelineRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    // Photo unmasks from the bottom, Apple keynote style
+    if (!reduced) {
+      gsap.fromTo(imageWrapRef.current,
+        { clipPath: 'inset(100% 0% 0% 0%)' },
+        {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          duration: 1.4,
+          ease: 'power4.inOut',
+          scrollTrigger: { trigger: imageWrapRef.current, start: 'top 78%' },
+        }
+      )
+    }
+
+    // Parallax drift inside the frame
     gsap.to(imageRef.current, {
       yPercent: -12,
       ease: 'none',
@@ -34,6 +51,20 @@ export default function ClubSection() {
         scrub: true,
       },
     })
+
+    // Vertical line draws itself as the timeline scrolls through view
+    gsap.from('.timeline-rule', {
+      scaleY: 0,
+      transformOrigin: 'top center',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: timelineRef.current,
+        start: 'top 80%',
+        end: 'bottom 60%',
+        scrub: 0.6,
+      },
+    })
+
     gsap.from('.timeline-item', {
       opacity: 0,
       x: -20,
@@ -41,7 +72,17 @@ export default function ClubSection() {
       duration: 0.7,
       ease: 'power3.out',
       scrollTrigger: {
-        trigger: '.timeline-item',
+        trigger: timelineRef.current,
+        start: 'top 85%',
+      },
+    })
+    gsap.from('.timeline-dot', {
+      scale: 0,
+      stagger: 0.12,
+      duration: 0.5,
+      ease: 'back.out(2.5)',
+      scrollTrigger: {
+        trigger: timelineRef.current,
         start: 'top 85%',
       },
     })
@@ -54,21 +95,23 @@ export default function ClubSection() {
 
           {/* Left */}
           <div>
-            <div ref={titleRef} className="mb-10">
-              <h2 className="font-heading text-[clamp(48px,7vw,90px)] text-white leading-[.9] tracking-tight">
-                {t('club_title')}
-              </h2>
-            </div>
+            <RevealText
+              as="h2"
+              className="font-heading text-[clamp(48px,7vw,90px)] text-white leading-[.9] tracking-tight mb-10"
+            >
+              {t('club_title')}
+            </RevealText>
             <p className="text-muted leading-relaxed mb-12 text-base max-w-lg">
               Fondé en 1970 par Marcel Bourelly, le Club de Judo Boucherville est aujourd&apos;hui le
               premier club de judo au Québec. Reconnu AAA par Judo Québec, avec 126 ceintures noires
               et des générations de champions provinciaux et nationaux.
             </p>
 
-            <div className="relative pl-8 border-l border-white/[0.08]">
+            <div ref={timelineRef} className="relative pl-8">
+              <div className="timeline-rule absolute left-0 top-0 bottom-0 w-px bg-white/[0.12]" />
               {timeline.map(item => (
                 <div key={item.year} className="timeline-item mb-8 last:mb-0 relative">
-                  <div className="absolute -left-[37px] w-3 h-3 rounded-full bg-royal border-2 border-bg-surface" />
+                  <div className="timeline-dot absolute -left-[37px] w-3 h-3 rounded-full bg-royal border-2 border-bg-surface" />
                   <span className="font-heading text-royal text-2xl">{item.year}</span>
                   <p className="font-semibold text-white text-sm mt-0.5">{item.label}</p>
                   <p className="text-muted text-sm mt-1 leading-relaxed">{item.desc}</p>
@@ -78,7 +121,7 @@ export default function ClubSection() {
           </div>
 
           {/* Right: dojo photo */}
-          <div className="relative h-[520px] overflow-hidden">
+          <div ref={imageWrapRef} className="relative h-[520px] overflow-hidden">
             <div ref={imageRef} className="absolute inset-0 scale-110">
               <Image
                 src="/images/scraped/Autre_dojo.jpg"

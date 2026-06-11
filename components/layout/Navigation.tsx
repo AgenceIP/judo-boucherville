@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -41,21 +41,30 @@ export default function Navigation() {
   const locale = useLocale()
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [programmesOpen, setProgrammesOpen] = useState(false)
   const [clubOpen, setClubOpen] = useState(false)
+  const lastY = useRef(0)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 60)
+    const handler = () => {
+      const y = window.scrollY
+      setScrolled(y > 60)
+      // Hide when scrolling down past the hero, reappear on any scroll up
+      setHidden(y > 400 && y > lastY.current && !mobileOpen)
+      lastY.current = y
+    }
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
-  }, [])
+  }, [mobileOpen])
 
   const categories = [...new Set(programmes.map(p => p.category))]
 
   return (
     <header className={cn(
       'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+      hidden && '-translate-y-full',
       scrolled
         ? 'bg-black/90 backdrop-blur-xl border-b border-white/[0.06]'
         : 'bg-transparent'

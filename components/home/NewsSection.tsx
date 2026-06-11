@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getTranslations, getLocale } from 'next-intl/server'
 import { getLatestActualites } from '@/data/actualites'
 import { formatDate } from '@/lib/utils'
+import Reveal from '@/components/ui/Reveal'
 
 export default async function NewsSection() {
   const [t, locale] = await Promise.all([getTranslations('home'), getLocale()])
@@ -15,19 +16,20 @@ export default async function NewsSection() {
     <section className="py-28 md:py-36 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        <div className="flex items-end justify-between mb-12 gap-6">
+        <Reveal className="flex items-end justify-between mb-12 gap-6">
           <h2 className="font-heading text-[clamp(48px,8vw,100px)] text-white leading-[.9] tracking-tight">
             {t('news_title')}
           </h2>
           <Link
             href={`/${locale}/actualites`}
-            className="text-[11px] tracking-[.25em] uppercase text-muted hover:text-white transition-colors pb-2 shrink-0"
+            className="group text-[11px] tracking-[.25em] uppercase text-muted hover:text-white transition-colors pb-2 shrink-0"
           >
-            Toutes les actualités →
+            Toutes les actualités{' '}
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="grid lg:grid-cols-2 gap-px bg-white/[0.04]">
+        <Reveal className="reveal-stagger grid lg:grid-cols-2 gap-px bg-white/[0.04]">
           {/* Featured article */}
           <Link
             href={`/${locale}/actualites/${featured.slug}`}
@@ -91,7 +93,7 @@ export default async function NewsSection() {
               </Link>
             ))}
           </div>
-        </div>
+        </Reveal>
 
       </div>
     </section>

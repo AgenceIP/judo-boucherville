@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import { MapPin, Phone, Mail } from 'lucide-react'
+import { useReveal } from '@/hooks/useReveal'
 
 const quickLinks = [
   { href: '/programmes', labelFr: 'Programmes', labelEn: 'Programs' },
@@ -24,9 +25,21 @@ const schedules = [
 export default function Footer() {
   const t = useTranslations()
   const locale = useLocale()
+  const wordmarkRef = useReveal<HTMLDivElement>()
 
   return (
     <footer className="bg-black/70 border-t border-white/[0.06]">
+      {/* Giant outlined wordmark */}
+      <div ref={wordmarkRef} className="overflow-hidden pt-14 -mb-4">
+        <p
+          className="text-stroke font-heading text-center leading-[.85] select-none whitespace-nowrap tracking-tight"
+          style={{ fontSize: 'clamp(56px, 10.5vw, 190px)' }}
+          aria-hidden="true"
+        >
+          JUDO BOUCHERVILLE
+        </p>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
 
