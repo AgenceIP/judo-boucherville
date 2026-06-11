@@ -62,13 +62,17 @@ export default function Navigation() {
   const categories = [...new Set(programmes.map(p => p.category))]
 
   return (
-    <header className={cn(
-      'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-      hidden && '-translate-y-full',
-      scrolled
-        ? 'bg-black/90 backdrop-blur-xl border-b border-white/[0.06]'
-        : 'bg-transparent'
-    )}>
+    <header
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+        hidden && '-translate-y-full',
+        scrolled && 'backdrop-blur-xl'
+      )}
+      style={scrolled ? {
+        backgroundColor: 'color-mix(in srgb, var(--voie-bg) 86%, transparent)',
+        borderBottom: '1px solid var(--voie-hairline)',
+      } : undefined}
+    >
       <nav className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
 
@@ -81,7 +85,10 @@ export default function Navigation() {
               height={44}
               className="rounded-full"
             />
-            <span className="font-heading text-xl text-white tracking-[.12em] group-hover:text-royal transition-colors">
+            <span
+              className="font-heading text-xl tracking-[.12em] group-hover:text-royal transition-colors"
+              style={{ color: 'var(--voie-ink)' }}
+            >
               JUDO BOUCHERVILLE
             </span>
           </Link>
@@ -93,7 +100,7 @@ export default function Navigation() {
               onMouseEnter={() => setProgrammesOpen(true)}
               onMouseLeave={() => setProgrammesOpen(false)}
             >
-              <button className="text-[11px] text-muted hover:text-white transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1">
+              <button className="text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1">
                 {t('programmes')}
                 <span className="opacity-60 text-[9px]">▾</span>
               </button>
@@ -105,7 +112,8 @@ export default function Navigation() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 6 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[600px] bg-black/95 backdrop-blur-xl border border-white/10 p-6 grid grid-cols-3 gap-6"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[600px] backdrop-blur-xl border p-6 grid grid-cols-3 gap-6"
+                    style={{ backgroundColor: 'color-mix(in srgb, var(--voie-bg) 94%, transparent)', borderColor: 'var(--voie-hairline)' }}
                   >
                     {categories.map(cat => (
                       <div key={cat}>
@@ -114,7 +122,7 @@ export default function Navigation() {
                           <Link
                             key={prog.href}
                             href={`/${locale}${prog.href}`}
-                            className="block text-[12px] text-muted hover:text-white py-1.5 transition-colors"
+                            className="block text-[12px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] py-1.5 transition-colors"
                           >
                             {locale === 'fr' ? prog.labelFr : prog.labelEn}
                           </Link>
@@ -131,7 +139,7 @@ export default function Navigation() {
               onMouseEnter={() => setClubOpen(true)}
               onMouseLeave={() => setClubOpen(false)}
             >
-              <button className="text-[11px] text-muted hover:text-white transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1">
+              <button className="text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1">
                 {t('club')}
                 <span className="opacity-60 text-[9px]">▾</span>
               </button>
@@ -143,7 +151,8 @@ export default function Navigation() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 6 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-56 bg-black/95 backdrop-blur-xl border border-white/10 p-4"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-56 backdrop-blur-xl border p-4"
+                    style={{ backgroundColor: 'color-mix(in srgb, var(--voie-bg) 94%, transparent)', borderColor: 'var(--voie-hairline)' }}
                   >
                     {clubLinks.map(link => (
                       <Link
@@ -167,7 +176,7 @@ export default function Navigation() {
                   'text-[11px] tracking-[.12em] uppercase font-medium transition-colors',
                   pathname.startsWith(`/${locale}${link.href}`)
                     ? 'text-royal'
-                    : 'text-muted hover:text-white'
+                    : 'text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)]'
                 )}
               >
                 {t(link.key)}
@@ -179,7 +188,7 @@ export default function Navigation() {
           <div className="hidden lg:flex items-center gap-5">
             <Link
               href={`/${locale === 'fr' ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`}
-              className="text-[11px] text-muted hover:text-white transition-colors tracking-[.12em] uppercase"
+              className="text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase"
             >
               {locale === 'fr' ? 'EN' : 'FR'}
             </Link>
@@ -193,7 +202,8 @@ export default function Navigation() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-white p-1"
+            className="lg:hidden p-1"
+            style={{ color: 'var(--voie-ink)' }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
@@ -210,7 +220,8 @@ export default function Navigation() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/[0.06] overflow-hidden"
+            className="lg:hidden backdrop-blur-xl border-t overflow-hidden"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--voie-bg) 94%, transparent)', borderColor: 'var(--voie-hairline)' }}
           >
             <div className="px-6 py-8 space-y-1">
               {programmes.map((prog, i) => (
@@ -222,7 +233,7 @@ export default function Navigation() {
                 >
                   <Link
                     href={`/${locale}${prog.href}`}
-                    className="block text-sm text-muted hover:text-white py-2 transition-colors"
+                    className="block text-sm text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] py-2 transition-colors"
                     onClick={() => setMobileOpen(false)}
                   >
                     {locale === 'fr' ? prog.labelFr : prog.labelEn}
@@ -240,7 +251,7 @@ export default function Navigation() {
                   >
                     <Link
                       href={`/${locale}${link.href}`}
-                      className="block text-sm text-muted hover:text-white py-1.5 transition-colors"
+                      className="block text-sm text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] py-1.5 transition-colors"
                       onClick={() => setMobileOpen(false)}
                     >
                       {locale === 'fr' ? link.labelFr : link.labelEn}
@@ -257,7 +268,7 @@ export default function Navigation() {
                   >
                     <Link
                       href={`/${locale}${link.href}`}
-                      className="block text-sm text-foreground hover:text-royal py-2 transition-colors"
+                      className="block text-sm text-[var(--voie-ink)] hover:text-royal py-2 transition-colors"
                       onClick={() => setMobileOpen(false)}
                     >
                       {t(link.key)}

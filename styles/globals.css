@@ -12,11 +12,22 @@
   --color-royal: #4169E1;
 
   --font-heading: var(--font-bebas);
-  --font-body: var(--font-inter);
+  --font-body: var(--font-serif);
 }
 
 :root {
   --noise-opacity: 0.025;
+
+  /* La Voie — scroll-driven world theme. Dark defaults = internal pages. */
+  --voie-bg: #0A0A0A;
+  --voie-ink: #FAFAFA;
+  --voie-ink-muted: #888888;
+  --voie-hairline: rgba(250, 250, 250, 0.08);
+}
+
+/* Japanese serif stack for decorative kanji — zero bytes downloaded */
+.font-jp {
+  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
 }
 
 html {
@@ -187,6 +198,60 @@ body::before {
 .preserve-3d { transform-style: preserve-3d; }
 .backface-hidden { backface-visibility: hidden; }
 .rotate-y-180 { transform: rotateY(180deg); }
+
+/* Custom cursor — mix-blend-difference stays visible on white and black worlds */
+html.has-custom-cursor body,
+html.has-custom-cursor a,
+html.has-custom-cursor button {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  border-radius: 9999px;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: #fff;
+}
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid #fff;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.3s ease;
+}
+.cursor-ring[data-state="link"] {
+  width: 64px;
+  height: 64px;
+}
+.cursor-ring[data-state="drag"] {
+  width: 84px;
+  height: 84px;
+}
+.cursor-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  transform: translate(-50%, 28px);
+  white-space: nowrap;
+}
 
 /* Respect reduced motion everywhere */
 @media (prefers-reduced-motion: reduce) {

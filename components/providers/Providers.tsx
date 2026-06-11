@@ -20,6 +20,9 @@ export default function Providers({ children }: { children: ReactNode }) {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     })
     lenisRef.current = lenis
+    // Handle for components that need to drive or pause the scroll
+    // (entry ritual scroll-lock, drag-to-scrub on the pinned chapter)
+    ;(window as Window & { __lenis?: Lenis }).__lenis = lenis
 
     lenis.on('scroll', ScrollTrigger.update)
 
@@ -31,6 +34,7 @@ export default function Providers({ children }: { children: ReactNode }) {
       gsap.ticker.remove(raf)
       lenis.destroy()
       lenisRef.current = null
+      delete (window as Window & { __lenis?: Lenis }).__lenis
     }
   }, [])
 

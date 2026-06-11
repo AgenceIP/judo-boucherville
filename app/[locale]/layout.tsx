@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Source_Serif_4 } from 'next/font/google'
 import localFont from 'next/font/local'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
@@ -9,11 +9,12 @@ import Providers from '@/components/providers/Providers'
 import PageTransition from '@/components/providers/PageTransition'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
+import CustomCursor from '@/components/ui/CustomCursor'
 import '@/styles/globals.css'
 
-const inter = Inter({
+const serif = Source_Serif_4({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-serif',
 })
 
 const bebas = localFont({
@@ -54,10 +55,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${inter.variable} ${bebas.variable}`}>
+    <html lang={locale} className={`${serif.variable} ${bebas.variable}`}>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>
+            <CustomCursor />
             <Navigation />
             <main>
               <PageTransition>{children}</PageTransition>

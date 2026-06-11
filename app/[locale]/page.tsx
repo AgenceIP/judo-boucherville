@@ -1,13 +1,13 @@
 import { Metadata } from 'next'
-import HeroSection from '@/components/home/HeroSection'
-import StatsSection from '@/components/home/StatsSection'
-import ProgrammesSection from '@/components/home/ProgrammesSection'
-import ClubSection from '@/components/home/ClubSection'
-import TeamSection from '@/components/home/TeamSection'
-import AchievementsSection from '@/components/home/AchievementsSection'
-import ChallengeSection from '@/components/home/ChallengeSection'
-import NewsSection from '@/components/home/NewsSection'
-import CtaSection from '@/components/home/CtaSection'
+import EntryRitual from '@/components/voie/EntryRitual'
+import VoieConductor from '@/components/voie/VoieConductor'
+import BeltRail from '@/components/voie/BeltRail'
+import ChapterBlanc from '@/components/voie/ChapterBlanc'
+import ChapterEcole from '@/components/voie/ChapterEcole'
+import ChapterForce from '@/components/voie/ChapterForce'
+import ChapterProjection from '@/components/voie/ChapterProjection'
+import ChapterNoir from '@/components/voie/ChapterNoir'
+import ChapterFinale from '@/components/voie/ChapterFinale'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -21,18 +21,24 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
+/**
+ * La Voie — the homepage is the path from white belt to black belt.
+ * The world literally darkens as you scroll; the belt rail grades your descent.
+ */
 export default function HomePage() {
   return (
     <>
-      <HeroSection />
-      <StatsSection />
-      <ProgrammesSection />
-      <ClubSection />
-      <TeamSection />
-      <AchievementsSection />
-      <ChallengeSection />
-      <NewsSection />
-      <CtaSection />
+      <EntryRitual />
+      <VoieConductor />
+      <BeltRail />
+      <div id="voie-root">
+        <ChapterBlanc />
+        <ChapterEcole />
+        <ChapterForce />
+        <ChapterProjection />
+        <ChapterNoir />
+        <ChapterFinale />
+      </div>
     </>
   )
 }
