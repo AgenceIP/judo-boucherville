@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import CountdownTimer from '@/components/ui/CountdownTimer'
 import RevealText from '@/components/ui/RevealText'
 import Magnetic from '@/components/ui/Magnetic'
+import InkCanvas from '@/components/voie/InkCanvas'
 import { useReveal } from '@/hooks/useReveal'
 
 /** Chapter 06 — The tatami. The way ends where practice begins. */
@@ -28,6 +29,9 @@ export default function ChapterFinale() {
         style={{ background: 'radial-gradient(720px circle at 18% 22%, rgba(65,105,225,0.13), transparent 70%)' }}
         aria-hidden="true"
       />
+
+      {/* The ink returns as luminous vapor — the journey's bookend */}
+      <InkCanvas color={[0.34, 0.48, 0.98]} maxAlpha={0.4} />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>

@@ -53,21 +53,6 @@ export default function VoieConductor() {
       })
     })
 
-    // Titles lean with the force of the visitor's scroll — jū, yielding
-    if (!reduced) {
-      const titles = gsap.utils.toArray<HTMLElement>('.voie-title')
-      let lastY = window.scrollY
-      let skew = 0
-      const tick = () => {
-        const y = window.scrollY
-        const target = gsap.utils.clamp(-4, 4, (y - lastY) * 0.07)
-        lastY = y
-        skew += (target - skew) * 0.1
-        for (const t of titles) gsap.set(t, { skewY: skew, transformOrigin: 'left center' })
-      }
-      gsap.ticker.add(tick)
-      return () => gsap.ticker.remove(tick)
-    }
   })
 
   useEffect(() => () => {

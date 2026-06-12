@@ -80,7 +80,7 @@ export default function ChapterBlanc() {
       </span>
 
       {/* The living paper — the cursor is a brush */}
-      <InkCanvas />
+      <InkCanvas drops />
 
       <div className="relative max-w-7xl">
         <p

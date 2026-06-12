@@ -10,6 +10,8 @@ import PageTransition from '@/components/providers/PageTransition'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import CustomCursor from '@/components/ui/CustomCursor'
+import VelocitySkew from '@/components/providers/VelocitySkew'
+import ScrollProgress from '@/components/layout/ScrollProgress'
 import '@/styles/globals.css'
 
 const serif = Source_Serif_4({
@@ -61,6 +63,8 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <CustomCursor />
+            <VelocitySkew />
+            <ScrollProgress />
             <Navigation />
             <main>
               <PageTransition>{children}</PageTransition>

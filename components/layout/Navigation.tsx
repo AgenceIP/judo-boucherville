@@ -7,6 +7,9 @@ import { useLocale, useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import Magnetic from '@/components/ui/Magnetic'
+
+const underline = 'relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:bg-current after:origin-left after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100'
 
 const programmes = [
   { href: '/programmes/judo-competition', labelFr: 'Judo compétition', labelEn: 'Competition Judo', category: 'Judo' },
@@ -100,7 +103,7 @@ export default function Navigation() {
               onMouseEnter={() => setProgrammesOpen(true)}
               onMouseLeave={() => setProgrammesOpen(false)}
             >
-              <button className="text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1">
+              <button className={cn('text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1', underline)}>
                 {t('programmes')}
                 <span className="opacity-60 text-[9px]">▾</span>
               </button>
@@ -139,7 +142,7 @@ export default function Navigation() {
               onMouseEnter={() => setClubOpen(true)}
               onMouseLeave={() => setClubOpen(false)}
             >
-              <button className="text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1">
+              <button className={cn('text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1', underline)}>
                 {t('club')}
                 <span className="opacity-60 text-[9px]">▾</span>
               </button>
@@ -174,6 +177,7 @@ export default function Navigation() {
                 href={`/${locale}${link.href}`}
                 className={cn(
                   'text-[11px] tracking-[.12em] uppercase font-medium transition-colors',
+                  underline,
                   pathname.startsWith(`/${locale}${link.href}`)
                     ? 'text-royal'
                     : 'text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)]'
@@ -192,12 +196,14 @@ export default function Navigation() {
             >
               {locale === 'fr' ? 'EN' : 'FR'}
             </Link>
-            <Link
-              href={`/${locale}/inscription`}
-              className="text-[11px] font-bold tracking-[.1em] uppercase bg-royal text-white px-5 py-2.5 hover:bg-accent-glow transition-colors"
-            >
-              {t('inscription')}
-            </Link>
+            <Magnetic strength={0.22}>
+              <Link
+                href={`/${locale}/inscription`}
+                className="btn-wipe inline-flex text-[11px] font-bold tracking-[.1em] uppercase bg-royal text-white px-5 py-2.5 hover:text-black"
+              >
+                {t('inscription')}
+              </Link>
+            </Magnetic>
           </div>
 
           {/* Mobile hamburger */}

@@ -8,17 +8,7 @@ import gsap from 'gsap'
 import { cn } from '@/lib/utils'
 import RevealText from '@/components/ui/RevealText'
 import { useReveal } from '@/hooks/useReveal'
-
-const previewFor: Record<string, string> = {
-  'judo-enfants': '/images/voie/enfants.jpg',
-  'parents-enfants': '/images/voie/enfants.jpg',
-  'camp-de-jour': '/images/voie/enfants.jpg',
-  'judo-adultes': '/images/voie/adultes.jpg',
-  'judo-competition': '/images/voie/competition.jpg',
-  'sport-etudes': '/images/voie/competition.jpg',
-  'aiki-jujitsu': '/images/voie/aiki.jpg',
-  'jiu-jitsu-bresilien': '/images/voie/bjj.jpg',
-}
+import { programmePreviews as previewFor } from '@/lib/previews'
 
 const programmes = [
   { titre: 'Judo enfants', titreEn: "Children's judo", horaire: 'Sam 10h15–12h30', slug: 'judo-enfants', categorie: 'enfants' as const },

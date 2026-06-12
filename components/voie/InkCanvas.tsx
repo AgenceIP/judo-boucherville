@@ -2,13 +2,27 @@
 import { useEffect, useRef } from 'react'
 import { createInkFluid, type InkFluid } from '@/lib/inkFluid'
 
+type Props = {
+  /** RGB 0..1 — defaults to black ink for the paper world */
+  color?: [number, number, number]
+  /** Cap on ink opacity — lower for the luminous vapor variant */
+  maxAlpha?: number
+  /** Drop a few splats on arrival (homepage opening) */
+  drops?: boolean
+  className?: string
+}
+
 /**
- * The living paper. A WebGL ink-fluid layer where the visitor's cursor is a
- * brush — movement leaves black ink that swirls and bleeds away. A few ink
- * drops fall on arrival so the paper breathes even before the first gesture.
- * Disabled under reduced motion or when WebGL2 float targets are missing.
+ * The living layer. A WebGL fluid canvas where the visitor's cursor is a
+ * brush — black ink on the paper world, luminous royal vapor on the night
+ * pages. Pauses offscreen; absent under reduced motion or without WebGL2.
  */
-export default function InkCanvas() {
+export default function InkCanvas({
+  color = [0.075, 0.066, 0.058],
+  maxAlpha = 1,
+  drops = false,
+  className,
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -18,7 +32,7 @@ export default function InkCanvas() {
 
     let fluid: InkFluid | null = null
     try {
-      fluid = createInkFluid(canvas)
+      fluid = createInkFluid(canvas, { inkColor: color, maxAlpha })
     } catch {
       fluid = null
     }
@@ -26,20 +40,19 @@ export default function InkCanvas() {
 
     const dropTimeouts: ReturnType<typeof setTimeout>[] = []
 
-    // Opening drops — ink falling on the paper as the curtain lifts
-    const drops = () => {
-      const spots: [number, number][] = [[0.22, 0.32], [0.68, 0.55], [0.4, 0.72]]
-      spots.forEach(([x, y], i) => {
-        dropTimeouts.push(setTimeout(() => {
-          const a = Math.random() * Math.PI * 2
-          fluid?.splat(x, y, Math.cos(a) * 220, Math.sin(a) * 220, 0.9)
-        }, 350 + i * 420))
-      })
+    if (drops) {
+      const fall = () => {
+        const spots: [number, number][] = [[0.22, 0.32], [0.68, 0.55], [0.4, 0.72]]
+        spots.forEach(([x, y], i) => {
+          dropTimeouts.push(setTimeout(() => {
+            const a = Math.random() * Math.PI * 2
+            fluid?.splat(x, y, Math.cos(a) * 220, Math.sin(a) * 220, 0.9)
+          }, 350 + i * 420))
+        })
+      }
+      window.addEventListener('voie:open', fall, { once: true })
+      dropTimeouts.push(setTimeout(fall, 1800))
     }
-    const onOpen = () => drops()
-    window.addEventListener('voie:open', onOpen, { once: true })
-    // If the ritual already ran this session, the event may have fired before mount
-    const fallback = setTimeout(drops, 1800)
 
     let lastX = -1
     let lastY = -1
@@ -62,26 +75,24 @@ export default function InkCanvas() {
     }
     window.addEventListener('pointermove', onMove, { passive: true })
 
-    // Only simulate while the paper is on screen
     const observer = new IntersectionObserver(([entry]) => {
       fluid?.setPaused(!entry.isIntersecting)
     }, { threshold: 0 })
     observer.observe(canvas)
 
     return () => {
-      window.removeEventListener('voie:open', onOpen)
       window.removeEventListener('pointermove', onMove)
       dropTimeouts.forEach(clearTimeout)
-      clearTimeout(fallback)
       observer.disconnect()
       fluid?.destroy()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 h-full w-full"
+      className={className ?? 'absolute inset-0 h-full w-full'}
       aria-hidden="true"
     />
   )

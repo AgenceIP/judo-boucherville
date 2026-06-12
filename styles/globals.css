@@ -175,6 +175,14 @@ body::before {
   color: transparent;
 }
 
+/* Footer wordmark fills with royal when hovered */
+.wordmark {
+  transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wordmark:hover {
+  color: rgba(65, 105, 225, 0.35);
+}
+
 /* Scroll cue — pulsing vertical line */
 @keyframes scroll-cue {
   0%   { transform: scaleY(0); transform-origin: top; }

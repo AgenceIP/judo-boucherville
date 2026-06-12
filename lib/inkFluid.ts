@@ -151,11 +151,11 @@ void main () {
   display: `#version 300 es
 precision highp float; precision highp sampler2D;
 in vec2 vUv; out vec4 frag;
-uniform sampler2D uTexture; uniform vec3 inkColor;
+uniform sampler2D uTexture; uniform vec3 inkColor; uniform float maxAlpha;
 void main () {
   float d = texture(uTexture, vUv).x;
   float a = clamp(d, 0.0, 1.0);
-  a = smoothstep(0.0, 1.0, a);
+  a = smoothstep(0.0, 1.0, a) * maxAlpha;
   frag = vec4(inkColor * a, a);
 }`,
 }
@@ -194,6 +194,7 @@ class Program {
 
 export function createInkFluid(canvas: HTMLCanvasElement, opts?: {
   inkColor?: [number, number, number]
+  maxAlpha?: number
   simRes?: number
   dyeRes?: number
 }): InkFluid | null {
@@ -204,6 +205,7 @@ export function createInkFluid(canvas: HTMLCanvasElement, opts?: {
   const filtering = gl.LINEAR
 
   const inkColor = opts?.inkColor ?? [0.075, 0.066, 0.058]
+  const maxAlpha = opts?.maxAlpha ?? 1
   const SIM_RES = opts?.simRes ?? 144
   const DYE_RES = opts?.dyeRes ?? 512
   const PRESSURE_ITERATIONS = 20
@@ -405,6 +407,7 @@ export function createInkFluid(canvas: HTMLCanvasElement, opts?: {
     programs.display.bind()
     gl!.uniform1i(programs.display.uniforms.uTexture, dye.read.attach(0))
     gl!.uniform3f(programs.display.uniforms.inkColor, inkColor[0], inkColor[1], inkColor[2])
+    gl!.uniform1f(programs.display.uniforms.maxAlpha, maxAlpha)
     blit(null)
   }
 

@@ -29,15 +29,21 @@ export default function Footer() {
 
   return (
     <footer className="bg-black/70 border-t border-white/[0.06]">
-      {/* Giant outlined wordmark */}
+      {/* Giant outlined wordmark — click to rise back to the top */}
       <div ref={wordmarkRef} className="overflow-hidden pt-14 -mb-4">
-        <p
-          className="text-stroke font-heading text-center leading-[.85] select-none whitespace-nowrap tracking-tight"
+        <button
+          type="button"
+          onClick={() => {
+            const lenis = (window as Window & { __lenis?: { scrollTo: (t: number) => void } }).__lenis
+            if (lenis) lenis.scrollTo(0)
+            else window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+          className="text-stroke wordmark font-heading text-center leading-[.85] select-none whitespace-nowrap tracking-tight block w-full"
           style={{ fontSize: 'clamp(56px, 10.5vw, 190px)' }}
-          aria-hidden="true"
+          aria-label={locale === 'fr' ? 'Remonter en haut de page' : 'Back to top'}
         >
           JUDO BOUCHERVILLE
-        </p>
+        </button>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -127,8 +133,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/5 text-center text-sm text-muted">
-          © {new Date().getFullYear()} Club de Judo Boucherville Inc. — {t('footer.rights')}
+        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col items-center gap-3 text-center text-sm text-muted">
+          <p className="italic text-foreground/70">
+            <span className="font-jp not-italic mr-3" aria-hidden="true">礼</span>
+            {locale === 'fr' ? 'À bientôt sur le tatami.' : 'See you on the tatami.'}
+          </p>
+          <p>© {new Date().getFullYear()} Club de Judo Boucherville Inc. — {t('footer.rights')}</p>
         </div>
       </div>
     </footer>
