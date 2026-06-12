@@ -91,12 +91,14 @@ export default function ChapterBlanc() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#F6F3EC"
-      data-voie-ink="#131210"
-      data-voie-muted="#6B655C"
-      data-voie-hairline="rgba(19,18,16,0.12)"
+      data-voie-bg="#FBFAF7"
+      data-voie-ink="#0E0E10"
+      data-voie-muted="#5F6470"
+      data-voie-hairline="rgba(14,14,16,0.12)"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden px-8 md:px-16 lg:px-20"
     >
+      {/* Holographic tatami — the floor of the future dojo */}
+      <div className="holo-grid" aria-hidden="true" />
       {/* Ghost kanji 始 — beginning */}
       <span
         className="blanc-kanji font-jp absolute -right-[4vw] top-1/2 -translate-y-1/2 leading-none select-none pointer-events-none"
@@ -106,8 +108,8 @@ export default function ChapterBlanc() {
         始
       </span>
 
-      {/* The living paper — the cursor is a brush */}
-      <InkCanvas drops />
+      {/* The living paper — the cursor is a brush of royal current */}
+      <InkCanvas drops color={[0.12, 0.23, 0.8]} maxAlpha={0.92} />
 
       <div className="relative max-w-7xl">
         <p

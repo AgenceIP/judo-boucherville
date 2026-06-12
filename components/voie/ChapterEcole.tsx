@@ -80,10 +80,10 @@ export default function ChapterEcole() {
 
   return (
     <section
-      data-voie-bg="#EFE9DD"
-      data-voie-ink="#131210"
-      data-voie-muted="#6B655C"
-      data-voie-hairline="rgba(19,18,16,0.12)"
+      data-voie-bg="#EEF0F3"
+      data-voie-ink="#0E0E10"
+      data-voie-muted="#5F6470"
+      data-voie-hairline="rgba(14,14,16,0.12)"
       className="py-28 md:py-40"
     >
       {/* Floating preview that chases the cursor */}

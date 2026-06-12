@@ -1,8 +1,9 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import Aurora from '@/components/voie/Aurora'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -33,14 +34,27 @@ const apply = (p: Palette, duration: number) =>
  * to black over the journey. Also drives the scroll-velocity skew on titles.
  */
 export default function VoieConductor() {
+  const auroraRef = useRef<HTMLDivElement>(null)
+
   useGSAP(() => {
     const chapters = gsap.utils.toArray<HTMLElement>('[data-voie-bg]')
     if (!chapters.length) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const d = reduced ? 0 : 1.2
 
+    const setWorld = (el: HTMLElement, duration: number) => {
+      apply(readPalette(el), duration)
+      // The aurora breathes only over the dark chapters
+      gsap.to(auroraRef.current, {
+        opacity: el.hasAttribute('data-voie-aurora') ? 1 : 0,
+        duration: Math.max(duration, 0.01),
+        ease: 'power2.inOut',
+        overwrite: 'auto',
+      })
+    }
+
     // Land in the first chapter's world immediately — no flash of dark
-    apply(readPalette(chapters[0]), 0)
+    setWorld(chapters[0], 0)
 
     chapters.forEach((el, i) => {
       // Palette flips exactly at each chapter's start line, both directions —
@@ -49,11 +63,10 @@ export default function VoieConductor() {
       ScrollTrigger.create({
         trigger: el,
         start: 'top 55%',
-        onEnter: () => { apply(readPalette(el), d); stepSound() },
-        onLeaveBack: i > 0 ? () => { apply(readPalette(chapters[i - 1]), d); stepSound() } : undefined,
+        onEnter: () => { setWorld(el, d); stepSound() },
+        onLeaveBack: i > 0 ? () => { setWorld(chapters[i - 1], d); stepSound() } : undefined,
       })
     })
-
   })
 
   useEffect(() => () => {
@@ -70,6 +83,10 @@ export default function VoieConductor() {
       className="fixed inset-0 -z-30"
       style={{ background: 'var(--voie-bg)' }}
       aria-hidden="true"
-    />
+    >
+      <div ref={auroraRef} className="absolute inset-0 opacity-0">
+        <Aurora />
+      </div>
+    </div>
   )
 }

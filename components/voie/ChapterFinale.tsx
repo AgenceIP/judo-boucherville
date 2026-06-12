@@ -17,10 +17,11 @@ export default function ChapterFinale() {
 
   return (
     <section
-      data-voie-bg="#050505"
+      data-voie-bg="#04050A"
       data-voie-ink="#FAFAFA"
-      data-voie-muted="#888888"
+      data-voie-muted="#8B92A6"
       data-voie-hairline="rgba(250,250,250,0.08)"
+      data-voie-aurora="1"
       className="relative py-32 md:py-48 overflow-hidden"
     >
       {/* A last royal light on the tatami */}
@@ -41,7 +42,7 @@ export default function ChapterFinale() {
 
         <RevealText
           as="h2"
-          className="voie-title font-heading leading-[.88] tracking-tight mb-12"
+          className="voie-title glow-soft font-heading leading-[.88] tracking-tight mb-12"
           style={{ fontSize: 'clamp(64px, 11vw, 150px)', color: 'var(--voie-ink)' }}
         >
           {en ? 'STEP ONTO THE TATAMI.' : 'MONTE SUR LE TATAMI.'}

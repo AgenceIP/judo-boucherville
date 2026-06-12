@@ -87,10 +87,11 @@ export default function ChapterNoir() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#0A0A0A"
+      data-voie-bg="#05060B"
       data-voie-ink="#FAFAFA"
-      data-voie-muted="#888888"
+      data-voie-muted="#8B92A6"
       data-voie-hairline="rgba(250,250,250,0.08)"
+      data-voie-aurora="1"
       className="relative py-28 md:py-40 overflow-hidden"
     >
       {/* Ghost kanji 道 — the way — mirrors the 始 of the white world */}
@@ -109,7 +110,7 @@ export default function ChapterNoir() {
         </p>
         <RevealText
           as="h2"
-          className="voie-title font-heading text-[clamp(52px,9vw,120px)] leading-[.9] tracking-tight mb-6"
+          className="voie-title glow-soft font-heading text-[clamp(52px,9vw,120px)] leading-[.9] tracking-tight mb-6"
           style={{ color: 'var(--voie-ink)' }}
         >
           {en ? 'FIFTY-FIVE YEARS OF BLACK.' : 'CINQUANTE-CINQ ANS DE NOIR.'}
@@ -139,10 +140,10 @@ export default function ChapterNoir() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
 
         {/* Medal wall */}
-        <div className="noir-medals grid grid-cols-2 md:grid-cols-4 gap-px mb-24" style={{ background: 'var(--voie-hairline)' }}>
+        <div className="noir-medals grid grid-cols-2 md:grid-cols-4 gap-3 mb-24">
           {medals.map(m => (
-            <div key={m.label} className="noir-medal p-8 md:p-10" style={{ background: 'var(--voie-bg)' }}>
-              <p className="font-heading text-royal leading-none tabular-nums" style={{ fontSize: 'clamp(48px, 5.5vw, 90px)' }}>
+            <div key={m.label} className="noir-medal glass p-8 md:p-10">
+              <p className="font-heading text-royal glow-royal leading-none tabular-nums" style={{ fontSize: 'clamp(48px, 5.5vw, 90px)' }}>
                 <AnimatedCounter end={m.value} />
               </p>
               <p className="text-[11px] tracking-[.25em] uppercase mt-3" style={{ color: 'var(--voie-ink-muted)' }}>

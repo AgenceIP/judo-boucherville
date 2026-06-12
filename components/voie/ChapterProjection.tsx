@@ -135,12 +135,13 @@ export default function ChapterProjection() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#0C0C0E"
+      data-voie-bg="#06070C"
       data-voie-ink="#FAFAFA"
       data-voie-muted="#8A8A8A"
       data-voie-hairline="rgba(250,250,250,0.10)"
+      data-voie-aurora="1"
       data-cursor="drag"
-      className="relative h-screen overflow-hidden select-none touch-pan-y"
+      className="scanlines relative h-screen overflow-hidden select-none touch-pan-y"
     >
       <video
         ref={videoRef}
@@ -193,7 +194,7 @@ export default function ChapterProjection() {
               style={{ opacity: phase === i ? 1 : 0.28 }}
             >
               <p className="font-jp text-2xl md:text-3xl text-white/80 mb-1" aria-hidden="true">{p.jp}</p>
-              <p className="font-heading text-2xl md:text-4xl text-white tracking-wider leading-none">
+              <p className={`font-heading text-2xl md:text-4xl tracking-wider leading-none transition-all duration-500 ${phase === i ? 'text-aurora glow-soft' : 'text-white'}`}>
                 {p.name}
               </p>
               <p className="text-xs md:text-sm text-white/50 mt-1">{en ? p.en : p.fr}</p>
@@ -201,7 +202,11 @@ export default function ChapterProjection() {
           ))}
         </div>
         <div className="h-px bg-white/15">
-          <div ref={progressRef} className="h-px origin-left scale-x-0 bg-royal" />
+          <div
+            ref={progressRef}
+            className="h-px origin-left scale-x-0 bg-royal"
+            style={{ boxShadow: '0 0 12px 1px rgba(65,105,225,0.8)' }}
+          />
         </div>
       </div>
     </section>

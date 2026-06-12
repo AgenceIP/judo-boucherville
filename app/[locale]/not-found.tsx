@@ -24,7 +24,7 @@ export default function NotFound() {
       <div className="relative">
         <p className="font-heading text-royal text-xl tracking-[.3em] mb-6">404</p>
         <h1
-          className="voie-title font-heading text-white tracking-tight leading-[.9] mb-6"
+          className="voie-title text-aurora font-heading tracking-tight leading-[.9] mb-6"
           style={{ fontSize: 'clamp(48px, 9vw, 110px)' }}
         >
           {en ? 'YOU LEFT THE TATAMI.' : 'TU AS QUITTÉ LE TATAMI.'}

@@ -80,7 +80,7 @@ export default function CountdownTimer({ targetDate }: { targetDate: string }) {
           )}
           <div>
             <div
-              className="font-heading text-white leading-none tabular-nums flex"
+              className="font-heading text-white glow-soft leading-none tabular-nums flex"
               style={{ fontSize: 'clamp(48px, 6.5vw, 104px)' }}
             >
               {String(u.value).padStart(2, '0').split('').map((d, j) => (

@@ -54,8 +54,20 @@ export default function EntryRitual() {
 
     const tl = gsap.timeline({ onComplete: finish })
     tl.fromTo(kanjiRef.current,
-      { opacity: 0, filter: 'blur(22px)', scale: 1.12 },
-      { opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.3, ease: 'power3.out' }
+      {
+        opacity: 0,
+        filter: 'blur(22px)',
+        scale: 1.12,
+        textShadow: '-9px 0 2px rgba(255,64,96,0.55), 9px 0 2px rgba(64,160,255,0.55)',
+      },
+      {
+        opacity: 1,
+        filter: 'blur(0px)',
+        scale: 1,
+        textShadow: '0px 0 2px rgba(255,64,96,0), 0px 0 2px rgba(64,160,255,0)',
+        duration: 1.3,
+        ease: 'power3.out',
+      }
     )
       .to(ensoRef.current, { strokeDashoffset: C * 0.08, duration: 1.2, ease: 'power2.inOut' }, '-=0.7')
       .from(lineRef.current, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out' }, '-=0.5')
@@ -98,14 +110,22 @@ export default function EntryRitual() {
         {/* Ensō — the open circle, drawn around the bow */}
         <svg
           className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          style={{ width: 'clamp(260px, 46vw, 540px)', height: 'clamp(260px, 46vw, 540px)' }}
+          style={{ width: 'clamp(260px, 46vw, 540px)', height: 'clamp(260px, 46vw, 540px)', filter: 'drop-shadow(0 0 14px rgba(65,105,225,0.55))' }}
           viewBox="0 0 100 100"
         >
+          <defs>
+            <linearGradient id="enso-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#9DB7FF" />
+              <stop offset="55%" stopColor="#4169E1" />
+              <stop offset="100%" stopColor="#A78BFA" />
+            </linearGradient>
+          </defs>
           <circle
             ref={ensoRef}
             cx="50" cy="50" r="47"
             fill="none"
-            stroke="rgba(250,250,250,0.28)"
+            stroke="url(#enso-grad)"
+            strokeOpacity="0.75"
             strokeWidth="1.1"
             strokeLinecap="round"
             transform="rotate(-112 50 50)"

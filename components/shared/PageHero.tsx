@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import InkCanvas from '@/components/voie/InkCanvas'
+import Aurora from '@/components/voie/Aurora'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -79,6 +80,9 @@ export default function PageHero({ title, subtitle, tag, tagColor = 'text-royal'
       ref={sectionRef}
       className="relative min-h-[46vh] flex flex-col justify-end pt-36 pb-16 bg-black border-b border-white/[0.06] overflow-hidden"
     >
+      {/* The northern light of the night world */}
+      <Aurora opacity={0.6} />
+
       {/* Ghost ideogram of this section */}
       {kanji && (
         <span

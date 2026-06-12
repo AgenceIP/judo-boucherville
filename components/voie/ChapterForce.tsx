@@ -44,10 +44,11 @@ export default function ChapterForce() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#353D4C"
-      data-voie-ink="#F4F3EF"
-      data-voie-muted="#9AA0AE"
-      data-voie-hairline="rgba(244,243,239,0.14)"
+      data-voie-bg="#222A47"
+      data-voie-ink="#F2F4FB"
+      data-voie-muted="#97A2C0"
+      data-voie-hairline="rgba(242,244,251,0.14)"
+      data-voie-aurora="1"
       className="py-28 md:py-40"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-16">
@@ -71,7 +72,7 @@ export default function ChapterForce() {
             <div className="force-row">
               <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 py-8 md:py-10 flex items-center gap-8 md:gap-12">
                 <span
-                  className="font-heading text-royal leading-none shrink-0 tabular-nums"
+                  className="font-heading text-royal glow-royal leading-none shrink-0 tabular-nums"
                   style={{ fontSize: 'clamp(64px, 8vw, 130px)', width: 'clamp(120px, 18vw, 280px)', textAlign: 'right' }}
                 >
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
