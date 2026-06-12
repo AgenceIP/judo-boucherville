@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import Magnetic from '@/components/ui/Magnetic'
 import InkCanvas from '@/components/voie/InkCanvas'
+import { createLetterPhysics, type LetterPhysics } from '@/lib/letterPhysics'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,6 +20,7 @@ export default function ChapterBlanc() {
   const en = locale === 'en'
   const sectionRef = useRef<HTMLElement>(null)
   const [open, setOpen] = useState(false)
+  const [randoriReady, setRandoriReady] = useState(false)
 
   const lines = en ? ['EVERYONE', 'STARTS HERE.'] : ['TOUT LE MONDE', 'COMMENCE ICI.']
 
@@ -55,11 +57,36 @@ export default function ChapterBlanc() {
   useGSAP(() => {
     if (!open) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const tl = gsap.timeline()
+    const tl = gsap.timeline({ onComplete: () => setRandoriReady(true) })
     tl.to('.blanc-line', { yPercent: 0, stagger: 0.14, duration: 1.3, ease: 'power4.out' })
       .to('.blanc-kanji', { opacity: 0.07, scale: 1, duration: 1.6, ease: 'power3.out' }, '-=1.0')
       .to('.blanc-fade', { opacity: 1, y: 0, stagger: 0.12, duration: 0.9, ease: 'power3.out' }, '-=1.1')
   }, { scope: sectionRef, dependencies: [open] })
+
+  // Randori mode — once the kata settles, the letters become throwable.
+  // They tumble, breakfall on the tatami, and the dojo restores the order.
+  useEffect(() => {
+    if (!randoriReady) return
+    const section = sectionRef.current
+    if (!section) return
+
+    // Free the letters from their reveal masks so they can fly
+    section.querySelectorAll<HTMLElement>('.blanc-mask').forEach(m => {
+      m.style.overflow = 'visible'
+    })
+
+    const letters = Array.from(section.querySelectorAll<HTMLElement>('[data-randori]'))
+    let physics: LetterPhysics | null = null
+    try {
+      physics = createLetterPhysics(section, letters, {
+        onImpact: (intensity) =>
+          window.dispatchEvent(new CustomEvent('dojo:impact', { detail: { intensity } })),
+      })
+    } catch {
+      physics = null
+    }
+    return () => physics?.destroy()
+  }, [randoriReady])
 
   return (
     <section
@@ -92,23 +119,43 @@ export default function ChapterBlanc() {
         </p>
 
         <h1
-          className="voie-title font-heading leading-[.88] tracking-tight mb-8"
+          className="voie-title font-heading leading-[.88] tracking-tight mb-8 select-none"
           style={{ fontSize: 'clamp(64px, 12vw, 168px)', color: 'var(--voie-ink)' }}
         >
           {lines.map(line => (
-            <span key={line} className="block overflow-hidden">
-              <span className="blanc-line block">{line}</span>
+            <span key={line} className="blanc-mask block overflow-hidden">
+              <span className="blanc-line block whitespace-pre">
+                {line.split('').map((ch, i) =>
+                  ch === ' ' ? (
+                    <span key={i}> </span>
+                  ) : (
+                    <span key={i} data-randori className="inline-block">
+                      {ch}
+                    </span>
+                  )
+                )}
+              </span>
             </span>
           ))}
         </h1>
 
         <p
-          className="blanc-fade italic text-lg md:text-2xl max-w-xl leading-relaxed mb-10"
+          className="blanc-fade italic text-lg md:text-2xl max-w-xl leading-relaxed mb-4"
           style={{ color: 'var(--voie-ink-muted)' }}
         >
           {en
             ? 'White belt. First bow. First step onto the tatami. Since 1970, every champion of this club has started exactly here.'
             : 'Ceinture blanche. Premier salut. Premier pas sur le tatami. Depuis 1970, chaque champion du club a commencé exactement ici.'}
+        </p>
+
+        {/* The randori invitation */}
+        <p
+          className="text-[10px] tracking-[.3em] uppercase mb-10 transition-opacity duration-700"
+          style={{ color: 'var(--voie-ink-muted)', opacity: randoriReady ? 0.75 : 0 }}
+        >
+          {en
+            ? 'Grab a letter — try a throw. The dojo will tidy up.'
+            : 'Attrape une lettre — essaie une projection. Le dojo rangera.'}
         </p>
 
         <div className="blanc-fade">

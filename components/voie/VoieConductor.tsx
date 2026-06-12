@@ -45,11 +45,12 @@ export default function VoieConductor() {
     chapters.forEach((el, i) => {
       // Palette flips exactly at each chapter's start line, both directions —
       // onEnter going down, onLeaveBack restoring the previous chapter going up.
+      const stepSound = () => window.dispatchEvent(new Event('voie:chapter'))
       ScrollTrigger.create({
         trigger: el,
         start: 'top 55%',
-        onEnter: () => apply(readPalette(el), d),
-        onLeaveBack: i > 0 ? () => apply(readPalette(chapters[i - 1]), d) : undefined,
+        onEnter: () => { apply(readPalette(el), d); stepSound() },
+        onLeaveBack: i > 0 ? () => { apply(readPalette(chapters[i - 1]), d); stepSound() } : undefined,
       })
     })
 

@@ -10,6 +10,7 @@ import PageTransition from '@/components/providers/PageTransition'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import CustomCursor from '@/components/ui/CustomCursor'
+import SoundToggle from '@/components/ui/SoundToggle'
 import VelocitySkew from '@/components/providers/VelocitySkew'
 import ScrollProgress from '@/components/layout/ScrollProgress'
 import '@/styles/globals.css'
@@ -63,6 +64,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <CustomCursor />
+            <SoundToggle />
             <VelocitySkew />
             <ScrollProgress />
             <Navigation />
