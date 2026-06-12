@@ -52,6 +52,7 @@ export default function ChapterForce() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-16">
         <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>
+          <span className="font-jp text-xs mr-3 opacity-60">三</span>
           {en ? 'Chapter 03 · Strength' : 'Chapitre 03 · La force'}
         </p>
         <RevealText

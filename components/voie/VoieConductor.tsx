@@ -22,7 +22,7 @@ const apply = (p: Palette, duration: number) =>
     '--voie-ink-muted': p.muted,
     '--voie-hairline': p.hairline,
     duration,
-    ease: 'power2.inOut',
+    ease: 'power3.inOut',
     overwrite: 'auto',
   })
 
@@ -37,7 +37,7 @@ export default function VoieConductor() {
     const chapters = gsap.utils.toArray<HTMLElement>('[data-voie-bg]')
     if (!chapters.length) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const d = reduced ? 0 : 0.9
+    const d = reduced ? 0 : 1.2
 
     // Land in the first chapter's world immediately — no flash of dark
     apply(readPalette(chapters[0]), 0)

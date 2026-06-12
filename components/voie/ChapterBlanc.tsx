@@ -3,7 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import Magnetic from '@/components/ui/Magnetic'
+import InkCanvas from '@/components/voie/InkCanvas'
+
+gsap.registerPlugin(ScrollTrigger)
 
 /**
  * Chapter 01 — White belt. A paper-white world, almost empty:
@@ -31,7 +36,20 @@ export default function ChapterBlanc() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     gsap.set('.blanc-line', { yPercent: 108 })
     gsap.set('.blanc-fade', { opacity: 0, y: 18 })
-    gsap.set('.blanc-kanji', { opacity: 0, scale: 1.04 })
+    // yPercent -50 replaces the Tailwind centering transform that GSAP overrides
+    gsap.set('.blanc-kanji', { opacity: 0, scale: 1.04, yPercent: -50 })
+
+    // The ghost ideogram drifts as the page begins to move — depth in the paper
+    gsap.to('.blanc-kanji', {
+      yPercent: -64,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    })
   }, { scope: sectionRef })
 
   useGSAP(() => {
@@ -61,11 +79,15 @@ export default function ChapterBlanc() {
         始
       </span>
 
+      {/* The living paper — the cursor is a brush */}
+      <InkCanvas />
+
       <div className="relative max-w-7xl">
         <p
           className="blanc-fade text-[10px] tracking-[.4em] uppercase mb-8"
           style={{ color: 'var(--voie-ink-muted)' }}
         >
+          <span className="font-jp text-xs mr-3 opacity-60">一</span>
           {en ? 'Chapter 01 · White belt' : 'Chapitre 01 · Ceinture blanche'}
         </p>
 
@@ -81,7 +103,7 @@ export default function ChapterBlanc() {
         </h1>
 
         <p
-          className="blanc-fade text-base md:text-lg max-w-xl leading-relaxed mb-10"
+          className="blanc-fade italic text-lg md:text-2xl max-w-xl leading-relaxed mb-10"
           style={{ color: 'var(--voie-ink-muted)' }}
         >
           {en
@@ -90,12 +112,14 @@ export default function ChapterBlanc() {
         </p>
 
         <div className="blanc-fade">
-          <Link
-            href={`/${locale}/inscription`}
-            className="btn-wipe inline-flex font-heading tracking-widest uppercase text-sm bg-royal text-white px-8 py-4 hover:text-black"
-          >
-            {en ? 'Start judo' : 'Commencer le judo'}
-          </Link>
+          <Magnetic>
+            <Link
+              href={`/${locale}/inscription`}
+              className="btn-wipe inline-flex font-heading tracking-widest uppercase text-sm bg-royal text-white px-8 py-4 hover:text-black"
+            >
+              {en ? 'Start judo' : 'Commencer le judo'}
+            </Link>
+          </Magnetic>
         </div>
       </div>
 

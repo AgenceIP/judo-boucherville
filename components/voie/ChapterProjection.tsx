@@ -27,6 +27,9 @@ export default function ChapterProjection() {
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
+  const barTopRef = useRef<HTMLDivElement>(null)
+  const barBottomRef = useRef<HTMLDivElement>(null)
+  const timecodeRef = useRef<HTMLSpanElement>(null)
   const [phase, setPhase] = useState(0)
   const target = useRef(0)
 
@@ -35,12 +38,20 @@ export default function ChapterProjection() {
     const vid = videoRef.current
     if (!vid) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const fmt = (s: number) => {
+      const m = Math.floor(s / 60)
+      const sec = (s % 60).toFixed(1).padStart(4, '0')
+      return `${String(m).padStart(2, '0')}:${sec}`
+    }
     let current = 0
     const tick = () => {
       if (vid.readyState < 2 || !vid.duration) return
       current += (target.current - current) * (reduced ? 1 : 0.12)
       const desired = current * vid.duration
       if (Math.abs(vid.currentTime - desired) > 0.02) vid.currentTime = desired
+      if (timecodeRef.current) {
+        timecodeRef.current.textContent = `${fmt(desired)} / ${fmt(vid.duration)}`
+      }
     }
     gsap.ticker.add(tick)
     return () => gsap.ticker.remove(tick)
@@ -57,7 +68,12 @@ export default function ChapterProjection() {
       onUpdate: (self) => {
         target.current = self.progress
         if (progressRef.current) gsap.set(progressRef.current, { scaleX: self.progress })
-        const idx = Math.min(PHASES.length - 1, Math.floor(self.progress * PHASES.length))
+        // Cinemascope: the letterbox closes in as the film starts, opens at the end
+        const p = self.progress
+        const bars = Math.min(1, Math.min(p / 0.07, (1 - p) / 0.07))
+        if (barTopRef.current) gsap.set(barTopRef.current, { scaleY: bars })
+        if (barBottomRef.current) gsap.set(barBottomRef.current, { scaleY: bars })
+        const idx = Math.min(PHASES.length - 1, Math.floor(p * PHASES.length))
         if (idx !== lastPhase) {
           lastPhase = idx
           setPhase(idx)
@@ -137,9 +153,24 @@ export default function ChapterProjection() {
       </video>
       <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0E]/85 via-transparent to-[#0C0C0E]/50 pointer-events-none" />
 
+      {/* Cinemascope letterbox */}
+      <div ref={barTopRef} className="absolute top-0 inset-x-0 h-[8vh] bg-[#050505] origin-top scale-y-0 z-10 pointer-events-none" />
+      <div ref={barBottomRef} className="absolute bottom-0 inset-x-0 h-[8vh] bg-[#050505] origin-bottom scale-y-0 z-10 pointer-events-none" />
+
+      {/* Timecode HUD */}
+      <div className="absolute top-28 right-8 md:right-16 lg:right-20 z-10 text-right">
+        <span ref={timecodeRef} className="font-mono text-[11px] tracking-[.15em] text-white/45 tabular-nums">
+          00:00.0 / 00:00.0
+        </span>
+        <p className="text-[9px] tracking-[.3em] uppercase text-white/25 mt-1">
+          {en ? 'You are the editor' : 'Tu tiens le montage'}
+        </p>
+      </div>
+
       {/* Intro line */}
-      <div className="projection-intro absolute top-28 left-8 md:left-16 lg:left-20 max-w-md">
+      <div className="projection-intro absolute top-28 left-8 md:left-16 lg:left-20 max-w-md z-10">
         <p className="text-[10px] tracking-[.4em] uppercase mb-4 text-white/40">
+          <span className="font-jp text-xs mr-3 opacity-70">四</span>
           {en ? 'Chapter 04 · The throw' : 'Chapitre 04 · La projection'}
         </p>
         <h2 className="voie-title font-heading text-4xl md:text-5xl text-white tracking-wide leading-none">
@@ -152,8 +183,8 @@ export default function ChapterProjection() {
         </p>
       </div>
 
-      {/* The three phases of a technique */}
-      <div className="absolute bottom-16 inset-x-8 md:inset-x-16 lg:inset-x-20">
+      {/* The three phases of a technique — float over the letterbox like subtitles */}
+      <div className="absolute bottom-16 inset-x-8 md:inset-x-16 lg:inset-x-20 z-20">
         <div className="flex gap-8 md:gap-16 mb-6">
           {PHASES.map((p, i) => (
             <div

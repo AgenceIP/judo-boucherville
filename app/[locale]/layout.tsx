@@ -14,6 +14,7 @@ import '@/styles/globals.css'
 
 const serif = Source_Serif_4({
   subsets: ['latin'],
+  style: ['normal', 'italic'],
   variable: '--font-serif',
 })
 

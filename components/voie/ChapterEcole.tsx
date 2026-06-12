@@ -1,11 +1,24 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
+import gsap from 'gsap'
 import { cn } from '@/lib/utils'
 import RevealText from '@/components/ui/RevealText'
 import { useReveal } from '@/hooks/useReveal'
+
+const previewFor: Record<string, string> = {
+  'judo-enfants': '/images/voie/enfants.jpg',
+  'parents-enfants': '/images/voie/enfants.jpg',
+  'camp-de-jour': '/images/voie/enfants.jpg',
+  'judo-adultes': '/images/voie/adultes.jpg',
+  'judo-competition': '/images/voie/competition.jpg',
+  'sport-etudes': '/images/voie/competition.jpg',
+  'aiki-jujitsu': '/images/voie/aiki.jpg',
+  'jiu-jitsu-bresilien': '/images/voie/bjj.jpg',
+}
 
 const programmes = [
   { titre: 'Judo enfants', titreEn: "Children's judo", horaire: 'Sam 10h15–12h30', slug: 'judo-enfants', categorie: 'enfants' as const },
@@ -25,7 +38,47 @@ export default function ChapterEcole() {
   const locale = useLocale()
   const en = locale === 'en'
   const [active, setActive] = useState<typeof filters[number]>('all')
+  const [preview, setPreview] = useState<string | null>(null)
   const listRef = useReveal<HTMLDivElement>()
+  const previewRef = useRef<HTMLDivElement>(null)
+
+  // The floating photo that chases the cursor across the list (desktop only)
+  useEffect(() => {
+    const el = previewRef.current
+    if (!el) return
+    if (!window.matchMedia('(pointer: fine)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const x = gsap.quickTo(el, 'x', { duration: 0.55, ease: 'power3.out' })
+    const y = gsap.quickTo(el, 'y', { duration: 0.55, ease: 'power3.out' })
+    const rot = gsap.quickTo(el, 'rotation', { duration: 0.6, ease: 'power3.out' })
+    let lastX = 0
+    const onMove = (e: MouseEvent) => {
+      x(e.clientX + 28)
+      y(e.clientY - 130)
+      rot(gsap.utils.clamp(-8, 8, (e.clientX - lastX) * 0.45))
+      lastX = e.clientX
+    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
+  useEffect(() => {
+    const el = previewRef.current
+    if (!el) return
+    gsap.to(el, {
+      opacity: preview ? 1 : 0,
+      scale: preview ? 1 : 0.92,
+      duration: 0.35,
+      ease: 'power3.out',
+    })
+    if (preview) {
+      gsap.fromTo(el.querySelector('img'),
+        { clipPath: 'inset(10% 0% 10% 0%)', scale: 1.08 },
+        { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, duration: 0.45, ease: 'power3.out' }
+      )
+    }
+  }, [preview])
 
   const filterLabel = (f: typeof filters[number]) =>
     f === 'all' ? (en ? 'All' : 'Tous')
@@ -43,8 +96,20 @@ export default function ChapterEcole() {
       data-voie-hairline="rgba(19,18,16,0.12)"
       className="py-28 md:py-40"
     >
+      {/* Floating preview that chases the cursor */}
+      <div
+        ref={previewRef}
+        className="fixed top-0 left-0 z-[60] w-48 h-64 md:w-56 md:h-72 overflow-hidden pointer-events-none opacity-0 hidden md:block"
+        aria-hidden="true"
+      >
+        {preview && (
+          <Image src={preview} alt="" fill sizes="224px" className="object-cover" />
+        )}
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>
+          <span className="font-jp text-xs mr-3 opacity-60">二</span>
           {en ? 'Chapter 02 · The school' : "Chapitre 02 · L'école"}
         </p>
 
@@ -94,8 +159,10 @@ export default function ChapterEcole() {
               >
                 <Link
                   href={`/${locale}/programmes/${p.slug}`}
-                  className="group flex items-center gap-6 py-6 border-t transition-colors duration-300"
+                  className="group flex items-center gap-6 py-6 border-t transition-all duration-300 hover:pl-4"
                   style={{ borderColor: 'var(--voie-hairline)' }}
+                  onMouseEnter={() => setPreview(previewFor[p.slug] ?? null)}
+                  onMouseLeave={() => setPreview(null)}
                 >
                   <h3
                     className="font-heading text-2xl md:text-3xl tracking-wide flex-1 group-hover:text-royal transition-colors duration-200"

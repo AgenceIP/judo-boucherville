@@ -4,6 +4,7 @@ import VoieConductor from '@/components/voie/VoieConductor'
 import BeltRail from '@/components/voie/BeltRail'
 import ChapterBlanc from '@/components/voie/ChapterBlanc'
 import ChapterEcole from '@/components/voie/ChapterEcole'
+import VoieMarquee from '@/components/voie/VoieMarquee'
 import ChapterForce from '@/components/voie/ChapterForce'
 import ChapterProjection from '@/components/voie/ChapterProjection'
 import ChapterNoir from '@/components/voie/ChapterNoir'
@@ -34,6 +35,7 @@ export default function HomePage() {
       <div id="voie-root">
         <ChapterBlanc />
         <ChapterEcole />
+        <VoieMarquee />
         <ChapterForce />
         <ChapterProjection />
         <ChapterNoir />

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
 import CountdownTimer from '@/components/ui/CountdownTimer'
 import RevealText from '@/components/ui/RevealText'
+import Magnetic from '@/components/ui/Magnetic'
 import { useReveal } from '@/hooks/useReveal'
 
 /** Chapter 06 — The tatami. The way ends where practice begins. */
@@ -19,10 +20,18 @@ export default function ChapterFinale() {
       data-voie-ink="#FAFAFA"
       data-voie-muted="#888888"
       data-voie-hairline="rgba(250,250,250,0.08)"
-      className="py-32 md:py-48"
+      className="relative py-32 md:py-48 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      {/* A last royal light on the tatami */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(720px circle at 18% 22%, rgba(65,105,225,0.13), transparent 70%)' }}
+        aria-hidden="true"
+      />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>
+          <span className="font-jp text-xs mr-3 opacity-60">六</span>
           {en ? 'Chapter 06 · The tatami' : 'Chapitre 06 · Le tatami'}
         </p>
 
@@ -35,23 +44,27 @@ export default function ChapterFinale() {
         </RevealText>
 
         <div ref={ctaRef} className="flex flex-wrap items-center gap-4 mb-28">
-          <Link
-            href={`/${locale}/inscription`}
-            className="btn-wipe font-heading tracking-widest uppercase text-sm bg-royal text-white px-8 py-4 hover:text-black"
-          >
-            {en ? 'Register' : "S'inscrire"}
-          </Link>
-          <Link
-            href={`/${locale}/contact`}
-            className="btn-wipe font-heading tracking-widest uppercase text-sm border text-white px-8 py-4 hover:text-black hover:border-white"
-            style={{ borderColor: 'var(--voie-hairline)' }}
-          >
-            {en ? 'Contact us' : 'Nous contacter'}
-          </Link>
-          <p className="basis-full md:basis-auto md:ml-6 text-sm leading-relaxed max-w-xs" style={{ color: 'var(--voie-ink-muted)' }}>
+          <Magnetic>
+            <Link
+              href={`/${locale}/inscription`}
+              className="btn-wipe inline-flex font-heading tracking-widest uppercase text-sm bg-royal text-white px-8 py-4 hover:text-black"
+            >
+              {en ? 'Register' : "S'inscrire"}
+            </Link>
+          </Magnetic>
+          <Magnetic>
+            <Link
+              href={`/${locale}/contact`}
+              className="btn-wipe inline-flex font-heading tracking-widest uppercase text-sm border text-white px-8 py-4 hover:text-black hover:border-white"
+              style={{ borderColor: 'var(--voie-hairline)' }}
+            >
+              {en ? 'Contact us' : 'Nous contacter'}
+            </Link>
+          </Magnetic>
+          <p className="basis-full md:basis-auto md:ml-6 italic text-base md:text-lg leading-relaxed max-w-xs" style={{ color: 'var(--voie-ink-muted)' }}>
             {en
               ? 'First class is free. Come bow once — the rest follows.'
-              : "Le premier cours est gratuit. Viens saluer une fois — le reste suivra."}
+              : 'Le premier cours est gratuit. Viens saluer une fois — le reste suivra.'}
           </p>
         </div>
 

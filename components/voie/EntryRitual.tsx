@@ -17,6 +17,7 @@ export default function EntryRitual() {
   const [active, setActive] = useState<boolean | null>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const kanjiRef = useRef<HTMLSpanElement>(null)
+  const ensoRef = useRef<SVGCircleElement>(null)
   const lineRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
@@ -47,15 +48,20 @@ export default function EntryRitual() {
       setActive(false)
     }
 
+    // The ensō is drawn as an open brush circle — 8% left unclosed, as tradition wants
+    const C = 2 * Math.PI * 47
+    gsap.set(ensoRef.current, { strokeDasharray: C, strokeDashoffset: C })
+
     const tl = gsap.timeline({ onComplete: finish })
     tl.fromTo(kanjiRef.current,
       { opacity: 0, filter: 'blur(22px)', scale: 1.12 },
       { opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.3, ease: 'power3.out' }
     )
-      .from(lineRef.current, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out' }, '-=0.55')
+      .to(ensoRef.current, { strokeDashoffset: C * 0.08, duration: 1.2, ease: 'power2.inOut' }, '-=0.7')
+      .from(lineRef.current, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out' }, '-=0.5')
       .to({}, { duration: 0.55 }) // hold the bow
-      .to([kanjiRef.current, lineRef.current], {
-        yPercent: -160,
+      .to('.rei-stage', {
+        yPercent: -34,
         opacity: 0,
         duration: 0.8,
         ease: 'power4.in',
@@ -88,19 +94,37 @@ export default function EntryRitual() {
       className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center select-none"
       aria-hidden="true"
     >
-      <span
-        ref={kanjiRef}
-        className="font-jp text-white leading-none"
-        style={{ fontSize: 'clamp(140px, 28vw, 320px)' }}
-      >
-        礼
-      </span>
-      <p
-        ref={lineRef}
-        className="mt-8 text-white/50 text-sm md:text-base tracking-[.25em] uppercase"
-      >
-        {locale === 'en' ? 'Everything begins with a bow.' : 'Tout commence par un salut.'}
-      </p>
+      <div className="rei-stage relative flex flex-col items-center">
+        {/* Ensō — the open circle, drawn around the bow */}
+        <svg
+          className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          style={{ width: 'clamp(260px, 46vw, 540px)', height: 'clamp(260px, 46vw, 540px)' }}
+          viewBox="0 0 100 100"
+        >
+          <circle
+            ref={ensoRef}
+            cx="50" cy="50" r="47"
+            fill="none"
+            stroke="rgba(250,250,250,0.28)"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            transform="rotate(-112 50 50)"
+          />
+        </svg>
+        <span
+          ref={kanjiRef}
+          className="font-jp text-white leading-none"
+          style={{ fontSize: 'clamp(120px, 23vw, 270px)' }}
+        >
+          礼
+        </span>
+        <p
+          ref={lineRef}
+          className="mt-10 text-white/50 text-sm md:text-base tracking-[.25em] uppercase"
+        >
+          {locale === 'en' ? 'Everything begins with a bow.' : 'Tout commence par un salut.'}
+        </p>
+      </div>
     </div>
   )
 }

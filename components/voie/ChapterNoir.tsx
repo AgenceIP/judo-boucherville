@@ -1,6 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -41,6 +42,24 @@ export default function ChapterNoir() {
   ]
 
   useGSAP(() => {
+    // Full-bleed dojo: unmask + slow drift inside its frame
+    gsap.fromTo('.noir-band',
+      { clipPath: 'inset(18% 6% 18% 6%)' },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        ease: 'none',
+        scrollTrigger: { trigger: '.noir-band', start: 'top 90%', end: 'top 30%', scrub: 0.5 },
+      }
+    )
+    gsap.fromTo('.noir-band img',
+      { yPercent: -8, scale: 1.12 },
+      {
+        yPercent: 8,
+        scale: 1.12,
+        ease: 'none',
+        scrollTrigger: { trigger: '.noir-band', start: 'top bottom', end: 'bottom top', scrub: true },
+      }
+    )
     gsap.from('.noir-medal', {
       opacity: 0,
       y: 24,
@@ -72,10 +91,20 @@ export default function ChapterNoir() {
       data-voie-ink="#FAFAFA"
       data-voie-muted="#888888"
       data-voie-hairline="rgba(250,250,250,0.08)"
-      className="py-28 md:py-40"
+      className="relative py-28 md:py-40 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      {/* Ghost kanji 道 — the way — mirrors the 始 of the white world */}
+      <span
+        className="font-jp absolute -left-[6vw] top-24 leading-none select-none pointer-events-none"
+        style={{ fontSize: '40vw', color: 'var(--voie-ink)', opacity: 0.04 }}
+        aria-hidden="true"
+      >
+        道
+      </span>
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>
+          <span className="font-jp text-xs mr-3 opacity-60">五</span>
           {en ? 'Chapter 05 · Black belt' : 'Chapitre 05 · Ceinture noire'}
         </p>
         <RevealText
@@ -85,11 +114,29 @@ export default function ChapterNoir() {
         >
           {en ? 'FIFTY-FIVE YEARS OF BLACK.' : 'CINQUANTE-CINQ ANS DE NOIR.'}
         </RevealText>
-        <p className="text-base md:text-lg max-w-xl leading-relaxed mb-20" style={{ color: 'var(--voie-ink-muted)' }}>
+        <p className="italic text-lg md:text-2xl max-w-xl leading-relaxed mb-20" style={{ color: 'var(--voie-ink-muted)' }}>
           {en
             ? 'The black belt is not the end of the way — it is where it truly begins. Here is what generations of judokas built at Boucherville.'
             : "La ceinture noire n'est pas la fin de la voie — c'est là qu'elle commence vraiment. Voici ce que des générations de judokas ont bâti à Boucherville."}
         </p>
+      </div>
+
+      {/* Full-bleed dojo band */}
+      <div className="noir-band relative h-[52vh] md:h-[64vh] overflow-hidden mb-24">
+        <Image
+          src="/images/voie/dojo.jpg"
+          alt={en ? 'The Marcel Bourelly dojo at night' : 'Le Dojo Marcel Bourelly, la nuit'}
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/70 via-transparent to-[#0A0A0A]/30" />
+        <p className="absolute bottom-6 left-6 lg:left-12 text-[10px] tracking-[.35em] uppercase text-white/50">
+          Dojo Marcel Bourelly — Boucherville
+        </p>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
 
         {/* Medal wall */}
         <div className="noir-medals grid grid-cols-2 md:grid-cols-4 gap-px mb-24" style={{ background: 'var(--voie-hairline)' }}>

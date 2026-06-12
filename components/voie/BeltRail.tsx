@@ -1,6 +1,7 @@
 'use client'
 import { useRef, useState } from 'react'
 import { useLocale } from 'next-intl'
+import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -20,6 +21,7 @@ const BELTS = [
 /**
  * The scroll progress indicator is a belt. It fills as you descend the page
  * and is promoted through the grades — white at the top, black at the bottom.
+ * Each promotion flashes the belt and slides the new grade in.
  */
 export default function BeltRail() {
   const locale = useLocale()
@@ -43,6 +45,11 @@ export default function BeltRail() {
           current = idx
           setGrade(idx)
           gsap.to(fill, { backgroundColor: BELTS[idx].color, duration: 0.6, ease: 'power2.out' })
+          // The promotion: a brief glow in the new belt's color
+          gsap.fromTo(fill,
+            { boxShadow: `0 0 14px 3px ${BELTS[idx].color}` },
+            { boxShadow: '0 0 0px 0px rgba(0,0,0,0)', duration: 1.1, ease: 'power2.out' }
+          )
         }
       },
     })
@@ -52,12 +59,21 @@ export default function BeltRail() {
 
   return (
     <div className="fixed right-6 lg:right-10 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-5 pointer-events-none">
-      <span
-        className="text-[9px] tracking-[.35em] uppercase [writing-mode:vertical-rl] transition-colors duration-500"
-        style={{ color: 'var(--voie-ink-muted)' }}
-      >
-        {locale === 'en' ? `${belt.en} belt` : `Ceinture ${belt.fr.toLowerCase()}`}
-      </span>
+      <div className="relative h-44 flex items-center overflow-hidden">
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={grade}
+            initial={{ x: 14, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -14, opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="block text-[9px] tracking-[.35em] uppercase [writing-mode:vertical-rl] transition-colors duration-500"
+            style={{ color: 'var(--voie-ink-muted)' }}
+          >
+            {locale === 'en' ? `${belt.en} belt` : `Ceinture ${belt.fr.toLowerCase()}`}
+          </motion.span>
+        </AnimatePresence>
+      </div>
       <div className="relative h-[30vh] w-[3px]" style={{ background: 'var(--voie-hairline)' }}>
         <div
           ref={fillRef}
