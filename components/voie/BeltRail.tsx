@@ -74,7 +74,7 @@ export default function BeltRail() {
           </motion.span>
         </AnimatePresence>
       </div>
-      <div className="relative h-[30vh] w-[3px]" style={{ background: 'var(--voie-hairline)' }}>
+      <div className="relative h-[30vh] w-[6px]" style={{ background: 'var(--voie-hairline)' }}>
         <div
           ref={fillRef}
           className="absolute inset-0 origin-top scale-y-0"

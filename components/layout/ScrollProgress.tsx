@@ -36,7 +36,7 @@ export default function ScrollProgress() {
   if (!show) return null
 
   return (
-    <div className="fixed top-0 inset-x-0 z-[70] h-[2px] pointer-events-none">
+    <div className="fixed top-0 inset-x-0 z-[70] h-[4px] pointer-events-none">
       <div ref={fillRef} className="h-full bg-royal origin-left scale-x-0" />
     </div>
   )

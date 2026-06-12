@@ -24,7 +24,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
 
           {/* Photo + details */}
           <div className="md:col-span-1">
-            <div className="relative aspect-[3/4] overflow-hidden mb-8 bg-white/[0.03]">
+            <div className="relative aspect-[3/4] overflow-hidden mb-8 bg-foreground/[0.05]">
               {instructeur.photoSrc ? (
                 <Image
                   src={instructeur.photoSrc}
@@ -34,20 +34,20 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="font-heading text-[80px] leading-none text-white/[0.04] select-none">
+                  <span className="font-heading text-[80px] leading-none text-foreground/[0.04] select-none">
                     {instructeur.nom.split(' ').map(n => n[0] ?? '').join('')}
                   </span>
                 </div>
               )}
             </div>
 
-            <div className="border-t border-white/[0.06]">
+            <div className="border-t border-foreground/15">
               {instructeur.disciplines.length > 0 && (
-                <div className="py-5 border-b border-white/[0.06]">
+                <div className="py-5 border-b border-foreground/15">
                   <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{labels.disciplines}</h3>
                   <div className="flex flex-wrap gap-2">
                     {instructeur.disciplines.map(d => (
-                      <span key={d} className="text-xs text-muted border border-white/[0.08] px-2 py-1">
+                      <span key={d} className="text-xs text-muted border border-foreground/15 px-2 py-1">
                         {d}
                       </span>
                     ))}
@@ -56,7 +56,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
               )}
 
               {instructeur.competitions.length > 0 && (
-                <div className="py-5 border-b border-white/[0.06]">
+                <div className="py-5 border-b border-foreground/15">
                   <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{labels.realisations}</h3>
                   <ul className="space-y-2">
                     {instructeur.competitions.map((c, i) => (

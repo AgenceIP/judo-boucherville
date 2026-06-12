@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Source_Serif_4 } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Archivo } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -15,15 +14,11 @@ import VelocitySkew from '@/components/providers/VelocitySkew'
 import ScrollProgress from '@/components/layout/ScrollProgress'
 import '@/styles/globals.css'
 
-const serif = Source_Serif_4({
+const archivo = Archivo({
   subsets: ['latin'],
   style: ['normal', 'italic'],
-  variable: '--font-serif',
-})
-
-const bebas = localFont({
-  src: '../../public/fonts/BebasNeue-Regular.ttf',
-  variable: '--font-bebas',
+  axes: ['wdth'],
+  variable: '--font-archivo',
 })
 
 export const metadata: Metadata = {
@@ -59,7 +54,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${serif.variable} ${bebas.variable}`}>
+    <html lang={locale} className={archivo.variable}>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>

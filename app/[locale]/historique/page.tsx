@@ -43,12 +43,12 @@ export default function HistoriquePage() {
       />
 
       {/* Founder */}
-      <section className="border-b border-white/[0.06]">
+      <section className="border-b border-foreground/15">
         <div className="max-w-5xl mx-auto px-6 lg:px-12 py-16">
           <div className="grid md:grid-cols-3 gap-12 items-start">
             <div>
               <p className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">Fondateur</p>
-              <h2 className="font-heading text-4xl text-white tracking-tight mb-1">Marcel Bourelly</h2>
+              <h2 className="font-heading text-4xl text-foreground tracking-tight mb-1">Marcel Bourelly</h2>
               <p className="text-royal text-sm">Ceinture noire 7e dan</p>
             </div>
             <div className="md:col-span-2">
@@ -66,12 +66,12 @@ export default function HistoriquePage() {
       {/* Timeline */}
       <section className="py-20">
         <div className="max-w-5xl mx-auto px-6 lg:px-12">
-          <div ref={timelineRef} className="relative pl-8 border-l border-white/[0.06]">
+          <div ref={timelineRef} className="relative pl-8 border-l border-foreground/15">
             {timelineEvents.map(event => (
               <div key={event.year} className="history-item mb-10 last:mb-0 relative">
                 <div className="absolute -left-[37px] w-2.5 h-2.5 bg-royal border-2 border-bg-surface mt-1.5" />
                 <span className="font-heading text-royal text-3xl leading-none">{event.year}</span>
-                <h3 className="font-heading text-lg text-white mt-1 mb-2 tracking-wide">{event.title}</h3>
+                <h3 className="font-heading text-lg text-foreground mt-1 mb-2 tracking-wide">{event.title}</h3>
                 <p className="text-muted text-sm leading-relaxed max-w-2xl">{event.description}</p>
               </div>
             ))}

@@ -1,24 +1,20 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { useLocale } from 'next-intl'
 import gsap from 'gsap'
 import type Lenis from 'lenis'
 
 const SEEN_KEY = 'voie-rei'
 
 /**
- * The entry ritual: a black screen, the kanji 礼 (rei — the bow) bleeds in
- * like ink, "Tout commence par un salut." — then the curtain lifts onto the
- * white world. Once per session, skippable by click/scroll/key, skipped
- * entirely under reduced motion. Fires `voie:open` when the page is revealed.
+ * The punch-in. White screen, the club name slams in poster-huge, a cobalt
+ * bar sweeps the frame, then the curtain lifts. About a second — fast like
+ * a throw. Once per session, skippable, skipped under reduced motion.
+ * Fires `voie:open` when the page is revealed.
  */
 export default function EntryRitual() {
-  const locale = useLocale()
   const [active, setActive] = useState<boolean | null>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
-  const kanjiRef = useRef<HTMLSpanElement>(null)
-  const ensoRef = useRef<SVGCircleElement>(null)
-  const lineRef = useRef<HTMLParagraphElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -48,40 +44,22 @@ export default function EntryRitual() {
       setActive(false)
     }
 
-    // The ensō is drawn as an open brush circle — 8% left unclosed, as tradition wants
-    const C = 2 * Math.PI * 47
-    gsap.set(ensoRef.current, { strokeDasharray: C, strokeDashoffset: C })
-
     const tl = gsap.timeline({ onComplete: finish })
-    tl.fromTo(kanjiRef.current,
-      {
-        opacity: 0,
-        filter: 'blur(22px)',
-        scale: 1.12,
-        textShadow: '-9px 0 2px rgba(255,64,96,0.55), 9px 0 2px rgba(64,160,255,0.55)',
-      },
-      {
-        opacity: 1,
-        filter: 'blur(0px)',
-        scale: 1,
-        textShadow: '0px 0 2px rgba(255,64,96,0), 0px 0 2px rgba(64,160,255,0)',
-        duration: 1.3,
-        ease: 'power3.out',
-      }
-    )
-      .to(ensoRef.current, { strokeDashoffset: C * 0.08, duration: 1.2, ease: 'power2.inOut' }, '-=0.7')
-      .from(lineRef.current, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-      .to({}, { duration: 0.55 }) // hold the bow
-      .to('.rei-stage', {
-        yPercent: -34,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power4.in',
-      })
-      .to(overlay, { yPercent: -100, duration: 0.95, ease: 'power4.inOut' }, '-=0.45')
+    tl.from('.punch-word', {
+      yPercent: 120,
+      duration: 0.55,
+      stagger: 0.09,
+      ease: 'power4.out',
+    })
+      .fromTo(barRef.current,
+        { xPercent: -101 },
+        { xPercent: 101, duration: 0.55, ease: 'power3.inOut' },
+        '-=0.25'
+      )
+      .to({}, { duration: 0.2 })
+      .to(overlay, { yPercent: -100, duration: 0.7, ease: 'power4.inOut' })
 
-    // Any intent skips straight to the reveal
-    const skip = () => tl.totalProgress() < 0.7 && tl.totalProgress(0.7)
+    const skip = () => tl.totalProgress() < 0.75 && tl.totalProgress(0.75)
     window.addEventListener('wheel', skip, { passive: true })
     window.addEventListener('touchstart', skip, { passive: true })
     window.addEventListener('keydown', skip)
@@ -103,47 +81,21 @@ export default function EntryRitual() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center select-none"
+      className="fixed inset-0 z-[100] bg-[#F6F5F2] flex flex-col items-start justify-center px-8 md:px-16 lg:px-20 select-none overflow-hidden"
       aria-hidden="true"
     >
-      <div className="rei-stage relative flex flex-col items-center">
-        {/* Ensō — the open circle, drawn around the bow */}
-        <svg
-          className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          style={{ width: 'clamp(260px, 46vw, 540px)', height: 'clamp(260px, 46vw, 540px)', filter: 'drop-shadow(0 0 14px rgba(65,105,225,0.55))' }}
-          viewBox="0 0 100 100"
-        >
-          <defs>
-            <linearGradient id="enso-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#9DB7FF" />
-              <stop offset="55%" stopColor="#4169E1" />
-              <stop offset="100%" stopColor="#A78BFA" />
-            </linearGradient>
-          </defs>
-          <circle
-            ref={ensoRef}
-            cx="50" cy="50" r="47"
-            fill="none"
-            stroke="url(#enso-grad)"
-            strokeOpacity="0.75"
-            strokeWidth="1.1"
-            strokeLinecap="round"
-            transform="rotate(-112 50 50)"
-          />
-        </svg>
-        <span
-          ref={kanjiRef}
-          className="font-jp text-white leading-none"
-          style={{ fontSize: 'clamp(120px, 23vw, 270px)' }}
-        >
-          礼
-        </span>
-        <p
-          ref={lineRef}
-          className="mt-10 text-white/50 text-sm md:text-base tracking-[.25em] uppercase"
-        >
-          {locale === 'en' ? 'Everything begins with a bow.' : 'Tout commence par un salut.'}
+      <div className="overflow-hidden">
+        <p className="punch-word font-heading leading-[.92] text-[#0B0B0D]" style={{ fontSize: 'clamp(54px, 9.5vw, 150px)' }}>
+          JUDO
         </p>
+      </div>
+      <div className="overflow-hidden">
+        <p className="punch-word font-heading leading-[.92] text-[#0B0B0D]" style={{ fontSize: 'clamp(54px, 9.5vw, 150px)' }}>
+          BOUCHERVILLE
+        </p>
+      </div>
+      <div className="relative mt-6 h-[10px] w-full max-w-3xl overflow-hidden">
+        <div ref={barRef} className="absolute inset-0 bg-[#1D3FFF]" />
       </div>
     </div>
   )

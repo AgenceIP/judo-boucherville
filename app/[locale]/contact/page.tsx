@@ -49,7 +49,7 @@ export default async function ContactPage() {
                 </div>
               </div>
             </div>
-            <div className="overflow-hidden h-64 border border-white/[0.06]">
+            <div className="overflow-hidden h-64 border border-foreground/15">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2796.!2d-73.!3d45.!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc90ba!2s490%20Chemin%20du%20Lac%2C%20Boucherville%2C%20QC!5e0!3m2!1sfr!2sca!4v"
                 width="100%"

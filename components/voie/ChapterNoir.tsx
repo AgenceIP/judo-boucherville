@@ -87,35 +87,24 @@ export default function ChapterNoir() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#05060B"
-      data-voie-ink="#FAFAFA"
-      data-voie-muted="#8B92A6"
-      data-voie-hairline="rgba(250,250,250,0.08)"
-      data-voie-aurora="1"
+      data-voie-bg="#0B0B0D"
+      data-voie-ink="#FFFFFF"
+      data-voie-muted="rgba(255,255,255,0.6)"
+      data-voie-hairline="rgba(255,255,255,0.22)"
       className="relative py-28 md:py-40 overflow-hidden"
     >
-      {/* Ghost kanji 道 — the way — mirrors the 始 of the white world */}
-      <span
-        className="font-jp absolute -left-[6vw] top-24 leading-none select-none pointer-events-none"
-        style={{ fontSize: '40vw', color: 'var(--voie-ink)', opacity: 0.04 }}
-        aria-hidden="true"
-      >
-        道
-      </span>
-
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-        <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>
-          <span className="font-jp text-xs mr-3 opacity-60">五</span>
-          {en ? 'Chapter 05 · Black belt' : 'Chapitre 05 · Ceinture noire'}
+        <p className="font-heading text-sm md:text-base mb-6" style={{ color: '#5C77FF' }}>
+          05 — {en ? 'Black belt' : 'Ceinture noire'}
         </p>
         <RevealText
           as="h2"
-          className="voie-title glow-soft font-heading text-[clamp(52px,9vw,120px)] leading-[.9] tracking-tight mb-6"
+          className="voie-title font-heading text-[clamp(36px,6vw,88px)] leading-[.92] mb-6"
           style={{ color: 'var(--voie-ink)' }}
         >
           {en ? 'FIFTY-FIVE YEARS OF BLACK.' : 'CINQUANTE-CINQ ANS DE NOIR.'}
         </RevealText>
-        <p className="italic text-lg md:text-2xl max-w-xl leading-relaxed mb-20" style={{ color: 'var(--voie-ink-muted)' }}>
+        <p className="text-base md:text-lg font-medium max-w-xl leading-snug mb-20" style={{ color: 'var(--voie-ink-muted)' }}>
           {en
             ? 'The black belt is not the end of the way — it is where it truly begins. Here is what generations of judokas built at Boucherville.'
             : "La ceinture noire n'est pas la fin de la voie — c'est là qu'elle commence vraiment. Voici ce que des générations de judokas ont bâti à Boucherville."}
@@ -140,13 +129,13 @@ export default function ChapterNoir() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
 
         {/* Medal wall */}
-        <div className="noir-medals grid grid-cols-2 md:grid-cols-4 gap-3 mb-24">
+        <div className="noir-medals grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
           {medals.map(m => (
-            <div key={m.label} className="noir-medal glass p-8 md:p-10">
-              <p className="font-heading text-royal glow-royal leading-none tabular-nums" style={{ fontSize: 'clamp(48px, 5.5vw, 90px)' }}>
+            <div key={m.label} className="noir-medal border-[3px] border-white p-8 md:p-10">
+              <p className="font-heading leading-none tabular-nums" style={{ fontSize: 'clamp(40px, 4.5vw, 76px)', color: '#5C77FF' }}>
                 <AnimatedCounter end={m.value} />
               </p>
-              <p className="text-[11px] tracking-[.25em] uppercase mt-3" style={{ color: 'var(--voie-ink-muted)' }}>
+              <p className="font-heading text-xs md:text-sm mt-3 text-white">
                 {m.label}
               </p>
             </div>
@@ -159,7 +148,7 @@ export default function ChapterNoir() {
             <div className="noir-rule absolute left-0 top-0 bottom-0 w-px" style={{ background: 'var(--voie-hairline)' }} />
             {timeline.map(item => (
               <div key={item.year} className="noir-item mb-8 last:mb-0">
-                <span className="font-heading text-royal text-2xl">{item.year}</span>
+                <span className="font-heading text-2xl" style={{ color: '#5C77FF' }}>{item.year}</span>
                 <p className="text-sm mt-1 leading-relaxed" style={{ color: 'var(--voie-ink-muted)' }}>{item.text}</p>
               </div>
             ))}

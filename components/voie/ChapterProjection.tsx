@@ -135,11 +135,10 @@ export default function ChapterProjection() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#06070C"
-      data-voie-ink="#FAFAFA"
-      data-voie-muted="#8A8A8A"
-      data-voie-hairline="rgba(250,250,250,0.10)"
-      data-voie-aurora="1"
+      data-voie-bg="#0B0B0D"
+      data-voie-ink="#FFFFFF"
+      data-voie-muted="rgba(255,255,255,0.6)"
+      data-voie-hairline="rgba(255,255,255,0.2)"
       data-cursor="drag"
       className="scanlines relative h-screen overflow-hidden select-none touch-pan-y"
     >
@@ -170,11 +169,10 @@ export default function ChapterProjection() {
 
       {/* Intro line */}
       <div className="projection-intro absolute top-28 left-8 md:left-16 lg:left-20 max-w-md z-10">
-        <p className="text-[10px] tracking-[.4em] uppercase mb-4 text-white/40">
-          <span className="font-jp text-xs mr-3 opacity-70">四</span>
-          {en ? 'Chapter 04 · The throw' : 'Chapitre 04 · La projection'}
+        <p className="font-heading text-sm md:text-base mb-4 text-royal" style={{ color: '#5C77FF' }}>
+          04 — {en ? 'The throw' : 'La projection'}
         </p>
-        <h2 className="voie-title font-heading text-4xl md:text-5xl text-white tracking-wide leading-none">
+        <h2 className="voie-title font-heading text-3xl md:text-4xl text-white leading-none">
           {en ? 'PERFORM IT YOURSELF.' : 'EXÉCUTE-LA TOI-MÊME.'}
         </h2>
         <p className="text-sm mt-3 text-white/50 leading-relaxed">
@@ -194,7 +192,7 @@ export default function ChapterProjection() {
               style={{ opacity: phase === i ? 1 : 0.28 }}
             >
               <p className="font-jp text-2xl md:text-3xl text-white/80 mb-1" aria-hidden="true">{p.jp}</p>
-              <p className={`font-heading text-2xl md:text-4xl tracking-wider leading-none transition-all duration-500 ${phase === i ? 'text-aurora glow-soft' : 'text-white'}`}>
+              <p className={`font-heading text-xl md:text-3xl leading-none transition-all duration-500 ${phase === i ? 'text-[#5C77FF]' : 'text-white'}`}>
                 {p.name}
               </p>
               <p className="text-xs md:text-sm text-white/50 mt-1">{en ? p.en : p.fr}</p>

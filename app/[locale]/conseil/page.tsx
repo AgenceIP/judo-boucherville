@@ -31,7 +31,7 @@ export default async function ConseilPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid sm:grid-cols-2 gap-4">
           {membres.map(m => (
-            <div key={m.role + m.nom} className="bg-bg-surface border border-white/5 p-6 flex items-start gap-5">
+            <div key={m.role + m.nom} className="bg-bg-surface border border-foreground/15 p-6 flex items-start gap-5">
               <div className="w-12 h-12 rounded-full bg-royal/20 flex items-center justify-center shrink-0">
                 <span className="font-heading text-royal text-lg">
                   {m.nom.split(' ').map(n => n[0]).join('').slice(0, 2)}
@@ -45,7 +45,7 @@ export default async function ConseilPage() {
           ))}
         </div>
 
-        <div className="mt-16 bg-bg-surface border border-white/5 p-8 text-center">
+        <div className="mt-16 bg-bg-surface border border-foreground/15 p-8 text-center">
           <p className="text-muted text-sm leading-relaxed">
             {locale === 'fr'
               ? 'Pour contacter le conseil d\'administration, écrivez-nous à'

@@ -33,13 +33,13 @@ export default async function CeinturesNoiresPage() {
 
         <div className="space-y-8">
           {[...ceintures].reverse().map(({ annee, noms }) => (
-            <div key={annee} className="flex gap-8 items-start border-t border-white/[0.06] pt-6">
+            <div key={annee} className="flex gap-8 items-start border-t border-foreground/15 pt-6">
               <div className="shrink-0 w-16">
                 <span className="font-heading text-2xl text-royal">{annee}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {noms.map(nom => (
-                  <span key={nom} className="text-foreground text-sm bg-white/[0.04] border border-white/[0.06] px-3 py-1.5">
+                  <span key={nom} className="text-foreground text-sm bg-foreground/[0.05] border border-foreground/15 px-3 py-1.5">
                     {nom}
                   </span>
                 ))}

@@ -47,12 +47,12 @@ export default async function ChallengePage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
+          <div className="bg-bg-surface border border-foreground/15 rounded-none p-6">
             <h3 className="font-heading text-xl text-foreground tracking-wide mb-3">📍 Lieu</h3>
             <p className="text-muted text-sm leading-relaxed">{tournoi.lieu}</p>
           </div>
 
-          <div className="bg-bg-surface border border-white/5 rounded-2xl p-6">
+          <div className="bg-bg-surface border border-foreground/15 rounded-none p-6">
             <h3 className="font-heading text-xl text-foreground tracking-wide mb-3">🏷️ Catégories</h3>
             <div className="flex flex-wrap gap-2">
               {tournoi.categories.map(cat => (
@@ -63,11 +63,11 @@ export default async function ChallengePage() {
             </div>
           </div>
 
-          <div className="bg-bg-surface border border-white/5 rounded-2xl p-6 md:col-span-2">
+          <div className="bg-bg-surface border border-foreground/15 rounded-none p-6 md:col-span-2">
             <h3 className="font-heading text-xl text-foreground tracking-wide mb-4">🏆 Prix</h3>
             <div className="grid sm:grid-cols-3 gap-4">
               {tournoi.prix.map(p => (
-                <div key={p.categorie} className="text-center border border-royal/20 rounded-xl p-4">
+                <div key={p.categorie} className="text-center border border-royal/20 rounded-none p-4">
                   <p className="font-heading text-2xl text-royal">{p.montant}</p>
                   <p className="text-muted text-sm mt-1">{p.categorie}</p>
                 </div>
@@ -79,7 +79,7 @@ export default async function ChallengePage() {
 
         {description && <RichText value={description} />}
 
-        <div className="bg-bg-surface border border-white/5 rounded-2xl p-6 mt-8">
+        <div className="bg-bg-surface border border-foreground/15 rounded-none p-6 mt-8">
           <h3 className="font-heading text-xl text-foreground tracking-wide mb-3">Contact</h3>
           <p className="text-muted text-sm">
             Directeur du tournoi : <strong className="text-foreground">Olivier Bry</strong>

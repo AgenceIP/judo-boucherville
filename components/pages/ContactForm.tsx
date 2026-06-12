@@ -24,7 +24,7 @@ export default function ContactForm() {
     })
   }
 
-  const inputClasses = 'w-full bg-bg-base border border-white/10 rounded-xl px-4 py-3 text-foreground text-sm focus:border-accent-blue focus:outline-none transition-colors placeholder:text-muted'
+  const inputClasses = 'w-full bg-bg-base border border-foreground/15 rounded-none px-4 py-3 text-foreground text-sm focus:border-accent-blue focus:outline-none transition-colors placeholder:text-muted'
 
   if (status === 'success') {
     return (

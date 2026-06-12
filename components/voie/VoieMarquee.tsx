@@ -39,17 +39,13 @@ export default function VoieMarquee() {
   }, { scope: wrapRef })
 
   return (
-    <div ref={wrapRef} className="overflow-hidden py-10 md:py-14 select-none" aria-hidden="true">
+    <div ref={wrapRef} className="overflow-hidden py-8 md:py-10 select-none bg-[#0B0B0D]" aria-hidden="true">
       <div ref={trackRef} className="flex whitespace-nowrap will-change-transform w-max">
         {[0, 1].map(i => (
           <span
             key={i}
-            className="font-heading leading-none tracking-tight pr-4"
-            style={{
-              fontSize: 'clamp(80px, 12vw, 190px)',
-              color: 'transparent',
-              WebkitTextStroke: '1.5px color-mix(in srgb, var(--voie-ink) 32%, transparent)',
-            }}
+            className="font-heading leading-none pr-6 text-white"
+            style={{ fontSize: 'clamp(40px, 5.5vw, 92px)' }}
           >
             {LINE}
           </span>

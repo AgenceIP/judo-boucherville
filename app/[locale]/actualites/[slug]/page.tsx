@@ -42,7 +42,7 @@ export default async function ActualiteDetailPage({ params }: Props) {
           </div>
         )}
         <RichText value={content} />
-        <div className="mt-12 pt-8 border-t border-white/[0.06]">
+        <div className="mt-12 pt-8 border-t border-foreground/15">
           <Button href={`/${locale}/actualites`} variant="outline">
             {locale === 'fr' ? '← Toutes les actualités' : '← All news'}
           </Button>

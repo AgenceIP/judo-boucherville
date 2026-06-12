@@ -30,14 +30,14 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
           </div>
 
           {/* Sidebar */}
-          <aside className="border-t border-white/[0.06]">
+          <aside className="border-t border-foreground/15">
             {programme.horaires.length > 0 && (
-              <div className="py-6 border-b border-white/[0.06]">
+              <div className="py-6 border-b border-foreground/15">
                 <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-4">{labels.horaires}</h3>
                 <div className="space-y-3">
                   {programme.horaires.map((h, i) => (
                     <div key={i} className="text-sm">
-                      <span className="text-white font-medium">{h.jours}</span>
+                      <span className="text-foreground font-medium">{h.jours}</span>
                       <span className="text-muted ml-2">{h.heures}</span>
                       {h.lieu && <p className="text-muted text-xs mt-0.5">{h.lieu}</p>}
                     </div>
@@ -47,14 +47,14 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
             )}
 
             {programme.tarif && (
-              <div className="py-6 border-b border-white/[0.06]">
+              <div className="py-6 border-b border-foreground/15">
                 <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-2">{labels.tarif}</h3>
-                <p className="font-heading text-xl text-white">{programme.tarif}</p>
+                <p className="font-heading text-xl text-foreground">{programme.tarif}</p>
               </div>
             )}
 
             {programme.instructeurs.length > 0 && (
-              <div className="py-6 border-b border-white/[0.06]">
+              <div className="py-6 border-b border-foreground/15">
                 <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-4">{labels.instructeurs}</h3>
                 <div className="space-y-3">
                   {programme.instructeurs.map(instr => (
@@ -63,13 +63,13 @@ export default function ProgrammeTemplate({ programme, locale }: Props) {
                       href={`/${locale}/equipe/${instr.slug}`}
                       className="flex items-center gap-3 group"
                     >
-                      <div className="w-8 h-8 bg-white/[0.04] border border-white/[0.06] flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 bg-foreground/[0.05] border border-foreground/15 flex items-center justify-center shrink-0">
                         <span className="font-heading text-xs text-muted">
                           {instr.nom.split(' ').map((n: string) => n[0] ?? '').join('')}
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm text-white group-hover:text-royal transition-colors">{instr.nom}</p>
+                        <p className="text-sm text-foreground group-hover:text-royal transition-colors">{instr.nom}</p>
                         <p className="text-xs text-muted">{instr.grade}</p>
                       </div>
                     </Link>

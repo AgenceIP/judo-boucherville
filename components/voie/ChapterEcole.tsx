@@ -80,10 +80,10 @@ export default function ChapterEcole() {
 
   return (
     <section
-      data-voie-bg="#EEF0F3"
-      data-voie-ink="#0E0E10"
-      data-voie-muted="#5F6470"
-      data-voie-hairline="rgba(14,14,16,0.12)"
+      data-voie-bg="#FFFFFF"
+      data-voie-ink="#0B0B0D"
+      data-voie-muted="#5A5A60"
+      data-voie-hairline="rgba(11,11,13,0.16)"
       className="py-28 md:py-40"
     >
       {/* Floating preview that chases the cursor */}
@@ -98,15 +98,14 @@ export default function ChapterEcole() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>
-          <span className="font-jp text-xs mr-3 opacity-60">二</span>
-          {en ? 'Chapter 02 · The school' : "Chapitre 02 · L'école"}
+        <p className="font-heading text-sm md:text-base mb-6 text-royal">
+          02 — {en ? 'The school' : "L'école"}
         </p>
 
         <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
           <RevealText
             as="h2"
-            className="voie-title font-heading text-[clamp(52px,9vw,120px)] leading-[.9] tracking-tight"
+            className="voie-title font-heading text-[clamp(40px,6.4vw,92px)] leading-[.92]"
             style={{ color: 'var(--voie-ink)' }}
           >
             {en ? 'THE SCHOOL' : "L'ÉCOLE"}
@@ -149,13 +148,13 @@ export default function ChapterEcole() {
               >
                 <Link
                   href={`/${locale}/programmes/${p.slug}`}
-                  className="group flex items-center gap-6 py-6 border-t transition-all duration-300 hover:pl-4"
-                  style={{ borderColor: 'var(--voie-hairline)' }}
+                  className="group flex items-center gap-6 py-6 border-t-[3px] transition-all duration-300 hover:pl-4"
+                  style={{ borderColor: 'var(--voie-ink)' }}
                   onMouseEnter={() => setPreview(previewFor[p.slug] ?? null)}
                   onMouseLeave={() => setPreview(null)}
                 >
                   <h3
-                    className="font-heading text-2xl md:text-3xl tracking-wide flex-1 group-hover:text-royal transition-colors duration-200"
+                    className="font-heading text-xl md:text-3xl flex-1 group-hover:text-royal transition-colors duration-200"
                     style={{ color: 'var(--voie-ink)' }}
                   >
                     {en ? p.titreEn : p.titre}
@@ -170,7 +169,7 @@ export default function ChapterEcole() {
               </motion.div>
             ))}
           </AnimatePresence>
-          <div className="border-t" style={{ borderColor: 'var(--voie-hairline)' }} />
+          <div className="border-t-[3px]" style={{ borderColor: 'var(--voie-ink)' }} />
         </motion.div>
 
         <div className="mt-10">
