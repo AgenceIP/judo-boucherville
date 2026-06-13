@@ -78,13 +78,13 @@ export default function ProgrammeCard({ titre, description, horaire, slug, categ
       )}
       <Link
         href={`/${locale}/programmes/${slug}`}
-        className="group flex items-center gap-6 border-t border-foreground/20 py-5 transition-all duration-300 hover:border-royal/30 hover:pl-3"
+        className="group flex items-center gap-6 border-t border-white/[0.06] py-5 transition-all duration-300 hover:border-royal/30 hover:pl-3"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-4">
-            <h3 className="font-heading text-xl text-foreground tracking-wide group-hover:text-royal transition-colors duration-200">
+            <h3 className="font-heading text-xl text-white tracking-wide group-hover:text-royal transition-colors duration-200">
               {titre}
             </h3>
             <span className="text-[10px] text-muted tracking-[.2em] uppercase shrink-0">

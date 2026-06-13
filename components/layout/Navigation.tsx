@@ -199,8 +199,7 @@ export default function Navigation() {
             <Magnetic strength={0.22}>
               <Link
                 href={`/${locale}/inscription`}
-                className="btn-wipe inline-flex font-heading text-[12px] bg-royal text-white px-5 py-2.5 hover:text-white"
-                style={{ ['--wipe-bg' as string]: '#0B0B0D' }}
+                className="btn-wipe inline-flex text-[11px] font-bold tracking-[.1em] uppercase bg-royal text-white px-5 py-2.5 hover:text-black"
               >
                 {t('inscription')}
               </Link>

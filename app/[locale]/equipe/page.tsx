@@ -30,7 +30,7 @@ export default async function EquipePage() {
           uniqueGroup.forEach(i => seen.add(i.id))
           return uniqueGroup.length > 0 && (
             <div key={key}>
-              <h2 className="font-heading text-[10px] text-muted tracking-[.3em] uppercase mb-0 border-b border-foreground/15 pb-4">
+              <h2 className="font-heading text-[10px] text-muted tracking-[.3em] uppercase mb-0 border-b border-white/[0.06] pb-4">
                 {key === 'judo' ? 'Judo' : key === 'aiki-jujitsu' ? 'Aiki Ju-Jitsu' : 'Jiu-Jitsu Brésilien'}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

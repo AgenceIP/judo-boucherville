@@ -194,7 +194,7 @@ export default function BlackBeltConstellation({ ceintures }: { ceintures: YearG
   }, [ceintures])
 
   return (
-    <div ref={wrapRef} className="relative h-[62vh] md:h-[70vh] overflow-hidden border-y-[3px] border-foreground" style={{ background: '#06070C' }}>
+    <div ref={wrapRef} className="relative h-[62vh] md:h-[70vh] overflow-hidden border-y border-white/[0.06]" style={{ background: '#040509' }}>
       {/* Nebula behind the lineage */}
       <div className="absolute inset-0 opacity-50 pointer-events-none" aria-hidden="true">
         <div className="aurora-blob aurora-a" style={{ width: '46vw', height: '40vh', top: '-12%', left: '4%' }} />
@@ -223,7 +223,7 @@ export default function BlackBeltConstellation({ ceintures }: { ceintures: YearG
           <p className="font-heading text-white text-xl md:text-2xl tracking-wider whitespace-nowrap text-center">
             {hovered.name}
           </p>
-          <p className="text-xs tracking-[.3em] text-center mt-0.5" style={{ color: '#5C77FF' }}>{hovered.year}</p>
+          <p className="text-royal text-xs tracking-[.3em] text-center mt-0.5">{hovered.year}</p>
         </div>
       )}
     </div>

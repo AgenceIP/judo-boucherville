@@ -40,15 +40,15 @@ export default async function InscriptionPage() {
         {/* Steps */}
         <div className="mb-16">
           {steps.map((step, i) => (
-            <div key={step.num} className="border-t border-foreground/15 py-7 flex gap-8 items-start group">
+            <div key={step.num} className="border-t border-white/[0.06] py-7 flex gap-8 items-start group">
               <span className="font-heading text-royal/40 text-3xl leading-none shrink-0 w-10 text-right">{i + 1}</span>
-              <div className="border-l border-foreground/15 pl-8 group-hover:border-royal/20 transition-colors">
-                <h3 className="font-heading text-xl text-foreground tracking-wide mb-1">{step.title}</h3>
+              <div className="border-l border-white/[0.06] pl-8 group-hover:border-royal/20 transition-colors">
+                <h3 className="font-heading text-xl text-white tracking-wide mb-1">{step.title}</h3>
                 <p className="text-muted text-sm leading-relaxed">{step.desc}</p>
               </div>
             </div>
           ))}
-          <div className="border-t border-foreground/15" />
+          <div className="border-t border-white/[0.06]" />
         </div>
 
         {/* CTA */}
@@ -60,8 +60,8 @@ export default async function InscriptionPage() {
         </div>
 
         {/* Accès-Loisirs */}
-        <div className="border border-foreground/15 p-6 mb-16">
-          <p className="text-sm text-foreground leading-relaxed">
+        <div className="border border-white/[0.06] p-6 mb-16">
+          <p className="text-sm text-white leading-relaxed">
             <strong>Programme Accès-Loisirs</strong> — le Club de Judo Boucherville participe au programme
             de la Ville de Boucherville offrant des tarifs réduits aux résidents admissibles.
             Renseignez-vous auprès de la Ville ou contactez-nous.
@@ -69,23 +69,23 @@ export default async function InscriptionPage() {
         </div>
 
         {/* FAQ */}
-        <h2 className="font-heading text-3xl text-foreground tracking-tight mb-2">Questions fréquentes</h2>
+        <h2 className="font-heading text-3xl text-white tracking-tight mb-2">Questions fréquentes</h2>
         <div className="mt-8">
           {faq.map(item => (
-            <details key={item.q} className="group border-t border-foreground/15">
-              <summary className="flex items-center justify-between py-5 cursor-pointer text-foreground text-sm font-medium list-none hover:text-royal transition-colors">
+            <details key={item.q} className="group border-t border-white/[0.06]">
+              <summary className="flex items-center justify-between py-5 cursor-pointer text-white text-sm font-medium list-none hover:text-royal transition-colors">
                 {item.q}
                 <span className="text-muted ml-4 transition-transform group-open:rotate-45 shrink-0 text-lg font-light">+</span>
               </summary>
               <div className="pb-5 text-muted text-sm leading-relaxed">{item.a}</div>
             </details>
           ))}
-          <div className="border-t border-foreground/15" />
+          <div className="border-t border-white/[0.06]" />
         </div>
 
         {/* Contact */}
-        <div className="mt-16 border-t border-foreground/15 pt-12">
-          <h3 className="font-heading text-2xl text-foreground tracking-tight mb-2">Des questions?</h3>
+        <div className="mt-16 border-t border-white/[0.06] pt-12">
+          <h3 className="font-heading text-2xl text-white tracking-tight mb-2">Des questions?</h3>
           <p className="text-muted mb-8 text-sm">Notre équipe se fera un plaisir de vous aider.</p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button href="tel:4506551888" variant="outline">(450) 655-1888</Button>

@@ -53,7 +53,7 @@ export default function CountdownTimer({ targetDate }: { targetDate: string }) {
 
   if (expired) {
     return (
-      <p className="font-heading text-xl md:text-2xl leading-snug max-w-sm" style={{ color: 'var(--voie-ink-muted)' }}>
+      <p className="font-heading text-2xl md:text-3xl text-white/70 tracking-wider leading-snug max-w-sm">
         {t('countdown_expired')}
       </p>
     )
@@ -80,8 +80,8 @@ export default function CountdownTimer({ targetDate }: { targetDate: string }) {
           )}
           <div>
             <div
-              className="font-heading leading-none tabular-nums flex"
-              style={{ fontSize: 'clamp(40px, 5vw, 80px)', color: 'var(--voie-ink)' }}
+              className="font-heading text-white glow-soft leading-none tabular-nums flex"
+              style={{ fontSize: 'clamp(48px, 6.5vw, 104px)' }}
             >
               {String(u.value).padStart(2, '0').split('').map((d, j) => (
                 <RollingDigit key={`${u.label}-${j}`} digit={d} />

@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -13,9 +12,8 @@ import { createLetterPhysics, type LetterPhysics } from '@/lib/letterPhysics'
 gsap.registerPlugin(ScrollTrigger)
 
 /**
- * Chapter 01 — White belt. A poster: huge type, one photo block, one CTA.
- * The title letters stay throwable (randori) and the cursor still inks
- * cobalt into the paper.
+ * Chapter 01 — White belt. A paper-white world, almost empty:
+ * everyone starts here. Intro plays once the entry ritual lifts.
  */
 export default function ChapterBlanc() {
   const locale = useLocale()
@@ -24,7 +22,7 @@ export default function ChapterBlanc() {
   const [open, setOpen] = useState(false)
   const [randoriReady, setRandoriReady] = useState(false)
 
-  const lines = en ? ['EVERYONE', 'STARTS', 'HERE.'] : ['TOUT LE MONDE', 'COMMENCE', 'ICI.']
+  const lines = en ? ['EVERYONE', 'STARTS HERE.'] : ['TOUT LE MONDE', 'COMMENCE ICI.']
 
   useEffect(() => {
     const fire = () => setOpen(true)
@@ -40,11 +38,12 @@ export default function ChapterBlanc() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     gsap.set('.blanc-line', { yPercent: 108 })
     gsap.set('.blanc-fade', { opacity: 0, y: 18 })
-    gsap.set('.blanc-photo', { clipPath: 'inset(0% 0% 100% 0%)' })
+    // yPercent -50 replaces the Tailwind centering transform that GSAP overrides
+    gsap.set('.blanc-kanji', { opacity: 0, scale: 1.04, yPercent: -50 })
 
-    // The photo drifts slower than the page — poster depth
-    gsap.to('.blanc-photo', {
-      yPercent: 12,
+    // The ghost ideogram drifts as the page begins to move — depth in the paper
+    gsap.to('.blanc-kanji', {
+      yPercent: -64,
       ease: 'none',
       scrollTrigger: {
         trigger: sectionRef.current,
@@ -59,17 +58,19 @@ export default function ChapterBlanc() {
     if (!open) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const tl = gsap.timeline({ onComplete: () => setRandoriReady(true) })
-    tl.to('.blanc-line', { yPercent: 0, stagger: 0.1, duration: 1.1, ease: 'power4.out' })
-      .to('.blanc-photo', { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.0, ease: 'power4.inOut' }, '-=0.8')
-      .to('.blanc-fade', { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out' }, '-=0.7')
+    tl.to('.blanc-line', { yPercent: 0, stagger: 0.14, duration: 1.3, ease: 'power4.out' })
+      .to('.blanc-kanji', { opacity: 0.07, scale: 1, duration: 1.6, ease: 'power3.out' }, '-=1.0')
+      .to('.blanc-fade', { opacity: 1, y: 0, stagger: 0.12, duration: 0.9, ease: 'power3.out' }, '-=1.1')
   }, { scope: sectionRef, dependencies: [open] })
 
   // Randori mode — once the kata settles, the letters become throwable.
+  // They tumble, breakfall on the tatami, and the dojo restores the order.
   useEffect(() => {
     if (!randoriReady) return
     const section = sectionRef.current
     if (!section) return
 
+    // Free the letters from their reveal masks so they can fly
     section.querySelectorAll<HTMLElement>('.blanc-mask').forEach(m => {
       m.style.overflow = 'visible'
     })
@@ -90,35 +91,38 @@ export default function ChapterBlanc() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#F6F5F2"
-      data-voie-ink="#0B0B0D"
-      data-voie-muted="#5A5A60"
-      data-voie-hairline="rgba(11,11,13,0.14)"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden px-8 md:px-16 lg:px-20 py-32"
+      data-voie-bg="#FBFAF7"
+      data-voie-ink="#0E0E10"
+      data-voie-muted="#5F6470"
+      data-voie-hairline="rgba(14,14,16,0.12)"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden px-8 md:px-16 lg:px-20"
     >
-      {/* The cursor inks cobalt into the paper */}
-      <InkCanvas drops color={[0.11, 0.25, 1.0]} maxAlpha={0.55} />
+      {/* Holographic tatami — the floor of the future dojo */}
+      <div className="holo-grid" aria-hidden="true" />
+      {/* Ghost kanji 始 — beginning */}
+      <span
+        className="blanc-kanji font-jp absolute -right-[4vw] top-1/2 -translate-y-1/2 leading-none select-none pointer-events-none"
+        style={{ fontSize: '46vw', color: 'var(--voie-ink)', opacity: 0.05 }}
+        aria-hidden="true"
+      >
+        始
+      </span>
 
-      {/* Photo block — poster panel */}
-      <div className="blanc-photo absolute right-8 md:right-16 lg:right-20 top-1/2 -translate-y-1/2 w-[34vw] max-w-md aspect-[3/4] hidden lg:block border-4 border-[var(--voie-ink)] overflow-hidden">
-        <Image
-          src="/images/voie/competition.jpg"
-          alt={en ? 'Judo throw in competition' : 'Projection de judo en compétition'}
-          fill
-          sizes="34vw"
-          className="object-cover"
-          priority
-        />
-      </div>
+      {/* The living paper — the cursor is a brush of royal current */}
+      <InkCanvas drops color={[0.12, 0.23, 0.8]} maxAlpha={0.92} />
 
       <div className="relative max-w-7xl">
-        <p className="blanc-fade font-heading text-sm md:text-base mb-6 text-royal">
-          01 — {en ? 'White belt' : 'Ceinture blanche'}
+        <p
+          className="blanc-fade text-[10px] tracking-[.4em] uppercase mb-8"
+          style={{ color: 'var(--voie-ink-muted)' }}
+        >
+          <span className="font-jp text-xs mr-3 opacity-60">一</span>
+          {en ? 'Chapter 01 · White belt' : 'Chapitre 01 · Ceinture blanche'}
         </p>
 
         <h1
-          className="voie-title font-heading leading-[.92] mb-8 select-none"
-          style={{ fontSize: 'clamp(44px, 7.6vw, 122px)', color: 'var(--voie-ink)' }}
+          className="voie-title font-heading leading-[.88] tracking-tight mb-8 select-none"
+          style={{ fontSize: 'clamp(64px, 12vw, 168px)', color: 'var(--voie-ink)' }}
         >
           {lines.map(line => (
             <span key={line} className="blanc-mask block overflow-hidden">
@@ -138,7 +142,7 @@ export default function ChapterBlanc() {
         </h1>
 
         <p
-          className="blanc-fade text-base md:text-lg font-medium max-w-md leading-snug mb-4"
+          className="blanc-fade italic text-lg md:text-2xl max-w-xl leading-relaxed mb-4"
           style={{ color: 'var(--voie-ink-muted)' }}
         >
           {en
@@ -148,8 +152,8 @@ export default function ChapterBlanc() {
 
         {/* The randori invitation */}
         <p
-          className="text-[10px] tracking-[.25em] uppercase font-semibold mb-10 transition-opacity duration-700"
-          style={{ color: 'var(--voie-ink-muted)', opacity: randoriReady ? 0.8 : 0 }}
+          className="text-[10px] tracking-[.3em] uppercase mb-10 transition-opacity duration-700"
+          style={{ color: 'var(--voie-ink-muted)', opacity: randoriReady ? 0.75 : 0 }}
         >
           {en
             ? 'Grab a letter — try a throw. The dojo will tidy up.'
@@ -160,8 +164,7 @@ export default function ChapterBlanc() {
           <Magnetic>
             <Link
               href={`/${locale}/inscription`}
-              className="btn-wipe inline-flex font-heading text-sm md:text-base bg-royal text-white px-9 py-5 hover:text-white"
-              style={{ ['--wipe-bg' as string]: '#0B0B0D' }}
+              className="btn-wipe inline-flex font-heading tracking-widest uppercase text-sm bg-royal text-white px-8 py-4 hover:text-black"
             >
               {en ? 'Start judo' : 'Commencer le judo'}
             </Link>
@@ -171,10 +174,10 @@ export default function ChapterBlanc() {
 
       {/* Scroll cue */}
       <div className="blanc-fade absolute bottom-8 left-8 md:left-16 lg:left-20 flex flex-col items-center gap-3">
-        <span className="text-[10px] tracking-[.3em] uppercase font-semibold [writing-mode:vertical-rl]" style={{ color: 'var(--voie-ink-muted)' }}>
+        <span className="text-[10px] tracking-[.35em] uppercase [writing-mode:vertical-rl]" style={{ color: 'var(--voie-ink-muted)' }}>
           {en ? 'Follow the way' : 'Suivre la voie'}
         </span>
-        <span className="block w-[3px] h-10 animate-scroll-cue bg-royal" />
+        <span className="block w-px h-10 animate-scroll-cue" style={{ background: 'var(--voie-ink-muted)' }} />
       </div>
     </section>
   )

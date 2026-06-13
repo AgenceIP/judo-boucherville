@@ -35,7 +35,7 @@ export default async function ProgrammesPage() {
         {(Object.keys(grouped) as Array<keyof typeof grouped>).map(cat => (
           grouped[cat].length > 0 && (
             <div key={cat}>
-              <h2 className="font-heading text-2xl text-muted tracking-widest uppercase mb-8 border-b border-foreground/15 pb-4">
+              <h2 className="font-heading text-2xl text-muted tracking-widest uppercase mb-8 border-b border-white/5 pb-4">
                 {categoryLabels[cat]}
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

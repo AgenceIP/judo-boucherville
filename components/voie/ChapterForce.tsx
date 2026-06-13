@@ -44,19 +44,21 @@ export default function ChapterForce() {
   return (
     <section
       ref={sectionRef}
-      data-voie-bg="#1D3FFF"
-      data-voie-ink="#FFFFFF"
-      data-voie-muted="rgba(255,255,255,0.72)"
-      data-voie-hairline="rgba(255,255,255,0.3)"
+      data-voie-bg="#222A47"
+      data-voie-ink="#F2F4FB"
+      data-voie-muted="#97A2C0"
+      data-voie-hairline="rgba(242,244,251,0.14)"
+      data-voie-aurora="1"
       className="py-28 md:py-40"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-16">
-        <p className="font-heading text-sm md:text-base mb-6" style={{ color: 'var(--voie-ink)' }}>
-          03 — {en ? 'Strength' : 'La force'}
+        <p className="text-[10px] tracking-[.4em] uppercase mb-6" style={{ color: 'var(--voie-ink-muted)' }}>
+          <span className="font-jp text-xs mr-3 opacity-60">三</span>
+          {en ? 'Chapter 03 · Strength' : 'Chapitre 03 · La force'}
         </p>
         <RevealText
           as="h2"
-          className="voie-title font-heading text-[clamp(38px,6.2vw,90px)] leading-[.92]"
+          className="voie-title font-heading text-[clamp(52px,9vw,120px)] leading-[.9] tracking-tight"
           style={{ color: 'var(--voie-ink)' }}
         >
           {en ? 'STRENGTH IN NUMBERS' : 'LA FORCE DU NOMBRE'}
@@ -70,13 +72,13 @@ export default function ChapterForce() {
             <div className="force-row">
               <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 py-8 md:py-10 flex items-center gap-8 md:gap-12">
                 <span
-                  className="font-heading leading-none shrink-0 tabular-nums"
-                  style={{ fontSize: 'clamp(52px, 6.5vw, 110px)', width: 'clamp(120px, 18vw, 280px)', textAlign: 'right', color: 'var(--voie-ink)' }}
+                  className="font-heading text-royal glow-royal leading-none shrink-0 tabular-nums"
+                  style={{ fontSize: 'clamp(64px, 8vw, 130px)', width: 'clamp(120px, 18vw, 280px)', textAlign: 'right' }}
                 >
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </span>
-                <div className="border-l-[3px] pl-8 md:pl-12 transition-colors duration-300" style={{ borderColor: 'var(--voie-hairline)' }}>
-                  <p className="font-heading text-lg sm:text-xl md:text-2xl leading-tight" style={{ color: 'var(--voie-ink)' }}>
+                <div className="border-l pl-8 md:pl-12 transition-colors duration-300" style={{ borderColor: 'var(--voie-hairline)' }}>
+                  <p className="font-heading text-xl sm:text-2xl md:text-3xl uppercase tracking-wider leading-tight" style={{ color: 'var(--voie-ink)' }}>
                     {stat.label}
                   </p>
                   <p className="text-sm mt-1.5" style={{ color: 'var(--voie-ink-muted)' }}>{stat.desc}</p>
