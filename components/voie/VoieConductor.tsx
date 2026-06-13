@@ -53,20 +53,33 @@ export default function VoieConductor() {
       })
     }
 
-    // Land in the first chapter's world immediately — no flash of dark
-    setWorld(chapters[0], 0)
+    // The current chapter is measured live with getBoundingClientRect on
+    // every scroll tick — pin spacers and layout shifts can never
+    // desynchronize the palette (trigger-based switching could).
+    let current = -1
+    const check = (duration: number) => {
+      const line = window.innerHeight * 0.55
+      let idx = 0
+      for (let i = 0; i < chapters.length; i++) {
+        if (chapters[i].getBoundingClientRect().top <= line) idx = i
+      }
+      if (idx !== current) {
+        current = idx
+        setWorld(chapters[idx], duration)
+        window.dispatchEvent(new Event('voie:chapter'))
+      }
+    }
 
-    chapters.forEach((el, i) => {
-      // Palette flips exactly at each chapter's start line, both directions —
-      // onEnter going down, onLeaveBack restoring the previous chapter going up.
-      const stepSound = () => window.dispatchEvent(new Event('voie:chapter'))
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 55%',
-        onEnter: () => { setWorld(el, d); stepSound() },
-        onLeaveBack: i > 0 ? () => { setWorld(chapters[i - 1], d); stepSound() } : undefined,
-      })
-    })
+    // Land in the right world immediately — no flash
+    check(0)
+
+    const onScroll = () => check(d)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   })
 
   useEffect(() => () => {
