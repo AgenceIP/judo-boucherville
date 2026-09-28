@@ -55,6 +55,17 @@ body {
 }
 
 h1, h2, h3 { text-wrap: balance; }
+
+/* Touch screens: text links in lists and paragraphs get a taller hit area.
+   On inline links vertical padding widens the tap zone without moving a line. */
+@media (pointer: coarse) {
+  :is(main, footer) :is(p, li, dd, td, h3) a:not(.btn, .display) { padding-block: .9rem; }
+}
+
+/* Big Shoulders is one variable family with an optical-size axis: small sizes
+   switch to a wide text cut. Pin the condensed display cut everywhere it's used
+   as display, so the header wordmark fits a phone and headings keep one voice. */
+.font-display, .font-heading, .display { font-variation-settings: 'opsz' 72; }
 p { text-wrap: pretty; }
 
 body.paused *, body.paused *::before, body.paused *::after {
@@ -260,6 +271,11 @@ html.has-custom-cursor summary { cursor: none; }
   to   { opacity: 1; transform: none; }
 }
 .rise { animation: rise .7s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 80ms); }
+
+@keyframes sheet {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }

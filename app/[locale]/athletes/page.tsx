@@ -40,7 +40,7 @@ export default async function AthletesPage({ params }: Props) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
         {Object.entries(equipes).map(([key, membres]) => (
           <section key={key}>
-            <h2 className="text-[10px] text-muted uppercase tracking-[.25em] border-b border-ink/10 pb-3 mb-3">
+            <h2 className="text-[.78rem] text-muted uppercase tracking-[.25em] border-b border-ink/10 pb-3 mb-3">
               {LABELS[key]?.[fr ? 0 : 1] ?? key}
             </h2>
             <ul className="space-y-1.5">

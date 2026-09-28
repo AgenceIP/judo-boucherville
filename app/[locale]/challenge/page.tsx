@@ -38,7 +38,7 @@ const reglements: [string, string][] = [
   ['À la pesée, le responsable de l’équipe signe un formulaire de dégagement de responsabilité.', 'At weigh-in, the team leader signs a liability waiver.'],
 ]
 
-const label = 'text-[10px] text-muted uppercase tracking-[.25em]'
+const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 const h2 = 'font-heading text-3xl md:text-4xl text-ink tracking-tight'
 
 export default async function ChallengePage({ params }: Props) {
@@ -98,7 +98,7 @@ export default async function ChallengePage({ params }: Props) {
                   {c.couts.map(([n, prix]) => (
                     <p key={n} className="flex justify-between"><span className="text-muted">{fr ? `Équipe de ${n}` : `Team of ${n}`}</span><span className="font-heading text-ink">{prix}</span></p>
                   ))}
-                  <p className="text-xs text-muted mt-2">{fr ? `Payable à la pesée ou par virement à ${club.courriel}.` : `Payable at weigh-in or by e-transfer to ${club.courriel}.`}</p>
+                  <p className="text-[.85rem] text-muted mt-2">{fr ? `Payable à la pesée ou par virement à ${club.courriel}.` : `Payable at weigh-in or by e-transfer to ${club.courriel}.`}</p>
                 </dd>
               </div>
               <div className="pt-4">
@@ -107,7 +107,7 @@ export default async function ChallengePage({ params }: Props) {
                   {c.limites.map(([pFr, pEn, dFr, dEn]) => (
                     <p key={pFr} className="flex justify-between gap-4"><span className="text-muted">{fr ? pFr : pEn}</span><span className="text-ink whitespace-nowrap">{fr ? dFr : dEn}</span></p>
                   ))}
-                  <p className="text-xs text-muted pt-1">{fr ? 'Inscriptions en ligne seulement.' : 'Online registration only.'}</p>
+                  <p className="text-[.85rem] text-muted pt-1">{fr ? 'Inscriptions en ligne seulement.' : 'Online registration only.'}</p>
                 </dd>
               </div>
             </dl>
@@ -161,7 +161,7 @@ export default async function ChallengePage({ params }: Props) {
               </div>
             ))}
           </div>
-          <p className="text-xs text-muted mt-4">
+          <p className="text-[.85rem] text-muted mt-4">
             {fr ? 'Remis à l’équipe gagnante de chaque division. Minimum 5 équipes par division.' : 'Awarded to the winning team in each division. Minimum 5 teams per division.'}
           </p>
         </section>
@@ -184,7 +184,7 @@ export default async function ChallengePage({ params }: Props) {
                   </div>
                 ))}
               </dl>
-              <p className="text-xs text-muted mt-3 leading-relaxed">
+              <p className="text-[.85rem] text-muted mt-3 leading-relaxed">
                 {fr
                   ? 'En cas d’égalité, le club ayant la meilleure moyenne (total des points / nombre d’équipes) l’emporte.'
                   : 'If two clubs are tied, the one with the best average (total points / number of teams) wins.'}
@@ -260,7 +260,7 @@ export default async function ChallengePage({ params }: Props) {
                   <summary className={`${row} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
                     <span className="font-heading text-2xl text-ink">{e.annee}</span>
                     {podium}
-                    <span className="text-xs text-muted group-open:text-royal">{fr ? 'Détails' : 'Details'} <span className="inline-block transition-transform group-open:rotate-45">+</span></span>
+                    <span className="text-[.85rem] text-muted group-open:text-royal">{fr ? 'Détails' : 'Details'} <span className="inline-block transition-transform group-open:rotate-45">+</span></span>
                   </summary>
                   <div className="overflow-x-auto -mx-4 px-4 pb-8">
                     <table className="w-full min-w-[760px] text-sm">
@@ -321,8 +321,8 @@ export default async function ChallengePage({ params }: Props) {
           </div>
           <div>
             <h2 className={`${label} mb-3`}>Contact</h2>
-            <a href={`tel:${club.tel.replace(/\D/g, '')}`} className="block text-ink hover:text-royal transition-colors">{club.tel}</a>
-            <a href={`mailto:${club.courriel}`} className="block text-ink hover:text-royal transition-colors">{club.courriel}</a>
+            <a href={`tel:${club.tel.replace(/\D/g, '')}`} className="block py-2.5 text-ink hover:text-royal transition-colors">{club.tel}</a>
+            <a href={`mailto:${club.courriel}`} className="block py-2.5 text-ink hover:text-royal transition-colors">{club.courriel}</a>
           </div>
         </section>
       </div>

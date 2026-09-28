@@ -19,7 +19,7 @@ function List({ label, items }: { label: string; items?: string[] }) {
   if (!items?.length) return null
   return (
     <div>
-      <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{label}</h3>
+      <h3 className="text-[.78rem] text-muted uppercase tracking-[.25em] mb-3">{label}</h3>
       <ul className="space-y-1.5 text-sm text-ink/80 leading-relaxed">
         {items.map((x, i) => <li key={i}>{x}</li>)}
       </ul>
@@ -60,7 +60,7 @@ function Fiche({ p, fr }: { p: Personne; fr: boolean }) {
           <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
             <h3 className="font-heading text-lg text-ink tabular-nums">{s.saison}</h3>
             {s.victoires != null && (
-              <p className="text-xs text-muted tabular-nums">
+              <p className="text-[.85rem] text-muted tabular-nums">
                 {s.victoires} {fr ? 'victoires' : 'wins'} · {s.defaites ?? 0} {fr ? 'défaites' : 'losses'}
               </p>
             )}

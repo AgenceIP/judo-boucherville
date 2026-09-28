@@ -29,7 +29,7 @@ export default function ContactForm() {
   }
 
   const inputClasses = 'w-full bg-transparent border-b border-ink/15 px-0 py-3 text-foreground text-sm focus:border-royal focus:outline-none transition-colors placeholder:text-muted/60'
-  const labelClasses = 'text-[10px] text-muted uppercase tracking-[.25em] block mb-1'
+  const labelClasses = 'text-[.78rem] text-muted uppercase tracking-[.25em] block mb-1'
 
   if (status === 'success') {
     return (

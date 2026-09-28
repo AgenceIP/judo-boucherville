@@ -73,7 +73,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <CustomCursor />
             <PageLife />
             <Navigation />
-            <main id="main" tabIndex={-1} className="pb-16 lg:pb-0 outline-none">
+            <main id="main" tabIndex={-1} className="outline-none">
               <PageTransition>{children}</PageTransition>
             </main>
             <Footer />

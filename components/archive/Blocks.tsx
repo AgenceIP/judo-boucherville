@@ -28,7 +28,7 @@ export default function Blocks({ blocks, locale, alt }: { blocks: Block[]; local
       {blocks.map((b, i) => {
         switch (b.t) {
           case 'h':
-            return <h4 key={i} className="text-[10px] text-muted uppercase tracking-[.25em] pt-4"><Text text={b.text} locale={locale} /></h4>
+            return <h4 key={i} className="text-[.78rem] text-muted uppercase tracking-[.25em] pt-4"><Text text={b.text} locale={locale} /></h4>
           case 'p':
             return <p key={i} className="text-sm text-ink/80 leading-relaxed break-words"><Text text={b.text} locale={locale} /></p>
           case 'img': {
@@ -48,7 +48,7 @@ export default function Blocks({ blocks, locale, alt }: { blocks: Block[]; local
           case 'a':
             return b.href.startsWith('/')
               ? <Link key={i} href={`/${locale}${b.href}`} className="inline-block text-sm text-accent-blue hover:underline mr-3">{b.text}</Link>
-              : <a key={i} href={b.href} target="_blank" rel="noopener noreferrer" className="inline-block text-sm text-accent-blue hover:underline mr-3 break-all">{b.text} ↗</a>
+              : <a key={i} href={b.href} target="_blank" rel="noopener noreferrer" className="inline-block py-3 text-sm text-accent-blue hover:underline mr-3 break-all">{b.text} ↗</a>
           case 'm':
             return (
               <p key={i} className="text-sm text-muted pt-2 tabular-nums">

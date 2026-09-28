@@ -41,8 +41,8 @@ export default function PageHero({ title, subtitle, tag, tagColor = 'text-blue' 
             <p className="mt-5 max-w-2xl text-[1.1rem] leading-relaxed text-ink-2">{subtitle}</p>
           )}
         </div>
-        <div className="clip-reveal relative hidden lg:block h-48 rounded-[4px]">
-          <Image src={photo} alt="" fill sizes="22rem" className="object-cover" priority />
+        <div className="clip-reveal relative h-44 sm:h-56 lg:h-48 rounded-[4px]">
+          <Image src={photo} alt="" fill sizes="(min-width: 1024px) 22rem, 100vw" className="object-cover" priority />
         </div>
       </div>
       {/* Tatami strip: blue safety area with the yellow contest area in the middle */}

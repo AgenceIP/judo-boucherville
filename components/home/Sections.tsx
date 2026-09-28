@@ -103,6 +103,9 @@ export function Dojo({ locale }: { locale: string }) {
   )
 }
 
+// "Championnat provincial U21" → "Provincial U21": the column header already says championship
+const short = (s: string) => { const r = s.replace(/^Championnat |^Championship /, ''); return r[0].toUpperCase() + r.slice(1) }
+
 export function Palmares({ locale }: { locale: string }) {
   const fr = locale === 'fr'
   const [or, argent, bronze] = totalPalmares
@@ -121,14 +124,14 @@ export function Palmares({ locale }: { locale: string }) {
         </p>
 
         <div className="mt-14 overflow-x-auto">
-          <table className="w-full min-w-[34rem] text-left">
+          <table className="w-full text-left">
             <caption className="sr-only">{fr ? 'Médailles par championnat, 2002 à 2024' : 'Medals by championship, 2002 to 2024'}</caption>
             <thead>
               <tr className="text-panel/75 text-[.9rem]">
                 <th scope="col" className="font-semibold pb-3">{fr ? 'Championnat' : 'Championship'}</th>
                 {[['Or', 'Gold', 'bg-accent'], ['Argent', 'Silver', 'bg-[#cfd6e2]'], ['Bronze', 'Bronze', 'bg-[#c98a4b]']].map(([f, e, bg]) => (
-                  <th key={f} scope="col" className="font-semibold pb-3 w-24 text-right">
-                    <span className={`inline-block w-3 h-3 rounded-full mr-2 align-middle ${bg}`} aria-hidden="true" />{fr ? f : e}
+                  <th key={f} scope="col" className="font-semibold pb-3 w-14 sm:w-24 text-right">
+                    <span className={`inline-block w-3 h-3 rounded-full sm:mr-2 align-middle ${bg}`} aria-hidden="true" /><span className="max-sm:sr-only">{fr ? f : e}</span>
                   </th>
                 ))}
               </tr>
@@ -136,7 +139,7 @@ export function Palmares({ locale }: { locale: string }) {
             <tbody className="cascade">
               {palmares.map(([nom, en, o, a, b], i) => (
                 <tr key={nom} style={{ '--i': i } as React.CSSProperties} className="border-t border-panel/15 transition-colors hover:bg-panel/5">
-                  <th scope="row" className="py-3.5 pr-4 font-semibold">{fr ? nom : en}</th>
+                  <th scope="row" className="py-3.5 pr-3 font-semibold text-[.95rem] sm:text-base leading-snug">{short(fr ? nom : en)}</th>
                   <td className="py-3.5 text-right display text-[1.7rem] leading-none text-accent tabular-nums">{o}</td>
                   <td className="py-3.5 text-right display text-[1.7rem] leading-none tabular-nums">{a}</td>
                   <td className="py-3.5 text-right display text-[1.7rem] leading-none text-[#e9b27d] tabular-nums">{b}</td>
@@ -146,9 +149,9 @@ export function Palmares({ locale }: { locale: string }) {
           </table>
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-[1rem]">
+        <div className="mt-10 flex flex-wrap gap-x-8 gap-y-1 text-[1rem]">
           {[['resultats', 'Tous les résultats', 'All results'], ['equipe', 'Nos professeurs', 'Our coaches'], ['ceintures-noires', 'Ceintures noires', 'Black belts'], ['challenge', 'Le Challenge', 'The Challenge']].map(([href, f, e]) => (
-            <Link key={href} href={`/${locale}/${href}`} className="u-line inline-flex items-center gap-1 font-semibold text-panel">
+            <Link key={href} href={`/${locale}/${href}`} className="u-line inline-flex items-center gap-1 min-h-11 font-semibold text-panel">
               {fr ? f : e} <ArrowUpRight size={16} aria-hidden="true" />
             </Link>
           ))}

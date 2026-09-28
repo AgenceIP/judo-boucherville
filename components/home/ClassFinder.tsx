@@ -56,7 +56,15 @@ export default function ClassFinder({ locale }: { locale: string }) {
               <select
                 className="mt-2 block w-full rounded-[4px] bg-panel px-4 py-4 text-[1.1rem] font-semibold text-ink shadow-[0_0_0_3px_rgba(242,183,5,0)] transition-shadow duration-300 focus-visible:shadow-[0_0_0_3px_var(--color-accent)] focus-visible:outline-none"
                 value={year ?? ''}
-                onChange={e => setYear(e.target.value ? Number(e.target.value) : null)}
+                onChange={e => {
+                  const y = e.target.value ? Number(e.target.value) : null
+                  setYear(y)
+                  // Phones: the results sit under the board, so let the mats flip, then bring them into view
+                  if (y !== null && window.matchMedia('(max-width: 1023px)').matches) {
+                    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                    setTimeout(() => document.getElementById('resultats')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }), reduced ? 0 : 950)
+                  }
+                }}
               >
                 <option value="">{fr ? 'Choisir une année…' : 'Choose a year…'}</option>
                 {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
@@ -100,7 +108,7 @@ export default function ClassFinder({ locale }: { locale: string }) {
             </ul>
 
             {matches.length > 0 && (
-              <div key={year} className="mt-8 grid gap-4">
+              <div key={year} id="resultats" className="scroll-mt-20 mt-8 grid gap-4">
                 {matches.map(({ p, groupes }, i) => (
                   <article
                     key={p.slug}

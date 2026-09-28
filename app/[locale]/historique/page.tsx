@@ -111,7 +111,7 @@ const inauguration = [
   'Entrainement_Inauguration6', 'Entrainement_Inauguration2', 'Entrainement_Inauguration5', 'Autre_dojo1',
 ].map(n => `/images/scraped/${n}.jpg`)
 
-const label = 'text-[10px] text-muted uppercase tracking-[.25em]'
+const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 const h2 = 'font-heading text-3xl md:text-4xl text-ink tracking-tight'
 
 export default async function HistoriquePage({ params }: Props) {
@@ -161,7 +161,7 @@ export default async function HistoriquePage({ params }: Props) {
               <Image key={src} src={src} alt={fr ? 'L’ancien dojo' : 'The former dojo'} width={3060} height={2033} sizes="(min-width: 1152px) 380px, 33vw" className="w-full h-auto" />
             ))}
           </div>
-          <p className="text-xs text-muted mt-3">{fr ? 'L’ancien dojo, 2009.' : 'The former dojo, 2009.'}</p>
+          <p className="text-[.85rem] text-muted mt-3">{fr ? 'L’ancien dojo, 2009.' : 'The former dojo, 2009.'}</p>
         </section>
 
         {/* Dojo Marcel Bourelly */}
@@ -208,7 +208,7 @@ export default async function HistoriquePage({ params }: Props) {
               ))}
             </tbody>
           </table>
-          <p className="text-xs text-muted mt-3">
+          <p className="text-[.85rem] text-muted mt-3">
             {fr ? 'Plusieurs athlètes ont aussi été médaillés aux Championnats canadiens de kata.' : 'Several athletes also medalled at the Canadian Kata Championships.'}
           </p>
         </section>

@@ -51,7 +51,7 @@ const presidents: [string, string][] = [
   ['2018–', 'Frédéric Bourque'],
 ]
 
-const label = 'text-[10px] text-muted uppercase tracking-[.25em]'
+const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 
 export default async function ConseilPage({ params }: Props) {
   const { locale } = await params
@@ -73,7 +73,7 @@ export default async function ConseilPage({ params }: Props) {
           <dl className="border-t border-ink/10">
             {membres.map(([rFr, rEn, nom, courriel]) => (
               <div key={rFr} className="grid sm:grid-cols-[180px_1fr] gap-1 sm:gap-8 py-5 border-b border-ink/10">
-                <dt className="text-[11px] text-royal tracking-[.2em] uppercase pt-1">{fr ? rFr : rEn}</dt>
+                <dt className="text-[.8rem] text-royal tracking-[.2em] uppercase pt-1">{fr ? rFr : rEn}</dt>
                 <dd>
                   <p className="font-heading text-xl text-ink">{nom}</p>
                   <a href={`mailto:${courriel}`} className="text-sm text-muted hover:text-royal transition-colors break-all">{courriel}</a>

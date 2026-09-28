@@ -34,9 +34,9 @@ export default async function CalendrierPage({ params }: Props) {
                       <span className="text-royal tabular-nums w-14 shrink-0">{e.jour}</span>
                       <span className="flex-1">
                         <span className="text-ink">{e.titre}</span>
-                        {e.lieu && <span className="block text-xs text-muted mt-0.5">{e.lieu}</span>}
+                        {e.lieu && <span className="block text-[.85rem] text-muted mt-0.5">{e.lieu}</span>}
                       </span>
-                      {e.lien && <span className="text-xs text-muted shrink-0">{e.lien.startsWith('/') ? '→' : 'Infos ↗'}</span>}
+                      {e.lien && <span className="text-[.85rem] text-muted shrink-0">{e.lien.startsWith('/') ? '→' : 'Infos ↗'}</span>}
                     </>
                   )
                   const cls = 'flex gap-4 py-3 border-b border-ink/[0.07] text-sm'
@@ -55,7 +55,7 @@ export default async function CalendrierPage({ params }: Props) {
 
         <aside className="space-y-10 lg:sticky lg:top-28 self-start">
           <div>
-            <h2 className="text-[10px] text-muted uppercase tracking-[.25em] border-b border-ink/10 pb-3">
+            <h2 className="text-[.78rem] text-muted uppercase tracking-[.25em] border-b border-ink/10 pb-3">
               {fr ? 'Début des cours' : 'Classes start'}
             </h2>
             <dl className="text-sm">

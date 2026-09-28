@@ -68,6 +68,15 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
+  // Phone menu: freeze the page behind it, close on Escape
+  useEffect(() => {
+    if (!mobileOpen) return
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) }
+  }, [mobileOpen])
+
   // Close menus on navigation (state adjusted during render, not in an effect)
   const [lastPath, setLastPath] = useState(pathname)
   if (pathname !== lastPath) { setLastPath(pathname); setMobileOpen(false); setOpen(null) }
@@ -140,7 +149,7 @@ export default function Navigation() {
             <a href={tel} className="hidden md:inline-flex items-center gap-2 tabular-nums text-[.9rem] font-semibold text-ink hover:text-blue">
               <Phone size={15} aria-hidden="true" /> {club.tel}
             </a>
-            <Link href={switchHref} className="px-2 py-2 label text-ink-2 hover:text-ink" hrefLang={fr ? 'en' : 'fr'}>
+            <Link href={switchHref} className="grid place-items-center min-w-11 min-h-11 label text-ink-2 hover:text-ink" hrefLang={fr ? 'en' : 'fr'}>
               {fr ? 'EN' : 'FR'}
             </Link>
             <Magnetic strength={0.25} className="hidden sm:inline-block">
@@ -160,28 +169,41 @@ export default function Navigation() {
           </div>
         </nav>
 
-        {mobileOpen && (
-          <div id="mobile-menu" className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-ink/10 bg-panel px-4 pb-28 pt-4">
-            <p className="label text-blue mb-1">{t('programmes')}</p>
-            <div className="grid grid-cols-2 gap-x-4">
-              {programmes.map(p => (
-                <Link key={p.href} href={`/${locale}${p.href}`} className="py-2.5 text-[.95rem] text-ink">
-                  {fr ? p.labelFr : p.labelEn}
-                </Link>
-              ))}
-            </div>
-            <p className="label text-blue mt-5 mb-1">{t('club')}</p>
-            <div className="grid grid-cols-2 gap-x-4">
-              {clubLinks.map(l => (
-                <Link key={l.href} href={`/${locale}${l.href}`} className="py-2.5 text-[.95rem] text-ink">
-                  {fr ? l.labelFr : l.labelEn}
-                </Link>
-              ))}
-              <Link href={`/${locale}/contact`} className="py-2.5 text-[.95rem] text-ink">Contact</Link>
-            </div>
-          </div>
-        )}
       </header>
+
+      {/* Phone menu, outside the header: its backdrop blur would make it the containing block of this fixed sheet. A full-screen tatami-blue sheet, the essentials first in big type */}
+      {mobileOpen && (
+        <div id="mobile-menu" className="on-dark lg:hidden fixed z-40 inset-x-0 top-16 bottom-0 overflow-y-auto overscroll-contain bg-blue text-panel px-4 pt-6 pb-32 [animation:sheet_.45s_cubic-bezier(.16,1,.3,1)_both]">
+          <ul className="grid">
+            {[...quick, { href: `/${locale}/inscription`, label: t('inscription') }, { href: `/${locale}/contact`, label: 'Contact' }].map((q, i) => (
+              <li key={q.href} className="rise border-b border-panel/15" style={{ '--i': i } as React.CSSProperties}>
+                <Link href={q.href} className="flex items-center justify-between min-h-14 py-2 display text-[2.3rem] leading-none">
+                  {q.label} <span aria-hidden="true" className="text-accent text-2xl">→</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="rise mt-8 mb-2 text-[.95rem] font-semibold text-accent" style={{ '--i': 6 } as React.CSSProperties}>{t('programmes')}</p>
+          <div className="rise grid grid-cols-2 gap-x-4" style={{ '--i': 7 } as React.CSSProperties}>
+            {programmes.map(p => (
+              <Link key={p.href} href={`/${locale}${p.href}`} className="flex items-center min-h-12 py-2 text-[1rem] text-panel/90 border-b border-panel/10">
+                {fr ? p.labelFr : p.labelEn}
+              </Link>
+            ))}
+          </div>
+          <p className="rise mt-8 mb-2 text-[.95rem] font-semibold text-accent" style={{ '--i': 8 } as React.CSSProperties}>{t('club')}</p>
+          <div className="rise grid grid-cols-2 gap-x-4" style={{ '--i': 9 } as React.CSSProperties}>
+            {clubLinks.map(l => (
+              <Link key={l.href} href={`/${locale}${l.href}`} className="flex items-center min-h-12 py-2 text-[1rem] text-panel/90 border-b border-panel/10">
+                {fr ? l.labelFr : l.labelEn}
+              </Link>
+            ))}
+          </div>
+          <a href={tel} className="rise mt-10 btn btn-primary w-full" style={{ '--i': 10 } as React.CSSProperties}>
+            <Phone size={18} aria-hidden="true" /> {club.tel}
+          </a>
+        </div>
+      )}
 
       {/* Phones: the essentials under the thumb, on every page */}
       <nav
@@ -189,16 +211,16 @@ export default function Navigation() {
         aria-label={fr ? 'Accès rapide' : 'Quick access'}
       >
         <div className="grid grid-cols-4">
-          <Link href={`/${locale}#horaire`} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold text-ink-2">
+          <Link href={`/${locale}#horaire`} className="flex flex-col items-center gap-1 py-2.5 text-[.78rem] font-semibold text-ink-2">
             <CalendarDays size={20} aria-hidden="true" /> {fr ? 'Horaire' : 'Schedule'}
           </Link>
-          <Link href={`/${locale}/inscription#tarifs`} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold text-ink-2">
+          <Link href={`/${locale}/inscription#tarifs`} className="flex flex-col items-center gap-1 py-2.5 text-[.78rem] font-semibold text-ink-2">
             <Tag size={20} aria-hidden="true" /> {fr ? 'Tarifs' : 'Fees'}
           </Link>
-          <a href={tel} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold text-ink-2">
+          <a href={tel} className="flex flex-col items-center gap-1 py-2.5 text-[.78rem] font-semibold text-ink-2">
             <Phone size={20} aria-hidden="true" /> {fr ? 'Appeler' : 'Call'}
           </a>
-          <Link href={`/${locale}/inscription`} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold bg-accent text-ink">
+          <Link href={`/${locale}/inscription`} className="flex flex-col items-center gap-1 py-2.5 text-[.78rem] font-semibold bg-accent text-ink">
             <PenLine size={20} aria-hidden="true" /> {fr ? 'S’inscrire' : 'Register'}
           </Link>
         </div>

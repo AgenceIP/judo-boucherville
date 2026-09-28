@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { programmes, type Categorie } from '@/data/programmes'
 import { parseHoraire } from '@/lib/schedule'
@@ -46,6 +46,12 @@ export default function WeekSchedule({ locale }: { locale: string }) {
     ['arts-martiaux', fr ? 'Arts martiaux' : 'Martial arts'],
   ]
   const days = fr ? DAYS_FR : DAYS_EN
+  // Phones show one day at a time, opening on today
+  const [day, setDay] = useState(0)
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- today is only known in the visitor's browser (server runs in UTC)
+    setDay((new Date().getDay() + 6) % 7)
+  }, [])
 
   return (
     <section id="horaire" className="scroll-mt-16 py-20 lg:py-32 bg-panel">
@@ -75,23 +81,43 @@ export default function WeekSchedule({ locale }: { locale: string }) {
           </div>
         </div>
 
-        <div className="cascade mt-12 grid gap-3 md:grid-cols-7 md:gap-[3px] md:bg-ink/10 md:p-[3px] md:rounded-[6px]">
+        {/* Phone day tabs */}
+        <div className="md:hidden mt-10 grid grid-cols-7 gap-1" role="tablist" aria-label={fr ? 'Jour' : 'Day'}>
+          {days.map((name, d) => {
+            const n = WEEK[d].filter(s => filter === 'tous' || s.categorie === filter).length
+            return (
+              <button
+                key={name}
+                role="tab"
+                aria-selected={day === d}
+                aria-controls={`jour-${d}`}
+                onClick={() => setDay(d)}
+                className={cn('flex flex-col items-center justify-center min-h-14 rounded-[4px] transition-colors duration-300', day === d ? 'bg-ink text-panel' : 'bg-canvas text-ink')}
+              >
+                <span className="display text-[1.15rem] leading-none">{name.slice(0, 3)}</span>
+                <span className={cn('mt-1 text-[.72rem] tabular-nums', day === d ? 'text-accent' : 'text-ink-2')}>{n}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="cascade mt-4 md:mt-12 grid gap-3 md:grid-cols-7 md:gap-[3px] md:bg-ink/10 md:p-[3px] md:rounded-[6px]">
           {WEEK.map((slots, d) => {
             const visible = slots.filter(s => filter === 'tous' || s.categorie === filter)
             return (
-              <div key={d} style={{ '--i': d } as React.CSSProperties} className="md:bg-panel md:rounded-[3px] md:p-2 md:min-h-[22rem]">
-                <h3 className="display text-[1.35rem] text-ink mb-2 md:text-center">{days[d]}</h3>
-                {visible.length === 0 && <p className="text-[.85rem] text-ink-2 md:text-center md:mt-6">·</p>}
+              <div key={d} id={`jour-${d}`} role="tabpanel" style={{ '--i': d } as React.CSSProperties} className={cn('md:block md:bg-panel md:rounded-[3px] md:p-2 md:min-h-[22rem]', day === d ? 'block' : 'hidden')}>
+                <h3 className="display text-[1.35rem] text-ink mb-2 md:text-center max-md:sr-only">{days[d]}</h3>
+                {visible.length === 0 && <p className="text-[.95rem] md:text-[.85rem] text-ink-2 md:text-center md:mt-6">{fr ? 'Pas de cours ce jour-là.' : 'No class that day.'}</p>}
                 <ul className="grid gap-1.5">
                   {visible.map(s => (
                     <li key={s.slug + s.start}>
                       <Link
                         href={`/${locale}/programmes/${s.slug}`}
-                        className={cn('block rounded-[3px] px-2.5 py-2 transition-[background-color,transform] duration-300 hover:-translate-y-0.5', TONE[s.categorie])}
+                        className={cn('block rounded-[3px] px-4 py-3 md:px-2.5 md:py-2 transition-[background-color,transform] duration-300 hover:-translate-y-0.5 active:scale-[.99]', TONE[s.categorie])}
                       >
-                        <span className="block tabular-nums text-[.78rem] text-ink">{s.start}–{s.end}</span>
-                        <span className="block text-[.86rem] font-semibold leading-tight text-ink">{fr ? s.titre : s.titreEn}</span>
-                        <span className="block tabular-nums text-[.7rem] text-ink-2 mt-0.5">{s.codes.join(' · ')}</span>
+                        <span className="block tabular-nums text-[1rem] md:text-[.78rem] font-semibold md:font-normal text-ink">{s.start}–{s.end}</span>
+                        <span className="block text-[1.05rem] md:text-[.86rem] font-semibold leading-tight text-ink">{fr ? s.titre : s.titreEn}</span>
+                        <span className="block tabular-nums text-[.85rem] md:text-[.7rem] text-ink-2 mt-0.5">{s.codes.join(' · ')}</span>
                       </Link>
                     </li>
                   ))}

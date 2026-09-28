@@ -204,7 +204,7 @@ export default function BlackBeltConstellation({ ceintures }: { ceintures: YearG
 
       {/* Legend */}
       <div className="absolute top-6 left-6 lg:left-12 pointer-events-none">
-        <p className="text-[10px] tracking-[.4em] uppercase text-white/40">
+        <p className="text-[.78rem] tracking-[.4em] uppercase text-white/40">
           {locale === 'en' ? 'The lineage, 1970 to today' : 'La lignée, de 1970 à aujourd’hui'}
         </p>
         <p className="italic text-sm text-white/50 mt-2 max-w-xs leading-relaxed">
@@ -223,7 +223,7 @@ export default function BlackBeltConstellation({ ceintures }: { ceintures: YearG
           <p className="font-heading text-white text-xl md:text-2xl tracking-wider whitespace-nowrap text-center">
             {hovered.name}
           </p>
-          <p className="text-royal text-xs tracking-[.3em] text-center mt-0.5">{hovered.year}</p>
+          <p className="text-royal text-[.85rem] tracking-[.3em] text-center mt-0.5">{hovered.year}</p>
         </div>
       )}
     </div>

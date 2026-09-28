@@ -8,8 +8,8 @@ import { club, inscription } from '@/data/club'
 
 type Props = { programme: Programme; locale: string }
 
-const label = 'text-[10px] text-muted uppercase tracking-[.25em]'
-const th = 'text-left font-normal text-[10px] text-muted uppercase tracking-[.2em] py-3 pr-4'
+const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
+const th = 'text-left font-normal text-[.78rem] text-muted uppercase tracking-[.2em] py-3 pr-4'
 const td = 'py-3 pr-4 align-top'
 
 export default function ProgrammeTemplate({ programme: p, locale }: Props) {
@@ -60,7 +60,7 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
                       {p.groupes.map(g => (
                         <tr key={g.code} className="border-b border-ink/10">
                           <td className={`${td} text-ink`}>{g.clientele}</td>
-                          <td className={`${td} tabular-nums text-xs text-accent-blue whitespace-nowrap`}>{g.code}</td>
+                          <td className={`${td} tabular-nums text-[.85rem] text-accent-blue whitespace-nowrap`}>{g.code}</td>
                           <td className={`${td} text-muted`}>{g.horaire}</td>
                         </tr>
                       ))}
@@ -122,9 +122,9 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
                 {contacts.map(c => (
                   <div key={c.nom} className="text-sm">
                     <p className="text-ink">{c.nom}</p>
-                    {c.role && <p className="text-muted text-xs mt-0.5">{c.role}</p>}
-                    {c.tel && <a href={`tel:${c.tel.replace(/\D/g, '').slice(0, 10)}`} className="block text-muted hover:text-royal mt-1">{c.tel}</a>}
-                    {c.courriel && <a href={`mailto:${c.courriel}`} className="block text-muted hover:text-royal break-all">{c.courriel}</a>}
+                    {c.role && <p className="text-muted text-[.85rem] mt-0.5">{c.role}</p>}
+                    {c.tel && <a href={`tel:${c.tel.replace(/\D/g, '').slice(0, 10)}`} className="block py-2.5 text-muted hover:text-royal">{c.tel}</a>}
+                    {c.courriel && <a href={`mailto:${c.courriel}`} className="block py-2.5 text-muted hover:text-royal break-all">{c.courriel}</a>}
                   </div>
                 ))}
               </div>
@@ -138,7 +138,7 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
                 {p.qr && (
                   <div className="hidden lg:flex items-center gap-4 mt-5">
                     <Image src={p.qr} alt={`QR : ${t.inscrire}`} width={88} height={88} className="bg-white p-1.5 shrink-0" />
-                    <p className="text-xs text-muted leading-relaxed">{t.qr}</p>
+                    <p className="text-[.85rem] text-muted leading-relaxed">{t.qr}</p>
                   </div>
                 )}
               </div>
@@ -163,13 +163,13 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
                     const body = (
                       <>
                         <div className="w-8 h-8 bg-panel border border-ink/10 flex items-center justify-center shrink-0">
-                          <span className="font-heading text-xs text-muted">
+                          <span className="font-heading text-[.85rem] text-muted">
                             {instr.nom.split(/[\s-]/).map(n => n[0] ?? '').join('').slice(0, 2)}
                           </span>
                         </div>
                         <div>
                           <p className="text-sm text-ink group-hover:text-royal transition-colors">{instr.nom}</p>
-                          <p className="text-xs text-muted">{instr.grade}</p>
+                          <p className="text-[.85rem] text-muted">{instr.grade}</p>
                         </div>
                       </>
                     )

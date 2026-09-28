@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const label = 'text-[10px] text-muted uppercase tracking-[.25em]'
+const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 
 export default async function InscriptionPage({ params }: Props) {
   const { locale } = await params
@@ -81,7 +81,7 @@ export default async function InscriptionPage({ params }: Props) {
             <Button href={inscription.formulaire} external className="w-full">{t.inscrire} ↗</Button>
             <div className="flex items-center gap-4 mt-6">
               <Image src={inscription.qr} alt={`QR : ${t.form}`} width={96} height={96} className="bg-white p-1.5 shrink-0" />
-              <p className="text-xs text-muted leading-relaxed">{t.qr}</p>
+              <p className="text-[.85rem] text-muted leading-relaxed">{t.qr}</p>
             </div>
           </aside>
         </section>
@@ -100,8 +100,8 @@ export default async function InscriptionPage({ params }: Props) {
                         {fr ? p.titre : p.titreEn}
                       </Link>
                     </h3>
-                    <p className="text-xs text-muted mt-1">{p.horaire}</p>
-                    {p.debut && <p className="text-xs text-muted mt-1">{t.debut} : <span className="text-ink/80">{p.debut}</span></p>}
+                    <p className="text-[.85rem] text-muted mt-1">{p.horaire}</p>
+                    {p.debut && <p className="text-[.85rem] text-muted mt-1">{t.debut} : <span className="text-ink/80">{p.debut}</span></p>}
                   </div>
 
                   <table className="w-full text-sm self-start">
@@ -110,7 +110,7 @@ export default async function InscriptionPage({ params }: Props) {
                         <tr>
                           <th />
                           {colonnes.map(c => (
-                            <th key={c} className="text-right font-normal text-[10px] text-muted uppercase tracking-[.15em] pb-2 pl-3 whitespace-nowrap">
+                            <th key={c} className="text-right align-bottom font-semibold text-[.78rem] leading-tight text-muted uppercase tracking-[.05em] pb-2 pl-3 w-[5.5rem] sm:w-auto sm:whitespace-nowrap">
                               {fr ? c : colonnesEn[c] ?? c}
                             </th>
                           ))}
@@ -122,7 +122,7 @@ export default async function InscriptionPage({ params }: Props) {
                         <tr key={row.periode} className="align-top">
                           <td className="text-muted py-1.5 pr-3">{row.periode}</td>
                           {row.prix.map((x, i) => (
-                            <td key={i} className={`text-right py-1.5 pl-3 font-heading whitespace-nowrap ${i === 0 ? 'text-ink' : 'text-muted'}`}>{x}</td>
+                            <td key={i} className={`text-right py-1.5 pl-3 font-heading text-[1.05rem] whitespace-nowrap ${i === row.prix.length - 1 ? 'text-ink' : 'text-muted'}`}>{x}</td>
                           ))}
                         </tr>
                       ))}
@@ -131,8 +131,8 @@ export default async function InscriptionPage({ params }: Props) {
 
                   <div className="flex md:flex-col gap-3 md:items-end">
                     {p.formulaire && (
-                      <a href={p.formulaire} target="_blank" rel="noopener noreferrer" className="text-sm text-ink border-b border-royal hover:text-royal transition-colors whitespace-nowrap">
-                        {t.inscrire} ↗
+                      <a href={p.formulaire} target="_blank" rel="noopener noreferrer" className="btn btn-primary !py-3 whitespace-nowrap">
+                        {t.inscrire} <span aria-hidden="true" className="arr">↗</span>
                       </a>
                     )}
                     {p.qr && <Image src={p.qr} alt={`QR : ${fr ? p.titre : p.titreEn}`} width={72} height={72} className="hidden md:block bg-white p-1" />}

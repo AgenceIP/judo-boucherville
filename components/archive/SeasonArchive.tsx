@@ -11,13 +11,13 @@ export default function SeasonArchive({ base, saisons, saison, locale }: Props) 
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <nav aria-label={fr ? 'Saisons' : 'Seasons'} className="flex flex-wrap gap-x-5 gap-y-2 mb-14 text-sm tabular-nums">
+      <nav aria-label={fr ? 'Saisons' : 'Seasons'} className="flex flex-wrap gap-2 mb-14 text-[.95rem] tabular-nums">
         {saisons.map(s => (
           <Link
             key={s.saison}
             href={`/${locale}/${base}/${s.saison}`}
             aria-current={s.saison === saison.saison ? 'page' : undefined}
-            className={s.saison === saison.saison ? 'text-ink border-b border-royal' : 'text-muted hover:text-ink transition-colors'}
+            className={`inline-flex items-center min-h-11 px-4 rounded-full transition-colors ${s.saison === saison.saison ? 'bg-ink text-panel' : 'bg-panel text-ink-2 hover:text-ink shadow-[inset_0_0_0_1px_rgba(11,27,56,.15)]'}`}
           >
             {s.saison}
           </Link>
@@ -38,8 +38,8 @@ export default function SeasonArchive({ base, saisons, saison, locale }: Props) 
       {saison.entrees.map((e, i) => (
         <article key={i} className="grid md:grid-cols-[200px_1fr] gap-3 md:gap-10 border-b border-ink/10 py-10">
           <div className="space-y-1">
-            {e.date && <p className="text-[10px] uppercase tracking-[.25em] text-royal tabular-nums">{e.date}</p>}
-            {e.titre && e.lieu && <p className="text-xs text-muted">{e.lieu}</p>}
+            {e.date && <p className="text-[.78rem] uppercase tracking-[.25em] text-royal tabular-nums">{e.date}</p>}
+            {e.titre && e.lieu && <p className="text-[.85rem] text-muted">{e.lieu}</p>}
           </div>
           <div className="min-w-0">
             {(e.titre ?? e.lieu) && (

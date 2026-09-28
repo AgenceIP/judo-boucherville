@@ -44,10 +44,10 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
             <div className="border-t border-ink/10">
               {instructeur.disciplines.length > 0 && (
                 <div className="py-5 border-b border-ink/10">
-                  <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{labels.disciplines}</h3>
+                  <h3 className="text-[.78rem] text-muted uppercase tracking-[.25em] mb-3">{labels.disciplines}</h3>
                   <div className="flex flex-wrap gap-2">
                     {instructeur.disciplines.map(d => (
-                      <span key={d} className="text-xs text-muted border border-ink/10 px-2 py-1">
+                      <span key={d} className="text-[.85rem] text-muted border border-ink/10 px-2 py-1">
                         {d}
                       </span>
                     ))}
@@ -57,7 +57,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
 
               {instructeur.competitions.length > 0 && (
                 <div className="py-5 border-b border-ink/10">
-                  <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{labels.realisations}</h3>
+                  <h3 className="text-[.78rem] text-muted uppercase tracking-[.25em] mb-3">{labels.realisations}</h3>
                   <ul className="space-y-2">
                     {instructeur.competitions.map((c, i) => (
                       <li key={i} className="text-sm text-muted leading-relaxed">{c}</li>

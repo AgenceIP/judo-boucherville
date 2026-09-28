@@ -87,7 +87,7 @@ export default function CountdownTimer({ targetDate }: { targetDate: string }) {
                 <RollingDigit key={`${u.label}-${j}`} digit={d} />
               ))}
             </div>
-            <p className="text-muted text-[10px] mt-3 uppercase tracking-[.3em]">{u.label}</p>
+            <p className="text-muted text-[.78rem] mt-3 uppercase tracking-[.3em]">{u.label}</p>
           </div>
         </div>
       ))}

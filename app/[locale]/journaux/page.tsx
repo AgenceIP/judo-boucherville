@@ -22,9 +22,9 @@ export default async function JournauxPage({ params }: Props) {
           : 'Over fifty years of the club in the local papers, from 1970 to today.'}
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <nav aria-label={fr ? 'Périodes' : 'Periods'} className="flex flex-wrap gap-x-5 gap-y-2 mb-14 text-sm tabular-nums">
+        <nav aria-label={fr ? 'Périodes' : 'Periods'} className="flex flex-wrap gap-2 mb-14 text-[.95rem] tabular-nums">
           {journaux.map(j => (
-            <a key={j.periode} href={`#p-${j.periode}`} className="text-muted hover:text-ink transition-colors">{j.periode}</a>
+            <a key={j.periode} href={`#p-${j.periode}`} className="inline-flex items-center min-h-11 px-3 rounded-full bg-panel text-ink-2 hover:text-ink tabular-nums shadow-[inset_0_0_0_1px_rgba(11,27,56,.15)] transition-colors">{j.periode}</a>
           ))}
         </nav>
         {journaux.map(j => (
@@ -39,7 +39,7 @@ export default async function JournauxPage({ params }: Props) {
                         <Image src={n.thumb} alt={n.titre} fill sizes="(min-width: 1024px) 160px, 45vw" className="object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity" />
                       )}
                     </div>
-                    <p className="text-xs text-muted group-hover:text-ink transition-colors leading-snug">{n.titre} ↗</p>
+                    <p className="text-[.85rem] text-muted group-hover:text-ink transition-colors leading-snug">{n.titre} ↗</p>
                   </a>
                 </li>
               ))}

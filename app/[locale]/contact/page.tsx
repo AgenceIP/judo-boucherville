@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const label = 'text-[10px] text-muted uppercase tracking-[.25em]'
+const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 const reseaux: [string, string][] = [
   ['Facebook', club.facebook],
   ['Instagram', club.instagram],
