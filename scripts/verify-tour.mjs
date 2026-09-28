@@ -58,7 +58,7 @@ phone.on('pageerror', e => errors.push('PHONE PAGEERROR: ' + e.message))
 await phone.goto(URL, { waitUntil: 'networkidle', timeout: 90000 })
 await phone.screenshot({ path: `${OUT}/phone-top.png` })
 await phone.screenshot({ path: `${OUT}/phone-full.png`, fullPage: true })
-console.log('phone video requested:', videoRequested)
+console.log('phone video requested:', videoRequested, '(expected true: the tour plays on phones)')
 
 const overflow = await phone.evaluate(() => document.documentElement.scrollWidth > innerWidth)
 console.log('phone horizontal overflow:', overflow)

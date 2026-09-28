@@ -167,13 +167,53 @@
   .tour-ring, .tour-skip { display: none; }
 }
 
-/* ── Static hero: phones, portrait tablets, reduced motion ──────────── */
+/* ── Phones: the same tour, full screen, captions as cards above the thumb bar ── */
+@media (max-width: 720px) {
+  .tour-scrub { height: 540vh; }
+  .tour-video { object-position: 48% 50%; }
+  /* the portrait wall photo, nudged up so the logo and its name clear the caption card */
+  .tour-layer--end { background-size: auto 118%; background-position: 46% 100%; }
+
+  .band-1 { padding: 5rem 1rem 7rem; }
+  .band-2, .band-3 {
+    left: 1rem;
+    right: 1rem;
+    top: auto;
+    bottom: calc(5.25rem + env(safe-area-inset-bottom));
+    translate: none;
+    max-width: none;
+  }
+  .band-3 .band-card { transform-origin: center bottom; }
+  .band-big { font-size: clamp(2.3rem, 11vw, 3.2rem); }
+
+  .band-4 {
+    grid-template-columns: 1fr;
+    align-content: end;
+    gap: .75rem;
+    padding: 5rem 1rem calc(5.25rem + env(safe-area-inset-bottom));
+  }
+  .band-4 .left {
+    grid-column: 1;
+    max-width: none;
+    background: rgba(252, 253, 254, .93);
+    border-radius: 6px;
+    padding: .9rem 1.1rem 1rem;
+  }
+  .band-4 .right { grid-column: 1; justify-self: stretch; grid-template-columns: 1fr; gap: .5rem; }
+  .band-4 .right .btn-ghost { background: rgba(252, 253, 254, .93); box-shadow: none; }
+  .band-4 .right > *, .band-4 .right .btn { width: 100%; }
+  .hajime { font-size: 3rem; }
+  .band-4 .sub { margin-top: .5rem; font-size: 1rem; }
+
+  /* the cards own the bottom of the screen: loading ring and skip link go up top */
+  .tour-ring { top: 5rem; bottom: auto; left: 1rem; }
+  .tour-skip { top: 5rem; bottom: auto; right: 1rem; }
+}
+
+/* ── Static hero: phones held sideways, reduced motion ──────────────── */
 .tour-static { display: none; }
 
-@media (max-width: 720px),
-       (orientation: portrait) and (max-width: 1024px),
-       (orientation: portrait) and (pointer: coarse),
-       (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
        (prefers-reduced-motion: reduce) {
   .tour-scrub { display: none; }
   .tour-static { display: block; }

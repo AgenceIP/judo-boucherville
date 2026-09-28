@@ -10,17 +10,19 @@ const VIDEO_URL = '/hero/tour.mp4'
 const VIDEO_BYTES = 6396146 // fallback when Content-Length is missing
 const POSTER = '/hero/tour-poster.jpg'
 const ENDING = '/hero/tour-ending.jpg'
+// Phones: a portrait screen crops the 16:9 tour to its center, so the last beat
+// dissolves into the real vertical photo of the logo wall, whole and sharp.
+const ENDING_PHONE = '/images/photos/mur-cjb.jpg'
+const PHONE = '(max-width: 720px)'
 
 // Scroll progress → video time. Motion-equalized from the footage's own
 // frame-difference curve (50% linear), so the fast tilt at 2.5–4.5 s gets
 // more scroll distance and every stretch of the tour feels equally calm.
 const KNOTS: [number, number][] = [[0, 0], [0.0261, 0.5], [0.0555, 1], [0.086, 1.5], [0.1147, 2], [0.1474, 2.5], [0.1962, 3], [0.2622, 3.5], [0.335, 4], [0.4019, 4.5], [0.4531, 5], [0.4945, 5.5], [0.536, 6], [0.5813, 6.5], [0.63, 7], [0.6773, 7.5], [0.7242, 8], [0.7692, 8.5], [0.8101, 9], [0.8488, 9.5], [0.8848, 10], [0.9159, 10.5], [0.9465, 11], [0.9761, 11.5], [1, 12]]
 
-// Must match tour.css character for character
+// Static hero only where the tour can't work: phones held sideways (no height for
+// it) and reduced motion. Must match tour.css character for character.
 const GATES = [
-  '(max-width: 720px)',
-  '(orientation: portrait) and (max-width: 1024px)',
-  '(orientation: portrait) and (pointer: coarse)',
   '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
   '(prefers-reduced-motion: reduce)',
 ]
@@ -76,6 +78,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
     let onScreen = true, scrubOn = false, heroInit = false, videoOk = false
     let seekBusy = false, pendingTime: number | null = null
     let lastEnd = -1
+    const phoneMq = window.matchMedia(PHONE)
     let lastLanded: boolean | null = null
     const loadStart = performance.now()
 
@@ -114,7 +117,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
       // Still-image stand-in until the video is ready (or if it never is)
       const landed = p > 0.8
       if (landed !== lastLanded) { lastLanded = landed; stage.classList.toggle('landed', landed) }
-      const end = videoOk ? 0 : smoothstep(p, 0.8, 0.9)
+      const end = videoOk ? (phoneMq.matches ? smoothstep(p, 0.86, 0.94) : 0) : smoothstep(p, 0.8, 0.9)
       if (Math.abs(end - lastEnd) > 0.01) { lastEnd = end; stage.style.setProperty('--end', end.toFixed(2)) }
     }
 
@@ -165,6 +168,8 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
       video.load()
       video.addEventListener('canplay', () => {
         videoOk = true
+        // iOS paints no frame for a video that has never played: one silent play/pause wakes it
+        video.play().then(() => video.pause()).catch(() => {})
         requestSeek(timeAt(shown))
         stage.classList.add('video-ready')
         lastEnd = -1
@@ -184,7 +189,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
       if (heroInit) return
       heroInit = true
       startLayer.style.backgroundImage = `url('${POSTER}')`
-      root.querySelector<HTMLElement>('.tour-layer--end')!.style.backgroundImage = `url('${ENDING}')`
+      setEndImage()
       const img = new window.Image()
       img.onload = startBlobFetch
       img.onerror = startBlobFetch
@@ -208,6 +213,13 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
       window.removeEventListener('scroll', onScroll)
       if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null }
     }
+    function setEndImage() {
+      root.querySelector<HTMLElement>('.tour-layer--end')!.style.backgroundImage = `url('${phoneMq.matches ? ENDING_PHONE : ENDING}')`
+      lastEnd = -1
+    }
+    const onPhoneChange = () => { if (heroInit) { setEndImage(); updateCaptions(shown, performance.now()) } }
+    phoneMq.addEventListener('change', onPhoneChange)
+
     const MQLS = GATES.map(q => window.matchMedia(q))
     const applyHeroMode = () => (MQLS.some(m => m.matches) ? disableScrub() : enableScrub())
     MQLS.forEach(m => m.addEventListener('change', applyHeroMode))
@@ -217,6 +229,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
       disableScrub()
       io.disconnect()
       MQLS.forEach(m => m.removeEventListener('change', applyHeroMode))
+      phoneMq.removeEventListener('change', onPhoneChange)
       if (video.src.startsWith('blob:')) URL.revokeObjectURL(video.src)
     }
   }, [])
