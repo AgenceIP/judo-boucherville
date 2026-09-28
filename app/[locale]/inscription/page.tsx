@@ -31,7 +31,7 @@ export default async function InscriptionPage({ params }: Props) {
 
   const t = fr
     ? {
-        sub: `Saison ${inscription.saison} — tous les programmes, tarifs et formulaires au même endroit.`,
+        sub: `Saison ${inscription.saison}. Tous les programmes, tarifs et formulaires au même endroit.`,
         comment: 'Comment s’inscrire', enLigne: 'En ligne', surPlace: 'Sur place', paiement: 'Paiement',
         prealable: 'Préalable', carte: 'Carte d’Accès Boucherville, sandales et judogi (habit de judo) pour la plupart des programmes; le préalable exact figure sur la page de chaque programme.',
         form: 'Formulaire d’inscription', qr: 'Ou scannez le code avec votre téléphone',
@@ -39,7 +39,7 @@ export default async function InscriptionPage({ params }: Props) {
         debutCours: 'Début des cours', questions: 'Des questions?', contact: `${club.responsable}, directeur technique`,
       }
     : {
-        sub: `${inscription.saison} season — every programme, fee and form in one place.`,
+        sub: `The ${inscription.saison} season. Every program, fee and form in one place.`,
         comment: 'How to register', enLigne: 'Online', surPlace: 'In person', paiement: 'Payment',
         prealable: 'Requirements', carte: 'Boucherville Access Card, sandals and judogi (judo uniform) for most programmes; each programme page lists its exact requirements.',
         form: 'Registration form', qr: 'Or scan the code with your phone',
@@ -57,30 +57,30 @@ export default async function InscriptionPage({ params }: Props) {
         {/* How to register + general form */}
         <section className="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-16">
           <div>
-            <h2 className="font-heading text-3xl text-white tracking-tight mb-8">{t.comment}</h2>
-            <dl className="border-t border-white/[0.06]">
+            <h2 className="font-heading text-3xl text-ink tracking-tight mb-8">{t.comment}</h2>
+            <dl className="border-t border-ink/10">
               {([
                 [t.enLigne, fr ? inscription.enLigne : inscription.enLigneEn],
                 [t.surPlace, fr ? inscription.surPlace : inscription.surPlaceEn],
                 [t.paiement, fr ? inscription.paiement : inscription.paiementEn],
                 [t.prealable, t.carte],
               ] as const).map(([k, v]) => (
-                <div key={k} className="grid sm:grid-cols-[140px_1fr] gap-2 sm:gap-8 py-5 border-b border-white/[0.06]">
+                <div key={k} className="grid sm:grid-cols-[140px_1fr] gap-2 sm:gap-8 py-5 border-b border-ink/10">
                   <dt className={label}>{k}</dt>
-                  <dd className="text-sm text-white/80 leading-relaxed">{v}</dd>
+                  <dd className="text-sm text-ink/80 leading-relaxed">{v}</dd>
                 </div>
               ))}
             </dl>
             <ul className="mt-6 space-y-1 text-sm text-muted">
-              {(fr ? inscription.notes : inscription.notesEn).map(n => <li key={n}>— {n}</li>)}
+              {(fr ? inscription.notes : inscription.notesEn).map(n => <li key={n}>· {n}</li>)}
             </ul>
           </div>
 
-          <aside className="border border-white/[0.06] p-6 self-start lg:sticky lg:top-24">
+          <aside className="border border-ink/10 p-6 self-start lg:sticky lg:top-24">
             <h2 className={`${label} mb-5`}>{t.form}</h2>
             <Button href={inscription.formulaire} external className="w-full">{t.inscrire} ↗</Button>
             <div className="flex items-center gap-4 mt-6">
-              <Image src={inscription.qr} alt={`QR — ${t.form}`} width={96} height={96} className="bg-white p-1.5 shrink-0" />
+              <Image src={inscription.qr} alt={`QR : ${t.form}`} width={96} height={96} className="bg-white p-1.5 shrink-0" />
               <p className="text-xs text-muted leading-relaxed">{t.qr}</p>
             </div>
           </aside>
@@ -88,20 +88,20 @@ export default async function InscriptionPage({ params }: Props) {
 
         {/* Every programme with its fees and own form */}
         <section>
-          <h2 className="font-heading text-3xl text-white tracking-tight mb-8">{t.tarifs}</h2>
-          <div className="border-t border-white/[0.06]">
+          <h2 id="tarifs" className="scroll-mt-24 font-heading text-3xl text-ink tracking-tight mb-8">{t.tarifs}</h2>
+          <div className="border-t border-ink/10">
             {payants.map(p => {
               const colonnes = p.colonnes ?? COLONNES_TARIF
               return (
-                <article key={p.slug} className="grid md:grid-cols-[1fr_1.4fr_auto] gap-4 md:gap-10 py-8 border-b border-white/[0.06]">
+                <article key={p.slug} className="grid md:grid-cols-[1fr_1.4fr_auto] gap-4 md:gap-10 py-8 border-b border-ink/10">
                   <div>
-                    <h3 className="font-heading text-xl text-white leading-tight">
+                    <h3 className="font-heading text-xl text-ink leading-tight">
                       <Link href={`/${locale}/programmes/${p.slug}`} className="hover:text-royal transition-colors">
                         {fr ? p.titre : p.titreEn}
                       </Link>
                     </h3>
                     <p className="text-xs text-muted mt-1">{p.horaire}</p>
-                    {p.debut && <p className="text-xs text-muted mt-1">{t.debut} : <span className="text-white/80">{p.debut}</span></p>}
+                    {p.debut && <p className="text-xs text-muted mt-1">{t.debut} : <span className="text-ink/80">{p.debut}</span></p>}
                   </div>
 
                   <table className="w-full text-sm self-start">
@@ -122,7 +122,7 @@ export default async function InscriptionPage({ params }: Props) {
                         <tr key={row.periode} className="align-top">
                           <td className="text-muted py-1.5 pr-3">{row.periode}</td>
                           {row.prix.map((x, i) => (
-                            <td key={i} className={`text-right py-1.5 pl-3 font-heading whitespace-nowrap ${i === 0 ? 'text-white' : 'text-muted'}`}>{x}</td>
+                            <td key={i} className={`text-right py-1.5 pl-3 font-heading whitespace-nowrap ${i === 0 ? 'text-ink' : 'text-muted'}`}>{x}</td>
                           ))}
                         </tr>
                       ))}
@@ -131,11 +131,11 @@ export default async function InscriptionPage({ params }: Props) {
 
                   <div className="flex md:flex-col gap-3 md:items-end">
                     {p.formulaire && (
-                      <a href={p.formulaire} target="_blank" rel="noopener noreferrer" className="text-sm text-white border-b border-royal hover:text-royal transition-colors whitespace-nowrap">
+                      <a href={p.formulaire} target="_blank" rel="noopener noreferrer" className="text-sm text-ink border-b border-royal hover:text-royal transition-colors whitespace-nowrap">
                         {t.inscrire} ↗
                       </a>
                     )}
-                    {p.qr && <Image src={p.qr} alt={`QR — ${fr ? p.titre : p.titreEn}`} width={72} height={72} className="hidden md:block bg-white p-1" />}
+                    {p.qr && <Image src={p.qr} alt={`QR : ${fr ? p.titre : p.titreEn}`} width={72} height={72} className="hidden md:block bg-white p-1" />}
                   </div>
                 </article>
               )
@@ -145,11 +145,11 @@ export default async function InscriptionPage({ params }: Props) {
 
         {/* Class start dates */}
         <section className="grid md:grid-cols-[1fr_1.4fr] gap-8 md:gap-16">
-          <h2 className="font-heading text-3xl text-white tracking-tight">{t.debutCours}</h2>
-          <dl className="border-t border-white/[0.06]">
+          <h2 className="font-heading text-3xl text-ink tracking-tight">{t.debutCours}</h2>
+          <dl className="border-t border-ink/10">
             {inscription.debutCours.map(([cFr, cEn, dFr, dEn]) => (
-              <div key={cFr} className="flex justify-between gap-6 py-3 border-b border-white/[0.06] text-sm">
-                <dt className="text-white">{fr ? cFr : cEn}</dt>
+              <div key={cFr} className="flex justify-between gap-6 py-3 border-b border-ink/10 text-sm">
+                <dt className="text-ink">{fr ? cFr : cEn}</dt>
                 <dd className="text-muted tabular-nums text-right">{fr ? dFr : dEn}</dd>
               </div>
             ))}
@@ -157,8 +157,8 @@ export default async function InscriptionPage({ params }: Props) {
         </section>
 
         {/* Contact */}
-        <section className="border-t border-white/[0.06] pt-12">
-          <h2 className="font-heading text-2xl text-white tracking-tight mb-2">{t.questions}</h2>
+        <section className="border-t border-ink/10 pt-12">
+          <h2 className="font-heading text-2xl text-ink tracking-tight mb-2">{t.questions}</h2>
           <p className="text-muted mb-8 text-sm">{t.contact}</p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button href={`tel:${club.tel.replace(/\D/g, '')}`} variant="outline">{club.tel}</Button>

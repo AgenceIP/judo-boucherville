@@ -1,47 +1,26 @@
 'use client'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import Magnetic from '@/components/ui/Magnetic'
-import InkCanvas from '@/components/voie/InkCanvas'
 
 export default function NotFound() {
   const pathname = usePathname()
-  const locale = pathname?.startsWith('/en') ? 'en' : 'fr'
-  const en = locale === 'en'
+  const en = pathname?.startsWith('/en')
+  const locale = en ? 'en' : 'fr'
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center text-center px-6 overflow-hidden bg-black">
-      {/* Lost — the ideogram for "stray" haunts the page */}
-      <span
-        className="font-jp absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-none select-none pointer-events-none"
-        style={{ fontSize: 'min(60vw, 70vh)', color: '#FAFAFA', opacity: 0.04 }}
-        aria-hidden="true"
-      >
-        迷
-      </span>
-      <InkCanvas color={[0.34, 0.48, 0.98]} maxAlpha={0.45} />
-
-      <div className="relative">
-        <p className="font-heading text-royal text-xl tracking-[.3em] mb-6">404</p>
-        <h1
-          className="voie-title text-aurora font-heading tracking-tight leading-[.9] mb-6"
-          style={{ fontSize: 'clamp(48px, 9vw, 110px)' }}
-        >
-          {en ? 'YOU LEFT THE TATAMI.' : 'TU AS QUITTÉ LE TATAMI.'}
+    <div className="min-h-[80vh] grid place-items-center text-center px-4 pt-24 pb-16">
+      <div>
+        <p className="label text-blue mb-4">404 · Jogai</p>
+        <h1 className="font-display font-extrabold uppercase text-ink leading-[.88] text-[clamp(3rem,9vw,7rem)]">
+          {en ? 'You stepped off the mat.' : 'Vous êtes sorti du tatami.'}
         </h1>
-        <p className="italic text-muted text-lg mb-10 max-w-md mx-auto leading-relaxed">
-          {en
-            ? 'This page does not exist — or it was thrown out of bounds.'
-            : "Cette page n'existe pas — ou elle a été projetée hors des limites."}
+        <p className="mt-5 text-ink-2 text-lg max-w-md mx-auto">
+          {en ? 'This page does not exist, or it has moved.' : 'Cette page n’existe pas, ou elle a changé d’adresse.'}
         </p>
-        <Magnetic>
-          <Link
-            href={`/${locale}`}
-            className="btn-wipe inline-flex font-heading tracking-widest uppercase text-sm bg-royal text-white px-8 py-4 hover:text-black"
-          >
-            {en ? 'Back to the dojo' : 'Retour au dojo'}
-          </Link>
-        </Magnetic>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Link href={`/${locale}`} className="btn btn-primary">{en ? 'Back to the dojo' : 'Retour au dojo'}</Link>
+          <Link href={`/${locale}#trouver`} className="btn btn-ghost">{en ? 'Find my class' : 'Trouver mon cours'}</Link>
+        </div>
       </div>
     </div>
   )

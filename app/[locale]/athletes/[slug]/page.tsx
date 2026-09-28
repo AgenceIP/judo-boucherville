@@ -20,7 +20,7 @@ function List({ label, items }: { label: string; items?: string[] }) {
   return (
     <div>
       <h3 className="text-[10px] text-muted uppercase tracking-[.25em] mb-3">{label}</h3>
-      <ul className="space-y-1.5 text-sm text-white/80 leading-relaxed">
+      <ul className="space-y-1.5 text-sm text-ink/80 leading-relaxed">
         {items.map((x, i) => <li key={i}>{x}</li>)}
       </ul>
     </div>
@@ -37,12 +37,12 @@ function Fiche({ p, fr }: { p: Personne; fr: boolean }) {
 
   return (
     <section className="space-y-10">
-      <h2 className="font-heading text-2xl text-white">{p.nom}</h2>
+      <h2 className="font-heading text-2xl text-ink">{p.nom}</h2>
       {infos.length > 0 && (
         <dl className="grid sm:grid-cols-2 gap-x-10 gap-y-3 text-sm">
           {infos.map(([k, v]) => (
-            <div key={k} className="flex justify-between gap-4 border-b border-white/[0.06] pb-2">
-              <dt className="text-muted">{k}</dt><dd className="text-white text-right">{v}</dd>
+            <div key={k} className="flex justify-between gap-4 border-b border-ink/10 pb-2">
+              <dt className="text-muted">{k}</dt><dd className="text-ink text-right">{v}</dd>
             </div>
           ))}
         </dl>
@@ -56,16 +56,16 @@ function Fiche({ p, fr }: { p: Personne; fr: boolean }) {
       <List label={fr ? 'Objectifs à court terme' : 'Short-term goals'} items={p.objCourt} />
       <List label={fr ? 'Objectifs à long terme' : 'Long-term goals'} items={p.objLong} />
       {p.saisons?.map(s => (
-        <div key={s.saison} className="border-t border-white/[0.06] pt-6">
+        <div key={s.saison} className="border-t border-ink/10 pt-6">
           <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
-            <h3 className="font-heading text-lg text-white tabular-nums">{s.saison}</h3>
+            <h3 className="font-heading text-lg text-ink tabular-nums">{s.saison}</h3>
             {s.victoires != null && (
               <p className="text-xs text-muted tabular-nums">
                 {s.victoires} {fr ? 'victoires' : 'wins'} · {s.defaites ?? 0} {fr ? 'défaites' : 'losses'}
               </p>
             )}
           </div>
-          <ul className="space-y-1 text-sm text-white/80">
+          <ul className="space-y-1 text-sm text-ink/80">
             {s.resultats.map((r, i) => <li key={i}>{r}</li>)}
           </ul>
         </div>
@@ -92,7 +92,7 @@ export default async function AthletePage({ params }: Props) {
           </div>
         )}
         {a.personnes.map(p => <Fiche key={p.nom} p={p} fr={fr} />)}
-        <Link href={`/${locale}/athletes`} className="inline-block text-sm text-muted hover:text-white transition-colors">
+        <Link href={`/${locale}/athletes`} className="inline-block text-sm text-muted hover:text-ink transition-colors">
           ← {fr ? 'Tous les athlètes' : 'All athletes'}
         </Link>
       </div>

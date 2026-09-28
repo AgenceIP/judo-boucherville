@@ -28,12 +28,12 @@ export default function ContactForm() {
     })
   }
 
-  const inputClasses = 'w-full bg-transparent border-b border-white/15 px-0 py-3 text-foreground text-sm focus:border-royal focus:outline-none transition-colors placeholder:text-muted/60'
+  const inputClasses = 'w-full bg-transparent border-b border-ink/15 px-0 py-3 text-foreground text-sm focus:border-royal focus:outline-none transition-colors placeholder:text-muted/60'
   const labelClasses = 'text-[10px] text-muted uppercase tracking-[.25em] block mb-1'
 
   if (status === 'success') {
     return (
-      <div role="status" className="border border-white/[0.06] p-8">
+      <div role="status" className="border border-ink/10 p-8">
         <h3 className="font-heading text-2xl text-foreground mb-2">{fr ? 'Message envoyé' : 'Message sent'}</h3>
         <p className="text-muted text-sm">{fr ? 'Nous vous répondrons dans les plus brefs délais.' : 'We’ll get back to you as soon as possible.'}</p>
         <Button onClick={() => setStatus('idle')} variant="outline" size="sm" className="mt-6">

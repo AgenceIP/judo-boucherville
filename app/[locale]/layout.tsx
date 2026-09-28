@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Source_Serif_4 } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Big_Shoulders, Public_Sans, IBM_Plex_Mono } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -9,22 +8,26 @@ import Providers from '@/components/providers/Providers'
 import PageTransition from '@/components/providers/PageTransition'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
-import CustomCursor from '@/components/ui/CustomCursor'
-import SoundToggle from '@/components/ui/SoundToggle'
-import VelocitySkew from '@/components/providers/VelocitySkew'
 import ScrollProgress from '@/components/layout/ScrollProgress'
 import { club } from '@/data/club'
 import '@/styles/globals.css'
 
-const serif = Source_Serif_4({
+const display = Big_Shoulders({
   subsets: ['latin'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
+  axes: ['opsz'],
+  variable: '--nf-display',
 })
 
-const bebas = localFont({
-  src: '../../public/fonts/BebasNeue-Regular.ttf',
-  variable: '--font-bebas',
+const sans = Public_Sans({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--nf-sans',
+})
+
+const mono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['500'],
+  variable: '--nf-mono',
 })
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -37,8 +40,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       default: 'Club de Judo Boucherville',
     },
     description: fr
-      ? 'Club de Judo Boucherville — fondé en 1970, club reconnu AAA par Judo Québec. Judo, Aiki Ju-Jitsu et Jiu-Jitsu brésilien pour tous les âges à Boucherville.'
-      : 'Club de Judo Boucherville — founded in 1970, an AAA club recognized by Judo Québec. Judo, Aiki Ju-Jitsu and Brazilian Jiu-Jitsu for all ages in Boucherville.',
+      ? 'Club de Judo Boucherville, fondé en 1970, club reconnu AAA par Judo Québec. Judo, Aiki Ju-Jitsu et Jiu-Jitsu brésilien pour tous les âges à Boucherville.'
+      : 'Club de Judo Boucherville, founded in 1970, an AAA club recognized by Judo Québec. Judo, Aiki Ju-Jitsu and Brazilian Jiu-Jitsu for all ages in Boucherville.',
     openGraph: {
       type: 'website',
       locale: fr ? 'fr_CA' : 'en_CA',
@@ -64,16 +67,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${serif.variable} ${bebas.variable}`}>
+    <html lang={locale} className={`${display.variable} ${sans.variable} ${mono.variable}`}>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            <CustomCursor />
-            <SoundToggle />
-            <VelocitySkew />
             <ScrollProgress />
             <Navigation />
-            <main>
+            <main id="main" tabIndex={-1} className="pb-16 lg:pb-0 outline-none">
               <PageTransition>{children}</PageTransition>
             </main>
             <Footer />

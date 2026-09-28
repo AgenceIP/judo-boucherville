@@ -1,4 +1,4 @@
-// Challenge International Judo Boucherville — sources : judoboucherville.com/chall (WordPress),
+// Challenge International Judo Boucherville, sources : judoboucherville.com/chall (WordPress),
 // 27e-Challenge-Devis-Fra.pdf et Programme2026.docx.pdf
 const UPLOADS = 'https://www.judoboucherville.com/chall/wp-content/uploads/'
 
@@ -32,12 +32,12 @@ export const challenge = {
 export const divisions: [string, string, string, string, string, string, string, string][] = [
   ['U14', '-40, -50, -60', '-40, -52', '2013 et 2014', '2013 & 2014', 'Jaune et +', 'Yellow and up', '8 h 30 – 9 h'],
   ['U16', '-46, -55, -66', '-48, -63', '2011 et 2012', '2011 & 2012', 'Jaune et +', 'Yellow and up', '10 h 30 – 11 h'],
-  ['Masters (Ne-Waza)', '4 judokas, max. 330 kg', '—', '30 ans et + (min. 150 ans par équipe)', '30 and over (min. 150 years per team)', 'Bleue à noire', 'Blue to black', '10 h 30 – 11 h'],
+  ['Masters (Ne-Waza)', '4 judokas, max. 330 kg', '·', '30 ans et + (min. 150 ans par équipe)', '30 and over (min. 150 years per team)', 'Bleue à noire', 'Blue to black', '10 h 30 – 11 h'],
   ['U18', '-60, -73, -90', '-57, -70', '2009 et 2010', '2009 & 2010', 'Orange et +', 'Orange and up', '11 h 30 – 12 h'],
   ['U21 / Senior', '-66, -81, +81', '-57, -70, +70', '2008 et avant', '2008 and earlier', 'Verte à noire', 'Green to black', '11 h 30 – 12 h'],
 ]
 
-// [fichier, nom] — page « Commanditaires / Sponsors » de l’ancien site
+// [fichier, nom], page « Commanditaires / Sponsors » de l’ancien site
 export const commanditaires: [string, string][] = [
   ['AGF.jpeg', 'Groupe AGF'],
   ['AlainHuot.png', 'Alain Huot'],

@@ -15,7 +15,7 @@ type ButtonProps = {
 }
 
 const variants = {
-  primary: 'bg-foreground text-bg-base hover:bg-accent-blue hover:text-black',
+  primary: 'bg-foreground text-bg-base hover:bg-blue hover:text-panel',
   outline: 'border border-foreground/50 text-foreground hover:border-foreground hover:bg-foreground hover:text-bg-base',
   ghost: 'text-foreground hover:text-accent-blue',
 }

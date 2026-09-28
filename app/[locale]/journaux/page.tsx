@@ -24,22 +24,22 @@ export default async function JournauxPage({ params }: Props) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <nav aria-label={fr ? 'Périodes' : 'Periods'} className="flex flex-wrap gap-x-5 gap-y-2 mb-14 text-sm tabular-nums">
           {journaux.map(j => (
-            <a key={j.periode} href={`#p-${j.periode}`} className="text-muted hover:text-white transition-colors">{j.periode}</a>
+            <a key={j.periode} href={`#p-${j.periode}`} className="text-muted hover:text-ink transition-colors">{j.periode}</a>
           ))}
         </nav>
         {journaux.map(j => (
-          <section key={j.periode} id={`p-${j.periode}`} className="scroll-mt-28 border-t border-white/[0.06] py-10">
-            <h2 className="font-heading text-2xl text-white mb-6 tabular-nums">{j.periode}</h2>
+          <section key={j.periode} id={`p-${j.periode}`} className="scroll-mt-28 border-t border-ink/10 py-10">
+            <h2 className="font-heading text-2xl text-ink mb-6 tabular-nums">{j.periode}</h2>
             <ul className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
               {j.numeros.map(n => (
                 <li key={n.pdf}>
                   <a href={n.pdf} target="_blank" rel="noopener noreferrer" className="group block">
-                    <div className="relative aspect-[3/4] bg-white/[0.03] overflow-hidden mb-2">
+                    <div className="relative aspect-[3/4] bg-panel overflow-hidden mb-2">
                       {n.thumb && (
                         <Image src={n.thumb} alt={n.titre} fill sizes="(min-width: 1024px) 160px, 45vw" className="object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity" />
                       )}
                     </div>
-                    <p className="text-xs text-muted group-hover:text-white transition-colors leading-snug">{n.titre} ↗</p>
+                    <p className="text-xs text-muted group-hover:text-ink transition-colors leading-snug">{n.titre} ↗</p>
                   </a>
                 </li>
               ))}

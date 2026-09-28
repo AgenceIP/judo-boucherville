@@ -1,4 +1,4 @@
-/** Les ceintures noires du club, par annee de passage — donnees reelles. */
+/** Les ceintures noires du club, par annee de passage, donnees reelles. */
 export const ceintures: { annee: number; noms: string[] }[] = [
   { annee: 1972, noms: ['Claude Laverdure'] },
   { annee: 1974, noms: ['Gabriel Aimé', 'Serge Mainville'] },

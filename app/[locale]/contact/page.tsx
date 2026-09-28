@@ -41,26 +41,26 @@ export default async function ContactPage({ params }: Props) {
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
         <div className="grid lg:grid-cols-2 gap-16">
-          <dl className="border-t border-white/[0.06]">
+          <dl className="border-t border-ink/10">
             {([
               [fr ? 'Dojo' : 'Dojo', <>
-                <p className="text-white">{club.dojo}</p>
-                <p className="text-sm text-white/80">{club.lieu}</p>
-                <p className="text-sm text-white/80">{club.adresse}</p>
+                <p className="text-ink">{club.dojo}</p>
+                <p className="text-sm text-ink/80">{club.lieu}</p>
+                <p className="text-sm text-ink/80">{club.adresse}</p>
               </>],
-              [fr ? 'Téléphone' : 'Phone', <a href={`tel:${club.tel.replace(/\D/g, '')}`} className="text-white hover:text-royal transition-colors">{club.tel}</a>],
-              [fr ? 'Courriel' : 'Email', <a href={`mailto:${club.courriel}`} className="text-white hover:text-royal transition-colors break-all">{club.courriel}</a>],
+              [fr ? 'Téléphone' : 'Phone', <a key="tel" href={`tel:+1${club.tel.replace(/\D/g, '')}`} className="text-ink hover:text-royal transition-colors">{club.tel}</a>],
+              [fr ? 'Courriel' : 'Email', <a key="mail" href={`mailto:${club.courriel}`} className="text-ink hover:text-royal transition-colors break-all">{club.courriel}</a>],
               [fr ? 'Responsable' : 'Contact person', <>
-                <p className="text-white">{club.responsable}</p>
+                <p className="text-ink">{club.responsable}</p>
                 <p className="text-sm text-muted">{fr ? 'Directeur technique' : 'Technical director'}</p>
               </>],
-              [fr ? 'Réseaux sociaux' : 'Social media', <ul className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+              [fr ? 'Réseaux sociaux' : 'Social media', <ul key="social" className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
                 {reseaux.map(([nom, href]) => (
-                  <li key={nom}><a href={href} target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-royal transition-colors">{nom} ↗</a></li>
+                  <li key={nom}><a href={href} target="_blank" rel="noopener noreferrer" className="text-ink/80 hover:text-royal transition-colors">{nom} ↗</a></li>
                 ))}
               </ul>],
             ] as const).map(([k, v]) => (
-              <div key={k} className="grid sm:grid-cols-[140px_1fr] gap-2 sm:gap-8 py-5 border-b border-white/[0.06]">
+              <div key={k} className="grid sm:grid-cols-[140px_1fr] gap-2 sm:gap-8 py-5 border-b border-ink/10">
                 <dt className={`${label} pt-1`}>{k}</dt>
                 <dd>{v}</dd>
               </div>
@@ -68,12 +68,12 @@ export default async function ContactPage({ params }: Props) {
           </dl>
 
           <section>
-            <h2 className="font-heading text-3xl text-white tracking-tight mb-8">{fr ? 'Envoyez-nous un message' : 'Send us a message'}</h2>
+            <h2 className="font-heading text-3xl text-ink tracking-tight mb-8">{fr ? 'Envoyez-nous un message' : 'Send us a message'}</h2>
             <ContactForm />
           </section>
         </div>
 
-        <div className="h-80 border border-white/[0.06] overflow-hidden">
+        <div className="h-80 border border-ink/10 overflow-hidden">
           <iframe
             src={carte}
             width="100%"
@@ -81,7 +81,7 @@ export default async function ContactPage({ params }: Props) {
             style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title={fr ? `Carte — ${club.dojo}` : `Map — ${club.dojo}`}
+            title={fr ? `Carte : ${club.dojo}` : `Map: ${club.dojo}`}
           />
         </div>
       </div>

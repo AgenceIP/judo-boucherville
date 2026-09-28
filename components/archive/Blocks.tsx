@@ -30,7 +30,7 @@ export default function Blocks({ blocks, locale, alt }: { blocks: Block[]; local
           case 'h':
             return <h4 key={i} className="text-[10px] text-muted uppercase tracking-[.25em] pt-4"><Text text={b.text} locale={locale} /></h4>
           case 'p':
-            return <p key={i} className="text-sm text-white/80 leading-relaxed break-words"><Text text={b.text} locale={locale} /></p>
+            return <p key={i} className="text-sm text-ink/80 leading-relaxed break-words"><Text text={b.text} locale={locale} /></p>
           case 'img': {
             const logo = b.src.includes('/Logo/')
             return (

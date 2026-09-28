@@ -70,12 +70,12 @@ export default async function ConseilPage({ params }: Props) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-[1.4fr_1fr] gap-16">
         <section>
           <h2 className={`${label} mb-4`}>{fr ? 'Membres du conseil' : 'Board members'}</h2>
-          <dl className="border-t border-white/[0.06]">
+          <dl className="border-t border-ink/10">
             {membres.map(([rFr, rEn, nom, courriel]) => (
-              <div key={rFr} className="grid sm:grid-cols-[180px_1fr] gap-1 sm:gap-8 py-5 border-b border-white/[0.06]">
+              <div key={rFr} className="grid sm:grid-cols-[180px_1fr] gap-1 sm:gap-8 py-5 border-b border-ink/10">
                 <dt className="text-[11px] text-royal tracking-[.2em] uppercase pt-1">{fr ? rFr : rEn}</dt>
                 <dd>
-                  <p className="font-heading text-xl text-white">{nom}</p>
+                  <p className="font-heading text-xl text-ink">{nom}</p>
                   <a href={`mailto:${courriel}`} className="text-sm text-muted hover:text-royal transition-colors break-all">{courriel}</a>
                 </dd>
               </div>
@@ -85,10 +85,10 @@ export default async function ConseilPage({ params }: Props) {
 
         <section>
           <h2 className={`${label} mb-4`}>{fr ? 'Les présidents du club' : 'Past presidents'}</h2>
-          <ol className="border-t border-white/[0.06]">
+          <ol className="border-t border-ink/10">
             {presidents.map(([annees, nom]) => (
-              <li key={annees} className="flex justify-between gap-6 py-2.5 border-b border-white/[0.06] text-sm">
-                <span className="text-white">{nom}</span>
+              <li key={annees} className="flex justify-between gap-6 py-2.5 border-b border-ink/10 text-sm">
+                <span className="text-ink">{nom}</span>
                 <span className="text-muted tabular-nums">{annees}</span>
               </li>
             ))}

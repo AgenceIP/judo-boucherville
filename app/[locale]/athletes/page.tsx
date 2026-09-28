@@ -40,15 +40,15 @@ export default async function AthletesPage({ params }: Props) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
         {Object.entries(equipes).map(([key, membres]) => (
           <section key={key}>
-            <h2 className="text-[10px] text-muted uppercase tracking-[.25em] border-b border-white/[0.06] pb-3 mb-3">
+            <h2 className="text-[10px] text-muted uppercase tracking-[.25em] border-b border-ink/10 pb-3 mb-3">
               {LABELS[key]?.[fr ? 0 : 1] ?? key}
             </h2>
             <ul className="space-y-1.5">
               {membres.map(m => (
                 <li key={m.nom}>
                   {m.slug && getAthlete(m.slug)
-                    ? <Link href={`/${locale}/athletes/${m.slug}`} className="text-white hover:text-royal transition-colors">{m.nom} <span className="text-muted">→</span></Link>
-                    : <span className="text-white/70">{m.nom}</span>}
+                    ? <Link href={`/${locale}/athletes/${m.slug}`} className="text-ink hover:text-royal transition-colors">{m.nom} <span className="text-muted">→</span></Link>
+                    : <span className="text-ink/70">{m.nom}</span>}
                 </li>
               ))}
             </ul>

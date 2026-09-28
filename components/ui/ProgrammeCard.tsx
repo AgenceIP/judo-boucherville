@@ -1,10 +1,5 @@
-'use client'
-import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { useLocale } from 'next-intl'
-import gsap from 'gsap'
-import { programmePreviews } from '@/lib/previews'
+import { ArrowRight } from 'lucide-react'
 
 type Props = {
   titre: string
@@ -12,93 +7,32 @@ type Props = {
   horaire: string
   slug: string
   categorie: 'enfants' | 'adultes' | 'arts-martiaux'
+  locale: string
 }
 
-const categoryLabel: Record<string, string> = {
-  enfants: 'Jeunes',
-  adultes: 'Adultes',
-  'arts-martiaux': 'Arts martiaux',
+const MAT: Record<Props['categorie'], string> = {
+  enfants: 'bg-accent',
+  adultes: 'bg-blue',
+  'arts-martiaux': 'bg-wood',
 }
 
-export default function ProgrammeCard({ titre, description, horaire, slug, categorie }: Props) {
-  const locale = useLocale()
-  const previewRef = useRef<HTMLDivElement>(null)
-  const [hovered, setHovered] = useState(false)
-  const image = programmePreviews[slug]
-
-  // The cinematic still chases the cursor while the row is hovered
-  useEffect(() => {
-    const el = previewRef.current
-    if (!el || !image) return
-    if (!window.matchMedia('(pointer: fine)').matches) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const x = gsap.quickTo(el, 'x', { duration: 0.55, ease: 'power3.out' })
-    const y = gsap.quickTo(el, 'y', { duration: 0.55, ease: 'power3.out' })
-    const rot = gsap.quickTo(el, 'rotation', { duration: 0.6, ease: 'power3.out' })
-    let lastX = 0
-    const onMove = (e: MouseEvent) => {
-      x(e.clientX + 28)
-      y(e.clientY - 120)
-      rot(gsap.utils.clamp(-8, 8, (e.clientX - lastX) * 0.45))
-      lastX = e.clientX
-    }
-    window.addEventListener('mousemove', onMove, { passive: true })
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [image])
-
-  useEffect(() => {
-    const el = previewRef.current
-    if (!el) return
-    gsap.to(el, {
-      opacity: hovered ? 1 : 0,
-      scale: hovered ? 1 : 0.92,
-      duration: 0.35,
-      ease: 'power3.out',
-    })
-    if (hovered) {
-      gsap.fromTo(el.querySelector('img'),
-        { clipPath: 'inset(10% 0% 10% 0%)', scale: 1.08 },
-        { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, duration: 0.45, ease: 'power3.out' }
-      )
-    }
-  }, [hovered])
-
+/** One program as a row: name and one line, schedule at a glance, straight to details. */
+export default function ProgrammeCard({ titre, description, horaire, slug, categorie, locale }: Props) {
   return (
-    <>
-      {image && (
-        <div
-          ref={previewRef}
-          className="fixed top-0 left-0 z-[60] w-44 h-60 overflow-hidden pointer-events-none opacity-0 hidden md:block"
-          aria-hidden="true"
-        >
-          <Image src={image} alt="" fill sizes="176px" className="object-cover" />
-        </div>
-      )}
-      <Link
-        href={`/${locale}/programmes/${slug}`}
-        className="group flex items-center gap-6 border-t border-white/[0.06] py-5 transition-all duration-300 hover:border-royal/30 hover:pl-3"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <div className="flex-1 min-w-0">
-          <div className="flex items-baseline gap-4">
-            <h3 className="font-heading text-xl text-white tracking-wide group-hover:text-royal transition-colors duration-200">
-              {titre}
-            </h3>
-            <span className="text-[10px] text-muted tracking-[.2em] uppercase shrink-0">
-              {categoryLabel[categorie]}
-            </span>
-          </div>
-          <p className="text-muted text-sm mt-1 leading-relaxed line-clamp-1">{description}</p>
-        </div>
-        <div className="shrink-0 text-right hidden sm:block">
-          <p className="text-sm text-muted tabular-nums">{horaire}</p>
-        </div>
-        <span className="shrink-0 text-muted group-hover:text-royal group-hover:translate-x-1 transition-all duration-200 text-lg">
-          →
-        </span>
-      </Link>
-    </>
+    <Link
+      href={`/${locale}/programmes/${slug}`}
+      className="group grid grid-cols-[6px_1fr_auto] items-center gap-5 bg-panel rounded-[3px] py-5 pr-5 transition-colors hover:bg-white"
+    >
+      <span aria-hidden="true" className={`self-stretch rounded-l-[3px] ${MAT[categorie]}`} />
+      <div className="min-w-0">
+        <h3 className="font-display font-bold uppercase text-[1.6rem] leading-none text-ink">{titre}</h3>
+        <p className="mt-1.5 text-ink-2 leading-snug">{description}</p>
+        <p className="mt-2 font-mono text-[.8rem] text-blue sm:hidden">{horaire}</p>
+      </div>
+      <div className="flex items-center gap-4">
+        <span className="hidden sm:block font-mono text-[.85rem] text-ink text-right">{horaire}</span>
+        <ArrowRight size={18} aria-hidden="true" className="text-blue transition-transform duration-200 group-hover:translate-x-1" />
+      </div>
+    </Link>
   )
 }

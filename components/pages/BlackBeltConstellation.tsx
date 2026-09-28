@@ -205,7 +205,7 @@ export default function BlackBeltConstellation({ ceintures }: { ceintures: YearG
       {/* Legend */}
       <div className="absolute top-6 left-6 lg:left-12 pointer-events-none">
         <p className="text-[10px] tracking-[.4em] uppercase text-white/40">
-          {locale === 'en' ? 'The lineage — 1970 to today' : 'La lignée — de 1970 à aujourd’hui'}
+          {locale === 'en' ? 'The lineage, 1970 to today' : 'La lignée, de 1970 à aujourd’hui'}
         </p>
         <p className="italic text-sm text-white/50 mt-2 max-w-xs leading-relaxed">
           {locale === 'en'

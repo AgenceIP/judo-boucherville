@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -8,18 +8,12 @@ gsap.registerPlugin(ScrollTrigger)
 
 /**
  * A royal hairline at the very top of internal pages, filling with reading
- * progress. The homepage has the belt rail instead, so it stays out of there.
+ * progress. The homepage has its own scroll tour, so it stays out of there.
  */
 export default function ScrollProgress() {
   const pathname = usePathname()
   const fillRef = useRef<HTMLDivElement>(null)
-  const [show, setShow] = useState(false)
-
-  const isHome = /^\/(fr|en)\/?$/.test(pathname)
-
-  useEffect(() => {
-    setShow(!isHome)
-  }, [isHome])
+  const show = !/^\/(fr|en)\/?$/.test(pathname)
 
   useEffect(() => {
     if (!show) return

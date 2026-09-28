@@ -48,9 +48,9 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
               <section>
                 <h2 className={`${label} mb-4`}>{t.horaires}</h2>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm border-t border-white/[0.06]">
+                  <table className="w-full text-sm border-t border-ink/10">
                     <thead>
-                      <tr className="border-b border-white/[0.06]">
+                      <tr className="border-b border-ink/10">
                         <th className={th}>{t.clientele}</th>
                         <th className={th}>{t.code}</th>
                         <th className={th}>{t.horaire}</th>
@@ -58,8 +58,8 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
                     </thead>
                     <tbody>
                       {p.groupes.map(g => (
-                        <tr key={g.code} className="border-b border-white/[0.06]">
-                          <td className={`${td} text-white`}>{g.clientele}</td>
+                        <tr key={g.code} className="border-b border-ink/10">
+                          <td className={`${td} text-ink`}>{g.clientele}</td>
                           <td className={`${td} font-mono text-xs text-accent-blue whitespace-nowrap`}>{g.code}</td>
                           <td className={`${td} text-muted`}>{g.horaire}</td>
                         </tr>
@@ -74,19 +74,19 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
               <section>
                 <h2 className={`${label} mb-4`}>{t.tarifs}</h2>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm border-t border-white/[0.06]">
+                  <table className="w-full text-sm border-t border-ink/10">
                     <thead>
-                      <tr className="border-b border-white/[0.06]">
+                      <tr className="border-b border-ink/10">
                         <th className={th}>{t.periode}</th>
                         {colonnes.map(c => <th key={c} className={`${th} text-right`}>{c}</th>)}
                       </tr>
                     </thead>
                     <tbody>
                       {p.tarifs.map(row => (
-                        <tr key={row.periode} className="border-b border-white/[0.06]">
+                        <tr key={row.periode} className="border-b border-ink/10">
                           <td className={`${td} text-muted`}>{row.periode}</td>
                           {row.prix.map((x, i) => (
-                            <td key={i} className={`${td} text-right font-heading text-lg whitespace-nowrap ${i === 0 ? 'text-white' : 'text-muted'}`}>{x}</td>
+                            <td key={i} className={`${td} text-right font-heading text-lg whitespace-nowrap ${i === 0 ? 'text-ink' : 'text-muted'}`}>{x}</td>
                           ))}
                         </tr>
                       ))}
@@ -97,17 +97,17 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
             )}
 
             <ul className="space-y-2 text-sm text-muted">
-              {p.notes?.map(n => <li key={n}>— {n}</li>)}
-              {(fr ? inscription.notes : inscription.notesEn).map(n => <li key={n}>— {n}</li>)}
+              {p.notes?.map(n => <li key={n}>· {n}</li>)}
+              {(fr ? inscription.notes : inscription.notesEn).map(n => <li key={n}>· {n}</li>)}
             </ul>
 
             {p.documents && (
               <section>
                 <h2 className={`${label} mb-4`}>{t.documents}</h2>
-                <ul className="border-t border-white/[0.06]">
+                <ul className="border-t border-ink/10">
                   {p.documents.map(d => (
-                    <li key={d.href} className="border-b border-white/[0.06]">
-                      <a href={d.href} target="_blank" rel="noopener noreferrer" className="flex justify-between gap-4 py-3 text-sm text-white hover:text-royal transition-colors">
+                    <li key={d.href} className="border-b border-ink/10">
+                      <a href={d.href} target="_blank" rel="noopener noreferrer" className="flex justify-between gap-4 py-3 text-sm text-ink hover:text-royal transition-colors">
                         {d.titre}<span className="text-muted">{d.href.endsWith('.pdf') ? 'PDF ↗' : '↗'}</span>
                       </a>
                     </li>
@@ -121,7 +121,7 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
               <div className="grid sm:grid-cols-2 gap-6">
                 {contacts.map(c => (
                   <div key={c.nom} className="text-sm">
-                    <p className="text-white">{c.nom}</p>
+                    <p className="text-ink">{c.nom}</p>
                     {c.role && <p className="text-muted text-xs mt-0.5">{c.role}</p>}
                     {c.tel && <a href={`tel:${c.tel.replace(/\D/g, '').slice(0, 10)}`} className="block text-muted hover:text-royal mt-1">{c.tel}</a>}
                     {c.courriel && <a href={`mailto:${c.courriel}`} className="block text-muted hover:text-royal break-all">{c.courriel}</a>}
@@ -131,13 +131,13 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
             </section>
           </div>
 
-          <aside className="border-t border-white/[0.06] lg:sticky lg:top-24 self-start">
+          <aside className="border-t border-ink/10 lg:sticky lg:top-24 self-start">
             {p.formulaire && (
-              <div className="py-6 border-b border-white/[0.06]">
+              <div className="py-6 border-b border-ink/10">
                 <Button href={p.formulaire} external className="w-full">{t.inscrire} ↗</Button>
                 {p.qr && (
                   <div className="hidden lg:flex items-center gap-4 mt-5">
-                    <Image src={p.qr} alt={`QR — ${t.inscrire}`} width={88} height={88} className="bg-white p-1.5 shrink-0" />
+                    <Image src={p.qr} alt={`QR : ${t.inscrire}`} width={88} height={88} className="bg-white p-1.5 shrink-0" />
                     <p className="text-xs text-muted leading-relaxed">{t.qr}</p>
                   </div>
                 )}
@@ -149,26 +149,26 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
               [t.cours, p.cours],
               [t.prealable, p.prealable],
             ] as const).map(([k, v]) => v && (
-              <div key={k} className="py-5 border-b border-white/[0.06]">
+              <div key={k} className="py-5 border-b border-ink/10">
                 <h3 className={`${label} mb-2`}>{k}</h3>
-                <p className="text-sm text-white leading-relaxed">{v}</p>
+                <p className="text-sm text-ink leading-relaxed">{v}</p>
               </div>
             ))}
 
             {p.instructeurs.length > 0 && (
-              <div className="py-5 border-b border-white/[0.06]">
+              <div className="py-5 border-b border-ink/10">
                 <h3 className={`${label} mb-4`}>{t.instructeurs}</h3>
                 <div className="space-y-3">
                   {p.instructeurs.map(instr => {
                     const body = (
                       <>
-                        <div className="w-8 h-8 bg-white/[0.04] border border-white/[0.06] flex items-center justify-center shrink-0">
+                        <div className="w-8 h-8 bg-panel border border-ink/10 flex items-center justify-center shrink-0">
                           <span className="font-heading text-xs text-muted">
                             {instr.nom.split(/[\s-]/).map(n => n[0] ?? '').join('').slice(0, 2)}
                           </span>
                         </div>
                         <div>
-                          <p className="text-sm text-white group-hover:text-royal transition-colors">{instr.nom}</p>
+                          <p className="text-sm text-ink group-hover:text-royal transition-colors">{instr.nom}</p>
                           <p className="text-xs text-muted">{instr.grade}</p>
                         </div>
                       </>
@@ -183,23 +183,23 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
 
             {p.formulaire && (
               <>
-                <div className="py-5 border-b border-white/[0.06]">
+                <div className="py-5 border-b border-ink/10">
                   <h3 className={`${label} mb-2`}>{t.inscription}</h3>
                   <p className="text-sm text-muted leading-relaxed">
                     {p.inscription ?? (fr ? inscription.enLigne : inscription.enLigneEn)}
                   </p>
                   {!p.inscription && <p className="text-sm text-muted leading-relaxed mt-2">{fr ? inscription.surPlace : inscription.surPlaceEn}</p>}
                 </div>
-                <div className="py-5 border-b border-white/[0.06]">
+                <div className="py-5 border-b border-ink/10">
                   <h3 className={`${label} mb-2`}>{t.paiement}</h3>
                   <p className="text-sm text-muted leading-relaxed">{fr ? inscription.paiement : inscription.paiementEn}</p>
                 </div>
               </>
             )}
 
-            <div className="py-5 border-b border-white/[0.06]">
+            <div className="py-5 border-b border-ink/10">
               <h3 className={`${label} mb-2`}>{t.lieu}</h3>
-              <p className="text-sm text-white">{club.dojo}</p>
+              <p className="text-sm text-ink">{club.dojo}</p>
               <p className="text-sm text-muted">{club.lieu}<br />{club.adresse}</p>
             </div>
 

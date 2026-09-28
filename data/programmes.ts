@@ -1,4 +1,4 @@
-// Saison 2026-2027 — source : judoboucherville.com (Inscription, PPCC, Parascolaire, campete, SportEtude)
+// Saison 2026-2027, source : judoboucherville.com (Inscription, PPCC, Parascolaire, campete, SportEtude)
 
 export type Categorie = 'enfants' | 'adultes' | 'arts-martiaux'
 
@@ -51,7 +51,7 @@ export const programmes: Programme[] = [
     description:
       'Activité unique en Amérique du Nord, donnant aux parents et aux enfants la chance de vivre, de communiquer et de partager une expérience extraordinaire dans l’apprentissage des jeux d’opposition, grâce à une activité sécuritaire, spécifiquement étudiée et adaptée au développement psychomoteur de l’enfant.\n\nDe plus, cette activité permet au parent d’aider son enfant dans sa socialisation avec ses pairs.',
     descriptionEn:
-      'A one-of-a-kind activity in North America where parents and children live, communicate and share the learning of opposition games — safe, and designed specifically for the child’s psychomotor development.\n\nIt also lets parents help their child socialise with peers.',
+      'A one-of-a-kind activity in North America where parents and children live, communicate and share the learning of opposition games, safe, and designed specifically for the child’s psychomotor development.\n\nIt also lets parents help their child socialise with peers.',
     prealable: 'Carte d’Accès Boucherville, inscription avec un parent (gratuit pour le parent), sandales et judogi (habit de judo), voir à l’inscription.',
     cours: '1 cours par semaine',
     debut: 'Samedi 05 septembre 2026',
@@ -66,8 +66,8 @@ export const programmes: Programme[] = [
   },
   {
     slug: 'judo-enfants',
-    titre: 'Judo enfants — débutant',
-    titreEn: 'Kids judo — beginner',
+    titre: 'Judo enfants · débutant',
+    titreEn: 'Kids judo · beginner',
     categorie: 'enfants',
     resume: 'Initiation au judo par les jeux d’opposition, vers la ceinture blanche / jaune.',
     resumeEn: 'Judo basics through opposition games, towards the white / yellow belt.',
@@ -94,8 +94,8 @@ export const programmes: Programme[] = [
   },
   {
     slug: 'judo-enfants-avances',
-    titre: 'Judo enfants — avancé',
-    titreEn: 'Kids judo — advanced',
+    titre: 'Judo enfants · avancé',
+    titreEn: 'Kids judo · advanced',
     categorie: 'enfants',
     resume: 'Passage de grade et initiation à la compétition, deux cours par semaine.',
     resumeEn: 'Belt grading and a first taste of competition, twice a week.',
@@ -119,8 +119,8 @@ export const programmes: Programme[] = [
   },
   {
     slug: 'judo-enfants-competition',
-    titre: 'Judo enfants — compétition',
-    titreEn: 'Kids judo — competition',
+    titre: 'Judo enfants · compétition',
+    titreEn: 'Kids judo · competition',
     categorie: 'enfants',
     resume: 'Pour les jeunes qui compétitionnent aux niveaux régional et provincial.',
     resumeEn: 'For young judoka competing at regional and provincial level.',
@@ -178,7 +178,7 @@ export const programmes: Programme[] = [
     description:
       'Pour les femmes et les hommes qui veulent acquérir une excellente forme physique par l’apprentissage d’un art martial.\n\nUne heure de judo permet de brûler 510 calories. Le cours vous permettra par la même occasion de vous intégrer à un groupe social et dynamique.\n\nPour le plaisir, la confiance en soi et la santé, voilà un sport complet pour tous! Que ce soit pour acquérir des techniques efficaces, pour devenir un compétiteur de haut niveau ou simplement être au meilleur de votre forme, il s’agit du bon choix!\n\nLe judo est une discipline olympique qui bénéficie de la structure d’une fédération internationale sérieuse et reconnue. Un code moral clairement défini permet au judoka d’évoluer dans le respect. Des professeurs certifiés assurent un apprentissage adapté selon votre groupe d’âge et votre condition, dans un environnement sécuritaire.\n\nPour fortifier votre corps et votre esprit, améliorer votre santé, développer au maximum vos aptitudes physiques et votre confiance, venez vous entraîner au Club de Judo Boucherville dans une atmosphère conviviale!',
     descriptionEn:
-      'For women and men who want to get in excellent shape by learning a martial art.\n\nAn hour of judo burns about 510 calories, and the class is a great way to join a lively, social group.\n\nJudo is an Olympic discipline backed by a serious international federation. A clear moral code lets every judoka progress with respect, and certified instructors adapt the teaching to your age and condition in a safe environment.\n\nStrengthen body and mind, improve your health and build confidence — come train at Club de Judo Boucherville.',
+      'For women and men who want to get in excellent shape by learning a martial art.\n\nAn hour of judo burns about 510 calories, and the class is a great way to join a lively, social group.\n\nJudo is an Olympic discipline backed by a serious international federation. A clear moral code lets every judoka progress with respect, and certified instructors adapt the teaching to your age and condition in a safe environment.\n\nStrengthen body and mind, improve your health and build confidence, come train at Club de Judo Boucherville.',
     prealable: carteSandalesJudogi,
     cours: 'De 2 à 5 cours par semaine',
     debut: 'Mercredi 02 septembre 2026',
@@ -206,13 +206,13 @@ export const programmes: Programme[] = [
     titre: 'Aiki Ju-Jitsu',
     titreEn: 'Aiki Ju-Jitsu',
     categorie: 'arts-martiaux',
-    resume: 'Un art de défenses complètes et efficaces — une école de vie.',
-    resumeEn: 'A complete and effective art of self-defence — a school of life.',
+    resume: 'Un art de défenses complètes et efficaces. Une école de vie.',
+    resumeEn: 'A complete and effective art of self-defence. A school of life.',
     horaire: 'Mar/Jeu 20h00–21h30',
     description:
       'Pour acquérir une excellente forme physique tout en apprenant à se défendre contre toutes formes d’agression.\n\nLe cours vous permettra par la même occasion de vous intégrer à un groupe social et dynamique.\n\nPour le plaisir, la confiance en soi et la santé, l’Aiki Ju-Jitsu est un art de défenses complètes et efficaces, une école de vie.',
     descriptionEn:
-      'Get in excellent shape while learning to defend yourself against every kind of aggression, as part of a lively, social group.\n\nFor fun, confidence and health, Aiki Ju-Jitsu is a complete and effective art of self-defence — a school of life.',
+      'Get in excellent shape while learning to defend yourself against every kind of aggression, as part of a lively, social group.\n\nFor fun, confidence and health, Aiki Ju-Jitsu is a complete and effective art of self-defence. A school of life.',
     prealable: 'Carte d’Accès Boucherville, sandales et judogi (habit de judo), voir avec le professeur.',
     cours: '2 cours par semaine',
     debut: 'Mardi 01 septembre 2026',
@@ -239,7 +239,7 @@ export const programmes: Programme[] = [
     description:
       'Le jiu-jitsu brésilien est un art martial adapté de la tradition japonaise. Il vise ultimement à faire abandonner son adversaire à l’aide de clés articulaires et d’étranglements plutôt qu’avec des coups.\n\nL’objectif des cours est que les étudiants maîtrisent l’ensemble des principes de contrôle, projection, immobilisation et soumission du jiu-jitsu brésilien dans un combat se déroulant debout et au sol.\n\nNous pratiquons aussi occasionnellement avec des gants afin que les étudiants se sentent à l’aise de gérer les frappes dans un contexte où elles seraient permises, comme dans une situation d’auto-défense ou dans un combat d’arts martiaux mixtes. Nous alternons entre des cours Gi et No Gi.\n\nLes cours s’adressent aux jeunes de 15 ans et plus et aux adultes, avec ou sans expérience des arts martiaux, qui sont prêts à se dépasser mentalement et physiquement. Les cours sont mixtes, les filles et les garçons sont les bienvenus.\n\nLa sécurité est notre préoccupation première et la meilleure façon de savoir si cet art martial est fait pour vous est de venir essayer un cours gratuit tous les mardis et jeudis à 20h00.',
     descriptionEn:
-      'Brazilian Jiu-Jitsu is a martial art adapted from the Japanese tradition. The goal is to make your opponent submit with joint locks and chokes rather than strikes.\n\nStudents learn the principles of control, takedowns, pins and submissions, standing and on the ground. We occasionally train with gloves so students are comfortable handling strikes (self-defence, MMA), and alternate between Gi and No-Gi classes.\n\nClasses are mixed and open to teens 15+ and adults, with or without martial-arts experience.\n\nSafety comes first — the best way to find out if BJJ is for you is a free trial class, every Tuesday and Thursday at 8 pm.',
+      'Brazilian Jiu-Jitsu is a martial art adapted from the Japanese tradition. The goal is to make your opponent submit with joint locks and chokes rather than strikes.\n\nStudents learn the principles of control, takedowns, pins and submissions, standing and on the ground. We occasionally train with gloves so students are comfortable handling strikes (self-defence, MMA), and alternate between Gi and No-Gi classes.\n\nClasses are mixed and open to teens 15+ and adults, with or without martial-arts experience.\n\nSafety comes first, the best way to find out if BJJ is for you is a free trial class, every Tuesday and Thursday at 8 pm.',
     prealable: `${carteSandalesJudogi} Le port d’un protège-dents est obligatoire.`,
     cours: '2 cours par semaine',
     debut: 'Mardi 01 septembre 2026',
@@ -284,13 +284,13 @@ export const programmes: Programme[] = [
     titre: 'Prévention des chutes (PPCC)',
     titreEn: 'Fall prevention (PPCC)',
     categorie: 'adultes',
-    resume: 'Apprendre à prévenir et contrôler les chutes grâce au judo — 50 ans et plus.',
-    resumeEn: 'Learning to prevent and control falls through judo — ages 50+.',
+    resume: 'Apprendre à prévenir et contrôler les chutes grâce au judo, dès 50 ans.',
+    resumeEn: 'Learning to prevent and control falls through judo, from age 50.',
     horaire: 'Lun–Ven 09h00–10h00',
     description:
       'Le programme de prévention et de contrôle des chutes vise principalement à enseigner des techniques de judo pour éviter les blessures liées aux chutes. Il met l’accent sur la prévention en apprenant à abaisser le centre de gravité, à ramener les membres vers l’intérieur du corps et à développer des automatismes de protection, ainsi que sur le contrôle lors d’une chute inévitable grâce à des ukemi sécuritaires qui répartissent l’impact et réduisent les traumatismes.\n\nCe programme cherche à réduire au maximum les blessures en rendant les participants plus confiants face aux chutes du quotidien. Il améliore l’équilibre, la flexibilité et la coordination, et apprend à monter et descendre du sol en toute sécurité. Il s’adresse à tous, même aux personnes sans expérience en judo, et se structure en 10 séances progressives pour automatiser ces réflexes.\n\nDestiné au grand public à risque, surtout aux aînés, ce programme démocratise les savoirs du judo afin de réduire la peur de tomber et les hospitalisations qui peuvent en découler. Il est déployé dans les dojos québécois par Judo Québec et des formateurs certifiés.',
     descriptionEn:
-      'The fall prevention and control programme teaches judo techniques that avoid fall-related injuries: lowering the centre of gravity, bringing the limbs in and building protective reflexes — and, when a fall can’t be avoided, safe ukemi that spread the impact.\n\nOver 10 progressive sessions it improves balance, flexibility and coordination, and teaches how to get down to and up from the floor safely. No judo experience needed.\n\nDesigned for the public at risk, especially seniors, and deployed in Quebec dojos by Judo Québec and certified trainers.',
+      'The fall prevention and control programme teaches judo techniques that avoid fall-related injuries: lowering the centre of gravity, bringing the limbs in and building protective reflexes, and, when a fall can’t be avoided, safe ukemi that spread the impact.\n\nOver 10 progressive sessions it improves balance, flexibility and coordination, and teaches how to get down to and up from the floor safely. No judo experience needed.\n\nDesigned for the public at risk, especially seniors, and deployed in Quebec dojos by Judo Québec and certified trainers.',
     prealable: 'Carte d’Accès Boucherville, sandales.',
     cours: '1 cours par semaine',
     debut: 'Lundi 05 octobre 2026',
@@ -314,9 +314,9 @@ export const programmes: Programme[] = [
     resumeEn: 'Judo for grades 3–5, with minibus pickup from school.',
     horaire: 'Mar/Mer/Jeu 16h00–17h30',
     description:
-      'Initiation au judo (mixte) pour les élèves de 3e, 4e et 5e année, accessibilité à la ceinture blanche / jaune (deux sessions).\n\nTransport de l’école par minibus assuré par le club de judo, retour assuré par les parents à 17h30.\n\nJournées disponibles : mardi, mercredi et jeudi (à déterminer pour chaque école après les inscriptions).\n\nLe samedi 19 décembre, tournoi de fin de session.\n\nDepuis 1988 — 39e saison.',
+      'Initiation au judo (mixte) pour les élèves de 3e, 4e et 5e année, accessibilité à la ceinture blanche / jaune (deux sessions).\n\nTransport de l’école par minibus assuré par le club de judo, retour assuré par les parents à 17h30.\n\nJournées disponibles : mardi, mercredi et jeudi (à déterminer pour chaque école après les inscriptions).\n\nLe samedi 19 décembre, tournoi de fin de session.\n\nDepuis 1988, 39e saison.',
     descriptionEn:
-      'A mixed judo introduction for grade 3, 4 and 5 students, leading to the white / yellow belt over two sessions.\n\nThe club’s minibus picks children up at school; parents pick them up at 5:30 pm.\n\nAvailable days: Tuesday, Wednesday and Thursday (set for each school after registration). End-of-session tournament on Saturday, December 19.\n\nSince 1988 — 39th season.',
+      'A mixed judo introduction for grade 3, 4 and 5 students, leading to the white / yellow belt over two sessions.\n\nThe club’s minibus picks children up at school; parents pick them up at 5:30 pm.\n\nAvailable days: Tuesday, Wednesday and Thursday (set for each school after registration). End-of-session tournament on Saturday, December 19.\n\nSince 1988, 39th season.',
     prealable: 'Carte d’Accès Boucherville, long pantalon de sport et sandales.',
     cours: '1 cours par semaine',
     debut: 'Semaine du 29 septembre 2026',
@@ -344,7 +344,7 @@ export const programmes: Programme[] = [
     description:
       'Le Club de Judo Boucherville offre un camp de jour spécialisé; ce camp permettra aux enfants de découvrir le judo ou de le perfectionner.\n\nLe judo n’est pas qu’un sport, mais une école de vie où l’on apprend des valeurs telles que le respect, le courage et la modestie, en plus de pratiquer un exercice physique et de développer le goût de l’effort.\n\nTu as envie d’essayer une nouvelle activité, tu veux continuer à pratiquer ton sport préféré durant l’été? Les camps de jour du Club de Judo Boucherville sont faits pour toi.\n\nAvec plus de cinquante ans d’expérience, de nouvelles installations et des moniteurs passionnés, le Club offre pour l’été 2026 des camps de jour pour tous les niveaux.',
     descriptionEn:
-      'Club de Judo Boucherville runs a judo-focused day camp where children can discover judo or sharpen their skills.\n\nJudo is more than a sport — it is a school of life that teaches respect, courage and modesty, along with physical activity and a taste for effort.\n\nWith more than fifty years of experience, new facilities and passionate counsellors, the club offers day camps for every level in summer 2026.',
+      'Club de Judo Boucherville runs a judo-focused day camp where children can discover judo or sharpen their skills.\n\nJudo is more than a sport, it is a school of life that teaches respect, courage and modesty, along with physical activity and a taste for effort.\n\nWith more than fifty years of experience, new facilities and passionate counsellors, the club offers day camps for every level in summer 2026.',
     prealable: 'Sandales, judogi (s’il en a un), un dîner, collation, souliers de sport, maillot de bain, crème solaire.',
     inscription: 'À partir du 1er mars 2026.',
     groupes: [
@@ -393,7 +393,7 @@ export const programmes: Programme[] = [
       { titre: 'Rapport de compétition', href: `${OLD}RapportdeCompetition.pdf` },
       { titre: 'Observation des adversaires', href: `${OLD}Observationdesadversaires.pdf` },
       { titre: 'Préparation technique', href: `${OLD}PreparationTechnique.pdf` },
-      { titre: 'École De Mortagne — Sport-Études', href: 'http://demortagne.csp.qc.ca/VSE.php' },
+      { titre: 'École De Mortagne · Sport-Études', href: 'http://demortagne.csp.qc.ca/VSE.php' },
     ],
     contacts: [
       { nom: 'Fayçal Bousbiat', role: 'Programme Sport-Études', tel: '450 655-1888', courriel: 'info@judoboucherville.com' },

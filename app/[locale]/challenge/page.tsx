@@ -39,7 +39,7 @@ const reglements: [string, string][] = [
 ]
 
 const label = 'text-[10px] text-muted uppercase tracking-[.25em]'
-const h2 = 'font-heading text-3xl md:text-4xl text-white tracking-tight'
+const h2 = 'font-heading text-3xl md:text-4xl text-ink tracking-tight'
 
 export default async function ChallengePage({ params }: Props) {
   const { locale } = await params
@@ -55,8 +55,8 @@ export default async function ChallengePage({ params }: Props) {
       <PageHero
         title="Challenge International Judo Boucherville"
         subtitle={fr
-          ? `Un tournoi invitation par équipes unique au monde. ${c.edition}e édition — ${date}.`
-          : `A one-of-a-kind invitational team tournament. ${c.edition}th edition — ${date}.`}
+          ? `Un tournoi invitation par équipes unique au monde. ${c.edition}e édition, ${date}.`
+          : `A one-of-a-kind invitational team tournament. ${c.edition}th edition, ${date}.`}
         tag={fr ? 'Tournoi international' : 'International tournament'}
       />
 
@@ -64,39 +64,39 @@ export default async function ChallengePage({ params }: Props) {
 
         {/* Intro + key facts */}
         <section className="grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-16">
-          <div className="space-y-5 text-white/80 leading-relaxed">
-            <p className="font-heading text-2xl md:text-3xl text-white leading-snug">
+          <div className="space-y-5 text-ink/80 leading-relaxed">
+            <p className="font-heading text-2xl md:text-3xl text-ink leading-snug">
               {fr
                 ? 'Une compétition par équipes qui rassemble tous les judokas d’un club autour d’un but commun.'
                 : 'A team competition that rallies every judoka in a club around a common goal.'}
             </p>
             <p>
               {fr
-                ? 'Le Challenge s’adresse à la plupart des catégories d’âge et de poids que l’on trouve dans un dojo. Les victoires de toutes les équipes d’un même club s’additionnent pour décerner la plus importante récompense : le trophée du Challenge. Sa renommée n’est plus à faire — la participation, la qualité de l’arbitrage et du judo présenté en ont fait le succès.'
-                : 'The Challenge covers most of the age and weight categories found in any dojo. Wins from every team of the same club add up toward the top award: the Challenge trophy. Its reputation is well established — strong turnout, quality refereeing and high-level judo have made it a success.'}
+                ? 'Le Challenge s’adresse à la plupart des catégories d’âge et de poids que l’on trouve dans un dojo. Les victoires de toutes les équipes d’un même club s’additionnent pour décerner la plus importante récompense : le trophée du Challenge. Sa renommée n’est plus à faire : la participation, la qualité de l’arbitrage et du judo présenté en ont fait le succès.'
+                : 'The Challenge covers most of the age and weight categories found in any dojo. Wins from every team of the same club add up toward the top award: the Challenge trophy. Its reputation is well established: strong turnout, quality refereeing and high-level judo have made it a success.'}
             </p>
             <div>
               <p className={`${label} mb-2`}>{fr ? `Équipes participantes depuis ${c.depuis}` : `Participating teams since ${c.depuis}`}</p>
-              <p className="text-white">{pays}</p>
+              <p className="text-ink">{pays}</p>
             </div>
             {aVenir && <div className="pt-4"><CountdownTimer targetDate={c.date} /></div>}
           </div>
 
-          <aside className="border border-white/[0.06] p-6 self-start">
-            <dl className="divide-y divide-white/[0.06]">
+          <aside className="border border-ink/10 p-6 self-start">
+            <dl className="divide-y divide-ink/10">
               <div className="pb-4">
                 <dt className={label}>{fr ? 'Date' : 'Date'}</dt>
-                <dd className="text-white mt-1 first-letter:uppercase">{date}</dd>
+                <dd className="text-ink mt-1 first-letter:uppercase">{date}</dd>
               </div>
               <div className="py-4">
                 <dt className={label}>{fr ? 'Lieu et pesée' : 'Venue and weigh-in'}</dt>
-                <dd className="text-sm text-white/80 mt-1 leading-relaxed">{club.dojo}<br />{club.lieu}<br />{club.adresse}</dd>
+                <dd className="text-sm text-ink/80 mt-1 leading-relaxed">{club.dojo}<br />{club.lieu}<br />{club.adresse}</dd>
               </div>
               <div className="py-4">
                 <dt className={label}>{fr ? 'Inscription par équipe' : 'Entry fee per team'}</dt>
                 <dd className="mt-1 text-sm">
                   {c.couts.map(([n, prix]) => (
-                    <p key={n} className="flex justify-between"><span className="text-muted">{fr ? `Équipe de ${n}` : `Team of ${n}`}</span><span className="font-heading text-white">{prix}</span></p>
+                    <p key={n} className="flex justify-between"><span className="text-muted">{fr ? `Équipe de ${n}` : `Team of ${n}`}</span><span className="font-heading text-ink">{prix}</span></p>
                   ))}
                   <p className="text-xs text-muted mt-2">{fr ? `Payable à la pesée ou par virement à ${club.courriel}.` : `Payable at weigh-in or by e-transfer to ${club.courriel}.`}</p>
                 </dd>
@@ -105,7 +105,7 @@ export default async function ChallengePage({ params }: Props) {
                 <dt className={label}>{fr ? 'Date limite d’inscription' : 'Registration deadline'}</dt>
                 <dd className="mt-1 text-sm space-y-1">
                   {c.limites.map(([pFr, pEn, dFr, dEn]) => (
-                    <p key={pFr} className="flex justify-between gap-4"><span className="text-muted">{fr ? pFr : pEn}</span><span className="text-white whitespace-nowrap">{fr ? dFr : dEn}</span></p>
+                    <p key={pFr} className="flex justify-between gap-4"><span className="text-muted">{fr ? pFr : pEn}</span><span className="text-ink whitespace-nowrap">{fr ? dFr : dEn}</span></p>
                   ))}
                   <p className="text-xs text-muted pt-1">{fr ? 'Inscriptions en ligne seulement.' : 'Online registration only.'}</p>
                 </dd>
@@ -127,7 +127,7 @@ export default async function ChallengePage({ params }: Props) {
           <div className="overflow-x-auto -mx-4 px-4">
             <table className="w-full min-w-[720px] text-sm">
               <thead>
-                <tr className="border-b border-white/[0.06] text-left">
+                <tr className="border-b border-ink/10 text-left">
                   {(fr
                     ? ['Division', 'Hommes (kg)', 'Femmes (kg)', 'Né en', 'Grades', 'Pesée']
                     : ['Division', 'Men (kg)', 'Women (kg)', 'Born', 'Grades', 'Weigh-in']
@@ -136,13 +136,13 @@ export default async function ChallengePage({ params }: Props) {
               </thead>
               <tbody>
                 {divisions.map(([div, m, f, neFr, neEn, gFr, gEn, pesee]) => (
-                  <tr key={div} className="border-b border-white/[0.06] align-top">
-                    <td className="font-heading text-white py-4 pr-4 whitespace-nowrap">{div}</td>
-                    <td className="text-white/80 py-4 pr-4">{m}</td>
-                    <td className="text-white/80 py-4 pr-4">{f}</td>
+                  <tr key={div} className="border-b border-ink/10 align-top">
+                    <td className="font-heading text-ink py-4 pr-4 whitespace-nowrap">{div}</td>
+                    <td className="text-ink/80 py-4 pr-4">{m}</td>
+                    <td className="text-ink/80 py-4 pr-4">{f}</td>
                     <td className="text-muted py-4 pr-4">{fr ? neFr : neEn}</td>
                     <td className="text-muted py-4 pr-4">{fr ? gFr : gEn}</td>
-                    <td className="text-white py-4 whitespace-nowrap tabular-nums">{pesee}</td>
+                    <td className="text-ink py-4 whitespace-nowrap tabular-nums">{pesee}</td>
                   </tr>
                 ))}
               </tbody>
@@ -153,9 +153,9 @@ export default async function ChallengePage({ params }: Props) {
         {/* Prize money */}
         <section>
           <h2 className={`${h2} mb-8`}>{fr ? 'Bourses' : 'Prize money'}</h2>
-          <div className="grid sm:grid-cols-3 border-t border-l border-white/[0.06]">
+          <div className="grid sm:grid-cols-3 border-t border-l border-ink/10">
             {c.bourses.map(([dFr, dEn, montant]) => (
-              <div key={dFr} className="border-r border-b border-white/[0.06] p-8">
+              <div key={dFr} className="border-r border-b border-ink/10 p-8">
                 <p className="font-heading text-royal text-5xl leading-none tabular-nums">{montant}</p>
                 <p className={`${label} mt-3`}>{fr ? dFr : dEn}</p>
               </div>
@@ -171,16 +171,16 @@ export default async function ChallengePage({ params }: Props) {
           <div className="space-y-12">
             <div>
               <h2 className={`${h2} mb-6`}>{fr ? 'Le club vainqueur' : 'The winning club'}</h2>
-              <dl className="border-t border-white/[0.06] text-sm">
+              <dl className="border-t border-ink/10 text-sm">
                 {([
                   [fr ? 'Par division représentée' : 'Per division entered', '1'],
                   [fr ? '1re équipe de la division' : '1st team in division', '7'],
                   [fr ? '2e équipe' : '2nd team', '5'],
                   [fr ? '3e équipe' : '3rd team', '3'],
                 ] as const).map(([k, v]) => (
-                  <div key={k} className="flex justify-between py-3 border-b border-white/[0.06]">
-                    <dt className="text-white/80">{k}</dt>
-                    <dd className="font-heading text-white tabular-nums">{v} pt{v !== '1' && 's'}</dd>
+                  <div key={k} className="flex justify-between py-3 border-b border-ink/10">
+                    <dt className="text-ink/80">{k}</dt>
+                    <dd className="font-heading text-ink tabular-nums">{v} pt{v !== '1' && 's'}</dd>
                   </div>
                 ))}
               </dl>
@@ -192,7 +192,7 @@ export default async function ChallengePage({ params }: Props) {
             </div>
             <div>
               <h3 className={`${label} mb-4`}>{fr ? 'Récompenses' : 'Awards'}</h3>
-              <ul className="space-y-3 text-sm text-white/80 leading-relaxed">
+              <ul className="space-y-3 text-sm text-ink/80 leading-relaxed">
                 <li>{fr ? 'Trophée perpétuel du Challenge et trophée perpétuel par division, remis aux vainqueurs pour six mois (clubs du Québec seulement).' : 'Challenge perpetual trophy and perpetual division trophies, held by the winners for six months (Québec clubs only).'}</li>
                 <li>{fr ? 'Plaque souvenir au club champion.' : 'Commemorative plaque for the champion club.'}</li>
                 <li>{fr ? 'Médailles et cadeaux aux judokas des trois premières équipes de chaque division.' : 'Medals and gifts for judokas of the top three teams in each division.'}</li>
@@ -202,11 +202,11 @@ export default async function ChallengePage({ params }: Props) {
 
           <div>
             <h2 className={`${h2} mb-6`}>{fr ? 'Règlements' : 'Rules'}</h2>
-            <ol className="border-t border-white/[0.06]">
+            <ol className="border-t border-ink/10">
               {reglements.map(([rFr, rEn], i) => (
-                <li key={i} className="grid grid-cols-[2rem_1fr] py-3 border-b border-white/[0.06] text-sm">
+                <li key={i} className="grid grid-cols-[2rem_1fr] py-3 border-b border-ink/10 text-sm">
                   <span className="text-muted tabular-nums">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="text-white/80 leading-relaxed">{fr ? rFr : rEn}</span>
+                  <span className="text-ink/80 leading-relaxed">{fr ? rFr : rEn}</span>
                 </li>
               ))}
             </ol>
@@ -214,9 +214,9 @@ export default async function ChallengePage({ params }: Props) {
         </section>
 
         {/* International delegations */}
-        <section className="grid md:grid-cols-[1fr_1.4fr] gap-8 md:gap-16 border-t border-white/[0.06] pt-12">
+        <section className="grid md:grid-cols-[1fr_1.4fr] gap-8 md:gap-16 border-t border-ink/10 pt-12">
           <h2 className={h2}>{fr ? 'Délégations internationales' : 'International delegations'}</h2>
-          <div className="space-y-4 text-white/80 leading-relaxed">
+          <div className="space-y-4 text-ink/80 leading-relaxed">
             <p>
               {fr
                 ? 'Pour les délégations de l’extérieur de l’Amérique du Nord, le club prend en charge l’hébergement de 10 athlètes (12 pour les U21 / Senior formant deux équipes) et de 2 accompagnateurs, du jeudi au lundi de la fin de semaine du tournoi.'
@@ -234,12 +234,12 @@ export default async function ChallengePage({ params }: Props) {
         <section>
           <h2 className={`${h2} mb-2`}>{fr ? 'Palmarès de la Coupe Challenge' : 'Challenge Cup honour roll'}</h2>
           <p className="text-sm text-muted mb-8">{fr ? 'Classement des clubs; détail par division de 2010 à 2015.' : 'Club standings; division-by-division results from 2010 to 2015 (in French).'}</p>
-          <div className="border-t border-white/[0.06]">
+          <div className="border-t border-ink/10">
             {palmaresChallenge.map(e => {
               const podium = (
                 <ol className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
                   {e.coupe.map(([club, pts], i) => (
-                    <li key={club} className={i === 0 ? 'text-white' : 'text-muted'}>
+                    <li key={club} className={i === 0 ? 'text-ink' : 'text-muted'}>
                       <Medal kind={['or', 'argent', 'bronze'][i]} locale={locale} />
                       {club}{pts !== undefined && <span className="text-muted tabular-nums"> · {pts} pts</span>}
                     </li>
@@ -249,16 +249,16 @@ export default async function ChallengePage({ params }: Props) {
               const row = 'grid sm:grid-cols-[5rem_1fr_auto] items-baseline gap-2 sm:gap-6 py-5'
               if (!e.divisions) {
                 return (
-                  <div key={e.annee} className={`${row} border-b border-white/[0.06]`}>
-                    <span className="font-heading text-2xl text-white">{e.annee}</span>
+                  <div key={e.annee} className={`${row} border-b border-ink/10`}>
+                    <span className="font-heading text-2xl text-ink">{e.annee}</span>
                     {podium}
                   </div>
                 )
               }
               return (
-                <details key={e.annee} className="group border-b border-white/[0.06]">
+                <details key={e.annee} className="group border-b border-ink/10">
                   <summary className={`${row} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
-                    <span className="font-heading text-2xl text-white">{e.annee}</span>
+                    <span className="font-heading text-2xl text-ink">{e.annee}</span>
                     {podium}
                     <span className="text-xs text-muted group-open:text-royal">{fr ? 'Détails' : 'Details'} <span className="inline-block transition-transform group-open:rotate-45">+</span></span>
                   </summary>
@@ -275,12 +275,12 @@ export default async function ChallengePage({ params }: Props) {
                       </thead>
                       <tbody>
                         {e.divisions.map((d, i) => (
-                          <tr key={i} className="border-t border-white/[0.06] align-top">
-                            <td className="text-white py-2 pr-4 whitespace-nowrap">{d[0]}</td>
-                            <td className="text-white/80 py-2 pr-4">{d[1]}</td>
-                            <td className="text-white/80 py-2 pr-4">{d[2] || '—'}</td>
-                            <td className="text-white/80 py-2 pr-4">{d[3] || '—'}</td>
-                            <td className="text-muted py-2">{d[4] || '—'}</td>
+                          <tr key={i} className="border-t border-ink/10 align-top">
+                            <td className="text-ink py-2 pr-4 whitespace-nowrap">{d[0]}</td>
+                            <td className="text-ink/80 py-2 pr-4">{d[1]}</td>
+                            <td className="text-ink/80 py-2 pr-4">{d[2] || '·'}</td>
+                            <td className="text-ink/80 py-2 pr-4">{d[3] || '·'}</td>
+                            <td className="text-muted py-2">{d[4] || '·'}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -296,7 +296,7 @@ export default async function ChallengePage({ params }: Props) {
         <section>
           <h2 className={`${h2} mb-2`}>{fr ? 'Merci à nos commanditaires' : 'Thank you to our sponsors'}</h2>
           <p className="text-sm text-muted mb-8">{fr ? 'Leur soutien rend le Challenge possible, année après année.' : 'Their support makes the Challenge possible, year after year.'}</p>
-          <ul className="grid grid-cols-3 lg:grid-cols-7 gap-px bg-white/[0.06] border border-white/[0.06]">
+          <ul className="grid grid-cols-3 lg:grid-cols-7 gap-px bg-panel border border-ink/10">
             {commanditaires.map(([fichier, nom]) => (
               <li key={fichier} className="bg-white p-5 aspect-[3/2]">
                 <div className="relative h-full">
@@ -308,21 +308,21 @@ export default async function ChallengePage({ params }: Props) {
         </section>
 
         {/* Contact */}
-        <section className="grid md:grid-cols-3 gap-10 border-t border-white/[0.06] pt-12 text-sm">
+        <section className="grid md:grid-cols-3 gap-10 border-t border-ink/10 pt-12 text-sm">
           <div>
             <h2 className={`${label} mb-3`}>{fr ? 'Organisation du tournoi' : 'Tournament organisation'}</h2>
-            <p className="text-white">{club.nom}</p>
-            <p className="text-white/80">{club.adresse}</p>
+            <p className="text-ink">{club.nom}</p>
+            <p className="text-ink/80">{club.adresse}</p>
           </div>
           <div>
             <h2 className={`${label} mb-3`}>{fr ? 'Comité organisateur' : 'Organizing committee'}</h2>
-            <p className="text-white">{c.president}</p>
+            <p className="text-ink">{c.president}</p>
             <p className="text-muted">{fr ? 'Président du comité organisateur' : 'Chair of the organizing committee'}</p>
           </div>
           <div>
             <h2 className={`${label} mb-3`}>Contact</h2>
-            <a href={`tel:${club.tel.replace(/\D/g, '')}`} className="block text-white hover:text-royal transition-colors">{club.tel}</a>
-            <a href={`mailto:${club.courriel}`} className="block text-white hover:text-royal transition-colors">{club.courriel}</a>
+            <a href={`tel:${club.tel.replace(/\D/g, '')}`} className="block text-ink hover:text-royal transition-colors">{club.tel}</a>
+            <a href={`mailto:${club.courriel}`} className="block text-ink hover:text-royal transition-colors">{club.courriel}</a>
           </div>
         </section>
       </div>

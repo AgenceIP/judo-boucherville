@@ -1,15 +1,12 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Phone, CalendarDays, Tag, PenLine, MapPin, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import Magnetic from '@/components/ui/Magnetic'
-
-const underline = 'relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:bg-current after:origin-left after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100'
+import { club } from '@/data/club'
 
 const programmes = [
   { href: '/programmes/parents-enfants', labelFr: 'Parents / enfants', labelEn: 'Parents & children', category: 'Judo' },
@@ -29,273 +26,202 @@ const programmes = [
 
 const clubLinks = [
   { href: '/historique', labelFr: 'Historique', labelEn: 'History' },
-  { href: '/conseil', labelFr: "Conseil d'administration", labelEn: 'Board of Directors' },
-  { href: '/ceintures-noires', labelFr: 'Ceintures noires', labelEn: 'Black Belts' },
   { href: '/equipe', labelFr: 'Professeurs & équipe', labelEn: 'Coaches & Team' },
+  { href: '/ceintures-noires', labelFr: 'Ceintures noires', labelEn: 'Black Belts' },
+  { href: '/conseil', labelFr: "Conseil d'administration", labelEn: 'Board of Directors' },
+  { href: '/resultats', labelFr: 'Résultats', labelEn: 'Results' },
+  { href: '/challenge', labelFr: 'Challenge', labelEn: 'Challenge' },
+  { href: '/actualites', labelFr: 'Actualités', labelEn: 'News' },
+  { href: '/calendrier', labelFr: 'Calendrier', labelEn: 'Calendar' },
+  { href: '/telechargements', labelFr: 'Téléchargements', labelEn: 'Downloads' },
 ]
 
-const navLinks = [
-  { href: '/resultats', key: 'resultats' },
-  { href: '/challenge', key: 'challenge' },
-  { href: '/actualites', key: 'actualites' },
-  { href: '/contact', key: 'contact' },
-]
+const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
 
+/**
+ * Info-first header: the four things people come for (schedule, fees,
+ * registration, address) are top-level links, the phone number is always
+ * visible, and phones get a thumb bar pinned to the bottom of the screen.
+ */
 export default function Navigation() {
   const t = useTranslations('nav')
   const locale = useLocale()
+  const fr = locale === 'fr'
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
-  const [hidden, setHidden] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [programmesOpen, setProgrammesOpen] = useState(false)
-  const [clubOpen, setClubOpen] = useState(false)
-  const lastY = useRef(0)
+  const [open, setOpen] = useState<'programmes' | 'club' | null>(null)
 
   useEffect(() => {
-    const handler = () => {
-      const y = window.scrollY
-      setScrolled(y > 60)
-      // Hide when scrolling down past the hero, reappear on any scroll up
-      setHidden(y > 400 && y > lastY.current && !mobileOpen)
-      lastY.current = y
-    }
+    const handler = () => setScrolled(window.scrollY > 8)
+    handler()
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
-  }, [mobileOpen])
+  }, [])
 
+  // Close menus on navigation (state adjusted during render, not in an effect)
+  const [lastPath, setLastPath] = useState(pathname)
+  if (pathname !== lastPath) { setLastPath(pathname); setMobileOpen(false); setOpen(null) }
+
+  const quick = [
+    { href: `/${locale}#horaire`, label: fr ? 'Horaire' : 'Schedule', icon: CalendarDays },
+    { href: `/${locale}/inscription#tarifs`, label: fr ? 'Tarifs' : 'Fees', icon: Tag },
+    { href: `/${locale}/contact`, label: fr ? 'Nous trouver' : 'Find us', icon: MapPin },
+  ]
   const categories = [...new Set(programmes.map(p => p.category))]
+  const switchHref = `/${fr ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`
 
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-        hidden && '-translate-y-full',
-        scrolled && 'backdrop-blur-xl'
-      )}
-      style={scrolled ? {
-        backgroundColor: 'color-mix(in srgb, var(--voie-bg) 86%, transparent)',
-        borderBottom: '1px solid var(--voie-hairline)',
-      } : undefined}
-    >
-      <nav className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20">
-
-          {/* Logo */}
-          <Link href={`/${locale}`} className="group flex items-center gap-3">
-            <Image
-              src="/images/logo-cjb-improved.png"
-              alt="Club de Judo Boucherville"
-              width={44}
-              height={44}
-              className="rounded-full"
-            />
-            <span
-              className="font-heading text-xl tracking-[.12em] group-hover:text-royal transition-colors"
-              style={{ color: 'var(--voie-ink)' }}
-            >
-              JUDO BOUCHERVILLE
+    <>
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] btn btn-primary">
+        {fr ? 'Aller au contenu' : 'Skip to content'}
+      </a>
+      <header
+        className={cn(
+          'fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow] duration-300',
+          scrolled || mobileOpen ? 'bg-panel/92 backdrop-blur-md shadow-[0_1px_0_rgba(11,27,56,.1)]' : 'bg-panel/70 backdrop-blur-sm'
+        )}
+      >
+        <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center gap-6" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
+          <Link href={`/${locale}`} className="flex items-center gap-3 shrink-0" aria-label="Club de Judo Boucherville">
+            <span className="grid place-items-center w-10 h-10 rounded-[6px] bg-white shadow-[0_0_0_1px_rgba(11,27,56,.1)]">
+              <Image src="/images/brand/cjb-mark.png" alt="" width={30} height={31} priority />
+            </span>
+            <span className="font-display font-extrabold uppercase text-[1.35rem] leading-none tracking-[.02em] text-ink">
+              Judo Boucherville
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-8">
-            <div
-              className="relative"
-              onMouseEnter={() => setProgrammesOpen(true)}
-              onMouseLeave={() => setProgrammesOpen(false)}
+          <div className="hidden lg:flex items-center gap-1 ml-2">
+            <Dropdown
+              label={t('programmes')}
+              isOpen={open === 'programmes'}
+              onOpen={o => setOpen(o ? 'programmes' : null)}
+              wide
             >
-              <button className={cn('text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1', underline)}>
-                {t('programmes')}
-                <span className="opacity-60 text-[9px]">▾</span>
-              </button>
-
-              <AnimatePresence>
-                {programmesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[600px] backdrop-blur-xl border p-6 grid grid-cols-3 gap-6"
-                    style={{ backgroundColor: 'color-mix(in srgb, var(--voie-bg) 94%, transparent)', borderColor: 'var(--voie-hairline)' }}
-                  >
-                    {categories.map(cat => (
-                      <div key={cat}>
-                        <p className="text-[10px] text-royal/70 font-semibold uppercase tracking-[.2em] mb-3">{cat}</p>
-                        {programmes.filter(p => p.category === cat).map(prog => (
-                          <Link
-                            key={prog.href}
-                            href={`/${locale}${prog.href}`}
-                            className="block text-[12px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] py-1.5 transition-colors"
-                          >
-                            {locale === 'fr' ? prog.labelFr : prog.labelEn}
-                          </Link>
-                        ))}
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div
-              className="relative"
-              onMouseEnter={() => setClubOpen(true)}
-              onMouseLeave={() => setClubOpen(false)}
-            >
-              <button className={cn('text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase font-medium py-2 flex items-center gap-1', underline)}>
-                {t('club')}
-                <span className="opacity-60 text-[9px]">▾</span>
-              </button>
-
-              <AnimatePresence>
-                {clubOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-56 backdrop-blur-xl border p-4"
-                    style={{ backgroundColor: 'color-mix(in srgb, var(--voie-bg) 94%, transparent)', borderColor: 'var(--voie-hairline)' }}
-                  >
-                    {clubLinks.map(link => (
-                      <Link
-                        key={link.href}
-                        href={`/${locale}${link.href}`}
-                        className="block text-[12px] text-muted hover:text-white py-1.5 transition-colors"
-                      >
-                        {locale === 'fr' ? link.labelFr : link.labelEn}
+              <div className="grid grid-cols-3 gap-6">
+                {categories.map(cat => (
+                  <div key={cat}>
+                    <p className="label text-blue mb-2">{cat}</p>
+                    {programmes.filter(p => p.category === cat).map(p => (
+                      <Link key={p.href} href={`/${locale}${p.href}`} className="block py-1.5 text-[.9rem] text-ink-2 hover:text-ink">
+                        {fr ? p.labelFr : p.labelEn}
                       </Link>
                     ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={`/${locale}${link.href}`}
-                className={cn(
-                  'text-[11px] tracking-[.12em] uppercase font-medium transition-colors',
-                  underline,
-                  pathname.startsWith(`/${locale}${link.href}`)
-                    ? 'text-royal'
-                    : 'text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)]'
-                )}
-              >
-                {t(link.key)}
+                  </div>
+                ))}
+              </div>
+            </Dropdown>
+            {quick.map(q => (
+              <Link key={q.href} href={q.href} className="px-3 py-2 text-[.9rem] font-semibold text-ink-2 hover:text-ink transition-colors">
+                {q.label}
               </Link>
             ))}
+            <Dropdown label={t('club')} isOpen={open === 'club'} onOpen={o => setOpen(o ? 'club' : null)}>
+              {clubLinks.map(l => (
+                <Link key={l.href} href={`/${locale}${l.href}`} className="block py-1.5 text-[.9rem] text-ink-2 hover:text-ink">
+                  {fr ? l.labelFr : l.labelEn}
+                </Link>
+              ))}
+            </Dropdown>
           </div>
 
-          {/* Right side */}
-          <div className="hidden lg:flex items-center gap-5">
-            <Link
-              href={`/${locale === 'fr' ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`}
-              className="text-[11px] text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] transition-colors tracking-[.12em] uppercase"
-            >
-              {locale === 'fr' ? 'EN' : 'FR'}
+          <div className="ml-auto flex items-center gap-2 lg:gap-4">
+            <a href={tel} className="hidden md:inline-flex items-center gap-2 font-mono text-[.85rem] text-ink hover:text-blue">
+              <Phone size={15} aria-hidden="true" /> {club.tel}
+            </a>
+            <Link href={switchHref} className="px-2 py-2 label text-ink-2 hover:text-ink" hrefLang={fr ? 'en' : 'fr'}>
+              {fr ? 'EN' : 'FR'}
             </Link>
-            <Magnetic strength={0.22}>
-              <Link
-                href={`/${locale}/inscription`}
-                className="btn-wipe inline-flex text-[11px] font-bold tracking-[.1em] uppercase bg-royal text-white px-5 py-2.5 hover:text-black"
-              >
-                {t('inscription')}
-              </Link>
-            </Magnetic>
+            <Link href={`/${locale}/inscription`} className="hidden sm:inline-flex btn btn-primary !py-3">
+              {t('inscription')}
+            </Link>
+            <button
+              className="lg:hidden grid place-items-center w-11 h-11 text-ink"
+              onClick={() => setMobileOpen(o => !o)}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+              aria-label="Menu"
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
+        </nav>
 
-          {/* Mobile hamburger */}
-          <button
-            className="lg:hidden p-1"
-            style={{ color: 'var(--voie-ink)' }}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Menu"
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+        {mobileOpen && (
+          <div id="mobile-menu" className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-ink/10 bg-panel px-4 pb-28 pt-4">
+            <p className="label text-blue mb-1">{t('programmes')}</p>
+            <div className="grid grid-cols-2 gap-x-4">
+              {programmes.map(p => (
+                <Link key={p.href} href={`/${locale}${p.href}`} className="py-2.5 text-[.95rem] text-ink">
+                  {fr ? p.labelFr : p.labelEn}
+                </Link>
+              ))}
+            </div>
+            <p className="label text-blue mt-5 mb-1">{t('club')}</p>
+            <div className="grid grid-cols-2 gap-x-4">
+              {clubLinks.map(l => (
+                <Link key={l.href} href={`/${locale}${l.href}`} className="py-2.5 text-[.95rem] text-ink">
+                  {fr ? l.labelFr : l.labelEn}
+                </Link>
+              ))}
+              <Link href={`/${locale}/contact`} className="py-2.5 text-[.95rem] text-ink">Contact</Link>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Phones: the essentials under the thumb, on every page */}
+      <nav
+        className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-panel/95 backdrop-blur-md shadow-[0_-1px_0_rgba(11,27,56,.12)] pb-[env(safe-area-inset-bottom)]"
+        aria-label={fr ? 'Accès rapide' : 'Quick access'}
+      >
+        <div className="grid grid-cols-4">
+          <Link href={`/${locale}#horaire`} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold text-ink-2">
+            <CalendarDays size={20} aria-hidden="true" /> {fr ? 'Horaire' : 'Schedule'}
+          </Link>
+          <Link href={`/${locale}/inscription#tarifs`} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold text-ink-2">
+            <Tag size={20} aria-hidden="true" /> {fr ? 'Tarifs' : 'Fees'}
+          </Link>
+          <a href={tel} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold text-ink-2">
+            <Phone size={20} aria-hidden="true" /> {fr ? 'Appeler' : 'Call'}
+          </a>
+          <Link href={`/${locale}/inscription`} className="flex flex-col items-center gap-1 py-2.5 text-[.72rem] font-semibold bg-accent text-ink">
+            <PenLine size={20} aria-hidden="true" /> {fr ? 'S’inscrire' : 'Register'}
+          </Link>
         </div>
       </nav>
+    </>
+  )
+}
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden backdrop-blur-xl border-t overflow-hidden"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--voie-bg) 94%, transparent)', borderColor: 'var(--voie-hairline)' }}
-          >
-            <div className="px-6 py-8 space-y-1">
-              {programmes.map((prog, i) => (
-                <motion.div
-                  key={prog.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.03 }}
-                >
-                  <Link
-                    href={`/${locale}${prog.href}`}
-                    className="block text-sm text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] py-2 transition-colors"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {locale === 'fr' ? prog.labelFr : prog.labelEn}
-                  </Link>
-                </motion.div>
-              ))}
-              <div className="pt-5 border-t border-white/[0.06] space-y-1">
-                <p className="text-[10px] text-royal/70 font-semibold uppercase tracking-[.2em] pt-1 pb-1">{t('club')}</p>
-                {clubLinks.map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: (programmes.length + i) * 0.03 }}
-                  >
-                    <Link
-                      href={`/${locale}${link.href}`}
-                      className="block text-sm text-[var(--voie-ink-muted)] hover:text-[var(--voie-ink)] py-1.5 transition-colors"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {locale === 'fr' ? link.labelFr : link.labelEn}
-                    </Link>
-                  </motion.div>
-                ))}
-                <div className="pt-3 border-t border-white/[0.04]" />
-                {navLinks.map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: (programmes.length + clubLinks.length + i) * 0.03 }}
-                  >
-                    <Link
-                      href={`/${locale}${link.href}`}
-                      className="block text-sm text-[var(--voie-ink)] hover:text-royal py-2 transition-colors"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {t(link.key)}
-                    </Link>
-                  </motion.div>
-                ))}
-                <div className="pt-4">
-                  <Link
-                    href={`/${locale}/inscription`}
-                    className="block text-center text-sm font-bold tracking-widest uppercase bg-royal text-white px-6 py-3 mt-2"
-                  >
-                    {t('inscription')}
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+function Dropdown({ label, isOpen, onOpen, wide, children }: {
+  label: string
+  isOpen: boolean
+  onOpen: (open: boolean) => void
+  wide?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <div className="relative" onMouseEnter={() => onOpen(true)} onMouseLeave={() => onOpen(false)}>
+      <button
+        className="flex items-center gap-1 px-3 py-2 text-[.9rem] font-semibold text-ink-2 hover:text-ink transition-colors"
+        aria-expanded={isOpen}
+        onClick={() => onOpen(!isOpen)}
+      >
+        {label}
+        <ChevronDown size={14} aria-hidden="true" className={cn('transition-transform duration-200', isOpen && 'rotate-180')} />
+      </button>
+      <div
+        className={cn(
+          'absolute top-full left-0 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out',
+          isOpen ? 'visible opacity-100 translate-y-0' : 'invisible opacity-0 -translate-y-1 pointer-events-none'
         )}
-      </AnimatePresence>
-    </header>
+      >
+        <div className={cn('rounded-[6px] bg-panel p-5 shadow-[0_0_0_1px_rgba(11,27,56,.1),0_18px_40px_-18px_rgba(11,27,56,.35)]', wide ? 'w-[620px]' : 'w-60')}>
+          {children}
+        </div>
+      </div>
+    </div>
   )
 }

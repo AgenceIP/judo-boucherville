@@ -35,18 +35,18 @@ export default async function ProgrammesPage() {
       <PageHero
         title={locale === 'fr' ? 'Nos programmes' : 'Our Programs'}
         subtitle={locale === 'fr'
-          ? 'Judo, Aiki Ju-Jitsu, Jiu-Jitsu Brésilien — pour tous les âges et tous les niveaux.'
-          : 'Judo, Aiki Ju-Jitsu, Brazilian Jiu-Jitsu — for all ages and levels.'}
+          ? 'Judo, Aiki Ju-Jitsu, Jiu-Jitsu brésilien et auto-défense. Pour tous les âges et tous les niveaux.'
+          : 'Judo, Aiki Ju-Jitsu, Brazilian Jiu-Jitsu and self-defence. For all ages and levels.'}
       />
 
-      <div className="reveal-hidden revealed max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-14 space-y-14">
         {(Object.keys(grouped) as Array<keyof typeof grouped>).map(cat => (
           grouped[cat].length > 0 && (
             <div key={cat}>
-              <h2 className="font-heading text-2xl text-muted tracking-widest uppercase mb-8 border-b border-white/5 pb-4">
+              <h2 className="label text-blue mb-4">
                 {categoryLabels[cat][locale === 'fr' ? 'fr' : 'en']}
               </h2>
-              <div className="border-b border-white/[0.06]">
+              <div className="grid gap-[3px] bg-ink/10 p-[3px] rounded-[6px]">
                 {grouped[cat].map(prog => (
                   <ProgrammeCard
                     key={prog.slug}
@@ -55,6 +55,7 @@ export default async function ProgrammesPage() {
                     horaire={prog.horaire}
                     slug={prog.slug}
                     categorie={prog.categorie}
+                    locale={locale}
                   />
                 ))}
               </div>

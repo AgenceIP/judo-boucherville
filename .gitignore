@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+
+# Source masters: web-sized copies live in public/images/brand and public/images/photos
+public/images/Logos/
+public/images/Dojo/
+scripts/verify-shots/

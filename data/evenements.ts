@@ -1,4 +1,4 @@
-// Événements à venir — source : accueil de judoboucherville.com (juillet 2026)
+// Événements à venir, source : accueil de judoboucherville.com (juillet 2026)
 
 export type Evenement = { jour: string; titre: string; lieu?: string; lien?: string }
 export type Mois = { mois: string; moisEn: string; evenements: Evenement[] }
@@ -37,7 +37,7 @@ export const calendrier: Mois[] = [
     evenements: [
       { jour: '11', titre: 'Morris Cup', lieu: 'Albany, New York' },
       { jour: '17-18', titre: 'Ontario Open', lieu: 'Toronto' },
-      { jour: '24-25', titre: 'Coupe Louis-Page — sélection U19 pour les Jeux du Canada 2027', lieu: 'Jonquière', lien: `${JQ}324/tournoi-developpement-coupe-louis-page-2026-selection-u19-pour-les-jeux-du-canada-2027` },
+      { jour: '24-25', titre: 'Coupe Louis-Page, sélection U19 pour les Jeux du Canada 2027', lieu: 'Jonquière', lien: `${JQ}324/tournoi-developpement-coupe-louis-page-2026-selection-u19-pour-les-jeux-du-canada-2027` },
       { jour: '28', titre: 'Journée mondiale du judo' },
       { jour: '31', titre: 'Stage Goshin-jutsu' },
     ],
@@ -51,7 +51,7 @@ export const calendrier: Mois[] = [
       { jour: '09-11', titre: 'Camp national', lieu: 'Montréal' },
       { jour: '14-15', titre: 'Omnium du Québec (49e édition)', lieu: 'Longueuil', lien: `${JQ}19/omnium-du-quebec-49e-edition-quebec-open-2026-49th-edition` },
       { jour: '22', titre: 'Championnat provincial de kata', lieu: 'Beauport' },
-      { jour: '28', titre: 'Entraînement provincial #2 — Mon premier entraînement provincial U12 et U14', lieu: 'Montréal' },
+      { jour: '28', titre: 'Entraînement provincial #2, Mon premier entraînement provincial U12 et U14', lieu: 'Montréal' },
       { jour: '28-29', titre: 'Manitoba Open', lieu: 'Manitoba' },
     ],
   },

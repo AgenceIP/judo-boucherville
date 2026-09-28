@@ -42,11 +42,11 @@ export const inscription = {
   ],
   notesEn: [
     'Schedules may change depending on the number of registrations.',
-    'All our instructors are accredited — no volunteers.',
+    'All our instructors are accredited. No volunteers.',
   ],
 }
 
-// Résultats du club de 2002 à 2024 — [championnat, en, or, argent, bronze] (source : Historique.php)
+// Résultats du club de 2002 à 2024, [championnat, en, or, argent, bronze] (source : Historique.php)
 export const palmares: [string, string, number, number, number][] = [
   ['Championnat provincial U15-U16', 'Provincial Championship U15-U16', 37, 23, 24],
   ['Championnat provincial U17-U18', 'Provincial Championship U17-U18', 22, 14, 14],

@@ -53,7 +53,7 @@ export default function CountdownTimer({ targetDate }: { targetDate: string }) {
 
   if (expired) {
     return (
-      <p className="font-heading text-2xl md:text-3xl text-white/70 tracking-wider leading-snug max-w-sm">
+      <p className="font-heading text-2xl md:text-3xl text-ink/70 tracking-wider leading-snug max-w-sm">
         {t('countdown_expired')}
       </p>
     )
@@ -80,7 +80,7 @@ export default function CountdownTimer({ targetDate }: { targetDate: string }) {
           )}
           <div>
             <div
-              className="font-heading text-white glow-soft leading-none tabular-nums flex"
+              className="font-heading text-ink glow-soft leading-none tabular-nums flex"
               style={{ fontSize: 'clamp(48px, 6.5vw, 104px)' }}
             >
               {String(u.value).padStart(2, '0').split('').map((d, j) => (
