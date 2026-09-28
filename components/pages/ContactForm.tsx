@@ -1,10 +1,13 @@
 'use client'
 import { useState, useTransition } from 'react'
+import { useLocale } from 'next-intl'
 import { sendContactEmail } from '@/actions/contact'
 import Button from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 
 export default function ContactForm() {
+  const locale = useLocale()
+  const fr = locale === 'fr'
   const [pending, startTransition] = useTransition()
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -16,44 +19,47 @@ export default function ContactForm() {
       nom: (form.elements.namedItem('nom') as HTMLInputElement).value,
       email: (form.elements.namedItem('email') as HTMLInputElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+      locale,
     }
     startTransition(async () => {
       const result = await sendContactEmail(data)
       if (result.success) { setStatus('success'); form.reset() }
-      else { setStatus('error'); setErrorMsg(result.error || 'Erreur inconnue.') }
+      else { setStatus('error'); setErrorMsg(result.error ?? '') }
     })
   }
 
-  const inputClasses = 'w-full bg-bg-base border border-white/10 rounded-xl px-4 py-3 text-foreground text-sm focus:border-accent-blue focus:outline-none transition-colors placeholder:text-muted'
+  const inputClasses = 'w-full bg-transparent border-b border-white/15 px-0 py-3 text-foreground text-sm focus:border-royal focus:outline-none transition-colors placeholder:text-muted/60'
+  const labelClasses = 'text-[10px] text-muted uppercase tracking-[.25em] block mb-1'
 
   if (status === 'success') {
     return (
-      <div className="text-center py-12">
-        <span className="text-4xl block mb-4" aria-hidden="true">✓</span>
-        <h3 className="font-heading text-2xl text-foreground mb-2">Message envoyé!</h3>
-        <p className="text-muted">Nous vous répondrons dans les plus brefs délais.</p>
-        <Button onClick={() => setStatus('idle')} variant="outline" className="mt-6">Envoyer un autre message</Button>
+      <div role="status" className="border border-white/[0.06] p-8">
+        <h3 className="font-heading text-2xl text-foreground mb-2">{fr ? 'Message envoyé' : 'Message sent'}</h3>
+        <p className="text-muted text-sm">{fr ? 'Nous vous répondrons dans les plus brefs délais.' : 'We’ll get back to you as soon as possible.'}</p>
+        <Button onClick={() => setStatus('idle')} variant="outline" size="sm" className="mt-6">
+          {fr ? 'Envoyer un autre message' : 'Send another message'}
+        </Button>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-8">
       <div>
-        <label htmlFor="contact-nom" className="text-xs text-muted uppercase tracking-wider block mb-2">Nom *</label>
-        <input id="contact-nom" name="nom" type="text" required autoComplete="name" className={inputClasses} placeholder="Votre nom" />
+        <label htmlFor="contact-nom" className={labelClasses}>{fr ? 'Nom' : 'Name'} *</label>
+        <input id="contact-nom" name="nom" type="text" required maxLength={100} autoComplete="name" className={inputClasses} />
       </div>
       <div>
-        <label htmlFor="contact-email" className="text-xs text-muted uppercase tracking-wider block mb-2">Courriel *</label>
-        <input id="contact-email" name="email" type="email" required autoComplete="email" className={inputClasses} placeholder="votre@email.com" />
+        <label htmlFor="contact-email" className={labelClasses}>{fr ? 'Courriel' : 'Email'} *</label>
+        <input id="contact-email" name="email" type="email" required autoComplete="email" className={inputClasses} />
       </div>
       <div>
-        <label htmlFor="contact-message" className="text-xs text-muted uppercase tracking-wider block mb-2">Message *</label>
-        <textarea id="contact-message" name="message" required rows={5} autoComplete="off" className={cn(inputClasses, 'resize-none')} placeholder="Votre message..." />
+        <label htmlFor="contact-message" className={labelClasses}>Message *</label>
+        <textarea id="contact-message" name="message" required minLength={10} maxLength={2000} rows={5} className={cn(inputClasses, 'resize-none')} />
       </div>
-      {status === 'error' && <p role="alert" aria-live="assertive" className="text-red-400 text-sm">{errorMsg}</p>}
+      {status === 'error' && <p role="alert" className="text-red-400 text-sm">{errorMsg}</p>}
       <Button type="submit" disabled={pending} className="w-full">
-        {pending ? 'Envoi en cours...' : 'Envoyer le message'}
+        {pending ? (fr ? 'Envoi…' : 'Sending…') : (fr ? 'Envoyer le message' : 'Send message')}
       </Button>
     </form>
   )
