@@ -1,24 +1,26 @@
 @import "tailwindcss";
 
-/* « Hajime » — colors sampled from the real dojo: white walls, royal blue
-   padding and mat border, tatami yellow, maple wall. */
+/* « Hajime » — the club's own colors, used with commitment: royal blue from the
+   wall padding and mat border carries whole sections, tatami yellow marks what
+   you act on, navy for night sections, a cool white for dense information. */
 @theme {
-  --color-canvas: #F4F2EC;
-  --color-panel: #FBFAF6;
+  --color-canvas: #F3F5F9;
+  --color-panel: #FCFDFE;
   --color-ink: #0B1B38;
-  --color-ink-2: #46526A;
+  --color-ink-2: #3F4B63;
   --color-blue: #0A3F8C;
+  --color-blue-deep: #072F6B;
   --color-blue-logo: #3A56A5;
   --color-accent: #F2B705;
   --color-accent-hover: #FFC61A;
   --color-wood: #C99A5E;
 
   /* Legacy names still used by inner pages, remapped to the new world */
-  --color-bg-base: #F4F2EC;
-  --color-bg-surface: #FBFAF6;
-  --color-bg-light: #FBFAF6;
+  --color-bg-base: #F3F5F9;
+  --color-bg-surface: #FCFDFE;
+  --color-bg-light: #FCFDFE;
   --color-foreground: #0B1B38;
-  --color-muted: #46526A;
+  --color-muted: #3F4B63;
   --color-royal: #0A3F8C;
   --color-accent-blue: #0A3F8C;
   --color-accent-glow: #3A56A5;
@@ -28,14 +30,13 @@
   --font-display: var(--nf-display);
   --font-sans: var(--nf-sans);
   --font-body: var(--nf-sans);
-  --font-mono: var(--nf-mono);
 
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.18, 1);
 }
 
 :root {
-  --tshadow: 0 1px 2px rgba(5, 10, 24, .9), 0 3px 12px rgba(5, 10, 24, .7), 0 10px 44px rgba(5, 10, 24, .7);
+  interpolate-size: allow-keywords;
 }
 
 html {
@@ -53,34 +54,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* One environment: a faint tatami grid on the wall-white canvas, with a slow
-   light drift. Fixed behind everything. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, rgba(11, 27, 56, .035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(11, 27, 56, .035) 1px, transparent 1px);
-  background-size: 96px 192px;
-}
-body::after {
-  content: '';
-  position: fixed;
-  inset: -20%;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(40% 35% at 30% 20%, rgba(242, 183, 5, .07), transparent 70%),
-              radial-gradient(45% 40% at 75% 70%, rgba(10, 63, 140, .06), transparent 70%);
-  animation: light-drift 80s var(--ease-in-out) infinite alternate;
-  animation-delay: -20s;
-}
-@keyframes light-drift {
-  from { transform: translate(-4%, -2%); }
-  to   { transform: translate(4%, 3%); }
-}
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
 
 body.paused *, body.paused *::before, body.paused *::after {
   animation-play-state: paused !important;
@@ -92,10 +67,11 @@ body.paused *, body.paused *::before, body.paused *::after {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-blue);
   outline-offset: 3px;
   border-radius: 2px;
 }
+.on-dark :focus-visible { outline-color: var(--color-accent); }
 
 /* Japanese serif stack for decorative kanji — zero bytes downloaded */
 .font-jp {
@@ -103,50 +79,82 @@ body.paused *, body.paused *::before, body.paused *::after {
 }
 
 @layer components {
-  /* Buttons */
+  /* Buttons: the fill wipes up from below on hover (the v6 gesture), the
+     arrow steps forward, a press sinks the button a pixel. */
   .btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: .5rem;
+    gap: .55rem;
     font-family: var(--font-body);
     font-weight: 600;
     font-size: .95rem;
     line-height: 1;
-    padding: .95rem 1.4rem;
+    padding: 1rem 1.45rem;
     border-radius: 4px;
-    transition: background-color .3s var(--ease-out), color .3s var(--ease-out), transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+    transition: color .45s var(--ease-in-out), box-shadow .45s var(--ease-in-out), transform .2s var(--ease-out);
     text-shadow: none;
   }
-  .btn:active { transform: translateY(1px); }
-  .btn-primary {
-    background: var(--color-accent);
-    color: var(--color-ink);
-    box-shadow: 0 1px 0 rgba(11, 27, 56, .25), 0 8px 24px -10px rgba(242, 183, 5, .8);
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--wipe, var(--color-ink));
+    transform: translateY(101%);
+    transition: transform .45s var(--ease-in-out);
   }
-  .btn-primary:hover { background: var(--color-accent-hover); }
-  .btn-blue {
-    background: var(--color-blue);
-    color: #FBFAF6;
-  }
-  .btn-blue:hover { background: #0C4DA8; }
-  .btn-ghost {
-    background: rgba(251, 250, 246, .92);
-    color: var(--color-ink);
-    box-shadow: inset 0 0 0 1.5px rgba(11, 27, 56, .25);
-  }
-  .btn-ghost:hover { box-shadow: inset 0 0 0 1.5px var(--color-ink); }
+  .btn:hover::before, .btn:focus-visible::before { transform: translateY(0); }
+  .btn:active { transform: translateY(1px) scale(.985); }
+  .btn .arr { transition: transform .45s var(--ease-in-out); }
+  .btn:hover .arr { transform: translateX(4px); }
+
+  .btn-primary { background: var(--color-accent); color: var(--color-ink); --wipe: var(--color-ink); }
+  .btn-primary:hover, .btn-primary:focus-visible { color: var(--color-accent); }
+
+  /* On blue and navy sections the yellow button wipes to white, so it never melts into the background */
+  .on-dark .btn-primary { --wipe: #FCFDFE; }
+  .on-dark .btn-primary:hover, .on-dark .btn-primary:focus-visible { color: var(--color-ink); }
+
+  .btn-blue { background: var(--color-blue); color: #FCFDFE; --wipe: var(--color-accent); }
+  .btn-blue:hover, .btn-blue:focus-visible { color: var(--color-ink); }
+
+  .btn-ghost { background: transparent; color: var(--color-ink); box-shadow: inset 0 0 0 1.5px rgba(11, 27, 56, .35); --wipe: var(--color-ink); }
+  .btn-ghost:hover, .btn-ghost:focus-visible { color: #FCFDFE; box-shadow: inset 0 0 0 1.5px var(--color-ink); }
+
+  .btn-ghost-light { background: transparent; color: #FCFDFE; box-shadow: inset 0 0 0 1.5px rgba(252, 253, 254, .45); --wipe: #FCFDFE; }
+  .btn-ghost-light:hover, .btn-ghost-light:focus-visible { color: var(--color-ink); box-shadow: inset 0 0 0 1.5px #FCFDFE; }
+
+  .btn-panel { background: rgba(252, 253, 254, .94); color: var(--color-ink); --wipe: var(--color-ink); }
+  .btn-panel:hover, .btn-panel:focus-visible { color: #FCFDFE; }
+
   @media (pointer: coarse) {
     .btn { min-height: 44px; }
   }
 
-  /* Small uppercase label */
+  /* Small uppercase label, used sparingly (not above every heading) */
   .label {
-    font-family: var(--font-mono);
-    font-size: .72rem;
-    font-weight: 500;
+    font-family: var(--font-body);
+    font-size: .74rem;
+    font-weight: 600;
     letter-spacing: .08em;
     text-transform: uppercase;
+  }
+
+  /* Underline that draws from the left on hover */
+  .u-line { background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1.5px; transition: background-size .45s var(--ease-in-out); padding-bottom: 2px; }
+  .u-line:hover, .u-line:focus-visible { background-size: 100% 1.5px; }
+
+  /* Big display heading used by every section */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: .88;
+    letter-spacing: -.01em;
   }
 
   /* Tatami seams that draw themselves when their section enters */
@@ -157,35 +165,29 @@ body.paused *, body.paused *::before, body.paused *::after {
   }
   .in .seam, .seam.in { transform: scaleX(1); }
 
-  /* Section scroll reveal (used by useReveal hook) */
+  /* Photos open like a door sliding up, and the picture settles inside.
+     Only hidden once JS has confirmed motion is welcome (html.motion-ok). */
+  .clip-reveal { overflow: hidden; }
+  .clip-reveal > img, .clip-reveal > .inner { transition: transform 1.6s var(--ease-out); }
+  .motion-ok .clip-reveal:not(.in) { clip-path: inset(100% 0 0 0); }
+  .motion-ok .clip-reveal:not(.in) > img, .motion-ok .clip-reveal:not(.in) > .inner { transform: scale(1.18); }
+  .motion-ok .clip-reveal { transition: clip-path 1.2s var(--ease-in-out); }
+
+  /* Lists that cascade in, one item after another */
+  .motion-ok .cascade:not(.in) > * { opacity: 0; transform: translateY(18px); }
+  .cascade > * {
+    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+  .cascade.done > * { transition-delay: 0s; }
+
+  /* Section reveal used by useReveal (inner pages) */
   .reveal-hidden {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
   }
-  .reveal-hidden.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-hidden.reveal-stagger {
-    opacity: 1;
-    transform: none;
-  }
-  .reveal-hidden.reveal-stagger > * {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
-  }
-  .reveal-hidden.reveal-stagger.revealed > * {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-stagger > *:nth-child(1) { transition-delay: 0ms; }
-  .reveal-stagger > *:nth-child(2) { transition-delay: 80ms; }
-  .reveal-stagger > *:nth-child(3) { transition-delay: 160ms; }
-  .reveal-stagger > *:nth-child(4) { transition-delay: 240ms; }
-  .reveal-stagger > *:nth-child(5) { transition-delay: 320ms; }
-  .reveal-stagger > *:nth-child(6) { transition-delay: 400ms; }
+  .reveal-hidden.revealed { opacity: 1; transform: translateY(0); }
 
   /* Masked text reveal container (RevealText) — em padding keeps g, y, p tails */
   .mask-line {
@@ -194,15 +196,84 @@ body.paused *, body.paused *::before, body.paused *::after {
     padding-bottom: .12em;
     margin-bottom: -.12em;
   }
-
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in {
-    animation: fade-in .45s var(--ease-out) forwards;
-  }
 }
+
+/* Step numerals: an outline in tatami yellow that fills solid as the step
+   scrolls into view, one step after the other */
+.step-num {
+  position: relative;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-accent);
+}
+.step-num::after {
+  content: attr(data-n);
+  position: absolute;
+  inset: 0;
+  color: var(--color-accent);
+  -webkit-text-stroke: 0;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.1s var(--ease-in-out);
+  transition-delay: calc(var(--i, 0) * 180ms + 200ms);
+}
+.motion-ok .step:not(.in) .step-num::after { clip-path: inset(100% 0 0 0); }
+
+/* Footer wordmark: outline that floods with yellow from below on hover */
+.footer-mark {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(252, 253, 254, .22);
+  background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat 0 100% / 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: background-size .9s var(--ease-in-out), -webkit-text-stroke-color .9s var(--ease-in-out);
+}
+.footer-mark:hover, .footer-mark:focus-visible { background-size: 100% 100%; -webkit-text-stroke-color: var(--color-accent); }
+
+/* Custom cursor: a tight dot and a lagging ring in difference blend, so it
+   reads on white, blue and navy alike. Fine pointers only. */
+html.has-custom-cursor body,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor select,
+html.has-custom-cursor summary { cursor: none; }
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 999px;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+.cursor-dot { width: 7px; height: 7px; background: #fff; }
+.cursor-ring {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid #fff;
+  transition: width .35s var(--ease-out), height .35s var(--ease-out), background-color .35s var(--ease-out);
+}
+.cursor-ring[data-state="link"] { width: 68px; height: 68px; background: rgba(255, 255, 255, .12); }
+
+/* Content that arrives after an interaction (finder results): rises in sequence */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+.rise { animation: rise .7s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 80ms); }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in .45s var(--ease-out) forwards; }
+
+/* Smooth FAQ open and close (progressive: browsers without ::details-content just snap) */
+details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size .45s var(--ease-out), content-visibility .45s allow-discrete;
+}
+details[open]::details-content { block-size: auto; }
 
 /* Respect reduced motion everywhere */
 @media (prefers-reduced-motion: reduce) {
@@ -215,5 +286,5 @@ body.paused *, body.paused *::before, body.paused *::after {
     transition-delay: 0s !important;
   }
   .seam { transform: scaleX(1); }
-  .reveal-hidden, .reveal-hidden.reveal-stagger > * { opacity: 1; transform: none; }
+  .reveal-hidden { opacity: 1; transform: none; }
 }

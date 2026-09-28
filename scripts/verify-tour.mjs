@@ -38,12 +38,16 @@ await page.locator('#trouver').scrollIntoViewIfNeeded()
 await page.selectOption('#trouver select', '2017')
 await page.waitForTimeout(1200)
 await page.screenshot({ path: `${OUT}/finder.png` })
-const lit = await page.evaluate(() => [...document.querySelectorAll('#trouver ul a')].filter(a => a.className.includes('bg-accent')).map(a => a.textContent.trim().slice(0, 30)))
+const lit = await page.evaluate(() => [...document.querySelectorAll('#trouver ul a')].filter(a => a.style.transform.includes('rotateX')).map(a => a.getAttribute('aria-label').slice(0, 30)))
 console.log('finder 2017 lit:', lit.join(' | '))
 
 await page.locator('#horaire').scrollIntoViewIfNeeded()
 await page.waitForTimeout(600)
 await page.screenshot({ path: `${OUT}/horaire.png` })
+// walk the whole page like a reader so every reveal fires, then capture it
+const H = await page.evaluate(() => document.documentElement.scrollHeight)
+for (let y = 0; y < H; y += 500) { await page.evaluate(v => scrollTo(0, v), y); await page.waitForTimeout(120) }
+await page.waitForTimeout(1500)
 await page.screenshot({ path: `${OUT}/home-full.png`, fullPage: true })
 
 // Phone: static hero, no video request

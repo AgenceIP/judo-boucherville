@@ -60,7 +60,7 @@ export default function ProgrammeTemplate({ programme: p, locale }: Props) {
                       {p.groupes.map(g => (
                         <tr key={g.code} className="border-b border-ink/10">
                           <td className={`${td} text-ink`}>{g.clientele}</td>
-                          <td className={`${td} font-mono text-xs text-accent-blue whitespace-nowrap`}>{g.code}</td>
+                          <td className={`${td} tabular-nums text-xs text-accent-blue whitespace-nowrap`}>{g.code}</td>
                           <td className={`${td} text-muted`}>{g.horaire}</td>
                         </tr>
                       ))}

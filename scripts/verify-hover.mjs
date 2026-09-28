@@ -1,0 +1,22 @@
+/* Hover and interaction states: button wipe, program row wipe, FAQ open, finder cards. */
+import { chromium } from 'playwright'
+const OUT = 'scripts/verify-shots'
+const browser = await chromium.launch({ channel: 'msedge', headless: true })
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+await page.goto('http://localhost:3000/fr/programmes', { waitUntil: 'networkidle' })
+await page.waitForTimeout(1500)
+await page.locator('main a[href="/fr/programmes/judo-enfants"]').first().hover()
+await page.waitForTimeout(700)
+await page.screenshot({ path: `${OUT}/hover-programmes.png` })
+await page.goto('http://localhost:3000/fr', { waitUntil: 'networkidle' })
+await page.locator('#horaire').scrollIntoViewIfNeeded()
+await page.evaluate(() => scrollBy(0, 1400)); await page.waitForTimeout(1200)
+const btn = page.locator('a.btn-primary', { hasText: 'Inscription 2026' }).first()
+await btn.scrollIntoViewIfNeeded(); await page.waitForTimeout(1500)
+await btn.hover(); await page.waitForTimeout(700)
+await page.screenshot({ path: `${OUT}/hover-steps.png` })
+const faq = page.locator('summary', { hasText: 'Est-ce sécuritaire' })
+await faq.scrollIntoViewIfNeeded(); await page.waitForTimeout(1200)
+await faq.click(); await page.waitForTimeout(800)
+await page.screenshot({ path: `${OUT}/faq-open.png` })
+await browser.close()

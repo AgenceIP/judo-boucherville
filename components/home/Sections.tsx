@@ -1,20 +1,23 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react'
-import { club, inscription, totalPalmares } from '@/data/club'
+import { MapPin, Phone, Mail, ArrowUpRight, ArrowRight } from 'lucide-react'
+import { club, inscription, palmares, totalPalmares } from '@/data/club'
+import RevealText from '@/components/ui/RevealText'
+import AnimatedCounter from '@/components/ui/AnimatedCounter'
+import Magnetic from '@/components/ui/Magnetic'
 
 const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
 
-/** Section heading with a tatami seam that draws itself when the section enters */
-function Heading({ kicker, title, light }: { kicker: string; title: string; light?: boolean }) {
+/** A photo that opens like a sliding door, then drifts slower than the page */
+function Photo({ src, alt, className = '', sizes }: { src: string; alt: string; className?: string; sizes: string }) {
   return (
-    <div data-reveal-seam>
-      <p className={`label ${light ? 'text-accent' : 'text-blue'}`}>{kicker}</p>
-      <h2 className={`mt-3 font-display font-extrabold uppercase text-[clamp(2.6rem,5.5vw,4.5rem)] leading-[.88] ${light ? 'text-panel' : 'text-ink'}`}>
-        {title}
-      </h2>
-      <span aria-hidden="true" className={`seam mt-6 block h-[3px] w-24 ${light ? 'bg-accent' : 'bg-blue'}`} />
-    </div>
+    <figure className={`clip-reveal relative rounded-[4px] ${className}`}>
+      <div className="inner absolute inset-0">
+        <div data-parallax className="absolute inset-x-0 -top-[8%] h-[116%]">
+          <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+        </div>
+      </div>
+    </figure>
   )
 }
 
@@ -32,127 +35,123 @@ export function Steps({ locale }: { locale: string }) {
         ['Show up for your first class', 'In judogi and sandals. Start dates are right below.'],
       ]
   return (
-    <section className="py-20 lg:py-28">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-[.9fr_1.1fr] gap-12 lg:gap-20">
-        <div>
-          <Heading kicker={fr ? `Inscription ${inscription.saison}` : `Registration ${inscription.saison}`} title={fr ? 'Trois étapes' : 'Three steps'} />
-          <p className="mt-6 text-ink-2 max-w-[42ch]">
-            {fr ? 'Tous nos professeurs sont accrédités. Aucun bénévole.' : 'All our coaches are accredited. No volunteers.'}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={`/${locale}/inscription`} className="btn btn-primary">{fr ? 'Page Inscription' : 'Registration page'}</Link>
-            <Link href={`/${locale}/inscription#tarifs`} className="btn btn-ghost">{fr ? 'Tous les tarifs' : 'All fees'}</Link>
+    <section className="on-dark bg-ink text-panel py-20 lg:py-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        <div className="flex flex-wrap items-end justify-between gap-8">
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] max-w-[12ch]">
+            {fr ? 'S’inscrire en trois temps' : 'Sign up in three moves'}
+          </RevealText>
+          <div className="flex flex-wrap gap-3">
+            <Magnetic strength={0.25}>
+              <Link href={`/${locale}/inscription`} className="btn btn-primary">
+                {fr ? `Inscription ${inscription.saison}` : `Registration ${inscription.saison}`} <ArrowRight size={16} aria-hidden="true" className="arr" />
+              </Link>
+            </Magnetic>
+            <Link href={`/${locale}/inscription#tarifs`} className="btn btn-ghost-light">{fr ? 'Tous les tarifs' : 'All fees'}</Link>
           </div>
         </div>
-        <ol className="grid gap-[3px] bg-ink/10 p-[3px] rounded-[6px]">
+
+        <ol className="mt-16 grid md:grid-cols-3 gap-x-10 gap-y-12">
           {steps.map(([title, text], i) => (
-            <li key={title} className="grid grid-cols-[4.5rem_1fr] gap-4 bg-panel rounded-[3px] p-5 sm:p-6">
-              <span className="font-display font-extrabold text-[3.4rem] leading-[.8] text-blue">{i + 1}</span>
-              <div>
-                <h3 className="text-[1.15rem] font-semibold text-ink">{title}</h3>
-                <p className="mt-1.5 text-ink-2 leading-relaxed">{text}</p>
-              </div>
+            <li key={title} data-reveal-seam className="step relative" style={{ '--i': i } as React.CSSProperties}>
+              <span aria-hidden="true" className="step-num display block text-[clamp(7rem,14vw,11rem)] leading-[.8]" data-n={i + 1}>{i + 1}</span>
+              <h3 className="mt-6 text-[1.3rem] font-semibold leading-snug">{title}</h3>
+              <p className="mt-2 text-panel/75 leading-relaxed max-w-[40ch]">{text}</p>
             </li>
           ))}
         </ol>
-      </div>
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 mt-12">
-        <h3 className="label text-ink">{fr ? 'Début des cours' : 'Classes start'}</h3>
-        <ul className="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8">
-          {inscription.debutCours.map(([cFr, cEn, dFr, dEn]) => (
-            <li key={cFr} className="flex items-baseline justify-between gap-4 border-t border-ink/10 py-2.5">
-              <span className="text-ink">{fr ? cFr : cEn}</span>
-              <span className="font-mono text-[.85rem] text-ink-2 text-right">{fr ? dFr : dEn}</span>
-            </li>
-          ))}
-        </ul>
+
+        <div className="mt-20 grid lg:grid-cols-[.6fr_1.4fr] gap-8">
+          <h3 className="display text-[2.2rem] text-accent">{fr ? 'Début des cours' : 'Classes start'}</h3>
+          <ul className="cascade grid sm:grid-cols-2 gap-x-10">
+            {inscription.debutCours.map(([cFr, cEn, dFr, dEn], i) => (
+              <li key={cFr} style={{ '--i': i } as React.CSSProperties} className="flex items-baseline justify-between gap-4 border-t border-panel/15 py-3">
+                <span>{fr ? cFr : cEn}</span>
+                <span className="tabular-nums text-panel/75 text-right">{fr ? dFr : dEn}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p className="mt-10 text-panel/70">{fr ? 'Tous nos professeurs sont accrédités. Aucun bénévole.' : 'All our coaches are accredited. No volunteers.'}</p>
       </div>
     </section>
   )
 }
-
-const VALUES = [
-  ['礼儀', 'Politesse', 'Courtesy'], ['勇気', 'Courage', 'Courage'], ['誠意', 'Sincérité', 'Sincerity'], ['名誉', 'Honneur', 'Honour'],
-  ['謙虚', 'Modestie', 'Modesty'], ['尊敬', 'Respect', 'Respect'], ['自制', 'Contrôle de soi', 'Self-control'], ['友情', 'Amitié', 'Friendship'],
-]
 
 export function Dojo({ locale }: { locale: string }) {
   const fr = locale === 'fr'
-  const photos: [string, string, string, string][] = [
-    ['/images/photos/tatami-long.jpg', 'Le tatami du dojo, jaune et bleu', 'The dojo tatami, yellow and blue', 'row-span-2'],
-    ['/images/photos/valeurs-respect.jpg', 'Le mur des valeurs : Respect, Contrôle de soi, Amitié', 'The values wall: Respect, Self-control, Friendship', 'col-span-2'],
-    ['/images/photos/kano.jpg', 'Portrait de Jigoro Kano, fondateur du judo', 'Portrait of Jigoro Kano, founder of judo', ''],
-    ['/images/photos/ceintures-noires.jpg', 'Le tableau des ceintures noires du club', 'The club’s black belt board', ''],
-  ]
   return (
-    <section className="py-20 lg:py-28 bg-blue text-panel overflow-hidden">
+    <section className="bg-panel py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-10 items-end">
-          <Heading kicker={fr ? '490, chemin du Lac' : '490 chemin du Lac'} title={club.dojo} light />
-          <p className="text-[1.1rem] leading-relaxed text-panel/85 max-w-[48ch]">
+        <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-10 items-end">
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] text-ink">{club.dojo}</RevealText>
+          <p className="text-[1.15rem] leading-relaxed text-ink-2 max-w-[46ch]">
             {fr
-              ? `Au ${club.lieu}. Un grand tatami, des murs qui portent le code moral du judo, et le tableau des ceintures noires du club.`
-              : `Inside the ${club.lieu}. A large tatami, walls that carry judo’s moral code, and the club’s black belt board.`}
+              ? `Au ${club.lieu}, 490, chemin du Lac. Un grand tatami jaune et bleu, les huit valeurs du judo sur les murs, le portrait de Jigoro Kano et le tableau des ceintures noires du club.`
+              : `Inside the ${club.lieu}, 490 chemin du Lac. A large yellow and blue tatami, the eight values of judo on the walls, a portrait of Jigoro Kano and the club’s black belt board.`}
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-[3px] bg-[#0b3474] p-[3px] rounded-[6px] lg:h-[40rem]">
-          {photos.map(([src, altFr, altEn, span]) => (
-            <figure key={src} className={`relative min-h-[14rem] overflow-hidden rounded-[3px] ${span}`}>
-              <Image src={src} alt={fr ? altFr : altEn} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover transition-transform duration-[1.2s] ease-out hover:scale-[1.03]" />
-            </figure>
-          ))}
+        <div className="mt-14 grid grid-cols-6 md:grid-rows-[18rem_18rem] gap-3 lg:gap-4">
+          <Photo src="/images/photos/tatami-long.jpg" alt={fr ? 'Le tatami du dojo, jaune et bleu, vu vers le mur du club' : 'The yellow and blue tatami, looking toward the club wall'} className="col-span-6 md:col-span-3 md:row-span-2 aspect-[4/5] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
+          <Photo src="/images/photos/valeurs-respect.jpg" alt={fr ? 'Le mur des valeurs : Respect, Contrôle de soi, Amitié' : 'The values wall: Respect, Self-control, Friendship'} className="col-span-6 md:col-span-3 aspect-[16/9] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
+          <Photo src="/images/photos/kano.jpg" alt={fr ? 'Portrait de Jigoro Kano, fondateur du judo, sous le mot Honneur' : 'Portrait of Jigoro Kano, founder of judo, under the word Honour'} className="col-span-3 md:col-span-1 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 17vw, 50vw" />
+          <Photo src="/images/photos/ceintures-noires.jpg" alt={fr ? 'Le tableau des ceintures noires du club' : 'The club’s black belt board'} className="col-span-3 md:col-span-2 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 33vw, 50vw" />
         </div>
-
-        <ul className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-4" aria-label={fr ? 'Le code moral du judo' : 'The moral code of judo'}>
-          {VALUES.map(([kanji, vFr, vEn]) => (
-            <li key={vFr} className="border-t border-panel/25 pt-3">
-              <span className="font-jp text-[1.1rem] text-accent" aria-hidden="true">{kanji}</span>
-              <span className="block mt-1 font-display font-bold uppercase text-[1.6rem] leading-none">{fr ? vFr : vEn}</span>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   )
 }
 
-export function Proof({ locale }: { locale: string }) {
+export function Palmares({ locale }: { locale: string }) {
   const fr = locale === 'fr'
-  const medals = totalPalmares[0] + totalPalmares[1] + totalPalmares[2]
-  const items: [string, string, string][] = fr
-    ? [
-        ['AAA', 'Club reconnu AAA', 'par Judo Québec'],
-        [String(medals), 'Médailles', 'provinciales et canadiennes depuis 2002'],
-        ['7e dan', 'Entraîneur-chef', `${club.responsable}`],
-        ['1970', 'Depuis', 'plus de 55 ans de judo à Boucherville'],
-      ]
-    : [
-        ['AAA', 'AAA club', 'recognized by Judo Québec'],
-        [String(medals), 'Medals', 'provincial and national since 2002'],
-        ['7th dan', 'Head coach', `${club.responsable}`],
-        ['1970', 'Since', 'over 55 years of judo in Boucherville'],
-      ]
+  const [or, argent, bronze] = totalPalmares
   return (
-    <section className="py-20 lg:py-28">
+    <section className="on-dark bg-blue text-panel py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        <Heading kicker={fr ? 'Pourquoi ici' : 'Why here'} title={fr ? 'Un club qui gagne. Et qui enseigne.' : 'A club that wins. And teaches.'} />
-        <dl className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-[3px] bg-ink/10 p-[3px] rounded-[6px]">
-          {items.map(([big, label, detail]) => (
-            <div key={label} className="bg-panel rounded-[3px] p-6 flex flex-col">
-              <dt className="order-2 mt-3">
-                <span className="block text-[1.05rem] font-semibold text-ink">{label}</span>
-                <span className="block text-[.95rem] text-ink-2">{detail}</span>
-              </dt>
-              <dd className="order-1 font-display font-extrabold text-[clamp(3.2rem,5vw,4.6rem)] leading-[.85] text-blue">{big}</dd>
-            </div>
+        <p className="display text-[clamp(2.6rem,6vw,5.2rem)] !leading-[.98] max-w-[16ch]">
+          {fr ? 'Depuis 2002, nos judokas ont rapporté ' : 'Since 2002, our judoka have brought home '}
+          <span className="text-accent tabular-nums"><AnimatedCounter end={or + argent + bronze} /></span>
+          {fr ? ' médailles.' : ' medals.'}
+        </p>
+        <p className="mt-6 text-[1.15rem] text-panel/85 max-w-[52ch]">
+          {fr
+            ? `Aux championnats provinciaux et canadiens : ${or} en or, ${argent} en argent, ${bronze} en bronze. Club reconnu AAA par Judo Québec, entraîneur-chef ${club.responsable}, 7e dan.`
+            : `At provincial and national championships: ${or} gold, ${argent} silver, ${bronze} bronze. An AAA club recognized by Judo Québec, head coach ${club.responsable}, 7th dan.`}
+        </p>
+
+        <div className="mt-14 overflow-x-auto">
+          <table className="w-full min-w-[34rem] text-left">
+            <caption className="sr-only">{fr ? 'Médailles par championnat, 2002 à 2024' : 'Medals by championship, 2002 to 2024'}</caption>
+            <thead>
+              <tr className="text-panel/75 text-[.9rem]">
+                <th scope="col" className="font-semibold pb-3">{fr ? 'Championnat' : 'Championship'}</th>
+                {[['Or', 'Gold', 'bg-accent'], ['Argent', 'Silver', 'bg-[#cfd6e2]'], ['Bronze', 'Bronze', 'bg-[#c98a4b]']].map(([f, e, bg]) => (
+                  <th key={f} scope="col" className="font-semibold pb-3 w-24 text-right">
+                    <span className={`inline-block w-3 h-3 rounded-full mr-2 align-middle ${bg}`} aria-hidden="true" />{fr ? f : e}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="cascade">
+              {palmares.map(([nom, en, o, a, b], i) => (
+                <tr key={nom} style={{ '--i': i } as React.CSSProperties} className="border-t border-panel/15 transition-colors hover:bg-panel/5">
+                  <th scope="row" className="py-3.5 pr-4 font-semibold">{fr ? nom : en}</th>
+                  <td className="py-3.5 text-right display text-[1.7rem] leading-none text-accent tabular-nums">{o}</td>
+                  <td className="py-3.5 text-right display text-[1.7rem] leading-none tabular-nums">{a}</td>
+                  <td className="py-3.5 text-right display text-[1.7rem] leading-none text-[#e9b27d] tabular-nums">{b}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-[1rem]">
+          {[['resultats', 'Tous les résultats', 'All results'], ['equipe', 'Nos professeurs', 'Our coaches'], ['ceintures-noires', 'Ceintures noires', 'Black belts'], ['challenge', 'Le Challenge', 'The Challenge']].map(([href, f, e]) => (
+            <Link key={href} href={`/${locale}/${href}`} className="u-line inline-flex items-center gap-1 font-semibold text-panel">
+              {fr ? f : e} <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
           ))}
-        </dl>
-        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-[.95rem]">
-          <Link href={`/${locale}/resultats`} className="inline-flex items-center gap-1 font-semibold text-blue hover:text-ink">{fr ? 'Résultats' : 'Results'} <ArrowUpRight size={16} aria-hidden="true" /></Link>
-          <Link href={`/${locale}/equipe`} className="inline-flex items-center gap-1 font-semibold text-blue hover:text-ink">{fr ? 'Nos professeurs' : 'Our coaches'} <ArrowUpRight size={16} aria-hidden="true" /></Link>
-          <Link href={`/${locale}/ceintures-noires`} className="inline-flex items-center gap-1 font-semibold text-blue hover:text-ink">{fr ? 'Ceintures noires' : 'Black belts'} <ArrowUpRight size={16} aria-hidden="true" /></Link>
-          <Link href={`/${locale}/challenge`} className="inline-flex items-center gap-1 font-semibold text-blue hover:text-ink">Challenge <ArrowUpRight size={16} aria-hidden="true" /></Link>
         </div>
       </div>
     </section>
@@ -183,17 +182,23 @@ export function Faq({ locale }: { locale: string }) {
         ['Can schedules change?', 'Yes, depending on the number of registrations. If in doubt, call us at 450 655-1888.'],
       ]
   return (
-    <section className="py-20 lg:py-28 bg-panel">
+    <section className="py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-[.8fr_1.2fr] gap-10 lg:gap-20">
-        <Heading kicker="FAQ" title={fr ? 'Vos questions' : 'Your questions'} />
-        <div className="divide-y divide-ink/10 border-y border-ink/10">
-          {qa.map(([q, a]) => (
-            <details key={q} className="group py-1">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[1.1rem] font-semibold text-ink [&::-webkit-details-marker]:hidden">
+        <div className="lg:sticky lg:top-28 self-start">
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] text-ink">{fr ? 'Vos questions' : 'Your questions'}</RevealText>
+          <p className="mt-5 text-ink-2 text-[1.05rem] max-w-[34ch]">
+            {fr ? 'Pas trouvé? Appelez le ' : 'Not here? Call '}
+            <a href={tel} className="u-line font-semibold text-ink tabular-nums">{club.tel}</a>.
+          </p>
+        </div>
+        <div className="cascade border-t border-ink/15">
+          {qa.map(([q, a], i) => (
+            <details key={q} style={{ '--i': i } as React.CSSProperties} className="group border-b border-ink/15">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[1.15rem] font-semibold text-ink transition-colors hover:text-blue [&::-webkit-details-marker]:hidden">
                 {q}
-                <span aria-hidden="true" className="grid place-items-center w-8 h-8 shrink-0 rounded-full bg-canvas text-blue transition-transform duration-300 group-open:rotate-45">+</span>
+                <span aria-hidden="true" className="grid place-items-center w-9 h-9 shrink-0 rounded-full bg-ink text-panel text-xl leading-none transition-[transform,background-color,color] duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-open:rotate-[135deg] group-open:bg-accent group-open:text-ink">+</span>
               </summary>
-              <p className="pb-5 pr-12 text-ink-2 leading-relaxed">{a}</p>
+              <p className="pb-6 pr-14 text-ink-2 leading-relaxed text-[1.02rem]">{a}</p>
             </details>
           ))}
         </div>
@@ -206,35 +211,35 @@ export function FindUs({ locale }: { locale: string }) {
   const fr = locale === 'fr'
   const map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(club.adresse)}`
   return (
-    <section className="py-20 lg:py-28">
+    <section className="bg-accent py-20 lg:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div>
-          <Heading kicker={fr ? 'Nous trouver' : 'Find us'} title={fr ? 'Au bord du tatami' : 'See you on the mat'} />
-          <ul className="mt-8 grid gap-4 text-[1.05rem]">
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] text-ink">{fr ? 'On se voit sur le tatami' : 'See you on the mat'}</RevealText>
+          <ul className="mt-9 grid gap-4 text-[1.1rem] text-ink">
             <li className="flex gap-3">
-              <MapPin className="mt-1 shrink-0 text-blue" size={20} aria-hidden="true" />
-              <a href={map} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-blue">
+              <MapPin className="mt-1 shrink-0" size={20} aria-hidden="true" />
+              <a href={map} target="_blank" rel="noopener noreferrer" className="hover:underline underline-offset-4">
                 <span className="font-semibold block">{club.dojo}, {club.lieu}</span>
                 {club.adresse}
               </a>
             </li>
             <li className="flex gap-3">
-              <Phone className="mt-1 shrink-0 text-blue" size={20} aria-hidden="true" />
-              <a href={tel} className="font-mono text-ink hover:text-blue">{club.tel}</a>
+              <Phone className="mt-1 shrink-0" size={20} aria-hidden="true" />
+              <a href={tel} className="u-line font-semibold tabular-nums">{club.tel}</a>
             </li>
             <li className="flex gap-3">
-              <Mail className="mt-1 shrink-0 text-blue" size={20} aria-hidden="true" />
-              <a href={`mailto:${club.courriel}`} className="text-ink hover:text-blue">{club.courriel}</a>
+              <Mail className="mt-1 shrink-0" size={20} aria-hidden="true" />
+              <a href={`mailto:${club.courriel}`} className="u-line">{club.courriel}</a>
             </li>
           </ul>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href={map} target="_blank" rel="noopener noreferrer" className="btn btn-blue">{fr ? 'Itinéraire' : 'Directions'}</a>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Magnetic strength={0.25}>
+              <a href={map} target="_blank" rel="noopener noreferrer" className="btn btn-blue">{fr ? 'Itinéraire' : 'Directions'} <ArrowRight size={16} aria-hidden="true" className="arr" /></a>
+            </Magnetic>
             <Link href={`/${locale}/contact`} className="btn btn-ghost">{fr ? 'Nous écrire' : 'Write to us'}</Link>
           </div>
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[6px]">
-          <Image src="/images/photos/entree.jpg" alt={fr ? 'Le dojo vu de l’entrée' : 'The dojo seen from the entrance'} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-        </div>
+        <Photo src="/images/photos/entree.jpg" alt={fr ? 'Le dojo vu de l’entrée, le tatami et le mur du club au fond' : 'The dojo from the entrance, the tatami and the club wall at the far end'} className="aspect-[4/3]" sizes="(min-width: 1024px) 50vw, 100vw" />
       </div>
     </section>
   )

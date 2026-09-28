@@ -30,6 +30,17 @@ export default function Footer() {
   return (
     <footer className="bg-ink text-panel">
       <div className="h-2 bg-accent" aria-hidden="true" />
+      {/* Giant outlined wordmark: fills with tatami yellow on hover, rises back to the top on click */}
+      <div className="overflow-hidden pt-12 -mb-2">
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}
+          className="footer-mark display block w-full text-center whitespace-nowrap select-none text-[clamp(3rem,11vw,10rem)] leading-[.85]"
+          aria-label={locale === 'fr' ? 'Remonter en haut de page' : 'Back to top'}
+        >
+          Judo Boucherville
+        </button>
+      </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
 
@@ -91,7 +102,7 @@ export default function Footer() {
                   <Link href={`/${locale}/programmes/${s.slug}`} className="text-panel hover:text-accent transition-colors">
                     {locale === 'fr' ? s.titre : s.titreEn}
                   </Link>
-                  <span className="text-panel/60 block font-mono text-xs mt-0.5">{s.horaire}</span>
+                  <span className="text-panel/60 block tabular-nums text-xs mt-0.5">{s.horaire}</span>
                 </li>
               ))}
             </ul>

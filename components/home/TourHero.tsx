@@ -2,6 +2,8 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import Magnetic from '@/components/ui/Magnetic'
 import './tour.css'
 
 const VIDEO_URL = '/hero/tour.mp4'
@@ -292,7 +294,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
               <p className="sub mt-4 text-ink text-[1.1rem] leading-snug font-semibold max-w-[26ch]">{copy.hajimeSub}</p>
             </div>
             <div className="right">
-              <a href="#trouver" className="btn btn-primary">{copy.find}</a>
+              <Magnetic strength={0.3}><a href="#trouver" className="btn btn-primary">{copy.find} <ArrowRight size={16} aria-hidden="true" className="arr" /></a></Magnetic>
               <Link href={`/${locale}/inscription`} className="btn btn-ghost">{copy.register}</Link>
             </div>
           </div>
@@ -304,7 +306,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
             </svg>
             <span className="label">{copy.loading}</span>
           </div>
-          <a href="#trouver" className="tour-skip btn btn-ghost !py-2.5 !text-[.85rem]">{copy.skip}</a>
+          <a href="#trouver" className="tour-skip btn btn-panel !py-3 !text-[.88rem]">{copy.skip}</a>
         </div>
       </div>
 

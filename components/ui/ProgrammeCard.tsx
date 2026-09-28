@@ -10,6 +10,7 @@ type Props = {
   locale: string
 }
 
+// A tiny tatami mat in the category's color: yellow for kids, blue for adults, wood for martial arts
 const MAT: Record<Props['categorie'], string> = {
   enfants: 'bg-accent',
   adultes: 'bg-blue',
@@ -21,17 +22,21 @@ export default function ProgrammeCard({ titre, description, horaire, slug, categ
   return (
     <Link
       href={`/${locale}/programmes/${slug}`}
-      className="group grid grid-cols-[6px_1fr_auto] items-center gap-5 bg-panel rounded-[3px] py-5 pr-5 transition-colors hover:bg-white"
+      className="group relative isolate grid grid-cols-[1fr_auto] items-center gap-5 overflow-hidden bg-panel rounded-[3px] px-5 py-5 transition-colors duration-500 hover:text-panel"
     >
-      <span aria-hidden="true" className={`self-stretch rounded-l-[3px] ${MAT[categorie]}`} />
-      <div className="min-w-0">
-        <h3 className="font-display font-bold uppercase text-[1.6rem] leading-none text-ink">{titre}</h3>
-        <p className="mt-1.5 text-ink-2 leading-snug">{description}</p>
-        <p className="mt-2 font-mono text-[.8rem] text-blue sm:hidden">{horaire}</p>
+      {/* navy fill wipes in from the left on hover */}
+      <span aria-hidden="true" className="absolute inset-0 -z-10 origin-left scale-x-0 bg-ink transition-transform duration-500 ease-[cubic-bezier(.77,0,.18,1)] group-hover:scale-x-100" />
+      <div className="min-w-0 transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-1.5">
+        <h3 className="display flex items-center gap-3 text-[1.7rem]">
+          <span aria-hidden="true" className={`inline-block w-2.5 h-5 rounded-[2px] ${MAT[categorie]}`} />
+          {titre}
+        </h3>
+        <p className="mt-1.5 text-ink-2 leading-snug transition-colors duration-500 group-hover:text-panel/80">{description}</p>
+        <p className="mt-2 tabular-nums text-[.85rem] text-blue sm:hidden group-hover:text-accent">{horaire}</p>
       </div>
       <div className="flex items-center gap-4">
-        <span className="hidden sm:block font-mono text-[.85rem] text-ink text-right">{horaire}</span>
-        <ArrowRight size={18} aria-hidden="true" className="text-blue transition-transform duration-200 group-hover:translate-x-1" />
+        <span className="hidden sm:block tabular-nums text-[.9rem] font-semibold text-right">{horaire}</span>
+        <ArrowRight size={18} aria-hidden="true" className="text-blue transition-[transform,color] duration-500 group-hover:translate-x-1 group-hover:text-accent" />
       </div>
     </Link>
   )

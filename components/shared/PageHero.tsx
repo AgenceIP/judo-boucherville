@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import RevealText from '@/components/ui/RevealText'
 
 type Props = {
   title: string
@@ -31,16 +32,16 @@ export default function PageHero({ title, subtitle, tag, tagColor = 'text-blue' 
   return (
     <section className="relative pt-28 lg:pt-32 pb-12 lg:pb-14 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-[1fr_22rem] gap-10 items-end">
-        <div className="animate-fade-in">
+        <div>
           {tag && <span className={`label ${tagColor} block mb-4`}>{tag}</span>}
-          <h1 className="font-display font-extrabold uppercase text-ink leading-[.86] text-[clamp(3rem,8vw,6.5rem)]">
+          <RevealText as="h1" className="display text-ink text-[clamp(3rem,7vw,6rem)]">
             {title}
-          </h1>
+          </RevealText>
           {subtitle && (
             <p className="mt-5 max-w-2xl text-[1.1rem] leading-relaxed text-ink-2">{subtitle}</p>
           )}
         </div>
-        <div className="relative hidden lg:block h-44 overflow-hidden rounded-[6px]">
+        <div className="clip-reveal relative hidden lg:block h-48 rounded-[4px]">
           <Image src={photo} alt="" fill sizes="22rem" className="object-cover" priority />
         </div>
       </div>

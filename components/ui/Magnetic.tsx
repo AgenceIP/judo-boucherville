@@ -33,7 +33,7 @@ export default function Magnetic({
       y((e.clientY - (r.top + r.height / 2)) * strength)
     }
     const onLeave = () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' })
+      gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'expo.out' })
     }
 
     el.addEventListener('mousemove', onMove)

@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import TourHero from '@/components/home/TourHero'
 import ClassFinder from '@/components/home/ClassFinder'
 import WeekSchedule from '@/components/home/WeekSchedule'
-import PageLife from '@/components/home/PageLife'
-import { Steps, Dojo, Proof, Faq, FindUs } from '@/components/home/Sections'
+import ValuesMarquee from '@/components/home/ValuesMarquee'
+import { Steps, Dojo, Palmares, Faq, FindUs } from '@/components/home/Sections'
 import { club, inscription } from '@/data/club'
 import { programmes } from '@/data/programmes'
 
@@ -83,13 +83,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <PageLife />
       <TourHero locale={locale} copy={copy} />
       <ClassFinder locale={locale} />
+      <ValuesMarquee locale={locale} />
       <WeekSchedule locale={locale} />
       <Steps locale={locale} />
       <Dojo locale={locale} />
-      <Proof locale={locale} />
+      <Palmares locale={locale} />
       <Faq locale={locale} />
       <FindUs locale={locale} />
     </>

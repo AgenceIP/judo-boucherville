@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Big_Shoulders, Public_Sans, IBM_Plex_Mono } from 'next/font/google'
+import { Big_Shoulders, Public_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -9,12 +9,15 @@ import PageTransition from '@/components/providers/PageTransition'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import ScrollProgress from '@/components/layout/ScrollProgress'
+import CustomCursor from '@/components/ui/CustomCursor'
+import PageLife from '@/components/home/PageLife'
 import { club } from '@/data/club'
 import '@/styles/globals.css'
 
 const display = Big_Shoulders({
   subsets: ['latin'],
   axes: ['opsz'],
+  adjustFontFallback: false, // no metric overrides exist for this family; avoids a build warning
   variable: '--nf-display',
 })
 
@@ -24,11 +27,6 @@ const sans = Public_Sans({
   variable: '--nf-sans',
 })
 
-const mono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['500'],
-  variable: '--nf-mono',
-})
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -67,11 +65,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang={locale} className={`${display.variable} ${sans.variable}`}>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <ScrollProgress />
+            <CustomCursor />
+            <PageLife />
             <Navigation />
             <main id="main" tabIndex={-1} className="pb-16 lg:pb-0 outline-none">
               <PageTransition>{children}</PageTransition>

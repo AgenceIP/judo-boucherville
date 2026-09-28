@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { Menu, X, Phone, CalendarDays, Tag, PenLine, MapPin, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { club } from '@/data/club'
+import Magnetic from '@/components/ui/Magnetic'
 
 const programmes = [
   { href: '/programmes/parents-enfants', labelFr: 'Parents / enfants', labelEn: 'Parents & children', category: 'Judo' },
@@ -49,11 +50,19 @@ export default function Navigation() {
   const fr = locale === 'fr'
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const lastY = useRef(0)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [open, setOpen] = useState<'programmes' | 'club' | null>(null)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 8)
+    const handler = () => {
+      const y = window.scrollY
+      setScrolled(y > 8)
+      // Out of the way while reading down, back on the slightest scroll up
+      setHidden(y > 480 && y > lastY.current + 2)
+      if (Math.abs(y - lastY.current) > 2) lastY.current = y
+    }
     handler()
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
@@ -78,7 +87,8 @@ export default function Navigation() {
       </a>
       <header
         className={cn(
-          'fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow] duration-300',
+          'fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow,transform] duration-500 ease-[cubic-bezier(.16,1,.3,1)]',
+          hidden && !mobileOpen && '-translate-y-full',
           scrolled || mobileOpen ? 'bg-panel/92 backdrop-blur-md shadow-[0_1px_0_rgba(11,27,56,.1)]' : 'bg-panel/70 backdrop-blur-sm'
         )}
       >
@@ -113,7 +123,7 @@ export default function Navigation() {
               </div>
             </Dropdown>
             {quick.map(q => (
-              <Link key={q.href} href={q.href} className="px-3 py-2 text-[.9rem] font-semibold text-ink-2 hover:text-ink transition-colors">
+              <Link key={q.href} href={q.href} className="mx-3 py-2 text-[.9rem] font-semibold text-ink-2 hover:text-ink transition-colors u-line">
                 {q.label}
               </Link>
             ))}
@@ -127,15 +137,17 @@ export default function Navigation() {
           </div>
 
           <div className="ml-auto flex items-center gap-2 lg:gap-4">
-            <a href={tel} className="hidden md:inline-flex items-center gap-2 font-mono text-[.85rem] text-ink hover:text-blue">
+            <a href={tel} className="hidden md:inline-flex items-center gap-2 tabular-nums text-[.9rem] font-semibold text-ink hover:text-blue">
               <Phone size={15} aria-hidden="true" /> {club.tel}
             </a>
             <Link href={switchHref} className="px-2 py-2 label text-ink-2 hover:text-ink" hrefLang={fr ? 'en' : 'fr'}>
               {fr ? 'EN' : 'FR'}
             </Link>
-            <Link href={`/${locale}/inscription`} className="hidden sm:inline-flex btn btn-primary !py-3">
-              {t('inscription')}
-            </Link>
+            <Magnetic strength={0.25} className="hidden sm:inline-block">
+              <Link href={`/${locale}/inscription`} className="btn btn-primary !py-3">
+                {t('inscription')}
+              </Link>
+            </Magnetic>
             <button
               className="lg:hidden grid place-items-center w-11 h-11 text-ink"
               onClick={() => setMobileOpen(o => !o)}

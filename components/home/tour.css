@@ -60,7 +60,7 @@
   font-weight: 800;
   text-transform: uppercase;
   line-height: .86;
-  font-size: clamp(3.4rem, 8.4vw, 9rem);
+  font-size: clamp(3.4rem, 7vw, 6rem);
   letter-spacing: -.005em;
   color: var(--color-ink);
 }
@@ -120,7 +120,7 @@
   font-weight: 800;
   text-transform: uppercase;
   line-height: .85;
-  font-size: clamp(3.6rem, 7vw, 7.5rem);
+  font-size: clamp(3.6rem, 6.4vw, 6rem);
   color: var(--color-ink);
 }
 /* (d) word-punch with overshoot: the referee's call lands */
