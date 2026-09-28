@@ -1,22 +1,19 @@
 import { Metadata } from 'next'
-import EntryRitual from '@/components/voie/EntryRitual'
-import VoieConductor from '@/components/voie/VoieConductor'
-import BeltRail from '@/components/voie/BeltRail'
-import ChapterBlanc from '@/components/voie/ChapterBlanc'
-import ChapterEcole from '@/components/voie/ChapterEcole'
-import VoieMarquee from '@/components/voie/VoieMarquee'
-import ChapterForce from '@/components/voie/ChapterForce'
-import ChapterProjection from '@/components/voie/ChapterProjection'
-import ChapterNoir from '@/components/voie/ChapterNoir'
-import ChapterFinale from '@/components/voie/ChapterFinale'
-import { club } from '@/data/club'
+import TourHero from '@/components/home/TourHero'
+import ClassFinder from '@/components/home/ClassFinder'
+import WeekSchedule from '@/components/home/WeekSchedule'
+import PageLife from '@/components/home/PageLife'
+import { Steps, Dojo, Proof, Faq, FindUs } from '@/components/home/Sections'
+import { club, inscription } from '@/data/club'
+import { programmes } from '@/data/programmes'
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SportsClub',
   name: club.nom,
   url: club.site,
-  logo: `${club.site}/images/logo-cjb-improved.png`,
+  logo: `${club.site}/images/brand/cjb-logo.png`,
+  image: `${club.site}/hero/tour-ending.jpg`,
   telephone: '+1-450-655-1888',
   email: club.courriel,
   foundingDate: '1970-03-01',
@@ -34,36 +31,67 @@ const jsonLd = {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const fr = locale === 'fr'
   return {
-    title: locale === 'fr'
-      ? 'Club de Judo Boucherville — Fondé en 1970, Club AAA'
-      : 'Judo Boucherville Club — Founded in 1970, AAA Club',
-    description: locale === 'fr'
-      ? 'Club de Judo Boucherville. Judo, Aiki Ju-Jitsu, Jiu-Jitsu Brésilien. 490 chemin du Lac, Boucherville QC. Tél. : 450 655-1888.'
-      : 'Judo Boucherville Club. Judo, Aiki Ju-Jitsu, Brazilian Jiu-Jitsu. 490 chemin du Lac, Boucherville QC. Tel: 450 655-1888.',
+    title: { absolute: fr ? 'Club de Judo Boucherville · Cours de judo dès 4 ans' : 'Club de Judo Boucherville · Judo classes from age 4' },
+    description: fr
+      ? `Judo, jiu-jitsu brésilien, aiki ju-jitsu et auto-défense à Boucherville. Dès 4 ans, sans âge limite. Horaire, tarifs et inscription ${inscription.saison}. 490, chemin du Lac. 450 655-1888.`
+      : `Judo, Brazilian jiu-jitsu, aiki ju-jitsu and self-defence in Boucherville. From age 4, no upper limit. Schedule, fees and registration ${inscription.saison}. 490 chemin du Lac. 450 655-1888.`,
+    alternates: { canonical: `/${locale}`, languages: { fr: '/fr', en: '/en' } },
   }
 }
 
-/**
- * La Voie — the homepage is the path from white belt to black belt.
- * The world literally darkens as you scroll; the belt rail grades your descent.
- */
-export default function HomePage() {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const fr = locale === 'fr'
+  const copy = fr
+    ? {
+        place: 'Dojo Marcel Bourelly · Boucherville',
+        title: ['Club de Judo', 'Boucherville'] as [string, string],
+        since: 'Depuis 1970. Club reconnu AAA par Judo Québec.',
+        ages: ['Dès 4 ans.', 'Sans âge limite.'] as [string, string],
+        agesSub: 'Parents et tout-petits, enfants, ados, adultes, 50 ans et plus.',
+        count: `${programmes.length} programmes.`,
+        disciplines: 'Judo, jiu-jitsu brésilien, aiki ju-jitsu, auto-défense.',
+        days: 'Du lundi au dimanche',
+        season: `Saison ${inscription.saison}`,
+        hajime: 'Hajime.',
+        hajimeSub: 'Le mot qui lance chaque combat. Votre premier cours commence ici.',
+        find: 'Trouver mon cours',
+        register: `Inscription ${inscription.saison}`,
+        skip: 'Passer la visite ↓',
+        loading: 'Visite du dojo',
+      }
+    : {
+        place: 'Dojo Marcel Bourelly · Boucherville',
+        title: ['Club de Judo', 'Boucherville'] as [string, string],
+        since: 'Since 1970. An AAA club recognized by Judo Québec.',
+        ages: ['From age 4.', 'No upper limit.'] as [string, string],
+        agesSub: 'Parents and toddlers, kids, teens, adults, 50 and over.',
+        count: `${programmes.length} programs.`,
+        disciplines: 'Judo, Brazilian jiu-jitsu, aiki ju-jitsu, self-defence.',
+        days: 'Monday to Sunday',
+        season: `Season ${inscription.saison}`,
+        hajime: 'Hajime.',
+        hajimeSub: 'The word that starts every match. Your first class starts here.',
+        find: 'Find my class',
+        register: `Register ${inscription.saison}`,
+        skip: 'Skip the tour ↓',
+        loading: 'Dojo tour',
+      }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <EntryRitual />
-      <VoieConductor />
-      <BeltRail />
-      <div id="voie-root">
-        <ChapterBlanc />
-        <ChapterEcole />
-        <VoieMarquee />
-        <ChapterForce />
-        <ChapterProjection />
-        <ChapterNoir />
-        <ChapterFinale />
-      </div>
+      <PageLife />
+      <TourHero locale={locale} copy={copy} />
+      <ClassFinder locale={locale} />
+      <WeekSchedule locale={locale} />
+      <Steps locale={locale} />
+      <Dojo locale={locale} />
+      <Proof locale={locale} />
+      <Faq locale={locale} />
+      <FindUs locale={locale} />
     </>
   )
 }

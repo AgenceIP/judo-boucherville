@@ -6,18 +6,26 @@ export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 export const alt = 'Club de Judo Boucherville'
 
+/** Link preview: the real logo wall where the dojo tour lands, with one line of info. */
 export default async function OgImage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const bebas = await readFile(join(process.cwd(), 'public/fonts/BebasNeue-Regular.ttf'))
+  const fr = locale === 'fr'
+  const [bebas, wall] = await Promise.all([
+    readFile(join(process.cwd(), 'public/fonts/BebasNeue-Regular.ttf')),
+    readFile(join(process.cwd(), 'public/hero/tour-ending.jpg')),
+  ])
+  const src = `data:image/jpeg;base64,${wall.toString('base64')}`
   return new ImageResponse(
     (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 80, background: '#0A0A0A', color: '#FAFAFA', fontFamily: 'Bebas' }}>
-        <div style={{ fontSize: 26, letterSpacing: 8, color: '#888888' }}>
-          {locale === 'fr' ? 'Fondé en 1970 · Club reconnu AAA' : 'Founded in 1970 · AAA club'}
+      <div style={{ width: '100%', height: '100%', display: 'flex', position: 'relative', fontFamily: 'Bebas' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} width={1200} height={675} style={{ position: 'absolute', top: -20, left: 0, width: 1200, height: 675, objectFit: 'cover' }} alt="" />
+        <div style={{ position: 'absolute', left: 48, bottom: 20, display: 'flex', flexDirection: 'column', background: '#F2B705', color: '#0B1B38', padding: '14px 24px 10px' }}>
+          <div style={{ fontSize: 58, lineHeight: 1 }}>{fr ? 'Cours de judo dès 4 ans' : 'Judo classes from age 4'}</div>
+          <div style={{ fontSize: 30, lineHeight: 1.1, marginTop: 6 }}>
+            {fr ? 'Boucherville · Depuis 1970 · Club AAA' : 'Boucherville · Since 1970 · AAA club'}
+          </div>
         </div>
-        <div style={{ fontSize: 176, lineHeight: 0.9, marginTop: 24 }}>JUDO</div>
-        <div style={{ fontSize: 176, lineHeight: 0.9 }}>BOUCHERVILLE</div>
-        <div style={{ width: 160, height: 8, background: '#4169E1', marginTop: 40 }} />
       </div>
     ),
     { ...size, fonts: [{ name: 'Bebas', data: bebas, style: 'normal' }] },

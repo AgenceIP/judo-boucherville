@@ -1,0 +1,180 @@
+/* ── The dojo tour: scroll-scrubbed hero ─────────────────────────────── */
+
+.tour-scrub { position: relative; height: 650vh; }
+.tour-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #E9C21A;
+}
+.tour-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+.tour-layer--end { opacity: var(--end, 0); }
+.tour-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .6s var(--ease-out);
+  transform: translateZ(0);
+  will-change: transform;
+}
+.tour-stage.video-ready .tour-video { opacity: 1; }
+.tour-stage.video-failed .tour-video { display: none; }
+
+/* Caption bands: opacity and --k (0..1 assembly) are written by JS */
+.band {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.band.live { pointer-events: auto; }
+
+.band-1 {
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 5rem 1.5rem 3rem;
+}
+/* Legibility: a warm wash of tatami yellow dims the seams and the blue start mark under the words */
+.band-1::before {
+  content: "";
+  position: absolute;
+  inset: 18% 20%;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(ellipse 50% 56% at 50% 52%, rgba(242, 196, 30, .82) 0%, rgba(242, 196, 30, .76) 70%, rgba(242, 196, 30, 0) 100%);
+}
+.band-1 { isolation: isolate; }
+.band-1 .title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: .86;
+  font-size: clamp(3.4rem, 8.4vw, 9rem);
+  letter-spacing: -.005em;
+  color: var(--color-ink);
+}
+.band-1 .title .line { display: block; }
+
+/* (b) grid snap-align: letters slide into place in reading order, like mats laid in a row */
+.band-1 .c {
+  display: inline-block;
+  --kc: clamp(0, (var(--k, 0) - var(--th, 0)) * 3, 1);
+  opacity: var(--kc);
+  transform: translateX(calc((1 - var(--kc)) * var(--jx, 0px)));
+}
+
+.band-card {
+  background: rgba(251, 250, 246, .9);
+  color: var(--color-ink);
+  border-radius: 6px;
+  padding: clamp(1.25rem, 2.2vw, 2rem) clamp(1.25rem, 2.6vw, 2.4rem);
+  box-shadow: 0 1px 0 rgba(11, 27, 56, .08), 0 24px 60px -30px rgba(11, 27, 56, .55);
+}
+.band-2 { left: 5vw; top: 50%; translate: 0 -50%; max-width: min(34rem, 42vw); }
+.band-3 { right: 5vw; top: 50%; translate: 0 -50%; max-width: min(34rem, 42vw); }
+.band-big {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: .9;
+  font-size: clamp(2.6rem, 5vw, 5.2rem);
+}
+
+/* (f) drift-down: the camera pitches up, the room falls into frame, the words fall with it */
+.band-2 .w {
+  display: inline-block;
+  --kc: clamp(0, (var(--k, 0) - var(--th, 0)) * 2.8, 1);
+  opacity: var(--kc);
+  transform: translateY(calc((1 - var(--kc)) * -28px));
+}
+/* (g) approach-from-depth: the camera glides forward, the card comes toward you */
+.band-3 .band-card {
+  --kc: clamp(0, var(--k, 0) * 1.6, 1);
+  transform: scale(calc(.84 + .16 * var(--kc)));
+  transform-origin: right center;
+}
+
+/* Settle: two columns flanking the logo on the wood wall */
+.band-4 {
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 40vw) 1fr;
+  align-items: center;
+  padding: 5rem 4vw 3rem;
+}
+.band-4 .left { grid-column: 1; max-width: 30rem; }
+.band-4 .right { grid-column: 3; justify-self: end; display: grid; gap: .75rem; }
+.hajime {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: .85;
+  font-size: clamp(3.6rem, 7vw, 7.5rem);
+  color: var(--color-ink);
+}
+/* (d) word-punch with overshoot: the referee's call lands */
+.hajime .w {
+  display: inline-block;
+  --kc: clamp(0, (var(--k, 0) - var(--th, 0)) * 3, 1);
+  --ks: clamp(0, (var(--k, 0) - var(--th, 0) - .16) * 2.6, 1);
+  opacity: var(--kc);
+  transform: scale(calc(.6 + .64 * var(--kc) - .24 * var(--ks)));
+  transform-origin: left bottom;
+}
+/* (e) staged settle: subline, then the buttons */
+.band-4 .sub { opacity: clamp(0, (var(--k, 0) - .5) * 4, 1); }
+.band-4 .right { opacity: clamp(0, (var(--k, 0) - .66) * 4, 1); transform: translateY(calc((1 - clamp(0, (var(--k, 0) - .66) * 4, 1)) * 14px)); }
+
+/* Loading ring and the skip link */
+.tour-ring {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  color: var(--color-ink);
+  background: rgba(251, 250, 246, .88);
+  border-radius: 999px;
+  padding: .35rem .8rem .35rem .4rem;
+  transition: opacity .5s var(--ease-out);
+}
+.tour-stage.video-ready .tour-ring,
+.tour-stage.video-failed .tour-ring { opacity: 0; pointer-events: none; }
+.tour-skip {
+  transition: opacity .4s var(--ease-out);
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 2;
+}
+
+.tour-stage.landed .tour-skip { opacity: 0; pointer-events: none; }
+
+/* Short desktop windows: no room for small overlays */
+@media (max-height: 560px) {
+  .tour-ring, .tour-skip { display: none; }
+}
+
+/* ── Static hero: phones, portrait tablets, reduced motion ──────────── */
+.tour-static { display: none; }
+
+@media (max-width: 720px),
+       (orientation: portrait) and (max-width: 1024px),
+       (orientation: portrait) and (pointer: coarse),
+       (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
+       (prefers-reduced-motion: reduce) {
+  .tour-scrub { display: none; }
+  .tour-static { display: block; }
+}
