@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { programmes, type Categorie } from '@/data/programmes'
 import { parseHoraire } from '@/lib/schedule'
+import { inscription } from '@/data/club'
 import { cn } from '@/lib/utils'
 import RevealText from '@/components/ui/RevealText'
 
@@ -54,7 +55,7 @@ export default function WeekSchedule({ locale }: { locale: string }) {
             <RevealText as="h2" className="display text-[clamp(3rem,6.5vw,6rem)] text-ink">
               {fr ? 'La semaine au dojo' : 'A week at the dojo'}
             </RevealText>
-            <p className="mt-4 text-[1.1rem] text-ink-2">{fr ? 'Horaire 2026-2027. Touchez un cours pour tous les détails.' : 'Schedule 2026-2027. Tap a class for all the details.'}</p>
+            <p className="mt-4 text-[1.1rem] text-ink-2">{fr ? `Horaire ${inscription.saison}. Touchez un cours pour tous les détails.` : `Schedule ${inscription.saison}. Tap a class for all the details.`}</p>
           </div>
           <div className="flex flex-wrap gap-2" role="group" aria-label={fr ? 'Filtrer' : 'Filter'}>
             {filters.map(([key, label]) => (
