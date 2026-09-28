@@ -12,17 +12,19 @@ import Magnetic from '@/components/ui/Magnetic'
 const underline = 'relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:bg-current after:origin-left after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100'
 
 const programmes = [
-  { href: '/programmes/judo-competition', labelFr: 'Judo compétition', labelEn: 'Competition Judo', category: 'Judo' },
-  { href: '/programmes/judo-enfants', labelFr: 'Judo enfants', labelEn: "Children's Judo", category: 'Judo' },
-  { href: '/programmes/judo-adultes', labelFr: 'Judo adultes', labelEn: 'Adult Judo', category: 'Judo' },
-  { href: '/programmes/parents-enfants', labelFr: 'Parents/enfants', labelEn: 'Parents & Children', category: 'Judo' },
-  { href: '/programmes/sport-etudes', labelFr: 'Sport-études', labelEn: 'Sports-Studies', category: 'Judo' },
-  { href: '/programmes/judo-aines', labelFr: 'Judo aînés', labelEn: 'Seniors Judo', category: 'Judo' },
-  { href: '/programmes/parascolaire', labelFr: 'Parascolaire', labelEn: 'After-School', category: 'Judo' },
-  { href: '/programmes/autodefense-femmes', labelFr: 'Auto-défense femmes', labelEn: 'Women Self-Defence', category: 'Judo' },
+  { href: '/programmes/parents-enfants', labelFr: 'Parents / enfants', labelEn: 'Parents & children', category: 'Judo' },
+  { href: '/programmes/judo-enfants', labelFr: 'Enfants débutant', labelEn: 'Kids beginner', category: 'Judo' },
+  { href: '/programmes/judo-enfants-avances', labelFr: 'Enfants avancé', labelEn: 'Kids advanced', category: 'Judo' },
+  { href: '/programmes/judo-enfants-competition', labelFr: 'Enfants compétition', labelEn: 'Kids competition', category: 'Judo' },
+  { href: '/programmes/judo-competition', labelFr: 'Équipe de compétition', labelEn: 'Competition team', category: 'Judo' },
+  { href: '/programmes/judo-adultes', labelFr: 'Judo adultes', labelEn: 'Adult judo', category: 'Judo' },
+  { href: '/programmes/sport-etudes', labelFr: 'Sport-études', labelEn: 'Sport-études', category: 'Judo' },
+  { href: '/programmes/prevention-chutes', labelFr: 'Prévention des chutes', labelEn: 'Fall prevention', category: 'Judo' },
   { href: '/programmes/aiki-jujitsu', labelFr: 'Aiki Ju-Jitsu', labelEn: 'Aiki Ju-Jitsu', category: 'Arts martiaux' },
-  { href: '/programmes/jiu-jitsu-bresilien', labelFr: 'Jiu-Jitsu Brésilien', labelEn: 'Brazilian Jiu-Jitsu', category: 'Arts martiaux' },
-  { href: '/programmes/camp-de-jour', labelFr: 'Camp de jour', labelEn: 'Day Camp', category: 'Autres' },
+  { href: '/programmes/jiu-jitsu-bresilien', labelFr: 'Jiu-Jitsu brésilien', labelEn: 'Brazilian Jiu-Jitsu', category: 'Arts martiaux' },
+  { href: '/programmes/autodefense-femmes', labelFr: 'Auto-défense femmes', labelEn: 'Women’s self-defence', category: 'Arts martiaux' },
+  { href: '/programmes/parascolaire', labelFr: 'Parascolaire', labelEn: 'After-school', category: 'Autres' },
+  { href: '/programmes/camp-de-jour', labelFr: 'Camp de jour', labelEn: 'Day camp', category: 'Autres' },
 ]
 
 const clubLinks = [

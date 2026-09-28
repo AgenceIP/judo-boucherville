@@ -17,7 +17,7 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
 
   return (
     <>
-      <PageHero title={instructeur.nom} subtitle={instructeur.role} tag={instructeur.grade} />
+      <PageHero title={instructeur.nom} subtitle={[instructeur.role, instructeur.pnce].filter(Boolean).join(" · ")} tag={instructeur.grade} />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-3 gap-16">

@@ -11,14 +11,15 @@ import { useReveal } from '@/hooks/useReveal'
 import { programmePreviews as previewFor } from '@/lib/previews'
 
 const programmes = [
-  { titre: 'Judo enfants', titreEn: "Children's judo", horaire: 'Sam 10h15–12h30', slug: 'judo-enfants', categorie: 'enfants' as const },
-  { titre: 'Parents / Enfants', titreEn: 'Parents & children', horaire: 'Sam 9h–10h', slug: 'parents-enfants', categorie: 'enfants' as const },
+  { titre: 'Parents / enfants', titreEn: 'Parents & children', horaire: 'Sam 9h–10h', slug: 'parents-enfants', categorie: 'enfants' as const },
+  { titre: 'Judo enfants', titreEn: "Children's judo", horaire: 'Sam 10h15–14h', slug: 'judo-enfants', categorie: 'enfants' as const },
+  { titre: 'Enfants compétition', titreEn: 'Kids competition', horaire: 'Mar/Jeu/Sam', slug: 'judo-enfants-competition', categorie: 'enfants' as const },
   { titre: 'Camp de jour', titreEn: 'Day camp', horaire: 'Été', slug: 'camp-de-jour', categorie: 'enfants' as const },
-  { titre: 'Judo adultes', titreEn: 'Adult judo', horaire: 'Lun/Mer 19h–21h', slug: 'judo-adultes', categorie: 'adultes' as const },
-  { titre: 'Judo compétition', titreEn: 'Competitive judo', horaire: 'Lun–Ven 18h–19h', slug: 'judo-competition', categorie: 'adultes' as const },
-  { titre: 'Sport-études', titreEn: 'Sports-studies', horaire: 'Selon école', slug: 'sport-etudes', categorie: 'adultes' as const },
+  { titre: 'Judo adultes', titreEn: 'Adult judo', horaire: 'Lun 19h · Mer 19h30', slug: 'judo-adultes', categorie: 'adultes' as const },
+  { titre: 'Équipe de compétition', titreEn: 'Competition team', horaire: 'Lun/Mer/Ven', slug: 'judo-competition', categorie: 'adultes' as const },
+  { titre: 'Prévention des chutes', titreEn: 'Fall prevention', horaire: 'Lun–Ven 9h–10h', slug: 'prevention-chutes', categorie: 'adultes' as const },
   { titre: 'Aiki Ju-Jitsu', titreEn: 'Aiki Ju-Jitsu', horaire: 'Mar/Jeu 20h–21h30', slug: 'aiki-jujitsu', categorie: 'arts-martiaux' as const },
-  { titre: 'Jiu-Jitsu Brésilien', titreEn: 'Brazilian Jiu-Jitsu', horaire: 'Mar/Jeu 19h45–21h', slug: 'jiu-jitsu-bresilien', categorie: 'arts-martiaux' as const },
+  { titre: 'Jiu-Jitsu Brésilien', titreEn: 'Brazilian Jiu-Jitsu', horaire: 'Mar/Jeu 20h–21h30', slug: 'jiu-jitsu-bresilien', categorie: 'arts-martiaux' as const },
 ]
 
 const filters = ['all', 'enfants', 'adultes', 'arts-martiaux'] as const

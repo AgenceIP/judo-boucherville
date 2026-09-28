@@ -6,6 +6,8 @@ type ButtonProps = {
   variant?: 'primary' | 'outline' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
   href?: string
+  /** Opens href in a new tab */
+  external?: boolean
   className?: string
   onClick?: () => void
   type?: 'button' | 'submit'
@@ -26,7 +28,7 @@ const sizes = {
 
 export default function Button({
   children, variant = 'primary', size = 'md',
-  href, className, onClick, type = 'button', disabled,
+  href, external, className, onClick, type = 'button', disabled,
 }: ButtonProps) {
   const classes = cn(
     'inline-flex items-center justify-center font-heading tracking-widest uppercase transition-all duration-200 cursor-pointer',
@@ -35,6 +37,10 @@ export default function Button({
     disabled && 'opacity-50 cursor-not-allowed',
     className
   )
+
+  if (href && external) {
+    return <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>{children}</a>
+  }
 
   if (href) {
     return <Link href={href} className={classes}>{children}</Link>

@@ -16,7 +16,8 @@ export async function generateMetadata({ params }: Props) {
   const programme = getProgrammeBySlug(slug)
   if (!programme) return {}
   return {
-    title: locale === 'fr' ? programme.titre : (programme.titreEn || programme.titre),
+    title: locale === 'fr' ? programme.titre : programme.titreEn,
+    description: locale === 'fr' ? programme.resume : programme.resumeEn,
   }
 }
 

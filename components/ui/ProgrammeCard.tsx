@@ -12,11 +12,10 @@ type Props = {
   horaire: string
   slug: string
   categorie: 'enfants' | 'adultes' | 'arts-martiaux'
-  icon?: string
 }
 
 const categoryLabel: Record<string, string> = {
-  enfants: 'Enfants',
+  enfants: 'Jeunes',
   adultes: 'Adultes',
   'arts-martiaux': 'Arts martiaux',
 }

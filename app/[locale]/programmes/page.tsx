@@ -7,9 +7,9 @@ import ProgrammeCard from '@/components/ui/ProgrammeCard'
 export const metadata: Metadata = { title: 'Programmes' }
 
 const categoryLabels = {
-  enfants: 'Jeunes',
-  adultes: 'Adultes',
-  'arts-martiaux': 'Arts martiaux',
+  enfants: { fr: 'Jeunes', en: 'Youth' },
+  adultes: { fr: 'Adultes', en: 'Adults' },
+  'arts-martiaux': { fr: 'Arts martiaux', en: 'Martial arts' },
 }
 
 export default async function ProgrammesPage() {
@@ -36,18 +36,17 @@ export default async function ProgrammesPage() {
           grouped[cat].length > 0 && (
             <div key={cat}>
               <h2 className="font-heading text-2xl text-muted tracking-widest uppercase mb-8 border-b border-white/5 pb-4">
-                {categoryLabels[cat]}
+                {categoryLabels[cat][locale === 'fr' ? 'fr' : 'en']}
               </h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="border-b border-white/[0.06]">
                 {grouped[cat].map(prog => (
                   <ProgrammeCard
-                    key={prog.id}
-                    titre={locale === 'fr' ? prog.titre : (prog.titreEn || prog.titre)}
-                    description={locale === 'fr' ? prog.description : (prog.descriptionEn || prog.description)}
-                    horaire={prog.horaires[0] ? `${prog.horaires[0].jours} ${prog.horaires[0].heures}` : ''}
+                    key={prog.slug}
+                    titre={locale === 'fr' ? prog.titre : prog.titreEn}
+                    description={locale === 'fr' ? prog.resume : prog.resumeEn}
+                    horaire={prog.horaire}
                     slug={prog.slug}
                     categorie={prog.categorie}
-                    icon={prog.icon}
                   />
                 ))}
               </div>
