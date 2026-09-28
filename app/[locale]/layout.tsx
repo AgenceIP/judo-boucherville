@@ -13,6 +13,7 @@ import CustomCursor from '@/components/ui/CustomCursor'
 import SoundToggle from '@/components/ui/SoundToggle'
 import VelocitySkew from '@/components/providers/VelocitySkew'
 import ScrollProgress from '@/components/layout/ScrollProgress'
+import { club } from '@/data/club'
 import '@/styles/globals.css'
 
 const serif = Source_Serif_4({
@@ -26,22 +27,26 @@ const bebas = localFont({
   variable: '--font-bebas',
 })
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s | Club de Judo Boucherville',
-    default: 'Club de Judo Boucherville',
-  },
-  description: 'Club de Judo Boucherville — Fondé en 1970, Club reconnu AAA par Judo Québec. Judo, Aiki Ju-Jitsu, Jiu-Jitsu Brésilien à Boucherville, QC.',
-  openGraph: {
-    type: 'website',
-    locale: 'fr_CA',
-    alternateLocale: 'en_CA',
-    siteName: 'Club de Judo Boucherville',
-    images: [{ url: '/images/og-default.jpg', width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-  },
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const fr = locale === 'fr'
+  return {
+    metadataBase: new URL(club.site),
+    title: {
+      template: '%s | Club de Judo Boucherville',
+      default: 'Club de Judo Boucherville',
+    },
+    description: fr
+      ? 'Club de Judo Boucherville — fondé en 1970, club reconnu AAA par Judo Québec. Judo, Aiki Ju-Jitsu et Jiu-Jitsu brésilien pour tous les âges à Boucherville.'
+      : 'Club de Judo Boucherville — founded in 1970, an AAA club recognized by Judo Québec. Judo, Aiki Ju-Jitsu and Brazilian Jiu-Jitsu for all ages in Boucherville.',
+    openGraph: {
+      type: 'website',
+      locale: fr ? 'fr_CA' : 'en_CA',
+      alternateLocale: fr ? 'en_CA' : 'fr_CA',
+      siteName: club.nom,
+    },
+    twitter: { card: 'summary_large_image' },
+  }
 }
 
 type Props = {

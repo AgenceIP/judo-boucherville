@@ -16,7 +16,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   return {
-    title: 'Challenge International Judo Boucherville',
+    title: 'Challenge International',
     description: locale === 'fr'
       ? `Tournoi invitation par équipes depuis ${c.depuis} : divisions, pesée, bourses, règlements, résultats et commanditaires.`
       : `Invitational team tournament since ${c.depuis}: divisions, weigh-in, prize money, rules, results and sponsors.`,

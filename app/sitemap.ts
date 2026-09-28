@@ -2,8 +2,9 @@ import { MetadataRoute } from 'next'
 import { getAllProgrammes } from '@/data/programmes'
 import { getAllInstructeurs } from '@/data/instructeurs'
 import { actualites, resultats, athletes } from '@/data/archive'
+import { club } from '@/data/club'
 
-const BASE_URL = 'https://www.judoboucherville.com'
+const BASE_URL = club.site
 const locales = ['fr', 'en']
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -18,6 +19,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   return locales.flatMap(locale =>
-    routes.map(([route, priority]) => ({ url: `${BASE_URL}/${locale}${route}`, lastModified: new Date(), priority }))
+    routes.map(([route, priority]) => ({
+      url: `${BASE_URL}/${locale}${route}`,
+      lastModified: new Date(),
+      priority,
+      alternates: { languages: Object.fromEntries(locales.map(l => [l, `${BASE_URL}/${l}${route}`])) },
+    }))
   )
 }

@@ -4,7 +4,15 @@ import { getAllProgrammes } from '@/data/programmes'
 import PageHero from '@/components/shared/PageHero'
 import ProgrammeCard from '@/components/ui/ProgrammeCard'
 
-export const metadata: Metadata = { title: 'Programmes' }
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  return {
+    title: locale === 'fr' ? 'Programmes' : 'Programs',
+    description: locale === 'fr'
+      ? 'Judo parents-enfants, jeunes, compétition et sport-études, adultes, Aiki Ju-Jitsu, Jiu-Jitsu brésilien, autodéfense, 50 ans et plus et camp d’été : horaires, âges et tarifs.'
+      : 'Parent-child, youth, competitive and sport-studies judo, adults, Aiki Ju-Jitsu, Brazilian Jiu-Jitsu, self-defence, 50+ and summer camp: schedules, ages and fees.',
+  }
+}
 
 const categoryLabels = {
   enfants: { fr: 'Jeunes', en: 'Youth' },

@@ -1,5 +1,6 @@
 export const club = {
   nom: 'Club de Judo Boucherville',
+  site: 'https://www.judoboucherville.com',
   dojo: 'Dojo Marcel Bourelly',
   lieu: 'Complexe aquatique Laurie-Eve-Cormier',
   adresse: '490, chemin du Lac, Boucherville (Québec) J4B 6X3',

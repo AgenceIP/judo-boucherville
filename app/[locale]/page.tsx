@@ -9,6 +9,28 @@ import ChapterForce from '@/components/voie/ChapterForce'
 import ChapterProjection from '@/components/voie/ChapterProjection'
 import ChapterNoir from '@/components/voie/ChapterNoir'
 import ChapterFinale from '@/components/voie/ChapterFinale'
+import { club } from '@/data/club'
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsClub',
+  name: club.nom,
+  url: club.site,
+  logo: `${club.site}/images/logo-cjb-improved.png`,
+  telephone: '+1-450-655-1888',
+  email: club.courriel,
+  foundingDate: '1970-03-01',
+  sport: ['Judo', 'Aiki Ju-Jitsu', 'Brazilian Jiu-Jitsu'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '490, chemin du Lac',
+    addressLocality: 'Boucherville',
+    addressRegion: 'QC',
+    postalCode: 'J4B 6X3',
+    addressCountry: 'CA',
+  },
+  sameAs: [club.facebook, club.instagram, club.youtube, club.tiktok, club.twitter],
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -29,6 +51,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default function HomePage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <EntryRitual />
       <VoieConductor />
       <BeltRail />
