@@ -88,13 +88,14 @@ export default function PageHero({ title, subtitle, tag, tagColor = 'text-royal'
       <Aurora opacity={0.6} />
 
       {/* Ghost ideogram of this section */}
+      {/* Opacity lives on the wrapper: fade-in's `forwards` fill would override it to 1 */}
       {kanji && (
         <span
-          className="font-jp absolute -right-[2vw] -top-[4vw] leading-none select-none pointer-events-none animate-fade-in"
+          className="font-jp absolute -right-[2vw] -top-[4vw] leading-none select-none pointer-events-none"
           style={{ fontSize: '26vw', color: '#FAFAFA', opacity: 0.04 }}
           aria-hidden="true"
         >
-          {kanji}
+          <span className="block animate-fade-in">{kanji}</span>
         </span>
       )}
 

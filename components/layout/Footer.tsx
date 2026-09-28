@@ -123,7 +123,7 @@ export default function Footer() {
               <li className="flex gap-3 text-sm">
                 <Phone size={16} className="text-accent-blue shrink-0" />
                 <a href="tel:4506551888" className="text-foreground hover:text-royal transition-colors">
-                  (450) 655-1888
+                  {club.tel}
                 </a>
               </li>
               <li className="flex gap-3 text-sm">

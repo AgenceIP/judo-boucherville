@@ -39,8 +39,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ? 'Club de Judo Boucherville — Fondé en 1970, Club AAA'
       : 'Judo Boucherville Club — Founded in 1970, AAA Club',
     description: locale === 'fr'
-      ? 'Club de Judo Boucherville. Judo, Aiki Ju-Jitsu, Jiu-Jitsu Brésilien. 490 chemin du Lac, Boucherville QC. Tél: (450) 655-1888.'
-      : 'Judo Boucherville Club. Judo, Aiki Ju-Jitsu, Brazilian Jiu-Jitsu. 490 chemin du Lac, Boucherville QC. Tel: (450) 655-1888.',
+      ? 'Club de Judo Boucherville. Judo, Aiki Ju-Jitsu, Jiu-Jitsu Brésilien. 490 chemin du Lac, Boucherville QC. Tél. : 450 655-1888.'
+      : 'Judo Boucherville Club. Judo, Aiki Ju-Jitsu, Brazilian Jiu-Jitsu. 490 chemin du Lac, Boucherville QC. Tel: 450 655-1888.',
   }
 }
 
