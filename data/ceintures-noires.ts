@@ -41,6 +41,7 @@ export const ceintures: { annee: number; noms: string[] }[] = [
   { annee: 2023, noms: ['Hugo Levacher', 'Léanne Dussault', 'Méloize Perkinson', 'Catherine Toshkov', 'Vincent Roberge-Poitras', 'Sofiane Bousbiat'] },
   { annee: 2024, noms: ['Luc Bourque', 'Charline Bourque', 'Mélody Grenier'] },
   { annee: 2025, noms: ['Tristan Lapointe', 'Samuel Roberge-Poitras', 'Tristan Bourque', 'Gerardo Andrade'] },
+  { annee: 2026, noms: ['Édouard Chassé', 'Maika Nephtali', 'Charles-Étienne Lajoie', 'Paul Louchet'] },
 ]
 
 export const totalCeintures = ceintures.reduce((acc, y) => acc + y.noms.length, 0)
