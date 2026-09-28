@@ -8,10 +8,27 @@ export const club = {
   responsable: 'Fayçal Bousbiat',
   instagram: 'https://www.instagram.com/judoboucherville/',
   facebook: 'https://www.facebook.com/clubdejudoboucherville/',
+  twitter: 'https://twitter.com/BouchervilleJ',
+  tiktok: 'https://vm.tiktok.com/ZMerGtbge/',
+  youtube: 'https://www.youtube.com/channel/UCxlMYl9hl3mswddZXTbp83Q',
+  president: 'Frédéric Bourque',
 }
 
 export const inscription = {
   saison: '2026-2027',
+  formulaire: 'https://forms.gle/7rzQi6hEVvBZ8VhY8',
+  qr: '/images/qr/inscription.jpg',
+  debutCours: [
+    ['Aiki Ju-Jitsu', 'Aiki Ju-Jitsu', '1er septembre 2026', 'September 1, 2026'],
+    ['Jiu-Jitsu brésilien', 'Brazilian Jiu-Jitsu', '1er septembre 2026', 'September 1, 2026'],
+    ['Adultes', 'Adults', '2 septembre 2026', 'September 2, 2026'],
+    ['Cours du mardi et jeudi', 'Tuesday & Thursday classes', '3 septembre 2026', 'September 3, 2026'],
+    ['Cours du lundi et vendredi', 'Monday & Friday classes', '4 septembre 2026', 'September 4, 2026'],
+    ['Cours du samedi', 'Saturday classes', '5 septembre 2026', 'September 5, 2026'],
+    ['Parascolaire', 'After-school', '29 septembre 2026', 'September 29, 2026'],
+    ['Auto-défense', 'Self-defence', '5 octobre 2026', 'October 5, 2026'],
+    ['Prévention des chutes', 'Fall prevention', '5 octobre 2026', 'October 5, 2026'],
+  ],
   enLigne: 'En ligne avant le 19 août 2026 pour bénéficier du tarif préférentiel, ou jusqu’au 31 août 2026 (tarif régulier).',
   enLigneEn: 'Online before August 19, 2026 for the preferred rate, or until August 31, 2026 (regular rate).',
   surPlace: 'Nous serons présents les 17 et 18 août 2026 de 18h00 à 21h00 à l’entrée du Complexe aquatique Laurie-Eve-Cormier pour répondre à vos questions.',

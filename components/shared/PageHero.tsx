@@ -27,6 +27,10 @@ const KANJI: [RegExp, string][] = [
   [/historique/, '歴'],        // reki — history
   [/ceintures-noires/, '帯'],  // obi — belt
   [/conseil/, '議'],           // gi — council
+  [/athletes/, '選'],          // sen — chosen
+  [/calendrier/, '暦'],        // koyomi — calendar
+  [/journaux/, '記'],          // ki — record
+  [/telechargements/, '書'],   // sho — document
 ]
 
 /**

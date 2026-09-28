@@ -198,15 +198,25 @@ const LABELS = [
   ['objLong', /^Objectif [àa] long terme\s*:\s*(.*)$/i],
 ]
 const slugify = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+// Items on the old pages are "- " bullets; an unbulleted line after one is the same item wrapped
+// ("- 1ere" / "au Championnat…", "- 3e a la Coupe European" / "Junior La Coruna")
+const bulleted = new WeakSet()
+function addLine(list, raw) {
+  const v = raw.replace(/^-\s*/, '').trim()
+  if (/^-/.test(raw)) { bulleted.add(list); list.push(v) }
+  else if (bulleted.has(list) && list.length) list[list.length - 1] += ' ' + v
+  else list.push(v)
+}
 function parseAthlete(txt) {
   const people = []
   const photos = []
   let p = null, field = null, season = null
-  const add = (v) => {
-    v = v.replace(/^-\s*/, '').trim()
+  const add = (raw) => {
+    raw = raw.trim()
+    const v = raw.replace(/^-\s*/, '').trim()
     if (!v || v === '-') return
-    if (season) season.resultats.push(v)
-    else if (field === 'faits' || field === 'objCourt' || field === 'objLong') (p[field] ??= []).push(v)
+    if (season) addLine(season.resultats, raw)
+    else if (field === 'faits' || field === 'objCourt' || field === 'objLong') addLine(p[field] ??= [], raw)
     else if (field) p[field] = p[field] ? p[field] + ' ' + v : v
   }
   for (const l of lines(txt)) {
@@ -222,6 +232,9 @@ function parseAthlete(txt) {
       season = { saison: sm[1].replace(/\s/g, ''), victoires: v ? +v[1] : null, defaites: d ? +d[1] : null, resultats: [] }
       p.saisons.push(season); field = null; continue
     }
+    const ji = l.text.match(/\{\{(https?:\/\/www\.judoinside\.com[^}]*)\}\}/)
+    if (ji) { p.judoinside = ji[1]; continue }
+    if (/^Tous les resultats de/i.test(text)) continue
     const lab = LABELS.find(([, re]) => re.test(text))
     if (lab) { field = lab[0]; season = null; add(text.match(lab[1])[1]); continue }
     if (text) add(text)
