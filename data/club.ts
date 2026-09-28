@@ -44,3 +44,17 @@ export const inscription = {
     'All our instructors are accredited — no volunteers.',
   ],
 }
+
+// Résultats du club de 2002 à 2024 — [championnat, en, or, argent, bronze] (source : Historique.php)
+export const palmares: [string, string, number, number, number][] = [
+  ['Championnat provincial U15-U16', 'Provincial Championship U15-U16', 37, 23, 24],
+  ['Championnat provincial U17-U18', 'Provincial Championship U17-U18', 22, 14, 14],
+  ['Championnat provincial U21', 'Provincial Championship U21', 19, 18, 13],
+  ['Championnat provincial senior', 'Provincial Championship Senior', 25, 21, 21],
+  ['Championnat canadien U15-U16', 'Canadian Championship U15-U16', 6, 4, 9],
+  ['Championnat canadien U17-U18', 'Canadian Championship U17-U18', 19, 12, 13],
+  ['Championnat canadien U21', 'Canadian Championship U21', 20, 13, 11],
+  ['Championnat canadien senior', 'Canadian Championship Senior', 26, 16, 23],
+]
+
+export const totalPalmares = palmares.reduce((a, [, , o, s, b]) => [a[0] + o, a[1] + s, a[2] + b], [0, 0, 0])

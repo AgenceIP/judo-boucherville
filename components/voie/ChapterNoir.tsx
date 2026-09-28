@@ -9,6 +9,8 @@ import { useGSAP } from '@gsap/react'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import RevealText from '@/components/ui/RevealText'
 import { useReveal } from '@/hooks/useReveal'
+import { totalPalmares } from '@/data/club'
+import { totalCeintures } from '@/data/ceintures-noires'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,15 +22,15 @@ export default function ChapterNoir() {
   const linksRef = useReveal<HTMLDivElement>()
 
   const medals = [
-    { value: 84, label: en ? 'Gold' : 'Or' },
-    { value: 51, label: en ? 'Silver' : 'Argent' },
-    { value: 39, label: en ? 'Bronze' : 'Bronze' },
-    { value: 126, label: en ? 'Black belts' : 'Ceintures noires' },
+    { value: totalPalmares[0], label: en ? 'Gold' : 'Or' },
+    { value: totalPalmares[1], label: en ? 'Silver' : 'Argent' },
+    { value: totalPalmares[2], label: en ? 'Bronze' : 'Bronze' },
+    { value: totalCeintures, label: en ? 'Black belts' : 'Ceintures noires' },
   ]
 
   const timeline = [
     { year: '1970', text: en ? 'Marcel Bourelly founds the club at centre La Seigneurie.' : 'Marcel Bourelly fonde le club au centre La Seigneurie.' },
-    { year: '1995', text: en ? 'First judo sports-studies program in Canada, with École De Mortagne.' : "Premier sport-études judo au Canada, avec l'École De Mortagne." },
+    { year: '1979', text: en ? 'Incorporated as Club de Judo Boucherville Inc., Québec’s leading club.' : 'Incorporation : Club de Judo Boucherville Inc., premier club au Québec.' },
     { year: '2008', text: en ? 'Named Regional Development Centre by Judo Québec.' : 'Désigné Centre Régional de Développement par Judo Québec.' },
     { year: '2017', text: en ? 'The Dojo Marcel Bourelly opens.' : 'Inauguration du Dojo Marcel Bourelly.' },
     { year: '2026', text: en ? '245 members. AAA club. Two Olympians.' : '245 membres. Club AAA. Deux olympiens.' },
@@ -36,7 +38,7 @@ export default function ChapterNoir() {
 
   const links = [
     { href: '/equipe', fr: 'Les professeurs', en: 'The instructors' },
-    { href: '/ceintures-noires', fr: 'Les 126 ceintures noires', en: 'The 126 black belts' },
+    { href: '/ceintures-noires', fr: `Les ${totalCeintures} ceintures noires`, en: `The ${totalCeintures} black belts` },
     { href: '/historique', fr: "L'histoire complète", en: 'The full history' },
     { href: '/resultats', fr: 'Les résultats', en: 'The results' },
   ]
@@ -140,6 +142,9 @@ export default function ChapterNoir() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
 
         {/* Medal wall */}
+        <p className="text-[10px] tracking-[.3em] uppercase mb-4" style={{ color: 'var(--voie-ink-muted)' }}>
+          {en ? 'Provincial and Canadian championship medals, 2002–2024' : 'Médailles aux championnats provinciaux et canadiens, 2002–2024'}
+        </p>
         <div className="noir-medals grid grid-cols-2 md:grid-cols-4 gap-3 mb-24">
           {medals.map(m => (
             <div key={m.label} className="noir-medal glass p-8 md:p-10">
