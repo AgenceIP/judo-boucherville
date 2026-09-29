@@ -365,7 +365,7 @@ main::before {
   font-size: clamp(13rem, 32vw, 30rem);
   line-height: 1;
   color: var(--motif-ink, var(--color-blue));
-  opacity: .06;
+  opacity: .18;
   pointer-events: none;
   user-select: none;
 }
