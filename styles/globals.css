@@ -278,8 +278,8 @@ body.paused *, body.paused *::before, body.paused *::after {
 [data-tone="blue"]   { --tone: var(--color-blue);   --motif: url(/motifs/seigaiha.svg); --motif-ink: #FCFDFE; --motif-alpha: .09; --motif-size: 112px; }
 [data-tone="ink"]    { --tone: var(--color-ink);    --motif: url(/motifs/shippo.svg);   --motif-ink: #FCFDFE; --motif-alpha: .08; --motif-size: 64px; }
 [data-tone="accent"] { --tone: var(--color-accent); --motif: url(/motifs/asanoha.svg);  --motif-ink: var(--color-ink);  --motif-alpha: .1; }
-[data-tone="panel"]  { --tone: var(--color-panel);  --motif: url(/motifs/tatewaku.svg); --motif-ink: var(--color-blue); --motif-alpha: .07; --motif-size: 48px; }
-[data-tone="canvas"] { --tone: var(--color-canvas); --motif: url(/motifs/tatewaku.svg); --motif-ink: var(--color-blue); --motif-alpha: .07; --motif-size: 48px; }
+[data-tone="panel"]  { --tone: var(--color-panel);  --motif: url(/motifs/yagasuri.svg); --motif-ink: var(--color-blue); --motif-alpha: .05; --motif-size: 72px; }
+[data-tone="canvas"] { --tone: var(--color-canvas); --motif: url(/motifs/yagasuri.svg); --motif-ink: var(--color-blue); --motif-alpha: .05; --motif-size: 72px; }
 
 [data-tone="blue"] + [data-tone]   { --prev: var(--color-blue); }
 [data-tone="ink"] + [data-tone]    { --prev: var(--color-ink); }
@@ -318,7 +318,7 @@ body.paused *, body.paused *::before, body.paused *::after {
 }
 
 /* Traditional Japanese patterns (wagara) behind every section: seigaiha waves
-   on blue, shippō rings on navy, asanoha hemp leaves on yellow, tatewaku rising steam on white.
+   on blue, shippō rings on navy, asanoha hemp leaves on yellow, yagasuri arrow feathers on white.
    Each pools on one side and fades out before the seams, so sections never meet
    on a pattern edge. */
 [data-tone]::before, main::before {
@@ -335,13 +335,13 @@ body.paused *, body.paused *::before, body.paused *::after {
 }
 [data-flip] { --motif-at: 12% 50%; }
 
-/* Inner pages: tatewaku on the wall white, strongest behind the page title */
+/* Inner pages: yagasuri on the wall white, strongest behind the page title */
 main { position: relative; isolation: isolate; }
 main::before {
-  --motif: url(/motifs/tatewaku.svg);
+  --motif: url(/motifs/yagasuri.svg);
   --motif-ink: var(--color-blue);
-  --motif-alpha: .07;
-  mask: var(--motif) 0 0 / 48px auto repeat,
+  --motif-alpha: .05;
+  mask: var(--motif) 0 0 / 72px auto repeat,
         linear-gradient(#000, rgb(0 0 0 / .45) 36rem, rgb(0 0 0 / .45) calc(100% - 16rem), transparent);
   mask-composite: intersect;
 }
