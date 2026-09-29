@@ -11,7 +11,7 @@ export default function NotFound() {
     <div className="min-h-[80vh] grid place-items-center text-center px-4 pt-24 pb-16">
       <div>
         <p className="label text-blue mb-4">404 · Jogai</p>
-        <h1 className="font-display font-extrabold uppercase text-ink leading-[.88] text-[clamp(2.2rem,6vw,4.5rem)]">
+        <h1 className="font-display font-extrabold uppercase text-ink leading-[.88] text-[clamp(3rem,9vw,7rem)]">
           {en ? 'You stepped off the mat.' : 'Vous êtes sorti du tatami.'}
         </h1>
         <p className="mt-5 text-ink-2 text-lg max-w-md mx-auto">

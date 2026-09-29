@@ -43,7 +43,7 @@ export default function ClassFinder({ locale }: { locale: string }) {
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-[1fr_1.15fr] gap-12 lg:gap-16 items-start">
           <div className="lg:sticky lg:top-28">
-            <RevealText as="h2" className="display text-[clamp(2.2rem,5vw,4rem)] text-panel">
+            <RevealText as="h2" className="display text-[clamp(3.2rem,7vw,6rem)] text-panel">
               {fr ? 'Trouver mon cours' : 'Find my class'}
             </RevealText>
             <p className="mt-6 text-[1.15rem] leading-relaxed text-panel/85 max-w-[36ch]">
@@ -117,7 +117,7 @@ export default function ClassFinder({ locale }: { locale: string }) {
                     style={{ '--i': i } as React.CSSProperties}
                   >
                     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                      <h3 className="display text-[1.1rem]">{fr ? p.titre : p.titreEn}</h3>
+                      <h3 className="display text-[2rem]">{fr ? p.titre : p.titreEn}</h3>
                       {p.cours && <span className="text-[.9rem] font-semibold text-blue">{p.cours}</span>}
                     </div>
                     <p className="mt-2 text-ink-2">{fr ? p.resume : p.resumeEn}</p>
@@ -137,7 +137,7 @@ export default function ClassFinder({ locale }: { locale: string }) {
                         {p.tarifs.map(t => (
                           <li key={t.periode} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 rounded-[3px] bg-canvas px-3.5 py-2.5">
                             <span className="text-[.95rem] text-ink-2">{t.periode}</span>
-                            <span className="display text-[1.1rem] leading-none">{t.prix[t.prix.length - 1]}</span>
+                            <span className="display text-[1.6rem] leading-none">{t.prix[t.prix.length - 1]}</span>
                           </li>
                         ))}
                       </ul>

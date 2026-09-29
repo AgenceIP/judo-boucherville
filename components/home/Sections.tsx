@@ -38,7 +38,7 @@ export function Steps({ locale }: { locale: string }) {
     <section data-tone="ink" data-kanji="入" className="on-dark text-panel py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-8">
-          <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] max-w-[12ch]">
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] max-w-[12ch]">
             {fr ? 'S’inscrire en trois temps' : 'Sign up in three moves'}
           </RevealText>
           <div className="flex flex-wrap gap-3">
@@ -54,7 +54,7 @@ export function Steps({ locale }: { locale: string }) {
         <ol className="mt-16 grid md:grid-cols-3 gap-x-10 gap-y-12">
           {steps.map(([title, text], i) => (
             <li key={title} data-reveal-seam className="step relative" style={{ '--i': i } as React.CSSProperties}>
-              <span aria-hidden="true" className="step-num display block text-[clamp(5rem,10vw,8rem)] leading-[.8]" data-n={i + 1}>{i + 1}</span>
+              <span aria-hidden="true" className="step-num display block text-[clamp(7rem,14vw,11rem)] leading-[.8]" data-n={i + 1}>{i + 1}</span>
               <h3 className="mt-6 text-[1.3rem] font-semibold leading-snug">{title}</h3>
               <p className="mt-2 text-panel/75 leading-relaxed max-w-[40ch]">{text}</p>
             </li>
@@ -62,7 +62,7 @@ export function Steps({ locale }: { locale: string }) {
         </ol>
 
         <div className="mt-20 grid lg:grid-cols-[.6fr_1.4fr] gap-8">
-          <h3 className="display text-[1.7rem] text-accent">{fr ? 'Début des cours' : 'Classes start'}</h3>
+          <h3 className="display text-[2.2rem] text-accent">{fr ? 'Début des cours' : 'Classes start'}</h3>
           <ul className="cascade grid sm:grid-cols-2 gap-x-10">
             {inscription.debutCours.map(([cFr, cEn, dFr, dEn], i) => (
               <li key={cFr} style={{ '--i': i } as React.CSSProperties} className="flex items-baseline justify-between gap-4 border-t border-panel/15 py-3">
@@ -84,7 +84,7 @@ export function Dojo({ locale }: { locale: string }) {
     <section data-tone="panel" data-kanji="道" data-flip className="py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-10 items-end">
-          <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] text-ink">{club.dojo}</RevealText>
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] text-ink">{club.dojo}</RevealText>
           <p className="text-[1.15rem] leading-relaxed text-ink-2 max-w-[46ch]">
             {fr
               ? `Au ${club.lieu}, 490, chemin du Lac. Un grand tatami jaune et bleu, les huit valeurs du judo sur les murs, le portrait de Jigoro Kano et le tableau des ceintures noires du club.`
@@ -112,7 +112,7 @@ export function Palmares({ locale }: { locale: string }) {
   return (
     <section data-tone="blue" data-kanji="勝" className="on-dark text-panel py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        <p className="display text-[clamp(1.9rem,4.2vw,3.6rem)] !leading-[.98] max-w-[16ch]">
+        <p className="display text-[clamp(2.6rem,6vw,5.2rem)] !leading-[.98] max-w-[16ch]">
           {fr ? 'Depuis 2002, nos judokas ont rapporté ' : 'Since 2002, our judoka have brought home '}
           <span className="text-accent tabular-nums"><AnimatedCounter end={or + argent + bronze} /></span>
           {fr ? ' médailles.' : ' medals.'}
@@ -140,9 +140,9 @@ export function Palmares({ locale }: { locale: string }) {
               {palmares.map(([nom, en, o, a, b], i) => (
                 <tr key={nom} style={{ '--i': i } as React.CSSProperties} className="border-t border-panel/15 transition-colors hover:bg-panel/5">
                   <th scope="row" className="py-3.5 pr-3 font-semibold text-[.95rem] sm:text-base leading-snug">{short(fr ? nom : en)}</th>
-                  <td className="py-3.5 text-right display text-[1.1rem] leading-none text-accent tabular-nums">{o}</td>
-                  <td className="py-3.5 text-right display text-[1.1rem] leading-none tabular-nums">{a}</td>
-                  <td className="py-3.5 text-right display text-[1.1rem] leading-none text-[#e9b27d] tabular-nums">{b}</td>
+                  <td className="py-3.5 text-right display text-[1.7rem] leading-none text-accent tabular-nums">{o}</td>
+                  <td className="py-3.5 text-right display text-[1.7rem] leading-none tabular-nums">{a}</td>
+                  <td className="py-3.5 text-right display text-[1.7rem] leading-none text-[#e9b27d] tabular-nums">{b}</td>
                 </tr>
               ))}
             </tbody>
@@ -188,7 +188,7 @@ export function Faq({ locale }: { locale: string }) {
     <section data-tone="canvas" data-kanji="問" data-flip className="py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-[.8fr_1.2fr] gap-10 lg:gap-20">
         <div className="lg:sticky lg:top-28 self-start">
-          <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] text-ink">{fr ? 'Vos questions' : 'Your questions'}</RevealText>
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] text-ink">{fr ? 'Vos questions' : 'Your questions'}</RevealText>
           <p className="mt-5 text-ink-2 text-[1.05rem] max-w-[34ch]">
             {fr ? 'Pas trouvé? Appelez le ' : 'Not here? Call '}
             <a href={tel} className="u-line font-semibold text-ink tabular-nums">{club.tel}</a>.
@@ -217,7 +217,7 @@ export function FindUs({ locale }: { locale: string }) {
     <section data-tone="accent" data-kanji="礼" className="pt-20 pb-24 lg:pt-28 lg:pb-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div>
-          <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] text-ink">{fr ? 'On se voit sur le tatami' : 'See you on the mat'}</RevealText>
+          <RevealText as="h2" className="display text-[clamp(3rem,7vw,6rem)] text-ink">{fr ? 'On se voit sur le tatami' : 'See you on the mat'}</RevealText>
           <ul className="mt-9 grid gap-4 text-[1.1rem] text-ink">
             <li className="flex gap-3">
               <MapPin className="mt-1 shrink-0" size={20} aria-hidden="true" />

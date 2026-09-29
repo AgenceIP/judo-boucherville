@@ -35,7 +35,7 @@ export default function Footer() {
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}
-          className="footer-mark display block w-full py-3 text-center whitespace-nowrap select-none text-[clamp(1.6rem,6.2vw,6rem)] leading-[1]"
+          className="footer-mark display block w-full py-3 text-center whitespace-nowrap select-none text-[clamp(3rem,11vw,10rem)] leading-[.85]"
           aria-label={locale === 'fr' ? 'Remonter en haut de page' : 'Back to top'}
         >
           Judo Boucherville

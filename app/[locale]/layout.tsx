@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Marcellus, Figtree } from 'next/font/google'
+import { Big_Shoulders, Public_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -9,22 +9,21 @@ import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import ScrollProgress from '@/components/layout/ScrollProgress'
 import CustomCursor from '@/components/ui/CustomCursor'
-import SmokeCursor from '@/components/ui/SmokeCursor'
 import PageLife from '@/components/home/PageLife'
 import { club } from '@/data/club'
 import '@/styles/globals.css'
 
-// Marcellus: flared capitals carved like a dojo plaque, one weight only.
-// Figtree: a clear, friendly text face for everything people read.
-const display = Marcellus({
+// Big Shoulders: condensed scoreboard capitals. Public Sans: plain, readable text.
+// Both are variable fonts, so every weight in use is real, never faked.
+const display = Big_Shoulders({
   subsets: ['latin'],
-  weight: '400',
+  axes: ['opsz'],
+  adjustFontFallback: false, // no metric overrides exist for this family; avoids a build warning
   variable: '--nf-display',
 })
 
-const sans = Figtree({
+const sans = Public_Sans({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
   variable: '--nf-sans',
 })
 
@@ -78,7 +77,6 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <ScrollProgress />
-            <SmokeCursor />
             <CustomCursor />
             <PageLife />
             <Navigation />

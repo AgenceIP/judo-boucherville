@@ -57,10 +57,10 @@
 .band-1 { isolation: isolate; }
 .band-1 .title {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 800;
   text-transform: uppercase;
-  line-height: 1.02;
-  font-size: clamp(1.9rem, 5.2vw, 4.4rem);
+  line-height: .86;
+  font-size: clamp(3.4rem, 7vw, 6rem);
   letter-spacing: -.005em;
   color: var(--color-ink);
 }
@@ -86,10 +86,10 @@
 .band-4 .right { grid-column: 3; justify-self: end; display: grid; gap: .75rem; }
 .hajime {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 800;
   text-transform: uppercase;
-  line-height: 1;
-  font-size: clamp(2.6rem, 5vw, 4.6rem);
+  line-height: .85;
+  font-size: clamp(3.6rem, 6.4vw, 6rem);
   color: var(--color-ink);
 }
 /* (d) word-punch with overshoot: the referee's call lands */
@@ -160,7 +160,7 @@
   .band-4 .right { grid-column: 1; justify-self: stretch; grid-template-columns: 1fr; gap: .5rem; }
   .band-4 .right .btn-ghost { background: rgba(252, 253, 254, .93); box-shadow: none; }
   .band-4 .right > *, .band-4 .right .btn { width: 100%; }
-  .hajime { font-size: 2.4rem; }
+  .hajime { font-size: 3rem; }
   .band-4 .sub { margin-top: .5rem; font-size: 1rem; }
 
   /* the cards own the bottom of the screen: loading ring and skip link go up top */
