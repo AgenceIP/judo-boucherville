@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 import { equipes, getAthlete } from '@/data/archive'
 import PageHero from '@/components/shared/PageHero'
 
@@ -39,11 +40,12 @@ export default async function AthletesPage({ params }: Props) {
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
         {Object.entries(equipes).map(([key, membres]) => (
-          <section key={key}>
+          // the former-athletes roll is long: give it the full row, in columns
+          <section key={key} className={cn(key === 'anciens' && 'sm:col-span-2 lg:col-span-3')}>
             <h2 className="text-[.78rem] text-muted uppercase tracking-[.25em] border-b border-ink/10 pb-3 mb-3">
               {LABELS[key]?.[fr ? 0 : 1] ?? key}
             </h2>
-            <ul className="space-y-1.5">
+            <ul className={key === 'anciens' ? 'sm:columns-2 lg:columns-3 gap-x-10 [&>li]:pb-1.5 [&>li]:break-inside-avoid' : 'space-y-1.5'}>
               {membres.map(m => (
                 <li key={m.nom}>
                   {m.slug && getAthlete(m.slug)
