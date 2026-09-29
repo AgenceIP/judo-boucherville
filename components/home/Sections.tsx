@@ -35,7 +35,7 @@ export function Steps({ locale }: { locale: string }) {
         ['Show up for your first class', 'In judogi and sandals. Start dates are right below.'],
       ]
   return (
-    <section className="on-dark bg-ink text-panel py-20 lg:py-32 overflow-hidden">
+    <section data-tone="ink" data-kanji="入" className="on-dark text-panel py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-8">
           <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] max-w-[12ch]">
@@ -81,7 +81,7 @@ export function Steps({ locale }: { locale: string }) {
 export function Dojo({ locale }: { locale: string }) {
   const fr = locale === 'fr'
   return (
-    <section className="bg-panel py-20 lg:py-32 overflow-hidden">
+    <section data-tone="panel" data-kanji="道" data-flip className="py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-10 items-end">
           <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] text-ink">{club.dojo}</RevealText>
@@ -110,7 +110,7 @@ export function Palmares({ locale }: { locale: string }) {
   const fr = locale === 'fr'
   const [or, argent, bronze] = totalPalmares
   return (
-    <section className="on-dark bg-blue text-panel py-20 lg:py-32 overflow-hidden">
+    <section data-tone="blue" data-kanji="勝" className="on-dark text-panel py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <p className="display text-[clamp(1.9rem,4.2vw,3.6rem)] !leading-[.98] max-w-[16ch]">
           {fr ? 'Depuis 2002, nos judokas ont rapporté ' : 'Since 2002, our judoka have brought home '}
@@ -185,7 +185,7 @@ export function Faq({ locale }: { locale: string }) {
         ['Can schedules change?', 'Yes, depending on the number of registrations. If in doubt, call us at 450 655-1888.'],
       ]
   return (
-    <section className="py-20 lg:py-32">
+    <section data-tone="canvas" data-kanji="問" data-flip className="py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-[.8fr_1.2fr] gap-10 lg:gap-20">
         <div className="lg:sticky lg:top-28 self-start">
           <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] text-ink">{fr ? 'Vos questions' : 'Your questions'}</RevealText>
@@ -214,7 +214,7 @@ export function FindUs({ locale }: { locale: string }) {
   const fr = locale === 'fr'
   const map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(club.adresse)}`
   return (
-    <section className="bg-accent py-20 lg:py-28 overflow-hidden">
+    <section data-tone="accent" data-kanji="礼" className="pt-20 pb-24 lg:pt-28 lg:pb-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div>
           <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] text-ink">{fr ? 'On se voit sur le tatami' : 'See you on the mat'}</RevealText>

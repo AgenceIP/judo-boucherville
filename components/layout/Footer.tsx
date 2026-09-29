@@ -29,7 +29,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-ink text-panel pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
-      <div className="h-2 bg-accent" aria-hidden="true" />
+      <div className="footer-seam" aria-hidden="true" />
       {/* Giant outlined wordmark: fills with tatami yellow on hover, rises back to the top on click */}
       <div className="overflow-hidden pt-12 -mb-2">
         <button

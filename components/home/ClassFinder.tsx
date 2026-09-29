@@ -39,7 +39,7 @@ export default function ClassFinder({ locale }: { locale: string }) {
   const lit = new Set(matches.map(m => m.p.slug))
 
   return (
-    <section id="trouver" className="on-dark scroll-mt-16 bg-blue text-panel py-20 lg:py-32 overflow-hidden">
+    <section id="trouver" data-tone="blue" data-kanji="始" className="on-dark scroll-mt-16 text-panel pt-20 pb-36 lg:pt-32 lg:pb-52 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-[1fr_1.15fr] gap-12 lg:gap-16 items-start">
           <div className="lg:sticky lg:top-28">

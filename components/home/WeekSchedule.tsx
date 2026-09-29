@@ -54,7 +54,7 @@ export default function WeekSchedule({ locale }: { locale: string }) {
   }, [])
 
   return (
-    <section id="horaire" className="scroll-mt-16 py-20 lg:py-32 bg-panel">
+    <section id="horaire" data-tone="panel" data-kanji="稽" className="scroll-mt-16 py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

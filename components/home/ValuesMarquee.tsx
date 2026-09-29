@@ -46,7 +46,7 @@ export default function ValuesMarquee({ locale }: { locale: string }) {
   )
 
   return (
-    <div ref={wrapRef} className="overflow-hidden bg-accent py-6 md:py-8 select-none" role="region" aria-label={locale === 'fr' ? 'Le code moral du judo' : 'The moral code of judo'}>
+    <div ref={wrapRef} data-tone="accent" data-band className="overflow-hidden py-6 md:py-8 select-none" role="region" aria-label={locale === 'fr' ? 'Le code moral du judo' : 'The moral code of judo'}>
       <div ref={trackRef} className="flex w-max will-change-transform">
         {[0, 1].map(run)}
       </div>

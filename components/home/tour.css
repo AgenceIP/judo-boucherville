@@ -175,4 +175,20 @@
        (prefers-reduced-motion: reduce) {
   .tour-scrub { display: none; }
   .tour-static { display: block; }
+  /* the static arrival ends on the wall white: the class finder fades in from it */
+  section:has(> .tour-static) + [data-tone] { --prev: var(--color-canvas); }
 }
+
+/* On landing, the bottom of the frame sinks into the royal blue of the class finder below */
+.tour-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 26%;
+  pointer-events: none;
+  background: linear-gradient(in oklch, transparent, rgb(10 63 140 / .16) 25%, rgb(10 63 140 / .5), rgb(10 63 140 / .84) 75%, var(--color-blue));
+  opacity: 0;
+  transition: opacity .9s var(--ease-out);
+}
+.tour-stage.landed::after { opacity: 1; }
+.band { z-index: 1; }
