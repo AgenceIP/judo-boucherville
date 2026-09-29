@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
-import { Big_Shoulders, Public_Sans } from 'next/font/google'
+import { Marcellus, Figtree } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import Providers from '@/components/providers/Providers'
-import PageTransition from '@/components/providers/PageTransition'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import ScrollProgress from '@/components/layout/ScrollProgress'
@@ -14,18 +13,23 @@ import PageLife from '@/components/home/PageLife'
 import { club } from '@/data/club'
 import '@/styles/globals.css'
 
-const display = Big_Shoulders({
+// Marcellus: flared capitals carved like a dojo plaque, one weight only.
+// Figtree: a clear, friendly text face for everything people read.
+const display = Marcellus({
   subsets: ['latin'],
-  axes: ['opsz'],
-  adjustFontFallback: false, // no metric overrides exist for this family; avoids a build warning
+  weight: '400',
   variable: '--nf-display',
 })
 
-const sans = Public_Sans({
+const sans = Figtree({
   subsets: ['latin'],
-  weight: ['400', '600'],
+  weight: ['400', '600', '700'],
   variable: '--nf-sans',
 })
+
+// Runs before first paint: reveal animations may hide content only when motion is
+// welcome, so titles never flash visible, vanish, then animate back in.
+const motionScript = "if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-ok')"
 
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -65,7 +69,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${display.variable} ${sans.variable}`}>
+    <html lang={locale} className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: motionScript }} />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>
@@ -74,7 +81,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <PageLife />
             <Navigation />
             <main id="main" tabIndex={-1} className="outline-none">
-              <PageTransition>{children}</PageTransition>
+              {children}
             </main>
             <Footer />
           </Providers>

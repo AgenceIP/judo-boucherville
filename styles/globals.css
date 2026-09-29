@@ -62,10 +62,18 @@ h1, h2, h3 { text-wrap: balance; }
   :is(main, footer) :is(p, li, dd, td, h3) a:not(.btn, .display) { padding-block: .9rem; }
 }
 
-/* Big Shoulders is one variable family with an optical-size axis: small sizes
-   switch to a wide text cut. Pin the condensed display cut everywhere it's used
-   as display, so the header wordmark fits a phone and headings keep one voice. */
-.font-display, .font-heading, .display { font-variation-settings: 'opsz' 72; }
+/* Marcellus has a single weight: never let the browser fake a bold version */
+html { font-synthesis: none; }
+
+/* Page fade on every navigation (app/[locale]/template.tsx) */
+@keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+.page-in { animation: page-in .35s var(--ease-out) both; }
+
+/* Masked title reveals (RevealText): hidden from the very first paint when motion
+   is welcome, shown the moment their animation starts. A failsafe shows them after
+   2.5 s even if a script never runs. */
+@keyframes reveal-failsafe { to { visibility: visible; } }
+.motion-ok [data-reveal]:not(.is-revealed) { visibility: hidden; animation: reveal-failsafe 0s 2.5s forwards; }
 p { text-wrap: pretty; }
 
 body.paused *, body.paused *::before, body.paused *::after {
@@ -162,10 +170,10 @@ body.paused *, body.paused *::before, body.paused *::after {
   /* Big display heading used by every section */
   .display {
     font-family: var(--font-display);
-    font-weight: 800;
+    font-weight: 400;
     text-transform: uppercase;
-    line-height: .88;
-    letter-spacing: -.01em;
+    line-height: 1.02;
+    letter-spacing: .015em;
   }
 
   /* Tatami seams that draw themselves when their section enters */
@@ -182,13 +190,13 @@ body.paused *, body.paused *::before, body.paused *::after {
   .clip-reveal > img, .clip-reveal > .inner { transition: transform 1.6s var(--ease-out); }
   .motion-ok .clip-reveal:not(.in) { clip-path: inset(100% 0 0 0); }
   .motion-ok .clip-reveal:not(.in) > img, .motion-ok .clip-reveal:not(.in) > .inner { transform: scale(1.18); }
-  .motion-ok .clip-reveal { transition: clip-path 1.2s var(--ease-in-out); }
+  .motion-ok .clip-reveal { transition: clip-path .9s var(--ease-in-out); }
 
   /* Lists that cascade in, one item after another */
   .motion-ok .cascade:not(.in) > * { opacity: 0; transform: translateY(18px); }
   .cascade > * {
-    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
-    transition-delay: calc(var(--i, 0) * 60ms);
+    transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 40ms);
   }
   .cascade.done > * { transition-delay: 0s; }
 
@@ -223,8 +231,8 @@ body.paused *, body.paused *::before, body.paused *::after {
   color: var(--color-accent);
   -webkit-text-stroke: 0;
   clip-path: inset(0 0 0 0);
-  transition: clip-path 1.1s var(--ease-in-out);
-  transition-delay: calc(var(--i, 0) * 180ms + 200ms);
+  transition: clip-path .8s var(--ease-in-out);
+  transition-delay: calc(var(--i, 0) * 120ms + 100ms);
 }
 .motion-ok .step:not(.in) .step-num::after { clip-path: inset(100% 0 0 0); }
 

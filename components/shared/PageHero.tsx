@@ -34,7 +34,7 @@ export default function PageHero({ title, subtitle, tag, tagColor = 'text-blue' 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-[1fr_22rem] gap-10 items-end">
         <div>
           {tag && <span className={`label ${tagColor} block mb-4`}>{tag}</span>}
-          <RevealText as="h1" className="display text-ink text-[clamp(3rem,7vw,6rem)]">
+          <RevealText as="h1" className="display text-ink text-[clamp(2.1rem,5vw,4rem)]">
             {title}
           </RevealText>
           {subtitle && (

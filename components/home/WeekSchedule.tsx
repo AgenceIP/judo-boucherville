@@ -58,7 +58,7 @@ export default function WeekSchedule({ locale }: { locale: string }) {
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <RevealText as="h2" className="display text-[clamp(3rem,6.5vw,6rem)] text-ink">
+            <RevealText as="h2" className="display text-[clamp(2.1rem,5vw,4rem)] text-ink">
               {fr ? 'La semaine au dojo' : 'A week at the dojo'}
             </RevealText>
             <p className="mt-4 text-[1.1rem] text-ink-2">{fr ? `Horaire ${inscription.saison}. Touchez un cours pour tous les détails.` : `Schedule ${inscription.saison}. Tap a class for all the details.`}</p>
@@ -94,7 +94,7 @@ export default function WeekSchedule({ locale }: { locale: string }) {
                 onClick={() => setDay(d)}
                 className={cn('flex flex-col items-center justify-center min-h-14 rounded-[4px] transition-colors duration-300', day === d ? 'bg-ink text-panel' : 'bg-canvas text-ink')}
               >
-                <span className="display text-[1.15rem] leading-none">{name.slice(0, 3)}</span>
+                <span className="display text-[.95rem] leading-none">{name.slice(0, 3)}</span>
                 <span className={cn('mt-1 text-[.72rem] tabular-nums', day === d ? 'text-accent' : 'text-ink-2')}>{n}</span>
               </button>
             )
@@ -106,7 +106,7 @@ export default function WeekSchedule({ locale }: { locale: string }) {
             const visible = slots.filter(s => filter === 'tous' || s.categorie === filter)
             return (
               <div key={d} id={`jour-${d}`} role="tabpanel" style={{ '--i': d } as React.CSSProperties} className={cn('md:block md:bg-panel md:rounded-[3px] md:p-2 md:min-h-[22rem]', day === d ? 'block' : 'hidden')}>
-                <h3 className="display text-[1.35rem] text-ink mb-2 md:text-center max-md:sr-only">{days[d]}</h3>
+                <h3 className="display text-[1.1rem] text-ink mb-2 md:text-center max-md:sr-only">{days[d]}</h3>
                 {visible.length === 0 && <p className="text-[.95rem] md:text-[.85rem] text-ink-2 md:text-center md:mt-6">{fr ? 'Pas de cours ce jour-là.' : 'No class that day.'}</p>}
                 <ul className="grid gap-1.5">
                   {visible.map(s => (

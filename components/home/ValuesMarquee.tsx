@@ -38,7 +38,7 @@ export default function ValuesMarquee({ locale }: { locale: string }) {
     <span key={key} className="flex items-center shrink-0" aria-hidden={key > 0}>
       {values.map(v => (
         <span key={v} className="flex items-center">
-          <span className="display text-[clamp(3.2rem,8vw,6rem)] text-ink px-[.35em] whitespace-nowrap">{v}</span>
+          <span className="display text-[clamp(2.2rem,5.5vw,4.2rem)] text-ink px-[.35em] whitespace-nowrap">{v}</span>
           <span className="font-jp text-[clamp(1.6rem,3vw,2.4rem)] text-blue" aria-hidden="true">礼</span>
         </span>
       ))}

@@ -25,7 +25,7 @@ export default async function CeinturesNoiresPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         <div className="text-center mb-16">
-          <div className="font-heading text-[clamp(80px,12vw,140px)] text-royal leading-none">{total}</div>
+          <div className="font-heading text-[clamp(56px,8vw,96px)] text-royal leading-none">{total}</div>
           <p className="text-muted mt-2 tracking-widest uppercase text-sm">
             {locale === 'fr' ? 'Ceintures noires · 1972–2026' : 'Black Belts · 1972–2026'}
           </p>

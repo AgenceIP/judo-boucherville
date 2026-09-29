@@ -34,32 +34,36 @@ export default function RevealText({
   useGSAP(() => {
     const el = ref.current
     if (!el) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.classList.add('is-revealed'); return }
 
     const splitInstance = SplitText.create(el, {
       type: split === 'lines' ? 'lines' : 'lines,words',
       mask: 'lines',
       autoSplit: true,
-      onSplit: (self) =>
-        gsap.from(split === 'lines' ? self.lines : self.words, {
+      onSplit: (self) => {
+        const tween = gsap.from(split === 'lines' ? self.lines : self.words, {
           yPercent: 110,
-          duration: 1.1,
-          stagger: split === 'lines' ? 0.12 : 0.06,
+          duration: 0.8,
+          stagger: split === 'lines' ? 0.08 : 0.04,
           ease: 'power4.out',
           delay,
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: 'top 94%',
             once: true,
           },
-        }),
+        })
+        // words now sit below their masks, so the heading can stop being hidden (see globals.css)
+        el.classList.add('is-revealed')
+        return tween
+      },
     })
 
     return () => splitInstance.revert()
   }, { scope: ref })
 
   return (
-    <Tag ref={ref as React.Ref<never>} className={className} style={style}>
+    <Tag ref={ref as React.Ref<never>} className={className} style={style} data-reveal="">
       {children}
     </Tag>
   )

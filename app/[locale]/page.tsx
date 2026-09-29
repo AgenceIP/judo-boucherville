@@ -5,7 +5,6 @@ import WeekSchedule from '@/components/home/WeekSchedule'
 import ValuesMarquee from '@/components/home/ValuesMarquee'
 import { Steps, Dojo, Palmares, Faq, FindUs } from '@/components/home/Sections'
 import { club, inscription } from '@/data/club'
-import { programmes } from '@/data/programmes'
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -49,11 +48,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         place: 'Dojo Marcel Bourelly · Boucherville',
         title: ['Club de Judo', 'Boucherville'] as [string, string],
         since: 'Depuis 1970. Club reconnu AAA par Judo Québec.',
-        ages: ['Dès 4 ans.', 'Sans âge limite.'] as [string, string],
-        agesSub: 'Parents et tout-petits, enfants, ados, adultes, 50 ans et plus.',
-        count: `${programmes.length} programmes.`,
-        disciplines: 'Judo, jiu-jitsu brésilien, aiki ju-jitsu, auto-défense.',
-        days: 'Du lundi au dimanche',
         season: `Saison ${inscription.saison}`,
         hajime: 'Hajime.',
         hajimeSub: 'Le mot qui lance chaque combat. Votre premier cours commence ici.',
@@ -66,11 +60,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         place: 'Dojo Marcel Bourelly · Boucherville',
         title: ['Club de Judo', 'Boucherville'] as [string, string],
         since: 'Since 1970. An AAA club recognized by Judo Québec.',
-        ages: ['From age 4.', 'No upper limit.'] as [string, string],
-        agesSub: 'Parents and toddlers, kids, teens, adults, 50 and over.',
-        count: `${programmes.length} programs.`,
-        disciplines: 'Judo, Brazilian jiu-jitsu, aiki ju-jitsu, self-defence.',
-        days: 'Monday to Sunday',
         season: `Season ${inscription.saison}`,
         hajime: 'Hajime.',
         hajimeSub: 'The word that starts every match. Your first class starts here.',

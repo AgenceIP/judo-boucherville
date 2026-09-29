@@ -57,10 +57,10 @@
 .band-1 { isolation: isolate; }
 .band-1 .title {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 400;
   text-transform: uppercase;
-  line-height: .86;
-  font-size: clamp(3.4rem, 7vw, 6rem);
+  line-height: 1.02;
+  font-size: clamp(1.9rem, 5.2vw, 4.4rem);
   letter-spacing: -.005em;
   color: var(--color-ink);
 }
@@ -72,37 +72,6 @@
   --kc: clamp(0, (var(--k, 0) - var(--th, 0)) * 3, 1);
   opacity: var(--kc);
   transform: translateX(calc((1 - var(--kc)) * var(--jx, 0px)));
-}
-
-.band-card {
-  background: rgba(251, 250, 246, .9);
-  color: var(--color-ink);
-  border-radius: 6px;
-  padding: clamp(1.25rem, 2.2vw, 2rem) clamp(1.25rem, 2.6vw, 2.4rem);
-  box-shadow: 0 1px 0 rgba(11, 27, 56, .08), 0 24px 60px -30px rgba(11, 27, 56, .55);
-}
-.band-2 { left: 5vw; top: 50%; translate: 0 -50%; max-width: min(34rem, 42vw); }
-.band-3 { right: 5vw; top: 50%; translate: 0 -50%; max-width: min(34rem, 42vw); }
-.band-big {
-  font-family: var(--font-display);
-  font-weight: 800;
-  text-transform: uppercase;
-  line-height: .9;
-  font-size: clamp(2.6rem, 5vw, 5.2rem);
-}
-
-/* (f) drift-down: the camera pitches up, the room falls into frame, the words fall with it */
-.band-2 .w {
-  display: inline-block;
-  --kc: clamp(0, (var(--k, 0) - var(--th, 0)) * 2.8, 1);
-  opacity: var(--kc);
-  transform: translateY(calc((1 - var(--kc)) * -28px));
-}
-/* (g) approach-from-depth: the camera glides forward, the card comes toward you */
-.band-3 .band-card {
-  --kc: clamp(0, var(--k, 0) * 1.6, 1);
-  transform: scale(calc(.84 + .16 * var(--kc)));
-  transform-origin: right center;
 }
 
 /* Settle: two columns flanking the logo on the wood wall */
@@ -117,10 +86,10 @@
 .band-4 .right { grid-column: 3; justify-self: end; display: grid; gap: .75rem; }
 .hajime {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 400;
   text-transform: uppercase;
-  line-height: .85;
-  font-size: clamp(3.6rem, 6.4vw, 6rem);
+  line-height: 1;
+  font-size: clamp(2.6rem, 5vw, 4.6rem);
   color: var(--color-ink);
 }
 /* (d) word-punch with overshoot: the referee's call lands */
@@ -175,17 +144,6 @@
   .tour-layer--end { background-size: auto 118%; background-position: 46% 100%; }
 
   .band-1 { padding: 5rem 1rem 7rem; }
-  .band-2, .band-3 {
-    left: 1rem;
-    right: 1rem;
-    top: auto;
-    bottom: calc(5.25rem + env(safe-area-inset-bottom));
-    translate: none;
-    max-width: none;
-  }
-  .band-3 .band-card { transform-origin: center bottom; }
-  .band-big { font-size: clamp(2.3rem, 11vw, 3.2rem); }
-
   .band-4 {
     grid-template-columns: 1fr;
     align-content: end;
@@ -202,7 +160,7 @@
   .band-4 .right { grid-column: 1; justify-self: stretch; grid-template-columns: 1fr; gap: .5rem; }
   .band-4 .right .btn-ghost { background: rgba(252, 253, 254, .93); box-shadow: none; }
   .band-4 .right > *, .band-4 .right .btn { width: 100%; }
-  .hajime { font-size: 3rem; }
+  .hajime { font-size: 2.4rem; }
   .band-4 .sub { margin-top: .5rem; font-size: 1rem; }
 
   /* the cards own the bottom of the screen: loading ring and skip link go up top */

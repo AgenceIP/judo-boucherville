@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -50,19 +50,12 @@ export default function Navigation() {
   const fr = locale === 'fr'
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
-  const [hidden, setHidden] = useState(false)
-  const lastY = useRef(0)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [open, setOpen] = useState<'programmes' | 'club' | null>(null)
 
   useEffect(() => {
-    const handler = () => {
-      const y = window.scrollY
-      setScrolled(y > 8)
-      // Out of the way while reading down, back on the slightest scroll up
-      setHidden(y > 480 && y > lastY.current + 2)
-      if (Math.abs(y - lastY.current) > 2) lastY.current = y
-    }
+    // Always visible: see-through at the very top, navy as soon as the page moves
+    const handler = () => setScrolled(window.scrollY > 8)
     handler()
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
@@ -87,7 +80,9 @@ export default function Navigation() {
     { href: `/${locale}/contact`, label: fr ? 'Nous trouver' : 'Find us', icon: MapPin },
   ]
   const categories = [...new Set(programmes.map(p => p.category))]
-  const switchHref = `/${fr ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`
+  const solid = scrolled || mobileOpen
+  const isHome = /^\/(fr|en)\/?$/.test(pathname)
+  const switchHref =`/${fr ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`
 
   return (
     <>
@@ -96,18 +91,23 @@ export default function Navigation() {
       </a>
       <header
         className={cn(
-          'fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow,transform] duration-500 ease-[cubic-bezier(.16,1,.3,1)]',
-          hidden && !mobileOpen && '-translate-y-full',
-          scrolled || mobileOpen ? 'bg-panel/92 backdrop-blur-md shadow-[0_1px_0_rgba(11,27,56,.1)]' : 'bg-panel/70 backdrop-blur-sm'
+          'fixed top-0 inset-x-0 z-50 transition-[background-color,color,box-shadow] duration-500 ease-[cubic-bezier(.16,1,.3,1)]',
+          solid
+            ? 'on-dark bg-ink text-panel shadow-[0_10px_30px_-18px_rgba(5,10,24,.8)]'
+            : isHome
+              // over the tour video: white type on a soft navy fade, legible on yellow mats and blue alike
+              ? 'on-dark text-panel bg-linear-to-b from-ink/70 via-ink/35 to-transparent'
+              : 'bg-transparent text-ink'
         )}
       >
         <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center gap-6" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
           <Link href={`/${locale}`} className="flex items-center gap-3 shrink-0" aria-label="Club de Judo Boucherville">
             <span className="grid place-items-center w-10 h-10 rounded-[6px] bg-white shadow-[0_0_0_1px_rgba(11,27,56,.1)]">
-              <Image src="/images/brand/cjb-mark.png" alt="" width={30} height={31} priority />
+              <Image src="/images/brand/cjb-mark.png" alt="" width={30} height={31} style={{ height: 'auto' }} priority />
             </span>
-            <span className="font-display font-extrabold uppercase text-[1.35rem] leading-none tracking-[.02em] text-ink">
-              Judo Boucherville
+            <span className="display text-[.72rem] leading-[1.2] tracking-[.16em]">
+              <span className="block">Club de judo</span>
+              <span className="block text-[1.05rem] tracking-[.05em]">Boucherville</span>
             </span>
           </Link>
 
@@ -132,7 +132,7 @@ export default function Navigation() {
               </div>
             </Dropdown>
             {quick.map(q => (
-              <Link key={q.href} href={q.href} className="mx-3 py-2 text-[.9rem] font-semibold text-ink-2 hover:text-ink transition-colors u-line">
+              <Link key={q.href} href={q.href} className="mx-3 py-2 text-[.92rem] font-semibold opacity-85 hover:opacity-100 transition-opacity u-line">
                 {q.label}
               </Link>
             ))}
@@ -146,10 +146,10 @@ export default function Navigation() {
           </div>
 
           <div className="ml-auto flex items-center gap-2 lg:gap-4">
-            <a href={tel} className="hidden md:inline-flex items-center gap-2 tabular-nums text-[.9rem] font-semibold text-ink hover:text-blue">
+            <a href={tel} className="hidden md:inline-flex items-center gap-2 tabular-nums text-[.92rem] font-semibold opacity-90 hover:opacity-100">
               <Phone size={15} aria-hidden="true" /> {club.tel}
             </a>
-            <Link href={switchHref} className="grid place-items-center min-w-11 min-h-11 label text-ink-2 hover:text-ink" hrefLang={fr ? 'en' : 'fr'}>
+            <Link href={switchHref} className="grid place-items-center min-w-11 min-h-11 label opacity-80 hover:opacity-100" hrefLang={fr ? 'en' : 'fr'}>
               {fr ? 'EN' : 'FR'}
             </Link>
             <Magnetic strength={0.25} className="hidden sm:inline-block">
@@ -158,7 +158,7 @@ export default function Navigation() {
               </Link>
             </Magnetic>
             <button
-              className="lg:hidden grid place-items-center w-11 h-11 text-ink"
+              className="lg:hidden grid place-items-center w-11 h-11"
               onClick={() => setMobileOpen(o => !o)}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
@@ -177,7 +177,7 @@ export default function Navigation() {
           <ul className="grid">
             {[...quick, { href: `/${locale}/inscription`, label: t('inscription') }, { href: `/${locale}/contact`, label: 'Contact' }].map((q, i) => (
               <li key={q.href} className="rise border-b border-panel/15" style={{ '--i': i } as React.CSSProperties}>
-                <Link href={q.href} className="flex items-center justify-between min-h-14 py-2 display text-[2.3rem] leading-none">
+                <Link href={q.href} className="flex items-center justify-between min-h-14 py-2 display text-[1.8rem] leading-none">
                   {q.label} <span aria-hidden="true" className="text-accent text-2xl">→</span>
                 </Link>
               </li>
@@ -239,7 +239,7 @@ function Dropdown({ label, isOpen, onOpen, wide, children }: {
   return (
     <div className="relative" onMouseEnter={() => onOpen(true)} onMouseLeave={() => onOpen(false)}>
       <button
-        className="flex items-center gap-1 px-3 py-2 text-[.9rem] font-semibold text-ink-2 hover:text-ink transition-colors"
+        className="flex items-center gap-1 px-3 py-2 text-[.92rem] font-semibold opacity-85 hover:opacity-100 transition-opacity"
         aria-expanded={isOpen}
         onClick={() => onOpen(!isOpen)}
       >

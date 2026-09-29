@@ -49,8 +49,6 @@ function rng(seed: number) {
 
 type Copy = {
   place: string; title: [string, string]; since: string
-  ages: [string, string]; agesSub: string
-  count: string; disciplines: string; days: string
   season: string; hajime: string; hajimeSub: string
   find: string; register: string; skip: string; loading: string
 }
@@ -275,29 +273,6 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
             <p className="mt-6 text-[1.05rem] font-semibold text-ink">{copy.since}</p>
           </div>
 
-          <div className="band band-2" data-a="0.2" data-b="0.4">
-            <div className="band-card">
-              <p className="band-big">
-                {[copy.ages[0], copy.ages[1]].map((line, li) => (
-                  <span key={li} className="block">
-                    {line.split(' ').map((w, wi) => (
-                      <span key={wi}><span className="w" style={{ '--th': li * 0.28 + wi * 0.1 } as React.CSSProperties}>{w}</span>{' '}</span>
-                    ))}
-                  </span>
-                ))}
-              </p>
-              <p className="mt-4 text-ink-2 text-[1rem] leading-relaxed">{copy.agesSub}</p>
-            </div>
-          </div>
-
-          <div className="band band-3" data-a="0.46" data-b="0.72">
-            <div className="band-card">
-              <p className="band-big">{copy.count}</p>
-              <p className="mt-3 text-ink text-[1.05rem] font-semibold leading-snug">{copy.disciplines}</p>
-              <p className="mt-2 label text-blue">{copy.days}</p>
-            </div>
-          </div>
-
           <div className="band band-4" data-a="0.84" data-b="1" data-ramp="0.08">
             <div className="left">
               <p className="label text-ink mb-3">{copy.season}</p>
@@ -330,7 +305,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
         </div>
         <div className="px-4 py-8 max-w-xl">
           <p className="label text-blue mb-3">{copy.season} · {copy.place}</p>
-          <h1 className="font-display font-extrabold uppercase text-[3.4rem] leading-[.86] text-ink">
+          <h1 className="font-display uppercase text-[2.6rem] leading-[1] text-ink">
             {copy.hajime}
           </h1>
           <p className="mt-4 text-[1.1rem] font-semibold leading-snug text-ink">{copy.hajimeSub}</p>

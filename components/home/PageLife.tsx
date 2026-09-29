@@ -30,7 +30,7 @@ export default function PageLife() {
         }
         io.unobserve(el)
       }
-    }, { rootMargin: '0px 0px -12% 0px' })
+    }, { rootMargin: '0px 0px -4% 0px' })
     document.querySelectorAll('[data-reveal-seam], .clip-reveal, .cascade').forEach(el => io.observe(el))
 
     const tweens = reduced ? [] : gsap.utils.toArray<HTMLElement>('[data-parallax]').map(el =>
