@@ -1,11 +1,10 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
-import { Menu, X, Phone, CalendarDays, Tag, PenLine, MapPin, ChevronDown } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Menu, X, Phone, CalendarDays, Tag, PenLine, Mail, MapPin, ArrowRight } from 'lucide-react'
 import { club } from '@/data/club'
 import Magnetic from '@/components/ui/Magnetic'
 
@@ -40,168 +39,154 @@ const clubLinks = [
 const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
 
 /**
- * Info-first header: the four things people come for (schedule, fees,
- * registration, address) are top-level links, the phone number is always
- * visible, and phones get a thumb bar pinned to the bottom of the screen.
+ * Minimal header on every screen: the logo, a yellow « S'inscrire » pill and a
+ * navy « Menu » pill, all self-contained so they read over the tour video and
+ * over light pages alike. « Menu » opens one full-screen tatami-blue menu:
+ * the essentials in big type, then programs, then the club and contact.
+ * Phones also keep the thumb bar at the bottom.
  */
 export default function Navigation() {
   const t = useTranslations('nav')
   const locale = useLocale()
   const fr = locale === 'fr'
   const pathname = usePathname()
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [open, setOpen] = useState<'programmes' | 'club' | null>(null)
+  const [open, setOpen] = useState(false)
+  const menuBtn = useRef<HTMLButtonElement>(null)
+  const firstLink = useRef<HTMLAnchorElement>(null)
 
+  // Open menu: freeze the page behind it, focus the first link, Escape closes
   useEffect(() => {
-    // Always visible: see-through at the very top, navy as soon as the page moves
-    const handler = () => setScrolled(window.scrollY > 8)
-    handler()
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
-
-  // Phone menu: freeze the page behind it, close on Escape
-  useEffect(() => {
-    if (!mobileOpen) return
+    if (!open) return
     document.body.style.overflow = 'hidden'
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false) }
+    firstLink.current?.focus({ preventScroll: true })
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setOpen(false); menuBtn.current?.focus() }
+    }
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) }
-  }, [mobileOpen])
+  }, [open])
 
-  // Close menus on navigation (state adjusted during render, not in an effect)
+  // Close on navigation (state adjusted during render, not in an effect)
   const [lastPath, setLastPath] = useState(pathname)
-  if (pathname !== lastPath) { setLastPath(pathname); setMobileOpen(false); setOpen(null) }
+  if (pathname !== lastPath) { setLastPath(pathname); setOpen(false) }
 
-  const quick = [
-    { href: `/${locale}#horaire`, label: fr ? 'Horaire' : 'Schedule', icon: CalendarDays },
-    { href: `/${locale}/inscription#tarifs`, label: fr ? 'Tarifs' : 'Fees', icon: Tag },
-    { href: `/${locale}/contact`, label: fr ? 'Nous trouver' : 'Find us', icon: MapPin },
+  const essentials = [
+    { href: `/${locale}#trouver`, label: fr ? 'Trouver mon cours' : 'Find my class' },
+    { href: `/${locale}#horaire`, label: fr ? 'Horaire' : 'Schedule' },
+    { href: `/${locale}/inscription#tarifs`, label: fr ? 'Tarifs' : 'Fees' },
+    { href: `/${locale}/inscription`, label: t('inscription') },
+    { href: `/${locale}/contact`, label: fr ? 'Nous trouver' : 'Find us' },
   ]
   const categories = [...new Set(programmes.map(p => p.category))]
-  const solid = scrolled || mobileOpen
-  const isHome = /^\/(fr|en)\/?$/.test(pathname)
-  const switchHref =`/${fr ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`
+  const switchHref = `/${fr ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`
+  const map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(club.adresse)}`
 
   return (
     <>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] btn btn-primary">
         {fr ? 'Aller au contenu' : 'Skip to content'}
       </a>
-      <header
-        className={cn(
-          'fixed top-0 inset-x-0 z-50 transition-[background-color,color,box-shadow] duration-500 ease-[cubic-bezier(.16,1,.3,1)]',
-          solid
-            ? 'on-dark bg-ink text-panel shadow-[0_10px_30px_-18px_rgba(5,10,24,.8)]'
-            : isHome
-              // over the tour video: white type on a soft navy fade, legible on yellow mats and blue alike
-              ? 'on-dark text-panel bg-linear-to-b from-ink/70 via-ink/35 to-transparent'
-              : 'bg-transparent text-ink'
-        )}
-      >
-        <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center gap-6" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
-          <Link href={`/${locale}`} className="flex items-center gap-3 shrink-0" aria-label="Club de Judo Boucherville">
-            <span className="grid place-items-center w-10 h-10 rounded-[6px] bg-white shadow-[0_0_0_1px_rgba(11,27,56,.1)]">
-              <Image src="/images/brand/cjb-mark.png" alt="" width={30} height={31} style={{ height: 'auto' }} priority />
-            </span>
-            <span className="display text-[.72rem] leading-[1.2] tracking-[.16em]">
-              <span className="block">Club de judo</span>
-              <span className="block text-[1.05rem] tracking-[.05em]">Boucherville</span>
-            </span>
+
+      {/* The bar itself lets clicks through; only its three pieces are interactive */}
+      <header className="fixed top-0 inset-x-0 z-50 pointer-events-none">
+        <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-[4.5rem] flex items-center justify-between" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
+          <Link
+            href={`/${locale}`}
+            className="pointer-events-auto grid place-items-center w-12 h-12 rounded-[8px] bg-white shadow-[0_0_0_1px_rgba(11,27,56,.08),0_6px_18px_-8px_rgba(11,27,56,.5)] transition-transform duration-300 hover:scale-[1.04]"
+            aria-label="Club de Judo Boucherville"
+          >
+            <Image src="/images/brand/cjb-mark.png" alt="" width={36} height={37} style={{ height: 'auto' }} priority />
           </Link>
 
-          <div className="hidden lg:flex items-center gap-1 ml-2">
-            <Dropdown
-              label={t('programmes')}
-              isOpen={open === 'programmes'}
-              onOpen={o => setOpen(o ? 'programmes' : null)}
-              wide
-            >
-              <div className="grid grid-cols-3 gap-6">
-                {categories.map(cat => (
-                  <div key={cat}>
-                    <p className="label text-blue mb-2">{cat}</p>
-                    {programmes.filter(p => p.category === cat).map(p => (
-                      <Link key={p.href} href={`/${locale}${p.href}`} className="block py-1.5 text-[.9rem] text-ink-2 hover:text-ink">
-                        {fr ? p.labelFr : p.labelEn}
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </Dropdown>
-            {quick.map(q => (
-              <Link key={q.href} href={q.href} className="mx-3 py-2 text-[.92rem] font-semibold opacity-85 hover:opacity-100 transition-opacity u-line">
-                {q.label}
-              </Link>
-            ))}
-            <Dropdown label={t('club')} isOpen={open === 'club'} onOpen={o => setOpen(o ? 'club' : null)}>
-              {clubLinks.map(l => (
-                <Link key={l.href} href={`/${locale}${l.href}`} className="block py-1.5 text-[.9rem] text-ink-2 hover:text-ink">
-                  {fr ? l.labelFr : l.labelEn}
-                </Link>
-              ))}
-            </Dropdown>
-          </div>
-
-          <div className="ml-auto flex items-center gap-2 lg:gap-4">
-            <a href={tel} className="hidden md:inline-flex items-center gap-2 tabular-nums text-[.92rem] font-semibold opacity-90 hover:opacity-100">
-              <Phone size={15} aria-hidden="true" /> {club.tel}
-            </a>
-            <Link href={switchHref} className="grid place-items-center min-w-11 min-h-11 label opacity-80 hover:opacity-100" hrefLang={fr ? 'en' : 'fr'}>
-              {fr ? 'EN' : 'FR'}
-            </Link>
-            <Magnetic strength={0.25} className="hidden sm:inline-block">
-              <Link href={`/${locale}/inscription`} className="btn btn-primary !py-3">
+          <div className="pointer-events-auto flex items-center gap-2">
+            {/* phones already have « S’inscrire » in the thumb bar */}
+            <Magnetic strength={0.2} className="hidden sm:inline-block">
+              <Link href={`/${locale}/inscription`} className="btn btn-primary !rounded-full !py-3 !px-5 shadow-[0_6px_18px_-8px_rgba(11,27,56,.55)]">
                 {t('inscription')}
               </Link>
             </Magnetic>
-            <button
-              className="lg:hidden grid place-items-center w-11 h-11"
-              onClick={() => setMobileOpen(o => !o)}
-              aria-expanded={mobileOpen}
-              aria-controls="mobile-menu"
-              aria-label="Menu"
-            >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            <Magnetic strength={0.2}>
+              <button
+                ref={menuBtn}
+                onClick={() => setOpen(o => !o)}
+                aria-expanded={open}
+                aria-controls="site-menu"
+                className="btn !rounded-full !py-3 !px-5 bg-ink text-panel [--wipe:#FCFDFE] hover:text-ink focus-visible:text-ink shadow-[0_6px_18px_-8px_rgba(11,27,56,.55)]"
+              >
+                {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+                {open ? (fr ? 'Fermer' : 'Close') : 'Menu'}
+              </button>
+            </Magnetic>
           </div>
         </nav>
-
       </header>
 
-      {/* Phone menu, outside the header: its backdrop blur would make it the containing block of this fixed sheet. A full-screen tatami-blue sheet, the essentials first in big type */}
-      {mobileOpen && (
-        <div id="mobile-menu" className="on-dark lg:hidden fixed z-40 inset-x-0 top-16 bottom-0 overflow-y-auto overscroll-contain bg-blue text-panel px-4 pt-6 pb-32 [animation:sheet_.45s_cubic-bezier(.16,1,.3,1)_both]">
-          <ul className="grid">
-            {[...quick, { href: `/${locale}/inscription`, label: t('inscription') }, { href: `/${locale}/contact`, label: 'Contact' }].map((q, i) => (
-              <li key={q.href} className="rise border-b border-panel/15" style={{ '--i': i } as React.CSSProperties}>
-                <Link href={q.href} className="flex items-center justify-between min-h-14 py-2 display text-[1.8rem] leading-none">
-                  {q.label} <span aria-hidden="true" className="text-accent text-2xl">→</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className="rise mt-8 mb-2 text-[.95rem] font-semibold text-accent" style={{ '--i': 6 } as React.CSSProperties}>{t('programmes')}</p>
-          <div className="rise grid grid-cols-2 gap-x-4" style={{ '--i': 7 } as React.CSSProperties}>
-            {programmes.map(p => (
-              <Link key={p.href} href={`/${locale}${p.href}`} className="flex items-center min-h-12 py-2 text-[1rem] text-panel/90 border-b border-panel/10">
-                {fr ? p.labelFr : p.labelEn}
+      {open && (
+        <div
+          id="site-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+          className="on-dark fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-blue text-panel [animation:sheet_.5s_cubic-bezier(.16,1,.3,1)_both]"
+          // any link inside closes the menu, including same-page anchors like #horaire
+          onClick={e => { if ((e.target as Element).closest('a')) setOpen(false) }}
+        >
+          <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-24 lg:pt-32 pb-32 lg:pb-20 grid gap-12 lg:grid-cols-[1.25fr_1fr_1fr] lg:gap-16">
+            <ul className="grid content-start">
+              {essentials.map((q, i) => (
+                <li key={q.href} className="rise border-b border-panel/15" style={{ '--i': i } as React.CSSProperties}>
+                  <Link
+                    ref={i === 0 ? firstLink : undefined}
+                    href={q.href}
+                    className="group flex items-center justify-between gap-4 min-h-14 py-3 display text-[clamp(1.7rem,3.2vw,2.7rem)] leading-none transition-colors hover:text-accent"
+                  >
+                    <span className="transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-2">{q.label}</span>
+                    <ArrowRight size={26} aria-hidden="true" className="shrink-0 text-accent transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-1" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="rise" style={{ '--i': 5 } as React.CSSProperties}>
+              <p className="display text-[1.2rem] text-accent mb-3">{t('programmes')}</p>
+              {categories.map(cat => (
+                <div key={cat} className="mb-5">
+                  <p className="text-[.85rem] font-semibold text-panel/60 mb-1">{cat}</p>
+                  <ul className="grid grid-cols-2 lg:grid-cols-1 gap-x-4">
+                    {programmes.filter(p => p.category === cat).map(p => (
+                      <li key={p.href}>
+                        <Link href={`/${locale}${p.href}`} className="flex items-center min-h-11 text-[1.02rem] text-panel/90 hover:text-accent transition-colors">
+                          {fr ? p.labelFr : p.labelEn}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="rise" style={{ '--i': 6 } as React.CSSProperties}>
+              <p className="display text-[1.2rem] text-accent mb-3">{t('club')}</p>
+              <ul className="grid grid-cols-2 lg:grid-cols-1 gap-x-4">
+                {clubLinks.map(l => (
+                  <li key={l.href}>
+                    <Link href={`/${locale}${l.href}`} className="flex items-center min-h-11 text-[1.02rem] text-panel/90 hover:text-accent transition-colors">
+                      {fr ? l.labelFr : l.labelEn}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 grid gap-1 text-[1rem]">
+                <a href={tel} className="inline-flex items-center gap-3 min-h-11 font-semibold tabular-nums hover:text-accent"><Phone size={18} aria-hidden="true" /> {club.tel}</a>
+                <a href={`mailto:${club.courriel}`} className="inline-flex items-center gap-3 min-h-11 hover:text-accent break-all"><Mail size={18} aria-hidden="true" /> {club.courriel}</a>
+                <a href={map} target="_blank" rel="noopener noreferrer" className="inline-flex items-start gap-3 py-2.5 hover:text-accent"><MapPin size={18} aria-hidden="true" className="mt-0.5 shrink-0" /> {club.adresse}</a>
+              </div>
+              <Link href={switchHref} hrefLang={fr ? 'en' : 'fr'} className="mt-6 btn btn-ghost-light !rounded-full !py-2.5">
+                {fr ? 'English' : 'Français'}
               </Link>
-            ))}
+            </div>
           </div>
-          <p className="rise mt-8 mb-2 text-[.95rem] font-semibold text-accent" style={{ '--i': 8 } as React.CSSProperties}>{t('club')}</p>
-          <div className="rise grid grid-cols-2 gap-x-4" style={{ '--i': 9 } as React.CSSProperties}>
-            {clubLinks.map(l => (
-              <Link key={l.href} href={`/${locale}${l.href}`} className="flex items-center min-h-12 py-2 text-[1rem] text-panel/90 border-b border-panel/10">
-                {fr ? l.labelFr : l.labelEn}
-              </Link>
-            ))}
-          </div>
-          <a href={tel} className="rise mt-10 btn btn-primary w-full" style={{ '--i': 10 } as React.CSSProperties}>
-            <Phone size={18} aria-hidden="true" /> {club.tel}
-          </a>
         </div>
       )}
 
@@ -226,36 +211,5 @@ export default function Navigation() {
         </div>
       </nav>
     </>
-  )
-}
-
-function Dropdown({ label, isOpen, onOpen, wide, children }: {
-  label: string
-  isOpen: boolean
-  onOpen: (open: boolean) => void
-  wide?: boolean
-  children: React.ReactNode
-}) {
-  return (
-    <div className="relative" onMouseEnter={() => onOpen(true)} onMouseLeave={() => onOpen(false)}>
-      <button
-        className="flex items-center gap-1 px-3 py-2 text-[.92rem] font-semibold opacity-85 hover:opacity-100 transition-opacity"
-        aria-expanded={isOpen}
-        onClick={() => onOpen(!isOpen)}
-      >
-        {label}
-        <ChevronDown size={14} aria-hidden="true" className={cn('transition-transform duration-200', isOpen && 'rotate-180')} />
-      </button>
-      <div
-        className={cn(
-          'absolute top-full left-0 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out',
-          isOpen ? 'visible opacity-100 translate-y-0' : 'invisible opacity-0 -translate-y-1 pointer-events-none'
-        )}
-      >
-        <div className={cn('rounded-[6px] bg-panel p-5 shadow-[0_0_0_1px_rgba(11,27,56,.1),0_18px_40px_-18px_rgba(11,27,56,.35)]', wide ? 'w-[620px]' : 'w-60')}>
-          {children}
-        </div>
-      </div>
-    </div>
   )
 }

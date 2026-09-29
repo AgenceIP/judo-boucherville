@@ -113,7 +113,7 @@ const ratio = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
   const phone = await browser.newPage({ viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true })
   await phone.goto(URL, { waitUntil: 'networkidle' })
   const hdr = await phone.evaluate(() => {
-    const btn = document.querySelector('button[aria-controls="mobile-menu"]').getBoundingClientRect()
+    const btn = document.querySelector('button[aria-controls="site-menu"]').getBoundingClientRect()
     return { burgerRight: Math.round(btn.right), vw: innerWidth }
   })
   console.log('phone burger right edge / viewport:', hdr.burgerRight, '/', hdr.vw)
