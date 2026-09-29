@@ -1,6 +1,6 @@
 # CMS Sanity : Fayçal modifie le site lui-même
 
-Date : 2026-09-29 · Statut : à valider
+Date : 2026-09-29 · Statut : validée par Yousif (priorité : la plus grande facilité d'utilisation pour Fayçal)
 
 ## But
 
@@ -30,13 +30,16 @@ et sans pouvoir casser la mise en page. Prix et horaires restent du texte libre,
   Le dataset est public, ce qui ne change rien : tout le contenu est déjà public sur le site.
 - **Lecture** : `next-sanity` avec `defineLive` (Live Content API). Les pages appellent `sanityFetch` ; `<SanityLive />`
   dans le layout revalide les pages dès qu'une fiche est publiée. Pas de webhook à configurer.
+  L'aperçu des brouillons (outil Presentation) passe par `draftMode` et un jeton de lecture serveur
+  (`SANITY_API_READ_TOKEN`, rôle lecteur), jamais exposé au navigateur.
 - **Images** : téléversées dans Sanity, servies par `cdn.sanity.io` (ajouté à `images.remotePatterns`).
   Les requêtes GROQ renvoient la même forme qu'aujourd'hui, `{ src, w, h }`, pour que les composants ne changent pas.
 
 ## Modèle de contenu
 
-Chaque type reprend le type TypeScript actuel, champ pour champ. Les requêtes renvoient exactement ces types,
-donc le code des pages change à l'endroit de l'import, pas dans le rendu.
+Chaque type reprend le type TypeScript actuel. Les requêtes renvoient ces types, donc le code des pages change
+à l'endroit de l'import, pas dans le rendu. Trois exceptions, choisies pour la simplicité d'édition :
+les athlètes, les nouvelles et les résultats (voir sous le tableau).
 
 | Type Sanity | Source actuelle | Forme |
 |---|---|---|
@@ -46,21 +49,56 @@ donc le code des pages change à l'endroit de l'import, pas dans le rendu.
 | `evenement` | `data/evenements.ts` | date de début, date de fin optionnelle, titre, lieu, lien ; regroupés par mois dans la requête. Le lien du répertoire Judo Québec va dans `club` |
 | `ceintureNoire` | `data/ceintures-noires.ts` | une fiche par année : année + noms |
 | `challenge` (unique) | `data/challenge.ts` | édition, date, pays, formulaire, PDF, coûts, bourses, limites, commanditaires, divisions, palmarès |
-| `athlete` | `data/archive/athletes.json` | nom, slug, photos, personnes (naissance, grade, faits, objectifs, saisons et résultats) |
-| `equipes` (unique) | `athletes.json` → `equipes` | 13 équipes ordonnées ; chaque entrée = nom + référence optionnelle à un `athlete` |
-| `saisonActualites`, `saisonResultats` | `actualites.json`, `resultats.json` | une fiche par saison ; entrées ordonnées (date, lieu, titre, blocs) |
+| `athlete` | `data/archive/athletes.json` | une fiche par nom (les 93) : nom, **équipes** (cases à cocher parmi les 13), photos, profil détaillé optionnel (personnes, saisons, résultats) |
+| `actualite`, `resultat` | `actualites.json`, `resultats.json` | une fiche par nouvelle ou par compétition : saison, date affichée, lieu, titre, contenu (éditeur de texte) |
 | `journaux` | `journaux.json` | une fiche par période ; numéros = titre, vignette (image), PDF (lien) |
 | `conseil` (unique) | `app/[locale]/conseil/page.tsx` | membres, anciens présidents |
 | `historique` (unique) | `app/[locale]/historique/page.tsx` | ligne du temps, participations internationales, photos de l'ancien dojo et de l'inauguration |
 | `telechargements` (unique) | `app/[locale]/telechargements/page.tsx` | groupes de documents ; chaque document = titre + fichier téléversé ou lien |
 | `photosSite` (unique) | `components/home/*`, `PageHero.tsx` | les photos d'ambiance nommées (mur du club, tatami, Kano, ceintures noires, hauts gradés, entrée, valeurs) |
 
-**Blocs des actualités et résultats :** on garde les cinq types actuels comme objets Sanity, pour que
-`components/archive` ne change pas : « Titre » (`h`), « Paragraphe » (`p`), « Photo » (`img`), « Lien » (`a`),
-« Bilan de médailles » (`m`). Dans le Studio, Fayçal ajoute et réordonne ces blocs par glisser-déposer.
+**Athlètes :** chaque nom devient une fiche, avec ou sans profil. Ajouter un athlète = créer une fiche et cocher
+ses équipes. Changer d'équipe = cocher ou décocher. Les listes d'équipe sont triées par ordre alphabétique.
+La page de profil n'existe que si la fiche a des photos ou un profil détaillé, comme aujourd'hui les noms sans lien.
+
+**Nouvelles et résultats :** une fiche par entrée, comme un article de blogue (« Ajouter une nouvelle »), au lieu
+d'une longue liste par saison. Le contenu utilise l'éditeur de texte de Sanity (Portable Text) : titres, gras,
+liens, photos glissées dans le texte, un bouton « Médaille » (or, argent, bronze) qui insère l'icône dans la ligne,
+et un bloc « Bilan de médailles ». La migration convertit les blocs actuels (`h`, `p`, `a`, `img`, `m`) et les
+jetons ⟨or⟩ ⟨argent⟩ ⟨bronze⟩. `components/archive/Blocks.tsx` devient un rendu Portable Text, et `medailles()`
+compte les médailles insérées. La saison proposée par défaut est la saison en cours. Un champ caché `tri` garde
+l'ordre actuel ; une nouvelle fiche passe en tête de sa saison.
 
 **Validation** (pour ne pas casser la mise en page) : champs obligatoires là où le type TS n'est pas optionnel,
 slugs générés depuis le nom et uniques, photos obligatoires avec texte alternatif sur `photosSite`.
+Les horaires et les clientèles des groupes passent par les mêmes fonctions que le site (`lib/schedule.ts`) :
+un horaire que la grille de la semaine ne sait pas lire affiche un avertissement avec un exemple
+(« Samedi 09h00 à 10h00 »), au lieu de disparaître en silence de l'horaire.
+
+## Expérience d'édition
+
+Objectif : Fayçal trouve et change n'importe quoi sans aide, depuis un ordinateur ou son téléphone.
+
+- **Modifier en cliquant sur le site** : l'outil Presentation de Sanity affiche le site à côté du formulaire.
+  Fayçal clique sur un texte ou une photo du site et le bon champ s'ouvre. Il voit ses changements sur la page
+  avant de publier (brouillons affichés en mode aperçu, `draftMode` de Next.js).
+- **Menu calqué sur le site**, en français, dans l'ordre du site : Club et inscription, Programmes (horaires et
+  tarifs), Calendrier, Instructeurs, Athlètes (avec un sous-menu par équipe), Nouvelles, Résultats, Journaux,
+  Ceintures noires, Challenge, Conseil, Historique, Téléchargements, Photos du site. Les fiches uniques
+  (Club, Challenge, Conseil, etc.) s'ouvrent directement, sans liste, et ne peuvent être ni supprimées ni dupliquées.
+- **Aide intégrée** : une page « Comment faire » en tête du menu, en français, avec des captures : modifier un
+  horaire ou un tarif, ajouter une nouvelle, ajouter un athlète, changer une photo, annuler une erreur.
+- **Chaque champ** a un libellé simple et une ligne d'aide avec un exemple réel tiré du site. Aucun champ
+  technique n'est visible : identifiants, slugs (générés automatiquement), ordre de tri.
+- **Formulaires longs en onglets** : programme (Présentation, Groupes et horaires, Tarifs, Instructeurs et
+  contacts, Documents) et athlète (Équipes et photos, Profil).
+- **Listes lisibles** : chaque fiche montre une vignette, son nom et un sous-titre utile (équipes d'un athlète,
+  date et lieu d'une nouvelle, horaire court d'un programme). Recherche en haut de chaque liste.
+- **Valeurs par défaut** : une nouvelle fiche arrive préremplie (saison en cours, colonnes de tarif habituelles,
+  lieu « Boucherville » pour un événement).
+- **Photos et PDF** : glisser-déposer, recadrage avec point focal, compression automatique par Sanity.
+- **Sans risque** : brouillon enregistré en continu, bouton « Publier » explicite, historique des versions avec
+  « Restaurer », confirmation avant toute suppression.
 
 ## Flux des données
 
@@ -99,7 +137,8 @@ Après la bascule : suppression de `data/`, de `scripts/import-legacy.mjs` et `s
 
 - **Avant la migration** : un script enregistre le texte visible de chaque page FR et EN (toutes les routes, y compris
   chaque slug) depuis le serveur local.
-- **Après la migration** : le même script compare ; toute différence de texte est une erreur de migration.
+- **Après la migration** : le même script compare ; toute différence de texte est une erreur de migration, sauf
+  l'ordre des listes d'équipe (désormais alphabétique), comparé comme un ensemble de noms.
 - Les 26 tests vitest passent ; `tsc` passe avec les types générés par `sanity typegen`.
 - Playwright (Edge) : `/studio` se charge, une modification publiée apparaît sur la page correspondante.
 - Build de production local, puis déploiement de preview sur `redesign-tatami`. La production attend l'accord de Yousif.
@@ -107,5 +146,5 @@ Après la bascule : suppression de `data/`, de `scripts/import-legacy.mjs` et `s
 ## Livraison à Fayçal
 
 - Invitation au projet Sanity comme administrateur.
-- Une page d'aide courte en français (captures d'écran) : se connecter, modifier un horaire, ajouter une nouvelle,
-  ajouter un athlète, changer une photo.
+- La page « Comment faire » du Studio, vérifiée en faisant soi-même chaque tâche décrite.
+- Test réel avant d'inviter Fayçal : Yousif fait les cinq tâches de l'aide sur le Studio de preview, sans explication.
