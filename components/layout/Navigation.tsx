@@ -4,7 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
-import { Menu, X, Phone, CalendarDays, Tag, PenLine, Mail, MapPin, ArrowRight } from 'lucide-react'
+import { Menu, X, Phone, CalendarDays, Tag, PenLine, Mail, MapPin, ArrowRight, ChevronDown } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { club } from '@/data/club'
 import Magnetic from '@/components/ui/Magnetic'
 
@@ -36,14 +37,16 @@ const clubLinks = [
   { href: '/telechargements', labelFr: 'Téléchargements', labelEn: 'Downloads' },
 ]
 
+const athletes = { href: '/athletes', labelFr: 'Athlètes', labelEn: 'Athletes' }
+
 const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
 
 /**
- * Minimal header on every screen: the logo, a yellow « S'inscrire » pill and a
- * navy « Menu » pill, all self-contained so they read over the tour video and
- * over light pages alike. « Menu » opens one full-screen tatami-blue menu:
- * the essentials in big type, then programs, then the club and contact.
- * Phones also keep the thumb bar at the bottom.
+ * Computers: a classic wall-white header bar with everything in view; a hairline
+ * appears under it once the page moves. (Solid, not see-through: the home tour
+ * opens on the blue mats, where dark links would disappear.)
+ * Phones and tablets: the logo, a yellow « S'inscrire » pill and a navy « Menu »
+ * pill that opens a full-screen tatami-blue menu, plus the thumb bar at the bottom.
  */
 export default function Navigation() {
   const t = useTranslations('nav')
@@ -51,8 +54,17 @@ export default function Navigation() {
   const fr = locale === 'fr'
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [drop, setDrop] = useState<'programmes' | 'club' | null>(null)
+  const [scrolled, setScrolled] = useState(false)
   const menuBtn = useRef<HTMLButtonElement>(null)
   const firstLink = useRef<HTMLAnchorElement>(null)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   // Open menu: freeze the page behind it, focus the first link, Escape closes
   useEffect(() => {
@@ -68,7 +80,7 @@ export default function Navigation() {
 
   // Close on navigation (state adjusted during render, not in an effect)
   const [lastPath, setLastPath] = useState(pathname)
-  if (pathname !== lastPath) { setLastPath(pathname); setOpen(false) }
+  if (pathname !== lastPath) { setLastPath(pathname); setOpen(false); setDrop(null) }
 
   const essentials = [
     { href: `/${locale}#trouver`, label: fr ? 'Trouver mon cours' : 'Find my class' },
@@ -80,6 +92,13 @@ export default function Navigation() {
   const categories = [...new Set(programmes.map(p => p.category))]
   const switchHref = `/${fr ? 'en' : 'fr'}${pathname.slice(`/${locale}`.length)}`
   const map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(club.adresse)}`
+  const current = (href: string) => (pathname.startsWith(`/${locale}${href}`) ? ('page' as const) : undefined)
+  const barLinks = [
+    { href: `/${locale}#horaire`, label: fr ? 'Horaire' : 'Schedule' },
+    { href: `/${locale}/inscription#tarifs`, label: fr ? 'Tarifs' : 'Fees' },
+    { href: `/${locale}${athletes.href}`, label: fr ? athletes.labelFr : athletes.labelEn, current: current(athletes.href) },
+  ]
+  const linkCls = 'block px-3 py-2 text-[.95rem] font-semibold text-ink-2 hover:text-ink transition-colors'
 
   return (
     <>
@@ -87,9 +106,76 @@ export default function Navigation() {
         {fr ? 'Aller au contenu' : 'Skip to content'}
       </a>
 
-      {/* The bar itself lets clicks through; only its three pieces are interactive */}
-      <header className="fixed top-0 inset-x-0 z-50 pointer-events-none">
-        <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-[4.5rem] flex items-center justify-between" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
+      {/* Computers */}
+      <header
+        className={cn(
+          'hidden lg:block fixed top-0 inset-x-0 z-50 bg-panel transition-shadow duration-500',
+          scrolled && 'shadow-[0_1px_0_rgba(11,27,56,.1)]'
+        )}
+      >
+        <nav className="max-w-7xl mx-auto px-8 h-[4.5rem] flex items-center gap-6" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
+          <Link href={`/${locale}`} className="flex items-center gap-3 shrink-0" aria-label="Club de Judo Boucherville">
+            <span className="grid place-items-center w-11 h-11 rounded-[8px] bg-white shadow-[0_0_0_1px_rgba(11,27,56,.08),0_4px_12px_-6px_rgba(11,27,56,.45)]">
+              <Image src="/images/brand/cjb-mark.png" alt="" width={32} height={33} style={{ height: 'auto' }} priority />
+            </span>
+            <span className="hidden xl:block font-display font-extrabold uppercase text-[1.45rem] leading-none text-ink">Judo Boucherville</span>
+          </Link>
+
+          <ul className="flex items-center">
+            <Dropdown label={t('programmes')} isOpen={drop === 'programmes'} onOpen={o => setDrop(o ? 'programmes' : null)} wide>
+              <div className="grid grid-cols-3 gap-8">
+                {categories.map(cat => (
+                  <div key={cat}>
+                    <p className="font-display font-extrabold uppercase text-[1.1rem] text-blue mb-2">{cat}</p>
+                    {programmes.filter(p => p.category === cat).map(p => (
+                      <Link key={p.href} href={`/${locale}${p.href}`} aria-current={current(p.href)} className="block py-1.5 text-[.92rem] text-ink-2 hover:text-blue aria-[current=page]:text-blue aria-[current=page]:font-semibold">
+                        {fr ? p.labelFr : p.labelEn}
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <Link href={`/${locale}/programmes`} className="mt-5 pt-4 border-t border-ink/10 flex items-center gap-2 text-[.92rem] font-semibold text-blue hover:text-ink">
+                {fr ? 'Tous les programmes' : 'All programs'} <ArrowRight size={15} aria-hidden="true" />
+              </Link>
+            </Dropdown>
+            {barLinks.map(l => (
+              <li key={l.href}>
+                <Link href={l.href} aria-current={l.current} className={linkCls}>
+                  <span className={cn('u-line', l.current && 'bg-[length:100%_1.5px]')}>{l.label}</span>
+                </Link>
+              </li>
+            ))}
+            <Dropdown label={t('club')} isOpen={drop === 'club'} onOpen={o => setDrop(o ? 'club' : null)}>
+              {clubLinks.map(l => (
+                <Link key={l.href} href={`/${locale}${l.href}`} aria-current={current(l.href)} className="block py-1.5 text-[.92rem] text-ink-2 hover:text-blue aria-[current=page]:text-blue aria-[current=page]:font-semibold">
+                  {fr ? l.labelFr : l.labelEn}
+                </Link>
+              ))}
+            </Dropdown>
+            <li>
+              <Link href={`/${locale}/contact`} aria-current={current('/contact')} className={linkCls}>
+                <span className={cn('u-line', current('/contact') && 'bg-[length:100%_1.5px]')}>{t('contact')}</span>
+              </Link>
+            </li>
+          </ul>
+
+          <div className="ml-auto flex items-center gap-2">
+            <Link href={switchHref} hrefLang={fr ? 'en' : 'fr'} className="grid place-items-center min-w-11 min-h-11 text-[.85rem] font-semibold text-ink-2 hover:text-ink">
+              {fr ? 'EN' : 'FR'}
+            </Link>
+            <Magnetic strength={0.2}>
+              <Link href={`/${locale}/inscription`} className="btn btn-primary !rounded-full !py-3 !px-5">
+                {t('inscription')}
+              </Link>
+            </Magnetic>
+          </div>
+        </nav>
+      </header>
+
+      {/* Phones and tablets: the bar lets clicks through; only its three pieces are interactive */}
+      <header className="lg:hidden fixed top-0 inset-x-0 z-50 pointer-events-none">
+        <nav className="max-w-7xl mx-auto px-4 md:px-8 h-[4.5rem] flex items-center justify-between" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
           <Link
             href={`/${locale}`}
             className="pointer-events-auto grid place-items-center w-12 h-12 rounded-[8px] bg-white shadow-[0_0_0_1px_rgba(11,27,56,.08),0_6px_18px_-8px_rgba(11,27,56,.5)] transition-transform duration-300 hover:scale-[1.04]"
@@ -111,7 +197,7 @@ export default function Navigation() {
                 onClick={() => setOpen(o => !o)}
                 aria-expanded={open}
                 aria-controls="site-menu"
-                className="btn !rounded-full !py-3 !px-5 bg-ink text-panel [--wipe:#FCFDFE] hover:text-ink focus-visible:text-ink shadow-[0_6px_18px_-8px_rgba(11,27,56,.55)]"
+                className="btn !rounded-full !py-3 !px-5 bg-ink text-panel [--wipe:#FCFDFE] [&:hover]:text-ink focus-visible:text-ink shadow-[0_6px_18px_-8px_rgba(11,27,56,.55)]"
               >
                 {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
                 {open ? (fr ? 'Fermer' : 'Close') : 'Menu'}
@@ -127,18 +213,18 @@ export default function Navigation() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="on-dark fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-blue text-panel [animation:sheet_.5s_cubic-bezier(.16,1,.3,1)_both]"
+          className="on-dark lg:hidden fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-blue text-panel [animation:sheet_.5s_cubic-bezier(.16,1,.3,1)_both]"
           // any link inside closes the menu, including same-page anchors like #horaire
           onClick={e => { if ((e.target as Element).closest('a')) setOpen(false) }}
         >
-          <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-24 lg:pt-32 pb-32 lg:pb-20 grid gap-12 lg:grid-cols-[1.25fr_1fr_1fr] lg:gap-16">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-32 grid gap-12 md:grid-cols-[1.25fr_1fr_1fr] md:gap-10">
             <ul className="grid content-start">
               {essentials.map((q, i) => (
                 <li key={q.href} className="rise border-b border-panel/15" style={{ '--i': i } as React.CSSProperties}>
                   <Link
                     ref={i === 0 ? firstLink : undefined}
                     href={q.href}
-                    className="group flex items-center justify-between gap-4 min-h-14 py-3 display text-[clamp(1.7rem,3.2vw,2.7rem)] leading-none transition-colors hover:text-accent"
+                    className="group flex items-center justify-between gap-4 min-h-14 py-3 display text-[2.4rem] leading-none transition-colors hover:text-accent"
                   >
                     <span className="transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-2">{q.label}</span>
                     <ArrowRight size={26} aria-hidden="true" className="shrink-0 text-accent transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-1" />
@@ -148,11 +234,11 @@ export default function Navigation() {
             </ul>
 
             <div className="rise" style={{ '--i': 5 } as React.CSSProperties}>
-              <p className="display text-[1.2rem] text-accent mb-3">{t('programmes')}</p>
+              <p className="display text-[1.5rem] text-accent mb-3">{t('programmes')}</p>
               {categories.map(cat => (
                 <div key={cat} className="mb-5">
                   <p className="text-[.85rem] font-semibold text-panel/60 mb-1">{cat}</p>
-                  <ul className="grid grid-cols-2 lg:grid-cols-1 gap-x-4">
+                  <ul className="grid grid-cols-2 md:grid-cols-1 gap-x-4">
                     {programmes.filter(p => p.category === cat).map(p => (
                       <li key={p.href}>
                         <Link href={`/${locale}${p.href}`} className="flex items-center min-h-11 text-[1.02rem] text-panel/90 hover:text-accent transition-colors">
@@ -166,9 +252,9 @@ export default function Navigation() {
             </div>
 
             <div className="rise" style={{ '--i': 6 } as React.CSSProperties}>
-              <p className="display text-[1.2rem] text-accent mb-3">{t('club')}</p>
-              <ul className="grid grid-cols-2 lg:grid-cols-1 gap-x-4">
-                {clubLinks.map(l => (
+              <p className="display text-[1.5rem] text-accent mb-3">{t('club')}</p>
+              <ul className="grid grid-cols-2 md:grid-cols-1 gap-x-4">
+                {[athletes, ...clubLinks].map(l => (
                   <li key={l.href}>
                     <Link href={`/${locale}${l.href}`} className="flex items-center min-h-11 text-[1.02rem] text-panel/90 hover:text-accent transition-colors">
                       {fr ? l.labelFr : l.labelEn}
@@ -211,5 +297,46 @@ export default function Navigation() {
         </div>
       </nav>
     </>
+  )
+}
+
+/**
+ * Header dropdown: opens on hover or click, closes on Escape, when the pointer
+ * leaves or when focus moves out. A keyboard press on the button toggles it.
+ */
+function Dropdown({ label, isOpen, onOpen, wide, children }: {
+  label: string
+  isOpen: boolean
+  onOpen: (open: boolean) => void
+  wide?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <li
+      className="relative"
+      onMouseEnter={() => onOpen(true)}
+      onMouseLeave={() => onOpen(false)}
+      onKeyDown={e => { if (e.key === 'Escape') onOpen(false) }}
+      onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) onOpen(false) }}
+    >
+      <button
+        className="flex items-center gap-1 px-3 py-2 text-[.95rem] font-semibold text-ink-2 hover:text-ink transition-colors"
+        aria-expanded={isOpen}
+        onClick={e => onOpen(e.detail === 0 ? !isOpen : true)}
+      >
+        {label}
+        <ChevronDown size={14} aria-hidden="true" className={cn('transition-transform duration-300', isOpen && 'rotate-180')} />
+      </button>
+      <div
+        className={cn(
+          'absolute top-full left-0 pt-3 transition-[opacity,translate,visibility] duration-300 ease-[cubic-bezier(.16,1,.3,1)]',
+          isOpen ? 'visible opacity-100 translate-y-0' : 'invisible opacity-0 -translate-y-1.5'
+        )}
+      >
+        <div className={cn('rounded-[8px] bg-panel p-6 shadow-[0_0_0_1px_rgba(11,27,56,.08),0_8px_8px_-4px_rgba(11,27,56,.12)]', wide ? 'w-[640px]' : 'w-64')}>
+          {children}
+        </div>
+      </div>
+    </li>
   )
 }
