@@ -250,9 +250,7 @@ body.paused *, body.paused *::before, body.paused *::after {
 /* ── Section tones ──────────────────────────────────────────────────────
    Home sections declare their color with data-tone. Each seam is one eased
    gradient split across the two paddings that meet there: the section above
-   fades halfway to the next color, the section below finishes. Blue never
-   mixes straight into yellow (that turns to mud): the handover to the yellow
-   values band passes through the white of the dojo wall instead. */
+   fades halfway to the next color, the section below finishes. */
 [data-tone] {
   --seam: clamp(5rem, 7vw, 8rem);
   --from: var(--prev, var(--tone));
@@ -277,11 +275,11 @@ body.paused *, body.paused *::before, body.paused *::after {
   overflow-x: clip;
   background: linear-gradient(in oklch, var(--fade-in), var(--fade-out)) var(--tone);
 }
-[data-tone="blue"]   { --tone: var(--color-blue);   --motif: url(/motifs/asanoha.svg); --motif-ink: #FCFDFE; --motif-alpha: .075; }
-[data-tone="ink"]    { --tone: var(--color-ink);    --motif: url(/motifs/asanoha.svg); --motif-ink: #FCFDFE; --motif-alpha: .06; }
-[data-tone="accent"] { --tone: var(--color-accent); --motif: url(/motifs/tatami.svg);  --motif-ink: var(--color-ink);  --motif-alpha: .1; --motif-size: 168px; }
-[data-tone="panel"]  { --tone: var(--color-panel);  --motif: url(/motifs/asanoha.svg); --motif-ink: var(--color-blue); --motif-alpha: .05; }
-[data-tone="canvas"] { --tone: var(--color-canvas); --motif: url(/motifs/asanoha.svg); --motif-ink: var(--color-blue); --motif-alpha: .05; }
+[data-tone="blue"]   { --tone: var(--color-blue);   --motif: url(/motifs/seigaiha.svg); --motif-ink: #FCFDFE; --motif-alpha: .09; --motif-size: 112px; }
+[data-tone="ink"]    { --tone: var(--color-ink);    --motif: url(/motifs/shippo.svg);   --motif-ink: #FCFDFE; --motif-alpha: .08; --motif-size: 64px; }
+[data-tone="accent"] { --tone: var(--color-accent); --motif: url(/motifs/asanoha.svg);  --motif-ink: var(--color-ink);  --motif-alpha: .1; }
+[data-tone="panel"]  { --tone: var(--color-panel);  --motif: url(/motifs/sakura.svg);   --motif-ink: var(--color-blue); --motif-alpha: .07; --motif-size: 260px; }
+[data-tone="canvas"] { --tone: var(--color-canvas); --motif: url(/motifs/sakura.svg);   --motif-ink: var(--color-blue); --motif-alpha: .07; --motif-size: 260px; }
 
 [data-tone="blue"] + [data-tone]   { --prev: var(--color-blue); }
 [data-tone="ink"] + [data-tone]    { --prev: var(--color-ink); }
@@ -298,18 +296,17 @@ body.paused *, body.paused *::before, body.paused *::after {
 [data-band] { background: var(--tone); }
 [data-band] + [data-tone], :not([data-tone]) + [data-tone] { --i0: 0%; --i1: 15.6%; --i2: 50%; --i3: 84.4%; }
 [data-tone]:last-child { --next: var(--color-canvas); --o1: 15.6%; --o2: 50%; --o3: 84.4%; --o4: 100%; }
+/* Blue runs straight into the yellow band. oklch would swing through green on
+   the way, so this one seam mixes in oklab */
 [data-tone]:has(+ [data-band]) {
-  --h: clamp(8rem, 12vw, 12rem);
+  --seam: clamp(8rem, 12vw, 12rem);
   --fade-out:
-    var(--tone) calc(100% - var(--h)),
-    color-mix(in oklch, var(--tone), var(--color-panel) 15.6%) calc(100% - var(--h) * .875),
-    color-mix(in oklch, var(--tone), var(--color-panel) 50%) calc(100% - var(--h) * .75),
-    color-mix(in oklch, var(--tone), var(--color-panel) 84.4%) calc(100% - var(--h) * .625),
-    var(--color-panel) calc(100% - var(--h) * .5),
-    color-mix(in oklch, var(--color-panel), var(--to) 15.6%) calc(100% - var(--h) * .375),
-    color-mix(in oklch, var(--color-panel), var(--to) 50%) calc(100% - var(--h) * .25),
-    color-mix(in oklch, var(--color-panel), var(--to) 84.4%) calc(100% - var(--h) * .125),
+    var(--tone) calc(100% - var(--seam)),
+    color-mix(in oklab, var(--tone), var(--to) 15.6%) calc(100% - var(--seam) * .75),
+    color-mix(in oklab, var(--tone), var(--to) 50%) calc(100% - var(--seam) * .5),
+    color-mix(in oklab, var(--tone), var(--to) 84.4%) calc(100% - var(--seam) * .25),
     var(--to);
+  background: linear-gradient(in oklab, var(--fade-in), var(--fade-out)) var(--tone);
 }
 .footer-seam {
   height: clamp(6rem, 9vw, 10rem);
@@ -320,9 +317,10 @@ body.paused *, body.paused *::before, body.paused *::after {
     var(--color-ink));
 }
 
-/* Judo motifs behind every section: asanoha (the hemp-leaf pattern of dojo
-   textiles) on white, blue and navy, tatami seams on yellow. Each pools on one
-   side and fades out before the seams, so sections never meet on a pattern edge. */
+/* Traditional Japanese patterns (wagara) behind every section: seigaiha waves
+   on blue, shippō rings on navy, asanoha hemp leaves on yellow, sakura on white.
+   Each pools on one side and fades out before the seams, so sections never meet
+   on a pattern edge. */
 [data-tone]::before, main::before {
   content: '';
   position: absolute;
@@ -337,18 +335,24 @@ body.paused *, body.paused *::before, body.paused *::after {
 }
 [data-flip] { --motif-at: 12% 50%; }
 
-/* Inner pages: the same asanoha, faint on the wall white, strongest behind the page title */
+/* Inner pages: sakura on the wall white, strongest behind the page title */
 main { position: relative; isolation: isolate; }
 main::before {
-  --motif: url(/motifs/asanoha.svg);
+  --motif: url(/motifs/sakura.svg);
   --motif-ink: var(--color-blue);
-  --motif-alpha: .05;
-  mask: var(--motif) 0 0 / 72px auto repeat,
+  --motif-alpha: .07;
+  mask: var(--motif) 0 0 / 260px auto repeat,
         linear-gradient(#000, rgb(0 0 0 / .45) 36rem, rgb(0 0 0 / .45) calc(100% - 16rem), transparent);
   mask-composite: intersect;
 }
 
-/* A giant ghost ideogram per section, cropped by the edge */
+/* A giant ghost ideogram per section, brushed in sumi calligraphy and cropped by
+   the edge. The font file holds only the kanji the site uses (see PageHero). */
+@font-face {
+  font-family: 'Yuji Boku';
+  src: url(/fonts/yuji-boku-kanji.woff2) format('woff2');
+  font-display: block;
+}
 [data-kanji]::after {
   content: attr(data-kanji);
   content: attr(data-kanji) / "";
@@ -357,7 +361,7 @@ main::before {
   top: 50%;
   right: -.08em;
   translate: 0 -50%;
-  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  font-family: 'Yuji Boku', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
   font-size: clamp(13rem, 32vw, 30rem);
   line-height: 1;
   color: var(--motif-ink, var(--color-blue));
@@ -366,6 +370,16 @@ main::before {
   user-select: none;
 }
 [data-kanji][data-flip]::after { right: auto; left: -.08em; }
+
+/* Smoke trailing the mouse (SmokeCursor): over the sections, under the header and menu */
+.smoke {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  pointer-events: none;
+}
 
 /* Custom cursor: a tight dot and a lagging ring in difference blend, so it
    reads on white, blue and navy alike. Fine pointers only. */

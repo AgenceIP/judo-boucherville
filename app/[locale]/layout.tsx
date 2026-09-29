@@ -9,6 +9,7 @@ import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import ScrollProgress from '@/components/layout/ScrollProgress'
 import CustomCursor from '@/components/ui/CustomCursor'
+import SmokeCursor from '@/components/ui/SmokeCursor'
 import PageLife from '@/components/home/PageLife'
 import { club } from '@/data/club'
 import '@/styles/globals.css'
@@ -77,6 +78,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <ScrollProgress />
+            <SmokeCursor />
             <CustomCursor />
             <PageLife />
             <Navigation />

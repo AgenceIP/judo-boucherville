@@ -21,6 +21,23 @@ const PHOTOS: [RegExp, string][] = [
   [/resultats|athletes|challenge/, '/images/photos/mur-cjb-loin.jpg'],
 ]
 
+// ...and a brushed ideogram behind the title. A new kanji must also be added to
+// public/fonts/yuji-boku-kanji.woff2, which holds only the ones in use.
+const KANJI: [RegExp, string][] = [
+  [/programmes/, '技'],           // waza, technique
+  [/inscription/, '始'],          // hajime, begin
+  [/equipe/, '師'],               // shi, teacher
+  [/ceintures-noires/, '段'],     // dan, grade
+  [/historique/, '歴'],           // reki, history
+  [/conseil/, '和'],              // wa, harmony
+  [/contact/, '礼'],              // rei, the bow
+  [/resultats|athletes/, '勝'],   // shō, victory
+  [/challenge/, '挑'],            // idomu, to take on a challenge
+  [/calendrier/, '暦'],           // koyomi, calendar
+  [/actualites|journaux/, '新'],  // shin, new
+  [/telechargements/, '書'],      // sho, writing
+]
+
 /**
  * Inner page header: title and one line of context on the wall-white canvas,
  * a photo of the dojo on the side, and a strip of tatami along the bottom edge.
@@ -28,9 +45,10 @@ const PHOTOS: [RegExp, string][] = [
 export default function PageHero({ title, subtitle, tag, tagColor = 'text-blue' }: Props) {
   const pathname = usePathname() ?? ''
   const photo = PHOTOS.find(([re]) => re.test(pathname))?.[1] ?? '/images/photos/valeurs-respect.jpg'
+  const kanji = KANJI.find(([re]) => re.test(pathname))?.[1] ?? '柔'
 
   return (
-    <section className="relative pt-28 lg:pt-32 pb-12 lg:pb-14 overflow-hidden">
+    <section data-kanji={kanji} data-flip className="relative isolate pt-28 lg:pt-32 pb-12 lg:pb-14 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-[1fr_22rem] gap-10 items-end">
         <div>
           {tag && <span className={`label ${tagColor} block mb-4`}>{tag}</span>}
