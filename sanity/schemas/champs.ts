@@ -44,6 +44,7 @@ export const pdf = (name: string, title: string, description?: string, obligatoi
 /** A list of objects, each shown in the list as `select.title` / `select.subtitle` (or what `prepare` builds from `select`). */
 export const objets = (
   name: string, title: string, description: string | undefined, fields: FieldDefinition[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- preview values are whatever `select` picks
   select: Record<string, string>, prepare?: (v: Record<string, any>) => PreviewValue,
 ) =>
   defineField({ name, title, description, type: 'array', of: [defineArrayMember({ type: 'object', fields, preview: { select, prepare } })] })
