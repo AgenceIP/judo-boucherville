@@ -240,7 +240,7 @@ export default async function ChallengePage({ params }: Props) {
                 <ol className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
                   {e.coupe.map(([club, pts], i) => (
                     <li key={club} className={i === 0 ? 'text-ink' : 'text-muted'}>
-                      <Medal kind={['or', 'argent', 'bronze'][i]} locale={locale} />
+                      <Medal kind={(['or', 'argent', 'bronze'] as const)[i]} locale={locale} />
                       {club}{pts !== undefined && <span className="text-muted tabular-nums"> · {pts} pts</span>}
                     </li>
                   ))}

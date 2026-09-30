@@ -1,24 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Block } from '@/data/archive'
+import { Medal } from './Medal'
 
-const MEDAL: Record<string, string> = { or: 'bg-[#e8c547]', argent: 'bg-[#c9ced6]', bronze: 'bg-[#c98a4b]' }
-const MEDAL_EN: Record<string, string> = { or: 'gold', argent: 'silver', bronze: 'bronze' }
-
-export function Medal({ kind, locale }: { kind: string; locale: string }) {
-  return (
-    <span
-      role="img"
-      aria-label={locale === 'fr' ? `médaille d’${kind}` : `${MEDAL_EN[kind]} medal`}
-      className={`inline-block w-2.5 h-2.5 rounded-full align-middle mx-1 ${MEDAL[kind]}`}
-    />
-  )
-}
+export { Medal }
 
 /** Renders medal tokens (⟨or⟩, ⟨argent⟩, ⟨bronze⟩) inside imported text */
 function Text({ text, locale }: { text: string; locale: string }) {
   return text.split(/⟨(or|argent|bronze)⟩/).map((part, i) =>
-    i % 2 ? <Medal key={i} kind={part} locale={locale} /> : part
+    i % 2 ? <Medal key={i} kind={part as 'or' | 'argent' | 'bronze'} locale={locale} /> : part
   )
 }
 
