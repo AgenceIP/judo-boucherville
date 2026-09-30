@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { debutSaison, saisonCourante, saisonValide } from '../saison'
 
 describe('saisonCourante', () => {
