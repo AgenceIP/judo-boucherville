@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/shared/PageHero'
+import { membres, presidents } from '@/data/pages'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -11,45 +12,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   return { title: locale === 'fr' ? 'Conseil d’administration' : 'Board of Directors' }
 }
-
-// Source : judoboucherville.com/html/Conseil.php
-const membres: [string, string, string, string][] = [
-  ['Président', 'President', 'Frédéric Bourque', 'frederic.bourque@judoboucherville.com'],
-  ['Vice-président', 'Vice-president', 'Olivier Bry', 'olivier.bry@videotron.ca'],
-  ['Secrétaire', 'Secretary', 'Alain Dessureault', 'alaindessureault@hotmail.com'],
-  ['Trésorier', 'Treasurer', 'Maxime Bellemare', 'tresorier@judoboucherville.com'],
-  ['Responsable d’éthique', 'Ethics officer', 'Alain Dessureault', 'alaindessureault@hotmail.com'],
-  ['Communication', 'Communications', 'Stéphanie Trépanier', 'stepht2018@outlook.com'],
-  ['Administrateur', 'Director', 'Alexandre Thomas', 'al3xthomas@gmail.com'],
-  ['Directeur technique', 'Technical director', 'Fayçal Bousbiat', 'info@judoboucherville.com'],
-]
-
-// Source : judoboucherville.com/html/Presidents.php
-const presidents: [string, string][] = [
-  ['1971–1972', 'Jean Tessier'],
-  ['1972–1974', 'Pierre Morency'],
-  ['1974–1975', 'Marcel Laurin'],
-  ['1975–1977', 'Serge Salvetti'],
-  ['1977–1979', 'Steven Zoni'],
-  ['1979–1981', 'Pierre Langevin'],
-  ['1981–1982', 'Yolande Larouche'],
-  ['1982–1986', 'Jacques Demers'],
-  ['1986–1987', 'Normand DeCarufel'],
-  ['1987–1991', 'Pierre Michel'],
-  ['1991–1992', 'François Goyette'],
-  ['1992–1993', 'Claude Lemay'],
-  ['1993–1994', 'Carole Chamberlan'],
-  ['1994–1999', 'Daniel Michelin'],
-  ['1999–2000', 'René Scotto'],
-  ['2000–2001', 'Richard Perrault'],
-  ['2001–2003', 'Jacques Mantion'],
-  ['2003–2005', 'Pierre Berthiaume'],
-  ['2005–2011', 'Éric Derome'],
-  ['2011–2012', 'Karl Légaré'],
-  ['2012–2016', 'Frédéric Bourque'],
-  ['2016–2018', 'Olivier Bry'],
-  ['2018–', 'Frédéric Bourque'],
-]
 
 const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 

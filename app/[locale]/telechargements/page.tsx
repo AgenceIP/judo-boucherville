@@ -1,39 +1,5 @@
 import PageHero from '@/components/shared/PageHero'
-
-// ponytail: PDFs still served by the old site — copy them to /public before the DNS cutover
-const OLD = 'https://judoboucherville.com/html/Download/'
-
-const groupes: { titre: [string, string]; docs: { titre: string; href: string }[] }[] = [
-  {
-    titre: ['Programme technique', 'Technical programme'],
-    docs: [
-      { titre: 'Liste des techniques de judo du Kodokan', href: 'https://rise.articulate.com/share/mgkGB9ClG1C3dXe9_6BgM0jx6euzwGtr#/' },
-      { titre: 'Aide-mémoire judo avec vidéos (Judo Québec)', href: 'https://judo-quebec.qc.ca/wp-content/uploads/2021/01/Aide-memoire-judo-avec-videos-v7.pdf' },
-      { titre: 'Ceinture blanche', href: `${OLD}ceintureblanche.pdf` },
-      { titre: 'Ceinture jaune', href: `${OLD}ceinturejaune.pdf` },
-      { titre: 'Ceinture orange', href: `${OLD}ceintureorange.pdf` },
-      { titre: 'Ceinture verte', href: `${OLD}ceintureverte.pdf` },
-      { titre: 'Ceinture bleue', href: `${OLD}ceinturebleue.pdf` },
-    ],
-  },
-  {
-    titre: ['Compétition', 'Competition'],
-    docs: [
-      { titre: 'Préparation technique', href: `${OLD}PreparationTechnique.pdf` },
-      { titre: 'Rapport de compétition', href: `${OLD}RapportdeCompetition.pdf` },
-      { titre: 'Observation des adversaires', href: `${OLD}Observationdesadversaires.pdf` },
-      { titre: 'Récupération et réchauffement', href: `${OLD}RecupetRechauf.pdf` },
-      { titre: 'Calendrier Judo Québec 2026-2027', href: 'https://judo-quebec.qc.ca/files/Pages/repertoire%20des%20activit%C3%A9s/repertoire-activites-2026-2027%20publication%202026-06-26.pdf' },
-    ],
-  },
-  {
-    titre: ['Club', 'Club'],
-    docs: [
-      { titre: 'Règlements généraux du CJB', href: `${OLD}ReglementsGeneraux%20CJB.pdf` },
-      { titre: 'Mises à jour des règlements généraux du CJB', href: `${OLD}MjRerglementGnereauxCJBI-2.pdf` },
-    ],
-  },
-]
+import { telechargements as groupes } from '@/data/pages'
 
 type Props = { params: Promise<{ locale: string }> }
 

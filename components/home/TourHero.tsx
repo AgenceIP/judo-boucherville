@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Magnetic from '@/components/ui/Magnetic'
+import { photosSite } from '@/data/photos'
 import './tour.css'
 
 const VIDEO_URL = '/hero/tour.mp4'
@@ -12,7 +13,7 @@ const POSTER = '/hero/tour-poster.jpg'
 const ENDING = '/hero/tour-ending.jpg'
 // Phones: a portrait screen crops the 16:9 tour to its center, so the last beat
 // dissolves into the real vertical photo of the logo wall, whole and sharp.
-const ENDING_PHONE = '/images/photos/mur-cjb.jpg'
+const ENDING_PHONE = photosSite.murCjb.src
 const PHONE = '(max-width: 720px)'
 
 // Scroll progress → video time. Motion-equalized from the footage's own

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, Phone, Mail, ArrowUpRight, ArrowRight } from 'lucide-react'
 import { club, inscription, palmares, totalPalmares } from '@/data/club'
+import { photosSite as P } from '@/data/photos'
 import RevealText from '@/components/ui/RevealText'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import Magnetic from '@/components/ui/Magnetic'
@@ -93,10 +94,10 @@ export function Dojo({ locale }: { locale: string }) {
         </div>
 
         <div className="mt-14 grid grid-cols-6 md:grid-rows-[18rem_18rem] gap-3 lg:gap-4">
-          <Photo src="/images/photos/tatami-long.jpg" alt={fr ? 'Le tatami du dojo, jaune et bleu, vu vers le mur du club' : 'The yellow and blue tatami, looking toward the club wall'} className="col-span-6 md:col-span-3 md:row-span-2 aspect-[4/5] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
-          <Photo src="/images/photos/valeurs-respect.jpg" alt={fr ? 'Le mur des valeurs : Respect, Contrôle de soi, Amitié' : 'The values wall: Respect, Self-control, Friendship'} className="col-span-6 md:col-span-3 aspect-[16/9] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
-          <Photo src="/images/photos/kano.jpg" alt={fr ? 'Portrait de Jigoro Kano, fondateur du judo, sous le mot Honneur' : 'Portrait of Jigoro Kano, founder of judo, under the word Honour'} className="col-span-3 md:col-span-1 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 17vw, 50vw" />
-          <Photo src="/images/photos/ceintures-noires.jpg" alt={fr ? 'Le tableau des ceintures noires du club' : 'The club’s black belt board'} className="col-span-3 md:col-span-2 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 33vw, 50vw" />
+          <Photo src={P.tatamiLong.src} alt={fr ? P.tatamiLong.alt : P.tatamiLong.altEn} className="col-span-6 md:col-span-3 md:row-span-2 aspect-[4/5] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
+          <Photo src={P.valeursRespect.src} alt={fr ? P.valeursRespect.alt : P.valeursRespect.altEn} className="col-span-6 md:col-span-3 aspect-[16/9] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
+          <Photo src={P.kano.src} alt={fr ? P.kano.alt : P.kano.altEn} className="col-span-3 md:col-span-1 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 17vw, 50vw" />
+          <Photo src={P.ceinturesNoires.src} alt={fr ? P.ceinturesNoires.alt : P.ceinturesNoires.altEn} className="col-span-3 md:col-span-2 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 33vw, 50vw" />
         </div>
       </div>
     </section>
@@ -242,7 +243,7 @@ export function FindUs({ locale }: { locale: string }) {
             <Link href={`/${locale}/contact`} className="btn btn-ghost">{fr ? 'Nous écrire' : 'Write to us'}</Link>
           </div>
         </div>
-        <Photo src="/images/photos/entree.jpg" alt={fr ? 'Le dojo vu de l’entrée, le tatami et le mur du club au fond' : 'The dojo from the entrance, the tatami and the club wall at the far end'} className="aspect-[4/3]" sizes="(min-width: 1024px) 50vw, 100vw" />
+        <Photo src={P.entree.src} alt={fr ? P.entree.alt : P.entree.altEn} className="aspect-[4/3]" sizes="(min-width: 1024px) 50vw, 100vw" />
       </div>
     </section>
   )

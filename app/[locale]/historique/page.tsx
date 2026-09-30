@@ -3,6 +3,7 @@ import Image from 'next/image'
 import PageHero from '@/components/shared/PageHero'
 import { Medal } from '@/components/archive/Blocks'
 import { palmares, totalPalmares as tot } from '@/data/club'
+import { ancienDojo, inauguration, international, timeline } from '@/data/pages'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -19,97 +20,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : 'Founded on March 1, 1970 by Marcel Bourelly: the history, record and international athletes of Club de Judo Boucherville.',
   }
 }
-
-// Source : judoboucherville.com/html/Historique.php
-const timeline: [string, string, string, string][] = [
-  ['1er mars 1970', 'March 1, 1970', 'Marcel Bourelly fonde le club « Kowakan - Shukokaé », au centre commercial La Seigneurie.', 'Marcel Bourelly founds the “Kowakan - Shukokaé” club at the La Seigneurie shopping centre.'],
-  ['1974', '1974', 'Le club quitte La Seigneurie et poursuit ses activités au sein du Service des loisirs de la municipalité, sous le nom de Club de Judo Boucherville.', 'The club leaves La Seigneurie and continues within the town’s recreation department as Club de Judo Boucherville.'],
-  ['13 août 1979', 'August 13, 1979', 'Les membres du comité constituent la corporation « Club de Judo Boucherville Inc. », premier club au Québec en nombre de membres et en résultats sportifs.', 'The committee incorporates “Club de Judo Boucherville Inc.”, the leading club in Québec by membership and results.'],
-  ['1988', '1988', 'Début du programme parascolaire dans les écoles primaires de Boucherville.', 'The after-school programme starts in Boucherville’s elementary schools.'],
-  ['2001', '2001', 'Fayçal Bousbiat devient entraîneur du club.', 'Fayçal Bousbiat becomes the club’s coach.'],
-  ['2004', '2004', 'Marcel Bourelly prend sa retraite; Fayçal Bousbiat devient directeur technique.', 'Marcel Bourelly retires; Fayçal Bousbiat becomes technical director.'],
-  ['2008', '2008', 'Le club devient centre régional d’entraînement (CRD).', 'The club becomes a regional training centre (CRD).'],
-  ['2015', '2015', 'Le club déménage au Centre multifonctionnel pour deux ans, le temps de construire le nouveau dojo.', 'The club moves to the Centre multifonctionnel for two years while the new dojo is built.'],
-  ['9 septembre 2017', 'September 9, 2017', 'Inauguration du Dojo Marcel Bourelly, au Complexe aquatique Laurie-Ève-Cormier.', 'The Dojo Marcel Bourelly opens in the Complexe aquatique Laurie-Ève-Cormier.'],
-]
-
-// [année, athlète(s), lieu, résultat]
-type Participation = [number, string, string, string?]
-const international: [string, string, Participation[]][] = [
-  ['Jeux olympiques', 'Olympic Games', [
-    [1992, 'Pascale Mainville', 'Barcelone'],
-    [2012, 'Alexandre Emond', 'Londres'],
-    [2012, 'Donald Ferland (arbitre)', 'Londres'],
-  ]],
-  ['Championnat du monde senior', 'Senior World Championships', [
-    [1991, 'Pascale Mainville', 'Barcelone'],
-    [1993, 'Dominique Pilon', 'Hamilton'],
-    [2009, 'Alexandre Emond', 'Rotterdam'],
-    [2010, 'Alexandre Emond', 'Tokyo', '9e'],
-    [2010, 'Guillaume Perrault', 'Tokyo'],
-    [2011, 'Alexandre Emond', 'Paris'],
-    [2011, 'Guillaume Perrault', 'Paris'],
-    [2013, 'Alexandre Emond', 'Rio de Janeiro'],
-    [2013, 'Patrick Gagné', 'Rio de Janeiro'],
-    [2014, 'Patrick Gagné', 'Chelyabinsk'],
-    [2017, 'Analaura Portuondo-Isasi', 'Budapest'],
-    [2019, 'Jacob Valois', 'Tokyo'],
-    [2024, 'Analaura Portuondo-Isasi', 'Abu Dhabi'],
-  ]],
-  ['Championnat du monde junior', 'Junior World Championships', [
-    [1990, 'Pascale Mainville', 'Dijon', '3e'],
-    [1994, 'Gabriel Senécal', 'Le Caire'],
-    [2000, 'Isabelle Pearson', 'Nabeul'],
-    [2006, 'Guillaume Perrault', 'Saint-Domingue', '9e'],
-    [2006, 'Jean-Philippe Gagnon', 'Saint-Domingue'],
-    [2009, 'Maxime Gagnon', 'Paris'],
-    [2010, 'Patrick Gagné', 'Agadir', '5e'],
-    [2011, 'Michael Fortin-Demers', 'Afrique du Sud', '5e'],
-    [2013, 'Analaura Portuondo-Isasi', 'Ljubljana', '5e'],
-    [2014, 'Analaura Portuondo-Isasi', 'Miami', '3e'],
-    [2017, 'Gabriel Juteau', 'Zagreb'],
-    [2017, 'Jacob Valois', 'Zagreb'],
-    [2017, 'Adriana Portuondo-Isasi', 'Zagreb'],
-    [2018, 'Jacob Valois', 'Nassau'],
-    [2024, 'Catherine Toshkov', 'Douchanbé'],
-  ]],
-  ['Championnat du monde cadet', 'Cadet World Championships', [
-    [2011, 'Josiane Gagné', 'Kiev'],
-    [2011, 'Analaura Portuondo-Isasi', 'Kiev'],
-    [2013, 'Gabriel Juteau', 'Miami'],
-    [2013, 'Analaura Portuondo-Isasi', 'Miami'],
-    [2013, 'Adriana Portuondo-Isasi', 'Miami'],
-    [2015, 'Jacob Valois', 'Sarajevo'],
-    [2023, 'Mélody Grenier', 'Zagreb'],
-    [2023, 'Charline Bourque', 'Zagreb'],
-    [2023, 'Vincent Roberge-Poitras', 'Zagreb'],
-    [2024, 'Mélody Grenier', 'Lima'],
-    [2024, 'Charline Bourque', 'Lima'],
-    [2024, 'Tristan Bourque', 'Lima'],
-  ]],
-  ['Championnat du monde universitaire', 'World University Championships', [
-    [1991, 'Éric De Rome', 'Bruxelles'],
-    [2004, 'Isabelle Pearson', 'Moscou'],
-    [2006, 'Isabelle Pearson', 'Suwon'],
-  ]],
-  ['Championnat du monde vétéran', 'Veterans World Championships', [
-    [2018, 'Frédéric Bourque', 'Cancún', '9e'],
-    [2019, 'Gerardo Andrade', 'Marrakech', '5e'],
-  ]],
-  ['Championnat du monde de kata', 'Kata World Championships', [
-    [2008, 'Donald Ferland et Daniel De Angelis', 'Paris', '5e'],
-    [2008, 'Jacques Mantion et Yves Pearson', 'Paris'],
-    [2009, 'Donald Ferland et Daniel De Angelis', 'Malte', '9e'],
-    [2012, 'Donald Ferland et Daniel De Angelis', 'Pordenone'],
-    [2018, 'Jérôme Lajoie et Jacob St-Jean', 'Cancún', '8e'],
-  ]],
-]
-
-const ancienDojo = ['ADojo1', 'ADojo2', 'ADojo3'].map(n => `/images/scraped/Autre_${n}.jpg`)
-const inauguration = [
-  'Entrainement_Inauguration8', 'Logo_PlaqueInauguration', 'Entrainement_Inauguration7', 'Entrainement_Inauguration3',
-  'Entrainement_Inauguration6', 'Entrainement_Inauguration2', 'Entrainement_Inauguration5', 'Autre_dojo1',
-].map(n => `/images/scraped/${n}.jpg`)
 
 const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 const h2 = 'font-heading text-3xl md:text-4xl text-ink tracking-tight'

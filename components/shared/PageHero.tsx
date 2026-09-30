@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import RevealText from '@/components/ui/RevealText'
+import { photosSite, type PhotoKey } from '@/data/photos'
 
 type Props = {
   title: string
@@ -11,14 +12,14 @@ type Props = {
 }
 
 // Each section of the site shows a corner of the real dojo
-const PHOTOS: [RegExp, string][] = [
-  [/programmes/, '/images/photos/tatami-long.jpg'],
-  [/inscription/, '/images/photos/mur-cjb.jpg'],
-  [/equipe/, '/images/photos/kano.jpg'],
-  [/ceintures-noires/, '/images/photos/ceintures-noires.jpg'],
-  [/historique|conseil/, '/images/photos/hauts-grades.jpg'],
-  [/contact/, '/images/photos/entree.jpg'],
-  [/resultats|athletes|challenge/, '/images/photos/mur-cjb-loin.jpg'],
+const PHOTOS: [RegExp, PhotoKey][] = [
+  [/programmes/, 'tatamiLong'],
+  [/inscription/, 'murCjb'],
+  [/equipe/, 'kano'],
+  [/ceintures-noires/, 'ceinturesNoires'],
+  [/historique|conseil/, 'hautsGrades'],
+  [/contact/, 'entree'],
+  [/resultats|athletes|challenge/, 'murCjbLoin'],
 ]
 
 // ...and a brushed ideogram behind the title. A new kanji must also be added to
@@ -44,7 +45,7 @@ const KANJI: [RegExp, string][] = [
  */
 export default function PageHero({ title, subtitle, tag, tagColor = 'text-blue' }: Props) {
   const pathname = usePathname() ?? ''
-  const photo = PHOTOS.find(([re]) => re.test(pathname))?.[1] ?? '/images/photos/valeurs-respect.jpg'
+  const photo = photosSite[PHOTOS.find(([re]) => re.test(pathname))?.[1] ?? 'valeursRespect'].src
   const kanji = KANJI.find(([re]) => re.test(pathname))?.[1] ?? '柔'
 
   return (
