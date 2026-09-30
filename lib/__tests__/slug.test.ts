@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { slugify } from '../slug'
+import { slugLibre, slugify } from '../slug'
 
 describe('slugify', () => {
   it.each([
@@ -14,4 +14,9 @@ describe('slugify', () => {
     expect(s.length).toBeLessThanOrEqual(96)
     expect(s).not.toMatch(/-$/)
   })
+})
+
+describe('slugLibre', () => {
+  it('keeps a free slug', () => expect(slugLibre('judo', ['karate'])).toBe('judo'))
+  it('adds the first free number', () => expect(slugLibre('judo', ['judo', 'judo-2'])).toBe('judo-3'))
 })
