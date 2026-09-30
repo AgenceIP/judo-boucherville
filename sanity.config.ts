@@ -15,6 +15,8 @@ export default defineConfig({
   basePath: '/studio',
   projectId,
   dataset,
+  // the Vercel button goes through Vercel's Marketplace SSO, which lands on sanity.io and never back in the Studio
+  auth: { providers: prev => prev.filter(p => p.name !== 'vercel') },
   plugins: [
     structureTool({ structure, title: 'Contenu' }),
     presentationTool({ title: 'Présentation', resolve, previewUrl: { initial: '/fr', previewMode: { enable: '/api/draft-mode/enable' } } }),
