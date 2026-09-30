@@ -1,9 +1,10 @@
 // Studio screenshots with a saved login.
-// Once per site: node scripts/studio-shot.mjs --login [base]   (sign in, then close the window)
+// Needs npx sanity login --provider vercel. For a Vercel preview, once: node scripts/studio-shot.mjs --login <base> (pass the Vercel login, close the window)
 // Then: node scripts/studio-shot.mjs /studio/structure out.png [base]
 import { chromium } from 'playwright'
 import { spawn } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
+import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 
 const login = process.argv[2] === '--login'
@@ -18,10 +19,15 @@ if (login) {
     .on('exit', () => console.log('fenêtre fermée, connexion enregistrée'))
 } else {
   const ctx = await chromium.launchPersistentContext(profile, { channel: 'msedge', headless: true, viewport: { width: 1440, height: 900 } })
+  // The Studio keeps its login in localStorage: reuse the CLI's (npx sanity login --provider vercel)
+  process.loadEnvFile('.env.local')
+  const { authToken } = JSON.parse(readFileSync(`${homedir()}/.config/sanity/config.json`, 'utf8'))
+  await ctx.addInitScript(([key, value]) => { if (location.pathname.startsWith('/studio')) localStorage.setItem(key, value) },
+    [`__studio_auth_token_${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}`, JSON.stringify({ token: authToken })])
   const page = ctx.pages()[0] ?? await ctx.newPage()
   await page.goto(base + path)
-  await page.waitForLoadState('networkidle')
-  await page.waitForTimeout(1500)
+  await page.waitForLoadState('load') // never 'networkidle': a logged-in Studio keeps a live connection open
+  await page.waitForTimeout(6000)
   await page.screenshot({ path: out })
   await ctx.close()
 }

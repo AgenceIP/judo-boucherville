@@ -1,8 +1,11 @@
 // End-to-end: the Studio loads (logged in), and a change published in Sanity shows on the page without a redeploy.
-// Needs the site running on base, .env.local, and the saved login (node scripts/studio-shot.mjs --login).
+// Needs the site running on base, .env.local, npx sanity login --provider vercel, and for a Vercel preview
+// its saved Vercel login (node scripts/studio-shot.mjs --login <base>).
 // Run: node --env-file=.env.local scripts/e2e-cms.mjs [base]
 import { chromium } from 'playwright'
 import { createClient } from '@sanity/client'
+import { readFileSync } from 'node:fs'
+import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 
 const base = process.argv[2] ?? 'http://localhost:3000'
@@ -14,6 +17,10 @@ const client = createClient({
   useCdn: false,
 })
 const ctx = await chromium.launchPersistentContext(fileURLToPath(new URL('./.studio-profile/', import.meta.url)), { channel: 'msedge' })
+// The Studio keeps its login in localStorage: reuse the CLI's
+const { authToken } = JSON.parse(readFileSync(`${homedir()}/.config/sanity/config.json`, 'utf8'))
+await ctx.addInitScript(([key, value]) => { if (location.pathname.startsWith('/studio')) localStorage.setItem(key, value) },
+  [`__studio_auth_token_${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}`, JSON.stringify({ token: authToken })])
 const page = ctx.pages()[0] ?? await ctx.newPage()
 
 await page.goto(`${base}/studio/structure`)
