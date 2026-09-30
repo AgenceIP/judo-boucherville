@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import { calendrier, calendrierJudoQuebec } from '@/data/evenements'
-import { inscription } from '@/data/club'
+import { getCalendrier, getClub } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -13,6 +12,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function CalendrierPage({ params }: Props) {
   const { locale } = await params
   const fr = locale === 'fr'
+  const [{ club, inscription }, calendrier] = await Promise.all([getClub(), getCalendrier()])
 
   return (
     <>
@@ -67,9 +67,11 @@ export default async function CalendrierPage({ params }: Props) {
               ))}
             </dl>
           </div>
-          <a href={calendrierJudoQuebec} target="_blank" rel="noopener noreferrer" className="block text-sm text-accent-blue hover:underline">
-            {fr ? 'Calendrier complet de Judo Québec 2026-2027 (PDF) ↗' : 'Full Judo Québec 2026-2027 calendar (PDF) ↗'}
-          </a>
+          {club.calendrierJudoQuebec && (
+            <a href={club.calendrierJudoQuebec} target="_blank" rel="noopener noreferrer" className="block text-sm text-accent-blue hover:underline">
+              {fr ? 'Calendrier complet de Judo Québec 2026-2027 (PDF) ↗' : 'Full Judo Québec 2026-2027 calendar (PDF) ↗'}
+            </a>
+          )}
         </aside>
       </div>
     </>

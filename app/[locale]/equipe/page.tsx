@@ -1,11 +1,11 @@
 import { getLocale } from 'next-intl/server'
-import { getAllInstructeurs } from '@/data/instructeurs'
+import { getInstructeurs } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import InstructorCard from '@/components/ui/InstructorCard'
 
 export default async function EquipePage() {
   const locale = await getLocale()
-  const instructeurs = getAllInstructeurs()
+  const instructeurs = await getInstructeurs()
 
   const grouped: Record<string, typeof instructeurs> = {
     judo: instructeurs.filter(i => i.disciplines.includes('judo')),
@@ -42,7 +42,7 @@ export default async function EquipePage() {
                     role={instr.role}
                     disciplines={instr.disciplines}
                     slug={instr.slug}
-                    photoSrc={instr.photoSrc}
+                    photo={instr.photo}
                   />
                 ))}
               </div>

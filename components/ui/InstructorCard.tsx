@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
+import type { Photo } from '@/lib/content'
 
 type Props = {
   nom: string
@@ -9,10 +10,10 @@ type Props = {
   role?: string
   disciplines: string[]
   slug: string
-  photoSrc?: string
+  photo?: Photo
 }
 
-export default function InstructorCard({ nom, grade, role, slug, photoSrc }: Props) {
+export default function InstructorCard({ nom, grade, role, slug, photo }: Props) {
   const locale = useLocale()
 
   return (
@@ -21,11 +22,12 @@ export default function InstructorCard({ nom, grade, role, slug, photoSrc }: Pro
       className="group block border-t border-ink/10 pt-5 pb-6 hover:border-royal/30 transition-colors duration-300"
     >
       <div className="relative h-56 mb-4 overflow-hidden bg-panel">
-        {photoSrc ? (
+        {photo ? (
           <Image
-            src={photoSrc}
+            src={photo.src}
             alt={nom}
             fill
+            style={{ objectPosition: photo.pos }}
             className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
           />
         ) : (

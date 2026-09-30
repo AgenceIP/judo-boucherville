@@ -3,8 +3,7 @@ import Image from 'next/image'
 import PageHero from '@/components/shared/PageHero'
 import RichText from '@/components/shared/PortableText'
 import Button from '@/components/ui/Button'
-import { COLONNES_TARIF, type Programme } from '@/data/programmes'
-import { club, inscription } from '@/data/club'
+import { getClub, type Programme } from '@/lib/content'
 
 type Props = { programme: Programme; locale: string }
 
@@ -12,9 +11,10 @@ const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 const th = 'text-left font-normal text-[.78rem] text-muted uppercase tracking-[.2em] py-3 pr-4'
 const td = 'py-3 pr-4 align-top'
 
-export default function ProgrammeTemplate({ programme: p, locale }: Props) {
+export default async function ProgrammeTemplate({ programme: p, locale }: Props) {
+  const { club, inscription } = await getClub()
   const fr = locale === 'fr'
-  const colonnes = p.colonnes ?? COLONNES_TARIF
+  const colonnes = p.colonnes
 
   const t = fr
     ? {

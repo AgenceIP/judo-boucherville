@@ -3,8 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/shared/PageHero'
 import Button from '@/components/ui/Button'
-import { COLONNES_TARIF, programmes } from '@/data/programmes'
-import { club, inscription } from '@/data/club'
+import { getClub, getProgrammes } from '@/lib/content'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -14,6 +13,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
+  const { inscription } = await getClub()
   return {
     title: locale === 'fr' ? 'Inscription' : 'Registration',
     description: locale === 'fr'
@@ -27,6 +27,7 @@ const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 export default async function InscriptionPage({ params }: Props) {
   const { locale } = await params
   const fr = locale === 'fr'
+  const [{ club, inscription }, programmes] = await Promise.all([getClub(), getProgrammes()])
   const payants = programmes.filter(p => p.tarifs.length > 0)
 
   const t = fr
@@ -46,7 +47,7 @@ export default async function InscriptionPage({ params }: Props) {
         tarifs: 'Fees by programme', debut: 'Starts', inscrire: 'Register', details: 'Details',
         debutCours: 'Class start dates', questions: 'Questions?', contact: `${club.responsable}, technical director`,
       }
-  const colonnesEn: Record<string, string> = { [COLONNES_TARIF[0]]: 'Before Aug 19', [COLONNES_TARIF[1]]: 'After Aug 19', 'Coût': 'Fee' }
+  const colonnesEn: Record<string, string> = { ...Object.fromEntries(inscription.colonnesTarif.map((c, i) => [c, inscription.colonnesTarifEn[i] ?? c])), 'Coût': 'Fee' }
 
   return (
     <>
@@ -79,10 +80,12 @@ export default async function InscriptionPage({ params }: Props) {
           <aside className="border border-ink/10 p-6 self-start lg:sticky lg:top-24">
             <h2 className={`${label} mb-5`}>{t.form}</h2>
             <Button href={inscription.formulaire} external className="w-full">{t.inscrire} ↗</Button>
-            <div className="flex items-center gap-4 mt-6">
-              <Image src={inscription.qr} alt={`QR : ${t.form}`} width={96} height={96} className="bg-white p-1.5 shrink-0" />
-              <p className="text-[.85rem] text-muted leading-relaxed">{t.qr}</p>
-            </div>
+            {inscription.qr && (
+              <div className="flex items-center gap-4 mt-6">
+                <Image src={inscription.qr} alt={`QR : ${t.form}`} width={96} height={96} className="bg-white p-1.5 shrink-0" />
+                <p className="text-[.85rem] text-muted leading-relaxed">{t.qr}</p>
+              </div>
+            )}
           </aside>
         </section>
 
@@ -91,7 +94,7 @@ export default async function InscriptionPage({ params }: Props) {
           <h2 id="tarifs" className="scroll-mt-24 font-heading text-3xl text-ink tracking-tight mb-8">{t.tarifs}</h2>
           <div className="border-t border-ink/10">
             {payants.map(p => {
-              const colonnes = p.colonnes ?? COLONNES_TARIF
+              const colonnes = p.colonnes
               return (
                 <article key={p.slug} className="grid md:grid-cols-[1fr_1.4fr_auto] gap-4 md:gap-10 py-8 border-b border-ink/10">
                   <div>

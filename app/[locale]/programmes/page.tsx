@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
-import { getAllProgrammes } from '@/data/programmes'
+import { getProgrammes } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import ProgrammeCard from '@/components/ui/ProgrammeCard'
 
@@ -22,7 +22,7 @@ const categoryLabels = {
 
 export default async function ProgrammesPage() {
   const locale = await getLocale()
-  const programmes = getAllProgrammes()
+  const programmes = await getProgrammes()
 
   const grouped = {
     enfants: programmes.filter(p => p.categorie === 'enfants'),

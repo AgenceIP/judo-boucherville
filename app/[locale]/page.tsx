@@ -4,9 +4,9 @@ import ClassFinder from '@/components/home/ClassFinder'
 import WeekSchedule from '@/components/home/WeekSchedule'
 import ValuesMarquee from '@/components/home/ValuesMarquee'
 import { Steps, Dojo, Palmares, Faq, FindUs } from '@/components/home/Sections'
-import { club, inscription } from '@/data/club'
+import { getClub, getPhotosSite, getProgrammes, type Club } from '@/lib/content'
 
-const jsonLd = {
+const jsonLd = (club: Club) => ({
   '@context': 'https://schema.org',
   '@type': 'SportsClub',
   name: club.nom,
@@ -26,10 +26,11 @@ const jsonLd = {
     addressCountry: 'CA',
   },
   sameAs: [club.facebook, club.instagram, club.youtube, club.tiktok, club.twitter],
-}
+})
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const { inscription } = await getClub()
   const fr = locale === 'fr'
   return {
     title: { absolute: fr ? 'Club de Judo Boucherville · Cours de judo dès 4 ans' : 'Club de Judo Boucherville · Judo classes from age 4' },
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const fr = locale === 'fr'
+  const [{ club, inscription }, programmes, photos] = await Promise.all([getClub(), getProgrammes(), getPhotosSite()])
   const copy = fr
     ? {
         place: 'Dojo Marcel Bourelly · Boucherville',
@@ -71,11 +73,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <TourHero locale={locale} copy={copy} />
-      <ClassFinder locale={locale} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(club)) }} />
+      <TourHero locale={locale} copy={copy} endingPhone={photos.murCjb.src} />
+      <ClassFinder locale={locale} programmes={programmes} saison={inscription.saison} />
       <ValuesMarquee locale={locale} />
-      <WeekSchedule locale={locale} />
+      <WeekSchedule locale={locale} programmes={programmes} saison={inscription.saison} />
       <Steps locale={locale} />
       <Dojo locale={locale} />
       <Palmares locale={locale} />

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/shared/PageHero'
 import ContactForm from '@/components/pages/ContactForm'
-import { club } from '@/data/club'
+import { getClub } from '@/lib/content'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -11,6 +11,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
+  const { club } = await getClub()
   return {
     title: 'Contact',
     description: locale === 'fr'
@@ -20,17 +21,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
-const reseaux: [string, string][] = [
-  ['Facebook', club.facebook],
-  ['Instagram', club.instagram],
-  ['YouTube', club.youtube],
-  ['TikTok', club.tiktok],
-  ['X / Twitter', club.twitter],
-]
 
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params
   const fr = locale === 'fr'
+  const { club } = await getClub()
+  const reseaux: [string, string][] = [
+    ['Facebook', club.facebook],
+    ['Instagram', club.instagram],
+    ['YouTube', club.youtube],
+    ['TikTok', club.tiktok],
+    ['X / Twitter', club.twitter],
+  ]
   const carte = `https://maps.google.com/maps?q=${encodeURIComponent(`${club.lieu}, 490 chemin du Lac, Boucherville, QC J4B 6X3`)}&z=15&output=embed&hl=${locale}`
 
   return (

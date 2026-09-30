@@ -10,8 +10,11 @@ import Footer from '@/components/layout/Footer'
 import ScrollProgress from '@/components/layout/ScrollProgress'
 import CustomCursor from '@/components/ui/CustomCursor'
 import PageLife from '@/components/home/PageLife'
-import { club } from '@/data/club'
+import { getClub, getProgrammes } from '@/lib/content'
 import '@/styles/globals.css'
+
+// The footer's short schedules, in this order
+const HORAIRES = ['parents-enfants', 'judo-enfants', 'judo-adultes', 'aiki-jujitsu', 'jiu-jitsu-bresilien']
 
 // Big Shoulders: condensed scoreboard capitals. Public Sans: plain, readable text.
 // Both are variable fonts, so every weight in use is real, never faked.
@@ -34,6 +37,7 @@ const motionScript = "if(!matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const { club } = await getClub()
   const fr = locale === 'fr'
   return {
     metadataBase: new URL(club.site),
@@ -65,6 +69,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!routing.locales.includes(locale as Locale)) {
     notFound()
   }
+  const [{ club }, programmes] = await Promise.all([getClub(), getProgrammes()])
+  // Only the four fields the footer shows: the full programmes would weigh down every page
+  const horaires = HORAIRES.flatMap(s => programmes.filter(p => p.slug === s))
+    .map(({ slug, titre, titreEn, horaire }) => ({ slug, titre, titreEn, horaire }))
 
   const messages = await getMessages()
 
@@ -79,11 +87,11 @@ export default async function LocaleLayout({ children, params }: Props) {
             <ScrollProgress />
             <CustomCursor />
             <PageLife />
-            <Navigation />
+            <Navigation club={club} />
             <main id="main" tabIndex={-1} className="outline-none">
               {children}
             </main>
-            <Footer />
+            <Footer club={club} horaires={horaires} />
           </Providers>
         </NextIntlClientProvider>
       </body>

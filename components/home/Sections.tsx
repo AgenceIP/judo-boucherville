@@ -1,28 +1,26 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, Phone, Mail, ArrowUpRight, ArrowRight } from 'lucide-react'
-import { club, inscription, palmares, totalPalmares } from '@/data/club'
-import { photosSite as P } from '@/data/photos'
+import { getClub, getPhotosSite } from '@/lib/content'
 import RevealText from '@/components/ui/RevealText'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import Magnetic from '@/components/ui/Magnetic'
 
-const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
-
 /** A photo that opens like a sliding door, then drifts slower than the page */
-function Photo({ src, alt, className = '', sizes }: { src: string; alt: string; className?: string; sizes: string }) {
+function Photo({ src, alt, pos, className = '', sizes }: { src: string; alt: string; pos?: string; className?: string; sizes: string }) {
   return (
     <figure className={`clip-reveal relative rounded-[4px] ${className}`}>
       <div className="inner absolute inset-0">
         <div data-parallax className="absolute inset-x-0 -top-[8%] h-[116%]">
-          <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+          <Image src={src} alt={alt} fill sizes={sizes} style={{ objectPosition: pos }} className="object-cover" />
         </div>
       </div>
     </figure>
   )
 }
 
-export function Steps({ locale }: { locale: string }) {
+export async function Steps({ locale }: { locale: string }) {
+  const { inscription } = await getClub()
   const fr = locale === 'fr'
   const steps = fr
     ? [
@@ -79,7 +77,8 @@ export function Steps({ locale }: { locale: string }) {
   )
 }
 
-export function Dojo({ locale }: { locale: string }) {
+export async function Dojo({ locale }: { locale: string }) {
+  const [{ club }, P] = await Promise.all([getClub(), getPhotosSite()])
   const fr = locale === 'fr'
   return (
     <section data-tone="panel" data-kanji="道" data-flip className="py-20 lg:py-32 overflow-hidden">
@@ -94,10 +93,10 @@ export function Dojo({ locale }: { locale: string }) {
         </div>
 
         <div className="mt-14 grid grid-cols-6 md:grid-rows-[18rem_18rem] gap-3 lg:gap-4">
-          <Photo src={P.tatamiLong.src} alt={fr ? P.tatamiLong.alt : P.tatamiLong.altEn} className="col-span-6 md:col-span-3 md:row-span-2 aspect-[4/5] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
-          <Photo src={P.valeursRespect.src} alt={fr ? P.valeursRespect.alt : P.valeursRespect.altEn} className="col-span-6 md:col-span-3 aspect-[16/9] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
-          <Photo src={P.kano.src} alt={fr ? P.kano.alt : P.kano.altEn} className="col-span-3 md:col-span-1 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 17vw, 50vw" />
-          <Photo src={P.ceinturesNoires.src} alt={fr ? P.ceinturesNoires.alt : P.ceinturesNoires.altEn} className="col-span-3 md:col-span-2 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 33vw, 50vw" />
+          <Photo src={P.tatamiLong.src} pos={P.tatamiLong.pos} alt={fr ? P.tatamiLong.alt : P.tatamiLong.altEn} className="col-span-6 md:col-span-3 md:row-span-2 aspect-[4/5] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
+          <Photo src={P.valeursRespect.src} pos={P.valeursRespect.pos} alt={fr ? P.valeursRespect.alt : P.valeursRespect.altEn} className="col-span-6 md:col-span-3 aspect-[16/9] md:aspect-auto" sizes="(min-width: 768px) 50vw, 100vw" />
+          <Photo src={P.kano.src} pos={P.kano.pos} alt={fr ? P.kano.alt : P.kano.altEn} className="col-span-3 md:col-span-1 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 17vw, 50vw" />
+          <Photo src={P.ceinturesNoires.src} pos={P.ceinturesNoires.pos} alt={fr ? P.ceinturesNoires.alt : P.ceinturesNoires.altEn} className="col-span-3 md:col-span-2 aspect-[3/4] md:aspect-auto" sizes="(min-width: 768px) 33vw, 50vw" />
         </div>
       </div>
     </section>
@@ -107,7 +106,8 @@ export function Dojo({ locale }: { locale: string }) {
 // "Championnat provincial U21" → "Provincial U21": the column header already says championship
 const short = (s: string) => { const r = s.replace(/^Championnat |^Championship /, ''); return r[0].toUpperCase() + r.slice(1) }
 
-export function Palmares({ locale }: { locale: string }) {
+export async function Palmares({ locale }: { locale: string }) {
+  const { club, palmares, totalPalmares } = await getClub()
   const fr = locale === 'fr'
   const [or, argent, bronze] = totalPalmares
   return (
@@ -162,7 +162,9 @@ export function Palmares({ locale }: { locale: string }) {
   )
 }
 
-export function Faq({ locale }: { locale: string }) {
+export async function Faq({ locale }: { locale: string }) {
+  const { club, inscription } = await getClub()
+  const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
   const fr = locale === 'fr'
   const qa: [string, string][] = fr
     ? [
@@ -211,7 +213,9 @@ export function Faq({ locale }: { locale: string }) {
   )
 }
 
-export function FindUs({ locale }: { locale: string }) {
+export async function FindUs({ locale }: { locale: string }) {
+  const [{ club }, P] = await Promise.all([getClub(), getPhotosSite()])
+  const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
   const fr = locale === 'fr'
   const map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(club.adresse)}`
   return (
@@ -243,7 +247,7 @@ export function FindUs({ locale }: { locale: string }) {
             <Link href={`/${locale}/contact`} className="btn btn-ghost">{fr ? 'Nous écrire' : 'Write to us'}</Link>
           </div>
         </div>
-        <Photo src={P.entree.src} alt={fr ? P.entree.alt : P.entree.altEn} className="aspect-[4/3]" sizes="(min-width: 1024px) 50vw, 100vw" />
+        <Photo src={P.entree.src} pos={P.entree.pos} alt={fr ? P.entree.alt : P.entree.altEn} className="aspect-[4/3]" sizes="(min-width: 1024px) 50vw, 100vw" />
       </div>
     </section>
   )

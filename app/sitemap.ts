@@ -1,21 +1,21 @@
 import { MetadataRoute } from 'next'
-import { getAllProgrammes } from '@/data/programmes'
-import { getAllInstructeurs } from '@/data/instructeurs'
-import { actualites, resultats, athletes } from '@/data/archive'
-import { club } from '@/data/club'
+import { getAthleteSlugs, getClub, getInstructeurs, getProgrammes, getSaisons } from '@/lib/content'
 
-const BASE_URL = club.site
 const locales = ['fr', 'en']
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [{ club }, programmes, instructeurs, athletes, resultats, actualites] = await Promise.all([
+    getClub(), getProgrammes(), getInstructeurs(), getAthleteSlugs(), getSaisons('resultat'), getSaisons('actualite'),
+  ])
+  const BASE_URL = club.site
   const routes: [string, number][] = [
     ...['', '/programmes', '/inscription', '/calendrier'].map(r => [r, r ? 0.9 : 1] as [string, number]),
     ...['/historique', '/conseil', '/ceintures-noires', '/equipe', '/athletes', '/resultats', '/actualites', '/challenge', '/journaux', '/telechargements', '/contact'].map(r => [r, 0.7] as [string, number]),
-    ...getAllProgrammes().map(p => [`/programmes/${p.slug}`, 0.8] as [string, number]),
-    ...getAllInstructeurs().map(i => [`/equipe/${i.slug}`, 0.5] as [string, number]),
-    ...athletes.map(a => [`/athletes/${a.slug}`, 0.4] as [string, number]),
-    ...resultats.map(s => [`/resultats/${s.saison}`, 0.4] as [string, number]),
-    ...actualites.map(s => [`/actualites/${s.saison}`, 0.4] as [string, number]),
+    ...programmes.map(p => [`/programmes/${p.slug}`, 0.8] as [string, number]),
+    ...instructeurs.map(i => [`/equipe/${i.slug}`, 0.5] as [string, number]),
+    ...athletes.map(slug => [`/athletes/${slug}`, 0.4] as [string, number]),
+    ...resultats.map(s => [`/resultats/${s}`, 0.4] as [string, number]),
+    ...actualites.map(s => [`/actualites/${s}`, 0.4] as [string, number]),
   ]
 
   return locales.flatMap(locale =>

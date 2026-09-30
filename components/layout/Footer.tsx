@@ -3,8 +3,7 @@ import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import Image from 'next/image'
 import { MapPin, Phone, Mail } from 'lucide-react'
-import { getProgrammeBySlug } from '@/data/programmes'
-import { club } from '@/data/club'
+import type { Club, Programme } from '@/lib/content'
 
 const quickLinks = [
   { href: '/programmes', labelFr: 'Programmes', labelEn: 'Programs' },
@@ -19,11 +18,9 @@ const quickLinks = [
   { href: '/inscription', labelFr: "S'inscrire", labelEn: 'Register' },
 ]
 
-// Short schedules straight from the programme data
-const schedules = ['parents-enfants', 'judo-enfants', 'judo-adultes', 'aiki-jujitsu', 'jiu-jitsu-bresilien']
-  .map(slug => getProgrammeBySlug(slug)!)
+type Props = { club: Club; horaires: Pick<Programme, 'slug' | 'titre' | 'titreEn' | 'horaire'>[] }
 
-export default function Footer() {
+export default function Footer({ club, horaires }: Props) {
   const t = useTranslations()
   const locale = useLocale()
 
@@ -97,7 +94,7 @@ export default function Footer() {
               {t('footer.schedules')}
             </h3>
             <ul className="space-y-2">
-              {schedules.map(s => (
+              {horaires.map(s => (
                 <li key={s.slug} className="text-sm">
                   <Link href={`/${locale}/programmes/${s.slug}`} className="text-panel hover:text-accent transition-colors">
                     {locale === 'fr' ? s.titre : s.titreEn}

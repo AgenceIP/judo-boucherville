@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Magnetic from '@/components/ui/Magnetic'
-import { photosSite } from '@/data/photos'
 import './tour.css'
 
 const VIDEO_URL = '/hero/tour.mp4'
@@ -12,8 +11,7 @@ const VIDEO_BYTES = 6396146 // fallback when Content-Length is missing
 const POSTER = '/hero/tour-poster.jpg'
 const ENDING = '/hero/tour-ending.jpg'
 // Phones: a portrait screen crops the 16:9 tour to its center, so the last beat
-// dissolves into the real vertical photo of the logo wall, whole and sharp.
-const ENDING_PHONE = photosSite.murCjb.src
+// dissolves into the real vertical photo of the logo wall (endingPhone), whole and sharp.
 const PHONE = '(max-width: 720px)'
 
 // Scroll progress → video time. Motion-equalized from the footage's own
@@ -54,7 +52,7 @@ type Copy = {
   find: string; register: string; skip: string; loading: string
 }
 
-export default function TourHero({ locale, copy }: { locale: string; copy: Copy }) {
+export default function TourHero({ locale, copy, endingPhone }: { locale: string; copy: Copy; endingPhone: string }) {
   const rootRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -213,7 +211,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
       if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null }
     }
     function setEndImage() {
-      root.querySelector<HTMLElement>('.tour-layer--end')!.style.backgroundImage = `url('${phoneMq.matches ? ENDING_PHONE : ENDING}')`
+      root.querySelector<HTMLElement>('.tour-layer--end')!.style.backgroundImage = `url('${phoneMq.matches ? endingPhone : ENDING}')`
       lastEnd = -1
     }
     const onPhoneChange = () => { if (heroInit) { setEndImage(); updateCaptions(shown, performance.now()) } }
@@ -231,7 +229,7 @@ export default function TourHero({ locale, copy }: { locale: string; copy: Copy 
       phoneMq.removeEventListener('change', onPhoneChange)
       if (video.src.startsWith('blob:')) URL.revokeObjectURL(video.src)
     }
-  }, [])
+  }, [endingPhone])
 
   // Split once, seeded, so the "random" offsets are identical on every load
   const r = rng(1970)

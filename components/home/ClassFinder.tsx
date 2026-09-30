@@ -1,41 +1,33 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { programmes } from '@/data/programmes'
+import type { Programme } from '@/lib/content'
 import { matchesBirthYear, birthYears } from '@/lib/schedule'
-import { inscription } from '@/data/club'
 import RevealText from '@/components/ui/RevealText'
 import Magnetic from '@/components/ui/Magnetic'
 import { cn } from '@/lib/utils'
-
-// Everything follows the season written in data/club.ts (« 2026-2027 » → 2026).
-// Next season, update that line and the groups in data/programmes.ts: the year
-// list and the matching follow on their own.
-const SEASON = Number(inscription.saison.slice(0, 4))
-
-// Programs with age groups the finder can match (sport-études has none)
-const board = programmes.filter(p => p.groupes.length > 0)
-
-// Youngest birth year any group accepts (2022 this season), down to 1940
-const YOUNGEST = Math.max(...board.flatMap(p => p.groupes.map(g => birthYears(g.clientele, SEASON)?.max ?? -Infinity)))
-const YEARS = Array.from({ length: YOUNGEST - 1940 + 1 }, (_, i) => YOUNGEST - i)
 
 /**
  * The one interactive moment, on a full tatami-blue field: pick a birth year
  * and the mats of every class that fits flip over to yellow, then the cards
  * below say when, how much, and where to sign up.
  */
-export default function ClassFinder({ locale }: { locale: string }) {
+export default function ClassFinder({ locale, programmes, saison }: { locale: string; programmes: Programme[]; saison: string }) {
   const fr = locale === 'fr'
   const [year, setYear] = useState<number | null>(null)
 
-  const matches = useMemo(() => {
-    if (year === null) return []
-    return board
-      .map(p => ({ p, groupes: p.groupes.filter(g => matchesBirthYear(g.clientele, year, SEASON)) }))
-      .filter(m => m.groupes.length > 0)
-  }, [year])
+  // Everything follows the season set in the Studio (« 2026-2027 » → 2026): the year list and the matching follow on their own.
+  const SEASON = Number(saison.slice(0, 4))
+  // Programs with age groups the finder can match (sport-études has none)
+  const board = programmes.filter(p => p.groupes.length > 0)
+  // Youngest birth year any group accepts (2022 this season), down to 1940
+  const YOUNGEST = Math.max(...board.flatMap(p => p.groupes.map(g => birthYears(g.clientele, SEASON)?.max ?? -Infinity)))
+  const YEARS = Array.from({ length: YOUNGEST - 1940 + 1 }, (_, i) => YOUNGEST - i)
+
+  const matches = year === null ? [] : board
+    .map(p => ({ p, groupes: p.groupes.filter(g => matchesBirthYear(g.clientele, year, SEASON)) }))
+    .filter(m => m.groupes.length > 0)
   const lit = new Set(matches.map(m => m.p.slug))
 
   return (
@@ -48,8 +40,8 @@ export default function ClassFinder({ locale }: { locale: string }) {
             </RevealText>
             <p className="mt-6 text-[1.15rem] leading-relaxed text-panel/85 max-w-[36ch]">
               {fr
-                ? `Saison ${inscription.saison}. Choisissez l’année de naissance : les cours qui vous conviennent se retournent.`
-                : `Season ${inscription.saison}. Choose the year of birth: the classes that fit flip over.`}
+                ? `Saison ${saison}. Choisissez l’année de naissance : les cours qui vous conviennent se retournent.`
+                : `Season ${saison}. Choose the year of birth: the classes that fit flip over.`}
             </p>
             <label className="mt-9 block max-w-xs">
               <span className="text-[.95rem] font-semibold text-panel">{fr ? 'Année de naissance' : 'Year of birth'}</span>

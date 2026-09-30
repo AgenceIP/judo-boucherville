@@ -1,19 +1,17 @@
 import { notFound } from 'next/navigation'
-import { getAllProgrammes, getProgrammeBySlug } from '@/data/programmes'
+import { getProgramme, getProgrammes } from '@/lib/content'
 import ProgrammeTemplate from '@/components/pages/ProgrammeTemplate'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
-export function generateStaticParams() {
-  const programmes = getAllProgrammes()
-  return ['fr', 'en'].flatMap(locale =>
-    programmes.map(p => ({ locale, slug: p.slug }))
-  )
+export async function generateStaticParams() {
+  const programmes = await getProgrammes()
+  return ['fr', 'en'].flatMap(locale => programmes.map(p => ({ locale, slug: p.slug })))
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug, locale } = await params
-  const programme = getProgrammeBySlug(slug)
+  const programme = await getProgramme(slug)
   if (!programme) return {}
   return {
     title: locale === 'fr' ? programme.titre : programme.titreEn,
@@ -23,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProgrammePage({ params }: Props) {
   const { slug, locale } = await params
-  const programme = getProgrammeBySlug(slug)
+  const programme = await getProgramme(slug)
   if (!programme) notFound()
   return <ProgrammeTemplate programme={programme} locale={locale} />
 }

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { Menu, X, Phone, CalendarDays, Tag, PenLine, Mail, MapPin, ArrowRight, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { club } from '@/data/club'
+import type { Club } from '@/lib/content'
 import Magnetic from '@/components/ui/Magnetic'
 
 const programmes = [
@@ -39,8 +39,6 @@ const clubLinks = [
 
 const athletes = { href: '/athletes', labelFr: 'Athlètes', labelEn: 'Athletes' }
 
-const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
-
 /**
  * Computers: a classic wall-white header bar with everything in view; a hairline
  * appears under it once the page moves. (Solid, not see-through: the home tour
@@ -48,7 +46,8 @@ const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
  * Phones and tablets: the logo, a yellow « S'inscrire » pill and a navy « Menu »
  * pill that opens a full-screen tatami-blue menu, plus the thumb bar at the bottom.
  */
-export default function Navigation() {
+export default function Navigation({ club }: { club: Club }) {
+  const tel = `tel:+1${club.tel.replace(/\D/g, '')}`
   const t = useTranslations('nav')
   const locale = useLocale()
   const fr = locale === 'fr'

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import PageHero from '@/components/shared/PageHero'
 import RichText from '@/components/shared/PortableText'
 import Button from '@/components/ui/Button'
-import type { Instructeur } from '@/data/instructeurs'
+import type { Instructeur } from '@/lib/content'
 
 type Props = { instructeur: Instructeur; locale: string }
 
@@ -25,11 +25,12 @@ export default function InstructeurTemplate({ instructeur, locale }: Props) {
           {/* Photo + details */}
           <div className="md:col-span-1">
             <div className="relative aspect-[3/4] overflow-hidden mb-8 bg-panel">
-              {instructeur.photoSrc ? (
+              {instructeur.photo ? (
                 <Image
-                  src={instructeur.photoSrc}
+                  src={instructeur.photo.src}
                   alt={instructeur.nom}
                   fill
+                  style={{ objectPosition: instructeur.photo.pos }}
                   className="object-cover object-top grayscale"
                 />
               ) : (

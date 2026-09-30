@@ -1,29 +1,32 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { programmes, type Categorie } from '@/data/programmes'
+import type { Categorie, Programme } from '@/lib/content'
 import { parseHoraire } from '@/lib/schedule'
-import { inscription } from '@/data/club'
 import { cn } from '@/lib/utils'
 import RevealText from '@/components/ui/RevealText'
 
 type Slot = { slug: string; titre: string; titreEn: string; categorie: Categorie; start: string; end: string; codes: string[] }
 
+const minutes = (h: string) => { const [a, b] = h.split('h').map(Number); return a * 60 + b }
+
 // One list per weekday, merged by program + time, sorted by start time
-const WEEK: Slot[][] = Array.from({ length: 7 }, () => [])
-for (const p of programmes) {
-  if (p.slug === 'camp-de-jour') continue // summer only, not a weekly class
-  for (const g of p.groupes) {
-    for (const s of parseHoraire(g.horaire)) {
-      const day = WEEK[s.day]
-      const same = day.find(x => x.slug === p.slug && x.start === s.start && x.end === s.end)
-      if (same) { if (!same.codes.includes(g.code)) same.codes.push(g.code) }
-      else day.push({ slug: p.slug, titre: p.titre, titreEn: p.titreEn, categorie: p.categorie, start: s.start, end: s.end, codes: [g.code] })
+function semaine(programmes: Programme[]) {
+  const week: Slot[][] = Array.from({ length: 7 }, () => [])
+  for (const p of programmes) {
+    if (p.slug === 'camp-de-jour') continue // summer only, not a weekly class
+    for (const g of p.groupes) {
+      for (const s of parseHoraire(g.horaire)) {
+        const day = week[s.day]
+        const same = day.find(x => x.slug === p.slug && x.start === s.start && x.end === s.end)
+        if (same) { if (!same.codes.includes(g.code)) same.codes.push(g.code) }
+        else day.push({ slug: p.slug, titre: p.titre, titreEn: p.titreEn, categorie: p.categorie, start: s.start, end: s.end, codes: [g.code] })
+      }
     }
   }
+  week.forEach(d => d.sort((a, b) => minutes(a.start) - minutes(b.start)))
+  return week
 }
-const minutes = (h: string) => { const [a, b] = h.split('h').map(Number); return a * 60 + b }
-WEEK.forEach(d => d.sort((a, b) => minutes(a.start) - minutes(b.start)))
 
 const DAYS_FR = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
 const DAYS_EN = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -36,7 +39,8 @@ const TONE: Record<Categorie, string> = {
 
 const DOT: Record<Categorie, string> = { enfants: 'bg-accent', adultes: 'bg-blue', 'arts-martiaux': 'bg-wood' }
 
-export default function WeekSchedule({ locale }: { locale: string }) {
+export default function WeekSchedule({ locale, programmes, saison }: { locale: string; programmes: Programme[]; saison: string }) {
+  const WEEK = semaine(programmes)
   const fr = locale === 'fr'
   const [filter, setFilter] = useState<Categorie | 'tous'>('tous')
   const filters: [Categorie | 'tous', string][] = [
@@ -61,7 +65,7 @@ export default function WeekSchedule({ locale }: { locale: string }) {
             <RevealText as="h2" className="display text-[clamp(3rem,6.5vw,6rem)] text-ink">
               {fr ? 'La semaine au dojo' : 'A week at the dojo'}
             </RevealText>
-            <p className="mt-4 text-[1.1rem] text-ink-2">{fr ? `Horaire ${inscription.saison}. Touchez un cours pour tous les détails.` : `Schedule ${inscription.saison}. Tap a class for all the details.`}</p>
+            <p className="mt-4 text-[1.1rem] text-ink-2">{fr ? `Horaire ${saison}. Touchez un cours pour tous les détails.` : `Schedule ${saison}. Tap a class for all the details.`}</p>
           </div>
           <div className="flex flex-wrap gap-2" role="group" aria-label={fr ? 'Filtrer' : 'Filter'}>
             {filters.map(([key, label]) => (
