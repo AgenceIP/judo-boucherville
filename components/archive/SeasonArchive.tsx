@@ -1,8 +1,9 @@
 import Link from 'next/link'
-import { medailles, type Saison } from '@/data/archive'
-import Blocks, { Medal } from './Blocks'
+import { medailles, type Saison } from '@/lib/content'
+import Contenu from './Contenu'
+import { Medal } from './Medal'
 
-type Props = { base: 'resultats' | 'actualites'; saisons: Saison[]; saison: Saison; locale: string }
+type Props = { base: 'resultats' | 'actualites'; saisons: string[]; saison: Saison; locale: string }
 
 /** One season of the legacy archive, with links to every other season */
 export default function SeasonArchive({ base, saisons, saison, locale }: Props) {
@@ -14,12 +15,12 @@ export default function SeasonArchive({ base, saisons, saison, locale }: Props) 
       <nav aria-label={fr ? 'Saisons' : 'Seasons'} className="flex flex-wrap gap-2 mb-14 text-[.95rem] tabular-nums">
         {saisons.map(s => (
           <Link
-            key={s.saison}
-            href={`/${locale}/${base}/${s.saison}`}
-            aria-current={s.saison === saison.saison ? 'page' : undefined}
-            className={`inline-flex items-center min-h-11 px-4 rounded-full transition-colors ${s.saison === saison.saison ? 'bg-ink text-panel' : 'bg-panel text-ink-2 hover:text-ink shadow-[inset_0_0_0_1px_rgba(11,27,56,.15)]'}`}
+            key={s}
+            href={`/${locale}/${base}/${s}`}
+            aria-current={s === saison.saison ? 'page' : undefined}
+            className={`inline-flex items-center min-h-11 px-4 rounded-full transition-colors ${s === saison.saison ? 'bg-ink text-panel' : 'bg-panel text-ink-2 hover:text-ink shadow-[inset_0_0_0_1px_rgba(11,27,56,.15)]'}`}
           >
-            {s.saison}
+            {s}
           </Link>
         ))}
       </nav>
@@ -45,7 +46,7 @@ export default function SeasonArchive({ base, saisons, saison, locale }: Props) 
             {(e.titre ?? e.lieu) && (
               <h3 className="font-heading text-xl text-ink leading-tight mb-4">{e.titre ?? e.lieu}</h3>
             )}
-            <Blocks blocks={e.blocks} locale={locale} alt={e.titre ?? e.lieu ?? saison.saison} />
+            <Contenu contenu={e.contenu} locale={locale} alt={e.titre ?? e.lieu ?? saison.saison} />
           </div>
         </article>
       ))}

@@ -1,23 +1,10 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { equipes, getAthlete } from '@/data/archive'
+import { getEquipes } from '@/lib/content'
+import { EQUIPES } from '@/sanity/equipes'
 import PageHero from '@/components/shared/PageHero'
 
-const LABELS: Record<string, [string, string]> = {
-  canada: ['Équipe du Canada', 'Team Canada'],
-  quebec: ['Équipe du Québec', 'Team Québec'],
-  'sport-etudes': ['Sport-études', 'Sport-études'],
-  u10: ['U10', 'U10'],
-  u12: ['U12', 'U12'],
-  u14: ['U14', 'U14'],
-  u16: ['U16', 'U16'],
-  u18: ['U18', 'U18'],
-  u21: ['U21', 'U21'],
-  senior: ['Senior', 'Senior'],
-  master: ['Master', 'Masters'],
-  kata: ['Kata', 'Kata'],
-  anciens: ['Anciens athlètes', 'Alumni'],
-}
+const LABELS: Record<string, [string, string]> = Object.fromEntries(EQUIPES.map(([k, fr, en]) => [k, [fr, en]]))
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -29,6 +16,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function AthletesPage({ params }: Props) {
   const { locale } = await params
   const fr = locale === 'fr'
+  const equipes = await getEquipes()
 
   return (
     <>
@@ -48,7 +36,7 @@ export default async function AthletesPage({ params }: Props) {
             <ul className={key === 'anciens' ? 'sm:columns-2 lg:columns-3 gap-x-10 [&>li]:pb-1.5 [&>li]:break-inside-avoid' : 'space-y-1.5'}>
               {membres.map(m => (
                 <li key={m.nom}>
-                  {m.slug && getAthlete(m.slug)
+                  {m.slug
                     ? <Link href={`/${locale}/athletes/${m.slug}`} className="text-ink hover:text-royal transition-colors">{m.nom} <span className="text-muted">→</span></Link>
                     : <span className="text-ink/70">{m.nom}</span>}
                 </li>

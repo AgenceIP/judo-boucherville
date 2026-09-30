@@ -1,18 +1,19 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { athletes, getAthlete, type Personne } from '@/data/archive'
+import { getAthlete, getAthleteSlugs, type Personne } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
-export function generateStaticParams() {
-  return ['fr', 'en'].flatMap(locale => athletes.map(a => ({ locale, slug: a.slug })))
+export async function generateStaticParams() {
+  const slugs = await getAthleteSlugs()
+  return ['fr', 'en'].flatMap(locale => slugs.map(slug => ({ locale, slug })))
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  return { title: getAthlete(slug)?.nom }
+  return { title: (await getAthlete(slug))?.nom }
 }
 
 function List({ label, items }: { label: string; items?: string[] }) {
@@ -76,7 +77,7 @@ function Fiche({ p, fr }: { p: Personne; fr: boolean }) {
 
 export default async function AthletePage({ params }: Props) {
   const { slug, locale } = await params
-  const a = getAthlete(slug)
+  const a = await getAthlete(slug)
   if (!a) notFound()
   const fr = locale === 'fr'
 

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { journaux } from '@/data/archive'
+import { getJournaux } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -12,6 +12,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function JournauxPage({ params }: Props) {
   const { locale } = await params
   const fr = locale === 'fr'
+  const journaux = await getJournaux()
 
   return (
     <>

@@ -2,12 +2,13 @@ import { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
 import PageHero from '@/components/shared/PageHero'
 import BlackBeltConstellation from '@/components/pages/BlackBeltConstellation'
-import { ceintures, totalCeintures as total } from '@/data/ceintures-noires'
+import { getCeintures } from '@/lib/content'
 
 export const metadata: Metadata = { title: 'Ceintures noires' }
 
 export default async function CeinturesNoiresPage() {
   const locale = await getLocale()
+  const { ceintures, total } = await getCeintures()
 
   return (
     <>
