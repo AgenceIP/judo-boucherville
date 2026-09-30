@@ -33,7 +33,7 @@ const TACHES: { titre: string; image: string; etapes: string[] }[] = [
   ] },
   { titre: 'Annuler une erreur', image: 'historique.png', etapes: [
     'Pas encore publié : menu « … » en bas, puis « Annuler les modifications ».',
-    'Déjà publié : icône d’horloge en haut (historique), choisissez une version, « Restaurer », puis « Publier ».',
+    'Déjà publié : menu « … » en haut à droite, puis « Réviser les changements ». Onglet « Historique » : choisissez une version, « Restaurer », puis « Publier ».',
     'Fiche supprimée par erreur : écrivez à Yousif.',
   ] },
 ]
