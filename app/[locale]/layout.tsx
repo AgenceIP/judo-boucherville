@@ -11,6 +11,9 @@ import ScrollProgress from '@/components/layout/ScrollProgress'
 import CustomCursor from '@/components/ui/CustomCursor'
 import PageLife from '@/components/home/PageLife'
 import { getClub, getProgrammes } from '@/lib/content'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
+import DisableDraftMode from '@/components/sanity/DisableDraftMode'
 import '@/styles/globals.css'
 
 // The footer's short schedules, in this order
@@ -70,6 +73,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     notFound()
   }
   const [{ club }, programmes] = await Promise.all([getClub(), getProgrammes()])
+  const { isEnabled: apercu } = await draftMode()
   // Only the four fields the footer shows: the full programmes would weigh down every page
   const horaires = HORAIRES.flatMap(s => programmes.filter(p => p.slug === s))
     .map(({ slug, titre, titreEn, horaire }) => ({ slug, titre, titreEn, horaire }))
@@ -94,6 +98,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <Footer club={club} horaires={horaires} />
           </Providers>
         </NextIntlClientProvider>
+        {apercu && <><VisualEditing /><DisableDraftMode /></>}
       </body>
     </html>
   )

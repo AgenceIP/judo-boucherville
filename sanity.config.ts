@@ -1,11 +1,13 @@
 'use client'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { presentationTool } from 'sanity/presentation'
 import { frFRLocale } from '@sanity/locale-fr-fr'
 import { dataset, projectId } from './sanity/env'
 import { structure } from './sanity/structure'
 import { SLUG_TYPES, withSlug } from './sanity/actions'
 import { schemaTypes, SINGLETONS } from './sanity/schemas'
+import { resolve } from './sanity/presentation'
 
 export default defineConfig({
   name: 'default',
@@ -13,7 +15,11 @@ export default defineConfig({
   basePath: '/studio',
   projectId,
   dataset,
-  plugins: [structureTool({ structure, title: 'Contenu' }), frFRLocale()],
+  plugins: [
+    structureTool({ structure, title: 'Contenu' }),
+    presentationTool({ title: 'Présentation', resolve, previewUrl: { initial: '/fr', previewMode: { enable: '/api/draft-mode/enable' } } }),
+    frFRLocale(),
+  ],
   schema: {
     types: schemaTypes,
     templates: prev => [
