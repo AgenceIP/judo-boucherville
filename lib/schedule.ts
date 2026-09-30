@@ -1,4 +1,4 @@
-// Reads the free-text schedules and age groups in data/programmes.ts, so the
+// Reads the free-text schedules and age groups set in the Studio (Programmes), so the
 // class finder and the weekly grid never drift from the source data.
 
 export type Seance = { day: number; start: string; end: string }
