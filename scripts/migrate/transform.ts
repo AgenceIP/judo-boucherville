@@ -19,7 +19,7 @@ export const NOMS: Record<string, string> = {
   'Edouard Chassé': 'Édouard Chassé',
   'Noah Beauregrad': 'Noah Beauregard',
   'Askan Khahan Zamora': 'Ashkan Khahan Zamora',
-  'Jerome Lajoie et Jacob St-Jean': 'Jérome Lajoie et Jacob St-Jean',
+  'Jerome Lajoie et Jacob St-Jean': 'Jérôme Lajoie et Jacob St-Jean',
   'Eric De Rome et Ludovic Durrieu': 'Éric De Rome et Ludovic Durrieu',
   'Marie-Michele Girard': 'Marie-Michèle Girard',
   'Alex Emond': 'Alexandre Emond',
