@@ -12,6 +12,10 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@sanity/icons": "^5.2.3",
+    "@sanity/locale-fr-fr": "^1.2.37",
+    "@sanity/orderable-document-list": "^2.0.25",
+    "@sanity/ui": "^4.2.7",
     "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",
     "gsap": "^3.15.0",
@@ -19,9 +23,12 @@
     "lucide-react": "^1.16.0",
     "next": "16.2.6",
     "next-intl": "^4.12.0",
+    "next-sanity": "^13.3.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "resend": "^6.12.3",
+    "sanity": "^6.16.0",
+    "styled-components": "^6.5.3",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
@@ -35,9 +42,11 @@
     "@vitejs/plugin-react": "^6.0.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "groq-js": "^2.0.0",
     "jsdom": "^29.1.1",
     "playwright": "^1.60.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^4.1.7"
   }
