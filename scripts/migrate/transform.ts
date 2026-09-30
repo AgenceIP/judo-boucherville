@@ -99,6 +99,7 @@ export function toDocuments() {
       ...(documents && { documents: k(documents.map(({ titre, href }) => ({ titre, pdf: lien(href) }))) }),
     })),
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- drops the legacy numeric id
     ...instructeurs.map(({ id: _, slug, photoSrc, ...i }, n) => ({
       _id: `instructeur-${slug}`, _type: 'instructeur', orderRank: rank(n), slug: { _type: 'slug', current: slug }, ...i,
       ...(photoSrc ? { photo: img(photoSrc) } : {}),
