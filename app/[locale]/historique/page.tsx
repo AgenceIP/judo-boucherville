@@ -1,9 +1,8 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import PageHero from '@/components/shared/PageHero'
-import { Medal } from '@/components/archive/Blocks'
-import { palmares, totalPalmares as tot } from '@/data/club'
-import { ancienDojo, inauguration, international, timeline } from '@/data/pages'
+import { Medal } from '@/components/archive/Medal'
+import { getClub, getHistorique } from '@/lib/content'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -26,6 +25,7 @@ const h2 = 'font-heading text-3xl md:text-4xl text-ink tracking-tight'
 
 export default async function HistoriquePage({ params }: Props) {
   const { locale } = await params
+  const [{ timeline, international, ancienDojo, inauguration }, { palmares, totalPalmares: tot }] = await Promise.all([getHistorique(), getClub()])
   const fr = locale === 'fr'
 
   return (

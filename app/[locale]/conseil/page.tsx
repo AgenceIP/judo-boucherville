@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/shared/PageHero'
-import { membres, presidents } from '@/data/pages'
+import { getConseil } from '@/lib/content'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -17,6 +17,7 @@ const label = 'text-[.78rem] text-muted uppercase tracking-[.25em]'
 
 export default async function ConseilPage({ params }: Props) {
   const { locale } = await params
+  const { membres, presidents } = await getConseil()
   const fr = locale === 'fr'
 
   return (
@@ -38,7 +39,7 @@ export default async function ConseilPage({ params }: Props) {
                 <dt className="text-[.8rem] text-royal tracking-[.2em] uppercase pt-1">{fr ? rFr : rEn}</dt>
                 <dd>
                   <p className="font-heading text-xl text-ink">{nom}</p>
-                  <a href={`mailto:${courriel}`} className="text-sm text-muted hover:text-royal transition-colors break-all">{courriel}</a>
+                  {courriel && <a href={`mailto:${courriel}`} className="text-sm text-muted hover:text-royal transition-colors break-all">{courriel}</a>}
                 </dd>
               </div>
             ))}

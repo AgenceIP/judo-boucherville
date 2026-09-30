@@ -1,5 +1,5 @@
 import PageHero from '@/components/shared/PageHero'
-import { telechargements as groupes } from '@/data/pages'
+import { getTelechargements } from '@/lib/content'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function TelechargementsPage({ params }: Props) {
   const { locale } = await params
+  const groupes = await getTelechargements()
   const fr = locale === 'fr'
 
   return (

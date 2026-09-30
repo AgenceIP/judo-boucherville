@@ -3,9 +3,8 @@ import Image from 'next/image'
 import PageHero from '@/components/shared/PageHero'
 import CountdownTimer from '@/components/ui/CountdownTimer'
 import Button from '@/components/ui/Button'
-import { Medal } from '@/components/archive/Blocks'
-import { club } from '@/data/club'
-import { challenge as c, commanditaires, divisions, palmaresChallenge } from '@/data/challenge'
+import { Medal } from '@/components/archive/Medal'
+import { getChallenge, getClub } from '@/lib/content'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -15,6 +14,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
+  const { challenge: c } = await getChallenge()
   return {
     title: 'Challenge International',
     description: locale === 'fr'
@@ -43,6 +43,7 @@ const h2 = 'font-heading text-3xl md:text-4xl text-ink tracking-tight'
 
 export default async function ChallengePage({ params }: Props) {
   const { locale } = await params
+  const [{ club }, { challenge: c, commanditaires, divisions, palmaresChallenge }] = await Promise.all([getClub(), getChallenge()])
   const fr = locale === 'fr'
   const aVenir = new Date(c.date) > new Date()
   const date = new Date(c.date).toLocaleDateString(fr ? 'fr-CA' : 'en-CA', {
@@ -112,10 +113,10 @@ export default async function ChallengePage({ params }: Props) {
               </div>
             </dl>
             <div className="flex flex-col gap-3 mt-6">
-              {aVenir && <Button href={c.formulaire} external>{fr ? 'Inscrire une équipe' : 'Register a team'} ↗</Button>}
-              <Button href={c.devis} external variant="outline" size="sm">{fr ? 'Devis et règlements (PDF)' : 'Invitation and rules (PDF, French)'}</Button>
-              <Button href={c.programme} external variant="outline" size="sm">{fr ? `Programme ${new Date(c.date).getFullYear()} (PDF)` : `${new Date(c.date).getFullYear()} programme (PDF, French)`}</Button>
-              <Button href={c.video} external variant="ghost" size="sm">{fr ? 'Voir la vidéo du Challenge' : 'Watch the Challenge video'} ↗</Button>
+              {aVenir && c.formulaire && <Button href={c.formulaire} external>{fr ? 'Inscrire une équipe' : 'Register a team'} ↗</Button>}
+              {c.devis && <Button href={c.devis} external variant="outline" size="sm">{fr ? 'Devis et règlements (PDF)' : 'Invitation and rules (PDF, French)'}</Button>}
+              {c.programme && <Button href={c.programme} external variant="outline" size="sm">{fr ? `Programme ${new Date(c.date).getFullYear()} (PDF)` : `${new Date(c.date).getFullYear()} programme (PDF, French)`}</Button>}
+              {c.video && <Button href={c.video} external variant="ghost" size="sm">{fr ? 'Voir la vidéo du Challenge' : 'Watch the Challenge video'} ↗</Button>}
             </div>
           </aside>
         </section>
@@ -300,7 +301,7 @@ export default async function ChallengePage({ params }: Props) {
             {commanditaires.map(([fichier, nom]) => (
               <li key={fichier} className="bg-white p-5 aspect-[3/2]">
                 <div className="relative h-full">
-                  <Image src={`/images/challenge/${fichier}`} alt={nom} fill sizes="(min-width: 1024px) 200px, 45vw" className="object-contain" />
+                  <Image src={fichier} alt={nom} fill sizes="(min-width: 1024px) 200px, 45vw" className="object-contain" />
                 </div>
               </li>
             ))}
