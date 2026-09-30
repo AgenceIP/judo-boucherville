@@ -42,7 +42,8 @@ export type Archive = 'actualite' | 'resultat'
 export const getSaisons = async (type: Archive) => (await sanityFetch<string[]>(Q.SAISONS, { type })).sort().reverse()
 export const getSaison = async (type: Archive, saison: string) =>
   groupSaisons(await sanityFetch<ArticleRow[]>(Q.SAISON, { type, saison }))[0] ?? null
-export const getJournaux = async () => clean(await sanityFetch<Periode[]>(Q.JOURNAUX))
+export const getJournaux = async () =>
+  clean(await sanityFetch<Periode[]>(Q.JOURNAUX)).map(p => ({ ...p, numeros: p.numeros.map(n => ({ ...n, titre: n.titre ?? '' })) }))
 export const getConseil = async () => toConseil(await unique<ConseilRow>(Q.CONSEIL, 'Conseil'))
 export const getHistorique = async () => toHistorique(await unique<HistoriqueRow>(Q.HISTORIQUE, 'Historique'))
 export const getTelechargements = async () => toTelechargements(await unique<TelechargementsRow>(Q.TELECHARGEMENTS, 'Téléchargements'))

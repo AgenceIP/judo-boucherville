@@ -48,3 +48,4 @@ public/images/Dojo/
 scripts/verify-shots/
 scripts/snapshots/
 scripts/.studio-profile/
+scripts/migrate/.assets.json
