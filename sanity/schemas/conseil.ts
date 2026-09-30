@@ -1,5 +1,5 @@
 import { defineType } from 'sanity'
-import { CaseIcon } from '@sanity/icons'
+import { CaseIcon } from '@sanity/icons/Case'
 import { objets, texte } from './champs'
 
 export const conseil = defineType({

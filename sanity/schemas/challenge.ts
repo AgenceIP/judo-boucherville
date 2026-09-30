@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { StarFilledIcon } from '@sanity/icons'
+import { StarFilledIcon } from '@sanity/icons/StarFilled'
 import { groupe, image, lien, liste, nombre, objets, pdf, texte } from './champs'
 
 export const challenge = defineType({

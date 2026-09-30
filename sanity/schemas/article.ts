@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
-import { DocumentTextIcon, BarChartIcon } from '@sanity/icons'
+import { DocumentTextIcon } from '@sanity/icons/DocumentText'
+import { BarChartIcon } from '@sanity/icons/BarChart'
 import { texte } from './champs'
 import { contenu } from './contenu'
 import { saisonCourante, saisonValide } from '../../lib/saison'

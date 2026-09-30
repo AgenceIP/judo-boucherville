@@ -1,5 +1,5 @@
 import { defineType } from 'sanity'
-import { DownloadIcon } from '@sanity/icons'
+import { DownloadIcon } from '@sanity/icons/Download'
 import { documentPdf, objets, texte } from './champs'
 
 export const telechargements = defineType({

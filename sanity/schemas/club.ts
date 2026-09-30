@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { HomeIcon } from '@sanity/icons'
+import { HomeIcon } from '@sanity/icons/Home'
 import { groupe, image, lien, liste, nombre, objets, paragraphe, texte } from './champs'
 import { saisonValide } from '../../lib/saison'
 

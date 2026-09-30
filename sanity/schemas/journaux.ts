@@ -1,5 +1,5 @@
 import { defineType } from 'sanity'
-import { BookIcon } from '@sanity/icons'
+import { BookIcon } from '@sanity/icons/Book'
 import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list'
 import { image, objets, pdf, texte } from './champs'
 

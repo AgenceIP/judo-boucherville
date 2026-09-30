@@ -1,5 +1,5 @@
 import { defineArrayMember, defineField, defineType, type ArrayRule } from 'sanity'
-import { ClipboardIcon } from '@sanity/icons'
+import { ClipboardIcon } from '@sanity/icons/Clipboard'
 import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list'
 import { documentPdf, groupe, image, lien, liste, objets, paragraphe, slugField, texte } from './champs'
 import { clienteleWarning, horaireWarning, prixWarning } from '../validation'
